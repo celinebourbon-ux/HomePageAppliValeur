@@ -1,4 +1,46 @@
-import { useState, useEffect, useRef } from "react";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Les 7 peurs qui empêchent d'être soi — Méthode V.A.L.E.U.R©</title>
+  <meta name="description" content="Module 0 — Comprendre. Méthode V.A.L.E.U.R© par Céline Bourbon, Psychologue." />
+  <!-- React depuis CDN — pré-compilé, aucun Babel navigateur -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0f1a; font-family: 'Segoe UI', system-ui, sans-serif; color: #e2e8f0; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0f1a; }
+    ::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- Code pré-compilé — aucun avertissement Babel, chargement optimisé -->
+  <script>
+"use strict";
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var _React = React,
+  useState = _React.useState,
+  useRef = _React.useRef;
 
 /* ============================================================
    © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
@@ -6,7 +48,7 @@ import { useState, useEffect, useRef } from "react";
    Basé sur "De la peur à la joie d'être soi" — L'Harmattan
    ============================================================ */
 
-const C = {
+var C = {
   navy: "#0a0f1a",
   navyMid: "#111827",
   navyCard: "#1a2235",
@@ -28,1134 +70,2292 @@ const C = {
   gold: "#c9a84c",
   cream: "#f7f3ee",
   textLight: "#e2e8f0",
-  textMuted: "#94a3b8",
+  textMuted: "#94a3b8"
 };
+var MASKS = [{
+  id: "rouge",
+  color: C.rouge,
+  light: C.rougeLight,
+  bg: "#2d1515",
+  emoji: "🔴",
+  name: "Masque Rouge",
+  fear: "Peur de la mort / de la maladie",
+  tagline: "Vous espionnez votre propre corps.",
+  lines: ["La moindre douleur devient suspecte. Vous consultez internet avant le médecin — ou à sa place.", "Réveil à 2h du matin : est-ce que ce battement est normal ? Cette tension dans la poitrine, ça va ?", "Vous savez que c'est excessif. Mais vous ne pouvez pas vous en empêcher.", "Ce gardien vigilant a été créé un jour pour vous protéger. Aujourd'hui, il vous épuise."],
+  manifestation: "Hypervigilance somatique",
+  hook: "Vous surveillez votre corps comme s'il pouvait vous trahir à tout moment ?"
+}, {
+  id: "orange",
+  color: C.orange,
+  light: C.orangeLight,
+  bg: "#2d1a0a",
+  emoji: "🟠",
+  name: "Masque Orange",
+  fear: "Peur de la douleur / de la souffrance",
+  tagline: "Vous êtes fort·e pour les autres — mais vous fuyez vos propres émotions.",
+  lines: ["Quand les émotions montent, vous changez de sujet. Ou de pièce. Ou vous rendez service.", "On dit de vous que vous êtes \"solide\", \"rationnel·le\", \"toujours là pour les autres\".", "Les films trop intenses ? Vous regardez ailleurs. Les conflits intimes ? Vous esquivez.", "Vous avez appris très tôt que ressentir était dangereux. Ce réflexe vous coûte aujourd'hui votre vie intérieure."],
+  manifestation: "Évitement émotionnel",
+  hook: "Quand avez-vous pleuré pour vous — pas pour les autres — pour la dernière fois ?"
+}, {
+  id: "jaune",
+  color: C.jaune,
+  light: C.jauneLight,
+  bg: "#2d2200",
+  emoji: "🟡",
+  name: "Masque Jaune",
+  fear: "Peur de l'inconnu / de l'incertitude",
+  tagline: "L'imprévu vous angoisse. Vous devez tout maîtriser.",
+  lines: ["Vacances sans plan ? Réunion sans ordre du jour ? Vous ne supportez pas.", "Vous posez des questions que les autres trouvent excessives — mais pour vous, c'est vital.", "Vous révisez les scénarios en boucle : et si ça tourne mal ? Et si je n'ai pas tout prévu ?", "Ce besoin de contrôle cache une question plus profonde : et si le sol se dérobait sous vos pieds ?"],
+  manifestation: "Obsession de contrôle",
+  hook: "Combien d'énergie dépensez-vous chaque jour à contrôler l'incontrôlable ?"
+}, {
+  id: "vert",
+  color: C.vert,
+  light: C.vertLight,
+  bg: "#0d2010",
+  emoji: "🟢",
+  name: "Masque Vert",
+  fear: "Peur du rejet / de l'abandon",
+  tagline: "Vous vous adaptez à tout le monde sauf à vous-même.",
+  lines: ["Vous dites oui quand vous pensez non. Vous souriez quand vous êtes blessé·e.", "Vous êtes l'ami·e, le/la collègue, le/la conjoint·e sur qui tout le monde s'appuie.", "Mais qui prend soin de vous ?", "Au fond, une conviction silencieuse gouverne tout : \"Si je suis vraiment moi, on me quittera.\""],
+  manifestation: "Insécurité relationnelle",
+  hook: "Quand avez-vous dit non sans vous en vouloir juste après ?",
+  scienceFact: "Le rejet social active les mêmes zones cérébrales que la douleur physique. Une étude (Science, 2003) a montré que le paracétamol réduisait significativement la souffrance de l'exclusion sociale. Votre cerveau vit un rejet comme une vraie blessure. Vous n'êtes pas \"trop sensible\" — vous êtes humain·e."
+}, {
+  id: "bleu",
+  color: C.bleu,
+  light: C.bleuLight,
+  bg: "#0d1a2d",
+  emoji: "🔵",
+  name: "Masque Bleu",
+  fear: "Peur de l'impuissance",
+  tagline: "Vous ne pouvez pas vous permettre de montrer votre faiblesse.",
+  lines: ["Vous dirigez, organisez, décidez. Déléguer ? Presque impossible — ils vont mal faire.", "On vous perçoit comme fort·e, maître/maîtresse de vous, inébranlable.", "Mais intérieurement : une peur permanente que tout s'écroule si vous lâchez le contrôle.", "Ce masque vous isole. Il vous empêche de recevoir — de l'aide, de l'amour, de la vraie connexion."],
+  manifestation: "Hypercontrôle relationnel",
+  hook: "Avez-vous déjà laissé quelqu'un vous aider vraiment — sans vous sentir diminué·e ?"
+}, {
+  id: "indigo",
+  color: C.indigo,
+  light: C.indigoLight,
+  bg: "#120d2d",
+  emoji: "🔷",
+  name: "Masque Indigo",
+  fear: "Peur de l'échec / de l'inadéquation",
+  tagline: "Parfait — ou rien.",
+  lines: ["Vous remettez à plus tard pour ne pas risquer d'échouer. Vous commencez dix projets, finissez un.", "La critique vous touche bien plus profondément qu'elle ne le devrait.", "Vous voyez vos erreurs en HD et vos réussites en flou.", "\"Si je ne suis pas à la hauteur, les autres verront que je ne vaux pas grand-chose.\""],
+  manifestation: "Anxiété de performance",
+  hook: "Qu'avez-vous abandonné par peur de ne pas assez bien réussir ?"
+}, {
+  id: "violet",
+  color: C.violet,
+  light: C.violetLight,
+  bg: "#1a0d2d",
+  emoji: "💜",
+  name: "Masque Violet",
+  fear: "Peur de perdre son identité",
+  tagline: "Qui êtes-vous sans vos rôles ?",
+  lines: ["Changer vous terrifie. Perdre une relation, un travail, un statut — c'est perdre qui vous êtes.", "Vous vous accrochez à des rôles devenus trop petits, trop étroits — mais au moins, vous les connaissez.", "Ce masque est unique : il absorbe et intensifie tous les autres.", "Il est le gardien ultime de votre nature authentique — emprisonnée depuis si longtemps."],
+  manifestation: "Angoisse existentielle",
+  hook: "Si on vous enlevait tous vos rôles, qui resterait-il ?"
+}];
+var MINI_QUIZ = [{
+  q: "D'où viennent les 7 peurs universelles ?",
+  opts: ["D'une faiblesse psychologique", "De notre héritage évolutif — systèmes de survie", "De l'éducation parentale uniquement", "D'un manque de volonté"],
+  ok: 1,
+  exp: "Ces 7 peurs sont programmées dans notre système nerveux par l'évolution. Ce n'est pas une faiblesse — c'est notre humanité."
+}, {
+  q: "Qu'est-ce qu'un masque de défense ?",
+  opts: ["Un mensonge aux autres", "Un trait de personnalité fixe", "Une stratégie de protection devenue automatique", "Un symptôme psychiatrique"],
+  ok: 2,
+  exp: "Un masque est une réponse de survie créée face à une douleur trop intense. Votre psyché a fait de son mieux pour vous protéger."
+}, {
+  q: "Pourquoi la résistance amplifie-t-elle la souffrance ?",
+  opts: ["Les émotions s'accumulent", "D = e × r² — la résistance agit exponentiellement", "On pense trop", "Ce n'est pas vrai"],
+  ok: 1,
+  exp: "D = e × r² : émotion 5/10 avec forte résistance (5²) = 125 de souffrance. Avec faible résistance : 5. Accueillir réduit la douleur 25 fois."
+}, {
+  q: "Quel masque cristallise et intensifie tous les autres ?",
+  opts: ["Masque Rouge", "Masque Vert", "Masque Indigo", "Masque Violet"],
+  ok: 3,
+  exp: "Le Masque Violet (peur de perdre son identité) est le gardien ultime — il unifie tous les autres mécanismes de défense."
+}];
+var FINAL_QUIZ = [{
+  q: "Selon la méthode V.A.L.E.U.R©, l'anxiété est :",
+  opts: ["Une maladie à traiter", "Une faiblesse à surmonter", "Un signal de survie — une peur déguisée", "Un problème chimique uniquement"],
+  ok: 2
+}, {
+  q: "Combien de peurs universelles existent dans la méthode ?",
+  opts: ["5", "6", "7", "9"],
+  ok: 2
+}, {
+  q: "La 'fenêtre de tolérance' désigne :",
+  opts: ["La patience qu'on a avec les autres", "La zone optimale de fonctionnement du système nerveux", "Le temps de guérison", "La limite de stress acceptable"],
+  ok: 1
+}, {
+  q: "Dans D = e × r², que signifie r² ?",
+  opts: ["La résilience au carré", "La relaxation", "La résistance à l'émotion, au carré", "La raison"],
+  ok: 2
+}, {
+  q: "La formule de création d'un masque est :",
+  opts: ["Peur + Trauma = Masque", "Nature authentique + Résistance = Masque", "Enfance + Adulte = Masque", "Émotion + Pensée = Masque"],
+  ok: 1
+}, {
+  q: "Quel masque correspond à la peur du rejet ?",
+  opts: ["Masque Rouge", "Masque Jaune", "Masque Vert", "Masque Bleu"],
+  ok: 2
+}, {
+  q: "La double fonction d'un masque est :",
+  opts: ["Mentir et contrôler", "La prison (contenir) + le gardien (surveiller)", "Réagir et analyser", "Contrôler et fuir"],
+  ok: 1
+}, {
+  q: "Le questionnaire V.A.L.E.U.R© est :",
+  opts: ["Un test de personnalité", "Un diagnostic psychiatrique", "Une cartographie de vos défenses — ce qui est plus fort que vous", "Un test de QI émotionnel"],
+  ok: 2
+}, {
+  q: "Que signifie le V de V.A.L.E.U.R© ?",
+  opts: ["Valider l'émotion", "Voir le déclencheur", "Visualiser l'avenir", "Vaincre la peur"],
+  ok: 1
+}, {
+  q: "La méthode V.A.L.E.U.R© s'adresse :",
+  opts: ["Uniquement aux personnes en crise", "Aux patients en thérapie", "À tout être humain — les 7 peurs sont universelles", "Aux personnes avec un diagnostic"],
+  ok: 2
+}];
 
-const MASKS = [
-  {
-    id: "rouge", color: C.rouge, light: C.rougeLight, bg: "#2d1515",
-    emoji: "🔴", letter: "R", name: "Masque Rouge",
-    fear: "Peur de la mort / de la maladie",
-    tagline: "Vous espionnez votre propre corps.",
-    lines: [
-      "La moindre douleur devient suspecte. Vous consultez internet avant le médecin — ou à sa place.",
-      "Réveil à 2h du matin : est-ce que ce battement est normal ? Cette tension dans la poitrine, ça va ?",
-      "Vous savez que c'est excessif. Mais vous ne pouvez pas vous en empêcher.",
-      "Ce gardien vigilant a été créé un jour pour vous protéger. Aujourd'hui, il vous épuise.",
-    ],
-    manifestation: "Hypervigilance somatique",
-    hook: "Vous surveillez votre corps comme s'il pouvait vous trahir à tout moment ?",
-  },
-  {
-    id: "orange", color: C.orange, light: C.orangeLight, bg: "#2d1a0a",
-    emoji: "🟠", letter: "O", name: "Masque Orange",
-    fear: "Peur de la douleur / de la souffrance",
-    tagline: "Vous êtes fort·e pour les autres — mais vous fuyez vos propres émotions.",
-    lines: [
-      "Quand les émotions montent, vous changez de sujet. Ou de pièce. Ou vous rendez service.",
-      "On dit de vous que vous êtes \"solide\", \"rationnel·le\", \"toujours là pour les autres\".",
-      "Les films trop intenses ? Vous regardez ailleurs. Les conflits intimes ? Vous esquivez.",
-      "Vous avez appris très tôt que ressentir était dangereux. Ce réflexe vous coûte aujourd'hui votre vie intérieure.",
-    ],
-    manifestation: "Évitement émotionnel",
-    hook: "Quand avez-vous pleuré pour vous — pas pour les autres — pour la dernière fois ?",
-  },
-  {
-    id: "jaune", color: C.jaune, light: C.jauneLight, bg: "#2d2200",
-    emoji: "🟡", letter: "J", name: "Masque Jaune",
-    fear: "Peur de l'inconnu / de l'incertitude",
-    tagline: "L'imprévu vous angoisse. Vous devez tout maîtriser.",
-    lines: [
-      "Vacances sans plan ? Réunion sans ordre du jour ? Vous ne supportez pas.",
-      "Vous posez des questions que les autres trouvent excessives — mais pour vous, c'est vital.",
-      "Vous révisez les scénarios en boucle : et si ça tourne mal ? Et si je n'ai pas tout prévu ?",
-      "Ce besoin de contrôle cache une question plus profonde : et si le sol se dérobait sous vos pieds ?",
-    ],
-    manifestation: "Obsession de contrôle",
-    hook: "Combien d'énergie dépensez-vous chaque jour à contrôler l'incontrôlable ?",
-  },
-  {
-    id: "vert", color: C.vert, light: C.vertLight, bg: "#0d2010",
-    emoji: "🟢", letter: "V", name: "Masque Vert",
-    fear: "Peur du rejet / de l'abandon",
-    tagline: "Vous vous adaptez à tout le monde sauf à vous-même.",
-    lines: [
-      "Vous dites oui quand vous pensez non. Vous souriez quand vous êtes blessé·e.",
-      "Vous êtes l'ami·e, le/la collègue, le/la conjoint·e sur qui tout le monde s'appuie.",
-      "Mais qui prend soin de vous ?",
-      "Au fond, une conviction silencieuse gouverne tout : \"Si je suis vraiment moi, on me quittera.\"",
-    ],
-    manifestation: "Insécurité relationnelle",
-    hook: "Quand avez-vous dit non sans vous en vouloir juste après ?",
-    scienceFact: "Le rejet social active les mêmes zones cérébrales que la douleur physique. Une étude (Science, 2003) a montré que le paracétamol réduisait significativement la souffrance de l'exclusion sociale. Votre cerveau vit un rejet comme une vraie blessure. Vous n'êtes pas \"trop sensible\" — vous êtes humain·e.",
-  },
-  {
-    id: "bleu", color: C.bleu, light: C.bleuLight, bg: "#0d1a2d",
-    emoji: "🔵", letter: "B", name: "Masque Bleu",
-    fear: "Peur de l'impuissance",
-    tagline: "Vous ne pouvez pas vous permettre de montrer votre faiblesse.",
-    lines: [
-      "Vous dirigez, organisez, décidez. Déléguer ? Presque impossible — ils vont mal faire.",
-      "On vous perçoit comme fort·e, maître/maîtresse de vous, inébranlable.",
-      "Mais intérieurement : une peur permanente que tout s'écroule si vous lâchez le contrôle.",
-      "Ce masque vous isole. Il vous empêche de recevoir — de l'aide, de l'amour, de la vraie connexion.",
-    ],
-    manifestation: "Hypercontrôle relationnel",
-    hook: "Avez-vous déjà laissé quelqu'un vous aider vraiment — sans vous sentir diminué·e ?",
-  },
-  {
-    id: "indigo", color: C.indigo, light: C.indigoLight, bg: "#120d2d",
-    emoji: "🔷", letter: "I", name: "Masque Indigo",
-    fear: "Peur de l'échec / de l'inadéquation",
-    tagline: "Parfait — ou rien.",
-    lines: [
-      "Vous remettez à plus tard pour ne pas risquer d'échouer. Vous commencez dix projets, finissez un.",
-      "La critique vous touche bien plus profondément qu'elle ne le devrait.",
-      "Vous voyez vos erreurs en HD et vos réussites en flou.",
-      "\"Si je ne suis pas à la hauteur, les autres verront que je ne vaux pas grand-chose.\"",
-    ],
-    manifestation: "Anxiété de performance",
-    hook: "Qu'avez-vous abandonné par peur de ne pas assez bien réussir ?",
-  },
-  {
-    id: "violet", color: C.violet, light: C.violetLight, bg: "#1a0d2d",
-    emoji: "💜", letter: "V", name: "Masque Violet",
-    fear: "Peur de perdre son identité",
-    tagline: "Qui êtes-vous sans vos rôles ?",
-    lines: [
-      "Changer vous terrifie. Perdre une relation, un travail, un statut — c'est perdre qui vous êtes.",
-      "Vous vous accrochez à des rôles devenus trop petits, trop étroits — mais au moins, vous les connaissez.",
-      "Ce masque est unique : il absorbe et intensifie tous les autres.",
-      "Il est le gardien ultime de votre nature authentique — emprisonnée depuis si longtemps.",
-    ],
-    manifestation: "Angoisse existentielle",
-    hook: "Si on vous enlevait tous vos rôles, qui resterait-il ?",
-    isLast: true,
-  },
-];
-
-const MINI_QUIZ = [
-  {
-    q: "D'où viennent les 7 peurs universelles ?",
-    opts: ["D'une faiblesse psychologique", "De notre héritage évolutif — systèmes de survie", "De l'éducation parentale uniquement", "D'un manque de volonté"],
-    ok: 1,
-    exp: "Ces 7 peurs sont programmées dans notre système nerveux par l'évolution. Ce n'est pas une faiblesse — c'est notre humanité.",
-  },
-  {
-    q: "Qu'est-ce qu'un masque de défense ?",
-    opts: ["Un mensonge aux autres", "Un trait de personnalité fixe", "Une stratégie de protection devenue automatique", "Un symptôme psychiatrique"],
-    ok: 2,
-    exp: "Un masque est une réponse de survie créée face à une douleur trop intense. Votre psyché a fait de son mieux pour vous protéger.",
-  },
-  {
-    q: "Pourquoi la résistance amplifie-t-elle la souffrance ?",
-    opts: ["Les émotions s'accumulent", "D = e × r² — la résistance agit exponentiellement", "On pense trop", "Ce n'est pas vrai"],
-    ok: 1,
-    exp: "D = e × r² : l'émotion initiale (5/10) avec forte résistance (5²) = 125 de souffrance. Avec faible résistance : 5. Accueillir réduit la douleur 25 fois.",
-  },
-  {
-    q: "Quel masque cristallise et intensifie tous les autres ?",
-    opts: ["Masque Rouge", "Masque Vert", "Masque Indigo", "Masque Violet"],
-    ok: 3,
-    exp: "Le Masque Violet (peur de perdre son identité) est le gardien ultime — il unifie tous les autres mécanismes de défense.",
-  },
-];
-
-const FINAL_QUIZ = [
-  { q: "Selon la méthode V.A.L.E.U.R©, l'anxiété est :", opts: ["Une maladie à traiter", "Une faiblesse à surmonter", "Un signal de survie — une peur déguisée", "Un problème chimique uniquement"], ok: 2 },
-  { q: "Combien de peurs universelles existent dans la méthode ?", opts: ["5", "6", "7", "9"], ok: 2 },
-  { q: "La 'fenêtre de tolérance' désigne :", opts: ["La patience qu'on a avec les autres", "La zone optimale de fonctionnement du système nerveux", "Le temps de guérison", "La limite de stress acceptable"], ok: 1 },
-  { q: "Dans D = e × r², que signifie r² ?", opts: ["La résilience au carré", "La relaxation", "La résistance à l'émotion, au carré", "La raison"], ok: 2 },
-  { q: "La formule de création d'un masque est :", opts: ["Peur + Trauma = Masque", "Nature authentique + Résistance = Masque", "Enfance + Adulte = Masque", "Émotion + Pensée = Masque"], ok: 1 },
-  { q: "Quel masque correspond à la peur du rejet ?", opts: ["Masque Rouge", "Masque Jaune", "Masque Vert", "Masque Bleu"], ok: 2 },
-  { q: "La double fonction d'un masque est :", opts: ["Mentir et contrôler", "La prison (contenir) + le gardien (surveiller)", "Réagir et analyser", "Contrôler et fuir"], ok: 1 },
-  { q: "Le questionnaire V.A.L.E.U.R© est :", opts: ["Un test de personnalité", "Un diagnostic psychiatrique", "Une cartographie de vos défenses — ce qui est plus fort que vous", "Un test de QI émotionnel"], ok: 2 },
-  { q: "Que signifie le V de V.A.L.E.U.R© ?", opts: ["Valider l'émotion", "Voir le déclencheur", "Visualiser l'avenir", "Vaincre la peur"], ok: 1 },
-  { q: "La méthode V.A.L.E.U.R© s'adresse :", opts: ["Uniquement aux personnes en crise", "Aux patients en thérapie", "À tout être humain — les 7 peurs sont universelles", "Aux personnes avec un diagnostic"], ok: 2 },
-];
-
-// ─── Composants utilitaires ───────────────────────────────────────
+// ── Utilitaires ──────────────────────────────────────────────────
 
 function Copyright() {
-  return (
-    <p style={{ color: C.textMuted, fontSize: "10px", textAlign: "center", marginTop: "8px", letterSpacing: "0.5px" }}>
-      © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon — Tous droits réservés
-    </p>
-  );
+  return /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "10px",
+      textAlign: "center",
+      marginTop: "8px",
+      letterSpacing: "0.5px"
+    }
+  }, "\xA9 2025 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 Tous droits r\xE9serv\xE9s");
 }
-
-function SectionTitle({ children, sub }) {
-  return (
-    <div style={{ textAlign: "center", marginBottom: "32px" }}>
-      <h2 style={{ fontFamily: "'Georgia', 'Times New Roman', serif", fontSize: "clamp(22px, 5vw, 32px)", fontWeight: 700, color: C.cream, lineHeight: 1.2, marginBottom: sub ? "12px" : 0 }}>
-        {children}
-      </h2>
-      {sub && <p style={{ color: C.textMuted, fontSize: "clamp(14px, 3.5vw, 16px)", lineHeight: 1.6, maxWidth: "600px", margin: "0 auto" }}>{sub}</p>}
-    </div>
-  );
+function SectionTitle(_ref) {
+  var children = _ref.children,
+    sub = _ref.sub;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(22px,5vw,32px)",
+      fontWeight: 700,
+      color: C.cream,
+      lineHeight: 1.2,
+      marginBottom: sub ? "12px" : 0
+    }
+  }, children), sub && /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "clamp(14px,3.5vw,16px)",
+      lineHeight: 1.6,
+      maxWidth: "600px",
+      margin: "0 auto"
+    }
+  }, sub));
 }
-
-function Card({ children, style }) {
-  return (
-    <div style={{ background: C.navyCard, border: `1px solid ${C.navyBorder}`, borderRadius: "16px", padding: "20px", ...style }}>
-      {children}
-    </div>
-  );
+function Card(_ref2) {
+  var children = _ref2.children,
+    style = _ref2.style;
+  return /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread({
+      background: C.navyCard,
+      border: "1px solid ".concat(C.navyBorder),
+      borderRadius: "16px",
+      padding: "20px"
+    }, style)
+  }, children);
 }
-
-function GoldBtn({ children, onClick, style }) {
-  return (
-    <button onClick={onClick} style={{ background: `linear-gradient(135deg, ${C.gold}, #a07830)`, color: "#fff", border: "none", borderRadius: "50px", padding: "14px 36px", fontSize: "16px", fontWeight: 700, cursor: "pointer", letterSpacing: "0.5px", boxShadow: "0 4px 20px rgba(201,168,76,0.35)", transition: "transform 0.2s, box-shadow 0.2s", ...style }}
-      onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 8px 28px rgba(201,168,76,0.5)"; }}
-      onMouseLeave={e => { e.target.style.transform = "none"; e.target.style.boxShadow = "0 4px 20px rgba(201,168,76,0.35)"; }}>
-      {children}
-    </button>
-  );
-}
-
-// ─── Barre de progression ─────────────────────────────────────────
-
-function ProgressBar({ step, setStep, completed }) {
-  const steps = ["Introduction", "7 Peurs", "Les Masques", "Questionnaire", "La Méthode"];
-  return (
-    <div style={{ position: "sticky", top: 0, zIndex: 100, background: C.navy, borderBottom: `1px solid ${C.navyBorder}`, padding: "12px 16px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "4px", maxWidth: "700px", margin: "0 auto" }}>
-        {steps.map((s, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", flex: 1 }}>
-            <button
-              onClick={() => (completed.includes(i) || i === step) && setStep(i)}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", background: "none", border: "none", cursor: completed.includes(i) || i === step ? "pointer" : "default", padding: "0", flex: 1 }}>
-              <div style={{
-                width: "28px", height: "28px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-                background: i === step ? C.gold : completed.includes(i) ? "#2a4a2a" : C.navyCard,
-                border: `2px solid ${i === step ? C.gold : completed.includes(i) ? C.vert : C.navyBorder}`,
-                color: i === step ? "#000" : completed.includes(i) ? C.vert : C.textMuted,
-                fontSize: "12px", fontWeight: 700, transition: "all 0.3s", flexShrink: 0,
-              }}>
-                {completed.includes(i) ? "✓" : i + 1}
-              </div>
-              <span style={{ fontSize: "9px", color: i === step ? C.gold : C.textMuted, textAlign: "center", lineHeight: 1.2, display: window.innerWidth < 400 ? "none" : "block" }}>
-                {s}
-              </span>
-            </button>
-            {i < steps.length - 1 && (
-              <div style={{ height: "2px", flex: 1, background: completed.includes(i) ? C.vert : C.navyBorder, margin: "0 2px", borderRadius: "2px", transition: "background 0.5s" }} />
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─── SECTION 1 — Introduction ─────────────────────────────────────
-
-function Accordion({ items }) {
-  const [open, setOpen] = useState(null);
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      {items.map((item, i) => (
-        <div key={i} style={{ border: `1px solid ${open === i ? C.gold : C.navyBorder}`, borderRadius: "12px", overflow: "hidden", transition: "border-color 0.3s" }}>
-          <button onClick={() => setOpen(open === i ? null : i)} style={{
-            width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
-            padding: "16px 20px", background: open === i ? "#1e2a1a" : C.navyCard, border: "none", cursor: "pointer", textAlign: "left",
-          }}>
-            <span style={{ color: C.cream, fontSize: "15px", fontWeight: 600 }}>{item.title}</span>
-            <span style={{ color: C.gold, fontSize: "20px", transform: open === i ? "rotate(45deg)" : "none", transition: "transform 0.3s" }}>+</span>
-          </button>
-          {open === i && (
-            <div style={{ background: C.navyMid, padding: "20px", borderTop: `1px solid ${C.navyBorder}` }}>
-              {item.content}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Section1({ onComplete }) {
-  const items = [
-    {
-      title: "D'où vient l'anxiété ?",
-      content: (
-        <div>
-          <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "16px" }}>
-            L'anxiété n'est pas un dysfonctionnement. Ce n'est pas une faiblesse, ni une pathologie.
-            C'est votre <strong style={{ color: C.gold }}>système de survie émotionnelle en action</strong> — un héritage de 200 000 ans d'évolution.
-          </p>
-          <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "16px" }}>
-            Votre cerveau ne distingue pas un prédateur d'une réunion stressante. Face à une menace perçue — réelle ou symbolique — il déclenche la même alarme ancestrale. <strong style={{ color: C.cream }}>9 angoisses sur 10 ne correspondent à aucun danger réel.</strong>
-          </p>
-          <div style={{ background: "#1a2520", border: `1px solid ${C.vert}`, borderRadius: "12px", padding: "16px", marginTop: "16px" }}>
-            <p style={{ color: C.vertLight, fontSize: "14px", lineHeight: 1.7, margin: 0 }}>
-              💡 <strong>La clé :</strong> Ce n'est pas l'émotion qui crée la souffrance durable.
-              C'est votre <strong>résistance</strong> à cette émotion.<br /><br />
-              <strong>D = e × r²</strong> — La souffrance = émotion × résistance au carré.<br />
-              Émotion 5/10 + résistance 5 = <strong>125</strong> de souffrance.<br />
-              La même émotion + faible résistance = <strong>5</strong>. Soit 25 fois moins.
-            </p>
-          </div>
-          <p style={{ color: C.textMuted, fontSize: "12px", marginTop: "12px" }}>
-            Tiré de : <em>De la peur à la joie d'être soi</em> — Céline Bourbon, Éditions L'Harmattan
-          </p>
-        </div>
-      ),
+function GoldBtn(_ref3) {
+  var children = _ref3.children,
+    onClick = _ref3.onClick;
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onClick,
+    style: {
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      color: "#fff",
+      border: "none",
+      borderRadius: "50px",
+      padding: "14px 36px",
+      fontSize: "16px",
+      fontWeight: 700,
+      cursor: "pointer",
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 20px rgba(201,168,76,0.35)"
     },
-    {
-      title: "Qu'est-ce qu'un masque de défense ?",
-      content: (
-        <div>
-          <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "16px" }}>
-            Un masque est né un jour où une émotion ou une expérience a <strong style={{ color: C.gold }}>dépassé votre capacité à l'intégrer</strong>. Votre psyché a alors créé une barrière protectrice : le masque.
-          </p>
-          <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "16px" }}>
-            Ce masque fonctionne comme un système à double verrouillage :
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
-            <div style={{ background: C.navyCard, border: `1px solid ${C.rouge}`, borderRadius: "10px", padding: "14px" }}>
-              <p style={{ color: C.rougeLight, fontWeight: 700, marginBottom: "6px" }}>🔒 La Prison</p>
-              <p style={{ color: C.textLight, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>Enferme la blessure pour qu'elle ne perturbe pas votre quotidien</p>
-            </div>
-            <div style={{ background: C.navyCard, border: `1px solid ${C.bleu}`, borderRadius: "10px", padding: "14px" }}>
-              <p style={{ color: C.bleuLight, fontWeight: 700, marginBottom: "6px" }}>👁️ Le Gardien</p>
-              <p style={{ color: C.textLight, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>Surveille l'environnement pour détecter toute menace similaire</p>
-            </div>
-          </div>
-          <div style={{ background: "#2d1515", border: `1px solid ${C.rouge}`, borderRadius: "12px", padding: "16px" }}>
-            <p style={{ color: C.rougeLight, fontSize: "14px", lineHeight: 1.7, margin: 0 }}>
-              ⚠️ <strong>Le paradoxe :</strong> Ce qui devait vous protéger temporairement est devenu une prison permanente. Le masque génère aujourd'hui <strong>plus de souffrance que ce qu'il évite</strong>.
-            </p>
-          </div>
-          <p style={{ color: C.textMuted, fontSize: "12px", marginTop: "12px" }}>
-            Vous n'êtes pas responsable de leur formation. Ils ont émergé par nécessité face à des expériences qui vous dépassaient.
-          </p>
-        </div>
-      ),
+    onMouseEnter: function onMouseEnter(e) {
+      e.target.style.transform = "translateY(-2px)";
     },
-    {
-      title: "Comment fonctionne la Méthode V.A.L.E.U.R© ?",
-      content: (
-        <div>
-          <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "20px" }}>
-            6 étapes progressives pour reconnaître vos masques et libérer votre nature authentique.
-          </p>
-          {[
-            { l: "V", t: "Voir le déclencheur", d: "Identifier la situation qui a activé le masque", c: C.rouge },
-            { l: "A", t: "Accueillir l'émotion", d: "Recevoir sans juger — réduire la résistance", c: C.orange },
-            { l: "L", t: "Localiser dans le corps", d: "Gorge serrée ? Ventre noué ? Identifier la sensation", c: C.jaune },
-            { l: "E", t: "Explorer le conflit", d: "Comprendre ce que la peur protège vs vos valeurs", c: C.vert },
-            { l: "U", t: "Unifier les polarités", d: "\"J'ai peur ET je peux agir quand même\"", c: C.bleu },
-            { l: "R", t: "Renforcer par l'action", d: "Un petit geste concret pour ancrer le changement", c: C.violet },
-          ].map((step, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "12px" }}>
-              <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: step.c, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 900, fontSize: "16px", color: "#fff" }}>{step.l}</div>
-              <div>
-                <p style={{ color: C.cream, fontWeight: 700, margin: "0 0 2px" }}>{step.t}</p>
-                <p style={{ color: C.textMuted, fontSize: "13px", margin: 0 }}>{step.d}</p>
-              </div>
-            </div>
-          ))}
-          <p style={{ color: C.textMuted, fontSize: "12px", marginTop: "16px", borderTop: `1px solid ${C.navyBorder}`, paddingTop: "12px" }}>
-            Fondements scientifiques : SHAI, TAS-20, IUS-12, ECR-R, LOC+NPI, FMPS, MSI<br />
-            Basé sur : <em>De la peur à la joie d'être soi</em> — Céline Bourbon, L'Harmattan
-          </p>
-        </div>
-      ),
-    },
-  ];
-
-  return (
-    <div style={{ padding: "32px 16px", maxWidth: "720px", margin: "0 auto" }}>
-      {/* Hero */}
-      <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <div style={{ display: "inline-block", background: "linear-gradient(135deg, #1a2235, #0d1117)", border: `1px solid ${C.gold}`, borderRadius: "20px", padding: "8px 20px", marginBottom: "20px" }}>
-          <span style={{ color: C.gold, fontSize: "13px", letterSpacing: "2px", fontWeight: 600 }}>MODULE 0 — COMPRENDRE</span>
-        </div>
-        <h1 style={{ fontFamily: "'Georgia', serif", fontSize: "clamp(26px, 6vw, 42px)", color: C.cream, lineHeight: 1.2, marginBottom: "16px" }}>
-          Les 7 peurs qui empêchent<br />
-          <span style={{ color: C.gold }}>d'être soi</span>
-        </h1>
-        <p style={{ color: C.textMuted, fontSize: "clamp(15px, 3.5vw, 17px)", lineHeight: 1.7, maxWidth: "560px", margin: "0 auto 8px" }}>
-          Vous avez l'impression de jouer un rôle dans votre propre vie ? Votre nature authentique est emprisonnée derrière des masques de défense que vous portez sans le savoir.
-        </p>
-        <p style={{ color: C.textMuted, fontSize: "13px" }}>Ce module vous donne les clés pour les comprendre.</p>
-      </div>
-
-      {/* Vidéo */}
-      <div style={{ marginBottom: "32px" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", textAlign: "center", marginBottom: "10px", letterSpacing: "1px", textTransform: "uppercase" }}>📹 D'où vient votre anxiété ?</p>
-        <a href="https://youtu.be/HVVpa_-pLkE?si=F9ehsoz5M7eATHRh" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
-          <div style={{
-            position: "relative", borderRadius: "16px", overflow: "hidden",
-            border: `1px solid ${C.navyBorder}`, background: "#0d1117",
-            aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center",
-            backgroundImage: "url('https://img.youtube.com/vi/HVVpa_-pLkE/maxresdefault.jpg')",
-            backgroundSize: "cover", backgroundPosition: "center", cursor: "pointer",
-          }}>
-            <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.45)" }} />
-            <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-              <div style={{
-                width: "68px", height: "68px", borderRadius: "50%",
-                background: "rgba(255,0,0,0.85)", display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "0 4px 24px rgba(255,0,0,0.5)",
-              }}>
-                <div style={{ width: 0, height: 0, borderTop: "14px solid transparent", borderBottom: "14px solid transparent", borderLeft: "24px solid #fff", marginLeft: "4px" }} />
-              </div>
-              <p style={{ color: "#fff", fontWeight: 700, fontSize: "15px", margin: 0, textShadow: "0 2px 8px rgba(0,0,0,0.8)", textAlign: "center", padding: "0 16px" }}>
-                Regarder sur YouTube →
-              </p>
-            </div>
-          </div>
-        </a>
-        <p style={{ color: C.textMuted, fontSize: "12px", textAlign: "center", marginTop: "8px" }}>
-          S'ouvre dans un nouvel onglet · youtu.be/HVVpa_-pLkE
-        </p>
-      </div>
-
-      {/* Accordéons */}
-      <div style={{ marginBottom: "40px" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", textAlign: "center", marginBottom: "16px", letterSpacing: "1px", textTransform: "uppercase" }}>📖 Concepts fondamentaux</p>
-        <Accordion items={items} />
-      </div>
-
-      <div style={{ textAlign: "center" }}>
-        <GoldBtn onClick={onComplete}>Découvrir les 7 peurs universelles →</GoldBtn>
-      </div>
-      <Copyright />
-    </div>
-  );
+    onMouseLeave: function onMouseLeave(e) {
+      e.target.style.transform = "none";
+    }
+  }, children);
+}
+function VideoCard(_ref4) {
+  var href = _ref4.href,
+    videoId = _ref4.videoId,
+    label = _ref4.label;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      textAlign: "center",
+      marginBottom: "10px",
+      letterSpacing: "1px",
+      textTransform: "uppercase"
+    }
+  }, "\uD83D\uDCF9 ", label), /*#__PURE__*/React.createElement("a", {
+    href: href,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    style: {
+      textDecoration: "none",
+      display: "block"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      borderRadius: "16px",
+      overflow: "hidden",
+      border: "1px solid ".concat(C.navyBorder),
+      background: "#0d1117",
+      aspectRatio: "16/9",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundImage: "url('https://img.youtube.com/vi/".concat(videoId, "/maxresdefault.jpg')"),
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0,
+      background: "rgba(0,0,0,0.45)"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      zIndex: 1,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "68px",
+      height: "68px",
+      borderRadius: "50%",
+      background: "rgba(255,0,0,0.85)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: "0 4px 24px rgba(255,0,0,0.5)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 0,
+      height: 0,
+      borderTop: "14px solid transparent",
+      borderBottom: "14px solid transparent",
+      borderLeft: "24px solid #fff",
+      marginLeft: "4px"
+    }
+  })), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: "#fff",
+      fontWeight: 700,
+      fontSize: "15px",
+      margin: 0,
+      textShadow: "0 2px 8px rgba(0,0,0,0.8)"
+    }
+  }, "Regarder sur YouTube \u2192")))));
 }
 
-// ─── SECTION 2 — Les 7 peurs ──────────────────────────────────────
+// ── Barre de progression ─────────────────────────────────────────
 
-function MaskCard({ mask, isSelected, onClick }) {
-  return (
-    <button onClick={onClick} style={{
+function ProgressBar(_ref5) {
+  var step = _ref5.step,
+    setStep = _ref5.setStep,
+    completed = _ref5.completed;
+  var steps = ["Introduction", "7 Peurs", "Les Masques", "Questionnaire", "La Méthode"];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "sticky",
+      top: 0,
+      zIndex: 100,
+      background: C.navy,
+      borderBottom: "1px solid ".concat(C.navyBorder),
+      padding: "12px 16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "4px",
+      maxWidth: "700px",
+      margin: "0 auto"
+    }
+  }, steps.map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return (completed.includes(i) || i === step) && setStep(i);
+      },
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "4px",
+        background: "none",
+        border: "none",
+        cursor: completed.includes(i) || i === step ? "pointer" : "default",
+        padding: "0",
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "28px",
+        height: "28px",
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: i === step ? C.gold : completed.includes(i) ? "#2a4a2a" : C.navyCard,
+        border: "2px solid ".concat(i === step ? C.gold : completed.includes(i) ? C.vert : C.navyBorder),
+        color: i === step ? "#000" : completed.includes(i) ? C.vert : C.textMuted,
+        fontSize: "12px",
+        fontWeight: 700,
+        flexShrink: 0
+      }
+    }, completed.includes(i) ? "✓" : i + 1), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "9px",
+        color: i === step ? C.gold : C.textMuted,
+        textAlign: "center",
+        lineHeight: 1.2
+      }
+    }, s)), i < steps.length - 1 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: "2px",
+        flex: 1,
+        background: completed.includes(i) ? C.vert : C.navyBorder,
+        margin: "0 2px",
+        borderRadius: "2px"
+      }
+    }));
+  })));
+}
+
+// ── Accordéon ────────────────────────────────────────────────────
+
+function Accordion(_ref6) {
+  var items = _ref6.items;
+  var _useState = useState(null),
+    _useState2 = _slicedToArray(_useState, 2),
+    open = _useState2[0],
+    setOpen = _useState2[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px"
+    }
+  }, items.map(function (item, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        border: "1px solid ".concat(open === i ? C.gold : C.navyBorder),
+        borderRadius: "12px",
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setOpen(open === i ? null : i);
+      },
+      style: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "16px 20px",
+        background: open === i ? "#1e2a1a" : C.navyCard,
+        border: "none",
+        cursor: "pointer",
+        textAlign: "left"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.cream,
+        fontSize: "15px",
+        fontWeight: 600
+      }
+    }, item.title), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.gold,
+        fontSize: "20px",
+        transform: open === i ? "rotate(45deg)" : "none",
+        transition: "transform 0.3s",
+        display: "inline-block"
+      }
+    }, "+")), open === i && /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyMid,
+        padding: "20px",
+        borderTop: "1px solid ".concat(C.navyBorder)
+      }
+    }, item.content));
+  }));
+}
+
+// ── SECTION 1 ────────────────────────────────────────────────────
+
+function Section1(_ref7) {
+  var onComplete = _ref7.onComplete;
+  var accordItems = [{
+    title: "D'où vient l'anxiété ?",
+    content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        lineHeight: 1.8,
+        marginBottom: "16px"
+      }
+    }, "L'anxi\xE9t\xE9 n'est pas un dysfonctionnement. Ce n'est pas une faiblesse, ni une pathologie. C'est votre ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: C.gold
+      }
+    }, "syst\xE8me de survie \xE9motionnelle en action"), " \u2014 un h\xE9ritage de 200 000 ans d'\xE9volution."), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        lineHeight: 1.8,
+        marginBottom: "16px"
+      }
+    }, "Votre cerveau ne distingue pas un pr\xE9dateur d'une r\xE9union stressante. Face \xE0 une menace per\xE7ue, il d\xE9clenche la m\xEAme alarme ancestrale. ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: C.cream
+      }
+    }, "9 angoisses sur 10 ne correspondent \xE0 aucun danger r\xE9el.")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "#1a2520",
+        border: "1px solid ".concat(C.vert),
+        borderRadius: "12px",
+        padding: "16px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.vertLight,
+        fontSize: "14px",
+        lineHeight: 1.7,
+        margin: 0
+      }
+    }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "D = e \xD7 r\xB2"), " \u2014 La souffrance = \xE9motion \xD7 r\xE9sistance au carr\xE9.", /*#__PURE__*/React.createElement("br", null), "\xC9motion 5/10 + r\xE9sistance 5 = ", /*#__PURE__*/React.createElement("strong", null, "125"), " de souffrance. La m\xEAme \xE9motion + faible r\xE9sistance = ", /*#__PURE__*/React.createElement("strong", null, "5"), ". Soit 25\xD7 moins.")), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        marginTop: "12px"
+      }
+    }, "Tir\xE9 de : ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 C\xE9line Bourbon, \xC9ditions L'Harmattan"))
+  }, {
+    title: "Qu'est-ce qu'un masque de défense ?",
+    content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        lineHeight: 1.8,
+        marginBottom: "16px"
+      }
+    }, "Un masque est n\xE9 un jour o\xF9 une \xE9motion a ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: C.gold
+      }
+    }, "d\xE9pass\xE9 votre capacit\xE9 \xE0 l'int\xE9grer"), ". Votre psych\xE9 a cr\xE9\xE9 une barri\xE8re protectrice \u2014 le masque."), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "12px",
+        marginBottom: "16px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyCard,
+        border: "1px solid ".concat(C.rouge),
+        borderRadius: "10px",
+        padding: "14px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.rougeLight,
+        fontWeight: 700,
+        marginBottom: "6px"
+      }
+    }, "\uD83D\uDD12 La Prison"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "13px",
+        lineHeight: 1.6,
+        margin: 0
+      }
+    }, "Enferme la blessure pour qu'elle ne perturbe pas votre quotidien")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyCard,
+        border: "1px solid ".concat(C.bleu),
+        borderRadius: "10px",
+        padding: "14px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.bleuLight,
+        fontWeight: 700,
+        marginBottom: "6px"
+      }
+    }, "\uD83D\uDC41\uFE0F Le Gardien"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "13px",
+        lineHeight: 1.6,
+        margin: 0
+      }
+    }, "Surveille l'environnement pour d\xE9tecter toute menace similaire"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "#2d1515",
+        border: "1px solid ".concat(C.rouge),
+        borderRadius: "12px",
+        padding: "16px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.rougeLight,
+        fontSize: "14px",
+        lineHeight: 1.7,
+        margin: 0
+      }
+    }, "\u26A0\uFE0F ", /*#__PURE__*/React.createElement("strong", null, "Le paradoxe :"), " Ce qui devait vous prot\xE9ger temporairement est devenu une prison permanente. Le masque g\xE9n\xE8re aujourd'hui ", /*#__PURE__*/React.createElement("strong", null, "plus de souffrance que ce qu'il \xE9vite"), ".")))
+  }, {
+    title: "Comment fonctionne la Méthode V.A.L.E.U.R© ?",
+    content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        lineHeight: 1.8,
+        marginBottom: "20px"
+      }
+    }, "6 \xE9tapes progressives pour reconna\xEEtre vos masques et lib\xE9rer votre nature authentique."), [{
+      l: "V",
+      t: "Voir le déclencheur",
+      d: "Identifier la situation qui a activé le masque",
+      c: C.rouge
+    }, {
+      l: "A",
+      t: "Accueillir l'émotion",
+      d: "Recevoir sans juger — réduire la résistance",
+      c: C.orange
+    }, {
+      l: "L",
+      t: "Localiser dans le corps",
+      d: "Gorge serrée ? Ventre noué ? Identifier la sensation",
+      c: C.jaune
+    }, {
+      l: "E",
+      t: "Explorer le conflit",
+      d: "Comprendre ce que la peur protège vs vos valeurs",
+      c: C.vert
+    }, {
+      l: "U",
+      t: "Unifier les polarités",
+      d: "\"J'ai peur ET je peux agir quand même\"",
+      c: C.bleu
+    }, {
+      l: "R",
+      t: "Renforcer par l'action",
+      d: "Un petit geste concret pour ancrer le changement",
+      c: C.violet
+    }].map(function (step, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          display: "flex",
+          alignItems: "flex-start",
+          gap: "12px",
+          marginBottom: "12px"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: "36px",
+          height: "36px",
+          borderRadius: "50%",
+          background: step.c,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+          fontWeight: 900,
+          fontSize: "16px",
+          color: "#fff"
+        }
+      }, step.l), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+        style: {
+          color: C.cream,
+          fontWeight: 700,
+          margin: "0 0 2px"
+        }
+      }, step.t), /*#__PURE__*/React.createElement("p", {
+        style: {
+          color: C.textMuted,
+          fontSize: "13px",
+          margin: 0
+        }
+      }, step.d)));
+    }), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        marginTop: "16px",
+        borderTop: "1px solid ".concat(C.navyBorder),
+        paddingTop: "12px"
+      }
+    }, "Fondements scientifiques : SHAI, TAS-20, IUS-12, ECR-R, LOC+NPI, FMPS, MSI", /*#__PURE__*/React.createElement("br", null), "Bas\xE9 sur : ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 C\xE9line Bourbon, L'Harmattan"))
+  }];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "32px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "40px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "inline-block",
+      background: "linear-gradient(135deg,#1a2235,#0d1117)",
+      border: "1px solid ".concat(C.gold),
+      borderRadius: "20px",
+      padding: "8px 20px",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold,
+      fontSize: "13px",
+      letterSpacing: "2px",
+      fontWeight: 600
+    }
+  }, "MODULE 0 \u2014 COMPRENDRE")), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(26px,6vw,42px)",
+      color: C.cream,
+      lineHeight: 1.2,
+      marginBottom: "16px"
+    }
+  }, "Les 7 peurs qui emp\xEAchent", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold
+    }
+  }, "d'\xEAtre soi")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "clamp(15px,3.5vw,17px)",
+      lineHeight: 1.7,
+      maxWidth: "560px",
+      margin: "0 auto 8px"
+    }
+  }, "Vous avez l'impression de jouer un r\xF4le dans votre propre vie ? Votre nature authentique est emprisonn\xE9e derri\xE8re des masques de d\xE9fense que vous portez sans le savoir."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px"
+    }
+  }, "Ce module vous donne les cl\xE9s pour les comprendre.")), /*#__PURE__*/React.createElement(VideoCard, {
+    href: "https://youtu.be/HVVpa_-pLkE?si=F9ehsoz5M7eATHRh",
+    videoId: "HVVpa_-pLkE",
+    label: "D'o\xF9 vient votre anxi\xE9t\xE9 ?"
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      textAlign: "center",
+      marginBottom: "16px",
+      letterSpacing: "1px",
+      textTransform: "uppercase"
+    }
+  }, "\uD83D\uDCD6 Concepts fondamentaux"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "40px"
+    }
+  }, /*#__PURE__*/React.createElement(Accordion, {
+    items: accordItems
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement(GoldBtn, {
+    onClick: onComplete
+  }, "D\xE9couvrir les 7 peurs universelles \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
+}
+
+// ── SECTION 2 ────────────────────────────────────────────────────
+
+function MaskCard(_ref8) {
+  var mask = _ref8.mask,
+    isSelected = _ref8.isSelected,
+    onClick = _ref8.onClick;
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onClick,
+    style: {
       background: isSelected ? mask.bg : C.navyCard,
-      border: `2px solid ${isSelected ? mask.color : C.navyBorder}`,
-      borderRadius: "16px", padding: "20px 16px", cursor: "pointer", textAlign: "left",
-      transition: "all 0.3s", width: "100%", boxShadow: isSelected ? `0 0 20px ${mask.color}33` : "none",
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
-        <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: `${mask.color}22`, border: `2px solid ${mask.color}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", flexShrink: 0 }}>
-          {mask.emoji}
-        </div>
-        <div>
-          <p style={{ color: mask.color, fontWeight: 700, fontSize: "15px", margin: 0 }}>{mask.name}</p>
-          <p style={{ color: C.textMuted, fontSize: "12px", margin: 0 }}>{mask.fear}</p>
-        </div>
-      </div>
-      <p style={{ color: C.cream, fontSize: "14px", fontStyle: "italic", margin: "0 0 8px", lineHeight: 1.5 }}>"{mask.tagline}"</p>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ background: `${mask.color}22`, color: mask.color, fontSize: "11px", padding: "3px 10px", borderRadius: "20px", fontWeight: 600 }}>{mask.manifestation}</span>
-        <span style={{ color: C.textMuted, fontSize: "13px" }}>{isSelected ? "▲" : "▼"}</span>
-      </div>
-    </button>
-  );
+      border: "2px solid ".concat(isSelected ? mask.color : C.navyBorder),
+      borderRadius: "16px",
+      padding: "20px 16px",
+      cursor: "pointer",
+      textAlign: "left",
+      transition: "all 0.3s",
+      width: "100%",
+      boxShadow: isSelected ? "0 0 20px ".concat(mask.color, "33") : "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      marginBottom: "10px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "44px",
+      height: "44px",
+      borderRadius: "50%",
+      background: "".concat(mask.color, "22"),
+      border: "2px solid ".concat(mask.color),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "20px",
+      flexShrink: 0
+    }
+  }, mask.emoji), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: mask.color,
+      fontWeight: 700,
+      fontSize: "15px",
+      margin: 0
+    }
+  }, mask.name), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      margin: 0
+    }
+  }, mask.fear))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontSize: "14px",
+      fontStyle: "italic",
+      margin: "0 0 8px",
+      lineHeight: 1.5
+    }
+  }, "\"", mask.tagline, "\""), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      background: "".concat(mask.color, "22"),
+      color: mask.color,
+      fontSize: "11px",
+      padding: "3px 10px",
+      borderRadius: "20px",
+      fontWeight: 600
+    }
+  }, mask.manifestation), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px"
+    }
+  }, isSelected ? "▲" : "▼")));
 }
-
-function MaskDetail({ mask, onClose }) {
-  const [showScience, setShowScience] = useState(false);
-  return (
-    <div style={{ background: mask.bg, border: `2px solid ${mask.color}`, borderRadius: "16px", padding: "24px", marginTop: "8px", position: "relative" }}>
-      <button onClick={onClose} style={{ position: "absolute", top: "12px", right: "16px", background: "none", border: "none", color: C.textMuted, fontSize: "20px", cursor: "pointer" }}>✕</button>
-      <p style={{ color: mask.color, fontWeight: 700, fontSize: "16px", marginBottom: "16px" }}>Vous reconnaissez-vous ?</p>
-      {mask.lines.map((line, i) => (
-        <div key={i} style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-          <span style={{ color: mask.color, flexShrink: 0, marginTop: "2px" }}>›</span>
-          <p style={{ color: C.textLight, lineHeight: 1.7, margin: 0, fontSize: "15px" }}>{line}</p>
-        </div>
-      ))}
-      <div style={{ background: `${mask.color}11`, border: `1px solid ${mask.color}44`, borderRadius: "10px", padding: "14px", marginTop: "16px" }}>
-        <p style={{ color: mask.light, fontStyle: "italic", fontSize: "14px", lineHeight: 1.6, margin: 0 }}>
-          ❝ {mask.hook} ❞
-        </p>
-      </div>
-      {mask.scienceFact && (
-        <div style={{ marginTop: "16px" }}>
-          <button onClick={() => setShowScience(!showScience)} style={{
-            background: "none", border: `1px dashed ${C.vert}`, borderRadius: "8px", padding: "8px 14px",
-            color: C.vertLight, fontSize: "13px", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px",
-          }}>
-            🔬 Le saviez-vous ? (fait scientifique) {showScience ? "▲" : "▼"}
-          </button>
-          {showScience && (
-            <div style={{ background: "#0d2010", border: `1px solid ${C.vert}`, borderRadius: "10px", padding: "14px", marginTop: "8px" }}>
-              <p style={{ color: C.vertLight, fontSize: "13px", lineHeight: 1.7, margin: 0 }}>{mask.scienceFact}</p>
-            </div>
-          )}
-        </div>
-      )}
-      <p style={{ color: C.textMuted, fontSize: "11px", marginTop: "16px", borderTop: `1px solid ${mask.color}33`, paddingTop: "10px" }}>
-        © Méthode V.A.L.E.U.R© — Céline Bourbon — Source : <em>De la peur à la joie d'être soi</em>, L'Harmattan
-      </p>
-    </div>
-  );
+function MaskDetail(_ref9) {
+  var mask = _ref9.mask,
+    onClose = _ref9.onClose;
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    showSci = _useState4[0],
+    setShowSci = _useState4[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: mask.bg,
+      border: "2px solid ".concat(mask.color),
+      borderRadius: "16px",
+      padding: "24px",
+      marginTop: "8px",
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      position: "absolute",
+      top: "12px",
+      right: "16px",
+      background: "none",
+      border: "none",
+      color: C.textMuted,
+      fontSize: "20px",
+      cursor: "pointer"
+    }
+  }, "\u2715"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: mask.color,
+      fontWeight: 700,
+      fontSize: "16px",
+      marginBottom: "16px"
+    }
+  }, "Vous reconnaissez-vous ?"), mask.lines.map(function (line, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        gap: "10px",
+        marginBottom: "10px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: mask.color,
+        flexShrink: 0,
+        marginTop: "2px"
+      }
+    }, "\u203A"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        lineHeight: 1.7,
+        margin: 0,
+        fontSize: "15px"
+      }
+    }, line));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "".concat(mask.color, "11"),
+      border: "1px solid ".concat(mask.color, "44"),
+      borderRadius: "10px",
+      padding: "14px",
+      marginTop: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: mask.light,
+      fontStyle: "italic",
+      fontSize: "14px",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, "\u275D ", mask.hook, " \u275E")), mask.scienceFact && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowSci(!showSci);
+    },
+    style: {
+      background: "none",
+      border: "1px dashed ".concat(C.vert),
+      borderRadius: "8px",
+      padding: "8px 14px",
+      color: C.vertLight,
+      fontSize: "13px",
+      cursor: "pointer"
+    }
+  }, "\uD83D\uDD2C Le saviez-vous ? (fait scientifique) ", showSci ? "▲" : "▼"), showSci && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#0d2010",
+      border: "1px solid ".concat(C.vert),
+      borderRadius: "10px",
+      padding: "14px",
+      marginTop: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vertLight,
+      fontSize: "13px",
+      lineHeight: 1.7,
+      margin: 0
+    }
+  }, mask.scienceFact))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px",
+      marginTop: "16px",
+      borderTop: "1px solid ".concat(mask.color, "33"),
+      paddingTop: "10px"
+    }
+  }, "\xA9 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), ", L'Harmattan"));
 }
-
-function MiniQuiz({ onComplete }) {
-  const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [revealed, setRevealed] = useState(false);
-  const [results, setResults] = useState([]);
-  const [done, setDone] = useState(false);
-
-  const q = MINI_QUIZ[current];
-  const score = results.filter(Boolean).length;
-
-  const handleSelect = (i) => {
+function MiniQuiz() {
+  var _useState5 = useState(0),
+    _useState6 = _slicedToArray(_useState5, 2),
+    current = _useState6[0],
+    setCurrent = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray(_useState7, 2),
+    selected = _useState8[0],
+    setSelected = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    revealed = _useState0[0],
+    setRevealed = _useState0[1];
+  var _useState1 = useState([]),
+    _useState10 = _slicedToArray(_useState1, 2),
+    results = _useState10[0],
+    setResults = _useState10[1];
+  var _useState11 = useState(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    done = _useState12[0],
+    setDone = _useState12[1];
+  var q = MINI_QUIZ[current];
+  var score = results.filter(Boolean).length;
+  function handleSelect(i) {
     if (revealed) return;
     setSelected(i);
     setRevealed(true);
-    const r = [...results, i === q.ok];
+    var r = [].concat(_toConsumableArray(results), [i === q.ok]);
     setResults(r);
-    if (current === MINI_QUIZ.length - 1) {
-      setTimeout(() => setDone(true), 2000);
-    }
-  };
-
-  const next = () => {
+    if (current === MINI_QUIZ.length - 1) setTimeout(function () {
+      return setDone(true);
+    }, 2000);
+  }
+  function next() {
     if (current < MINI_QUIZ.length - 1) {
       setCurrent(current + 1);
       setSelected(null);
       setRevealed(false);
     }
-  };
-
-  if (done) {
-    return (
-      <Card style={{ textAlign: "center", padding: "32px 24px" }}>
-        <div style={{ fontSize: "48px", marginBottom: "12px" }}>{score >= 3 ? "🎯" : "💡"}</div>
-        <p style={{ color: C.gold, fontWeight: 700, fontSize: "20px", marginBottom: "8px" }}>{score}/4 — {score >= 3 ? "Excellente compréhension !" : "Bonne base !"}</p>
-        <p style={{ color: C.textMuted, fontSize: "14px", lineHeight: 1.7 }}>
-          {score >= 3 ? "Vous avez intégré les concepts fondamentaux des 7 peurs. Vous êtes prêt·e à découvrir comment vos masques se sont formés." : "Prenez le temps de relire les fiches des masques. Tout s'éclairera progressivement."}
-        </p>
-      </Card>
-    );
   }
-
-  return (
-    <Card>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-        <p style={{ color: C.gold, fontWeight: 700, fontSize: "13px", margin: 0 }}>🎯 Vérifiez votre compréhension</p>
-        <span style={{ color: C.textMuted, fontSize: "13px" }}>{current + 1}/{MINI_QUIZ.length}</span>
-      </div>
-      <p style={{ color: C.cream, fontSize: "16px", fontWeight: 600, lineHeight: 1.5, marginBottom: "20px" }}>{q.q}</p>
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" }}>
-        {q.opts.map((opt, i) => {
-          let bg = C.navyMid, border = C.navyBorder, col = C.textLight;
-          if (revealed) {
-            if (i === q.ok) { bg = "#0d2010"; border = C.vert; col = C.vertLight; }
-            else if (i === selected && selected !== q.ok) { bg = "#2d1515"; border = C.rouge; col = C.rougeLight; }
-          } else if (selected === i) { bg = C.navyCard; border = C.gold; }
-          return (
-            <button key={i} onClick={() => handleSelect(i)} style={{
-              background: bg, border: `2px solid ${border}`, borderRadius: "10px", padding: "12px 16px",
-              color: col, cursor: "pointer", textAlign: "left", fontSize: "14px", lineHeight: 1.5, transition: "all 0.2s",
-            }}>
-              {i === q.ok && revealed ? "✓ " : i === selected && selected !== q.ok && revealed ? "✗ " : ""}{opt}
-            </button>
-          );
-        })}
-      </div>
-      {revealed && (
-        <div style={{ background: "#1a2520", border: `1px solid ${C.vert}`, borderRadius: "10px", padding: "14px", marginBottom: "16px" }}>
-          <p style={{ color: C.vertLight, fontSize: "13px", lineHeight: 1.7, margin: 0 }}>💡 {q.exp}</p>
-        </div>
-      )}
-      {revealed && current < MINI_QUIZ.length - 1 && (
-        <button onClick={next} style={{ background: C.navyCard, border: `1px solid ${C.gold}`, color: C.gold, borderRadius: "8px", padding: "10px 20px", cursor: "pointer", fontSize: "14px" }}>
-          Question suivante →
-        </button>
-      )}
-    </Card>
-  );
+  if (done) return /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "32px 24px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "48px",
+      marginBottom: "12px"
+    }
+  }, score >= 3 ? "🎯" : "💡"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "20px",
+      marginBottom: "8px"
+    }
+  }, score, "/4 \u2014 ", score >= 3 ? "Excellente compréhension !" : "Bonne base !"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      lineHeight: 1.7
+    }
+  }, score >= 3 ? "Vous avez intégré les concepts fondamentaux des 7 peurs." : "Prenez le temps de relire les fiches des masques. Tout s'éclairera progressivement."));
+  return /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "13px",
+      margin: 0
+    }
+  }, "\uD83C\uDFAF V\xE9rifiez votre compr\xE9hension"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px"
+    }
+  }, current + 1, "/", MINI_QUIZ.length)), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontSize: "16px",
+      fontWeight: 600,
+      lineHeight: 1.5,
+      marginBottom: "20px"
+    }
+  }, q.q), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px",
+      marginBottom: "16px"
+    }
+  }, q.opts.map(function (opt, i) {
+    var bg = C.navyMid,
+      border = C.navyBorder,
+      col = C.textLight;
+    if (revealed) {
+      if (i === q.ok) {
+        bg = "#0d2010";
+        border = C.vert;
+        col = C.vertLight;
+      } else if (i === selected) {
+        bg = "#2d1515";
+        border = C.rouge;
+        col = C.rougeLight;
+      }
+    } else if (selected === i) {
+      border = C.gold;
+    }
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return handleSelect(i);
+      },
+      style: {
+        background: bg,
+        border: "2px solid ".concat(border),
+        borderRadius: "10px",
+        padding: "12px 16px",
+        color: col,
+        cursor: "pointer",
+        textAlign: "left",
+        fontSize: "14px",
+        lineHeight: 1.5
+      }
+    }, i === q.ok && revealed ? "✓ " : i === selected && selected !== q.ok && revealed ? "✗ " : "", opt);
+  })), revealed && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a2520",
+      border: "1px solid ".concat(C.vert),
+      borderRadius: "10px",
+      padding: "14px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vertLight,
+      fontSize: "13px",
+      lineHeight: 1.7,
+      margin: 0
+    }
+  }, "\uD83D\uDCA1 ", q.exp)), revealed && current < MINI_QUIZ.length - 1 && /*#__PURE__*/React.createElement("button", {
+    onClick: next,
+    style: {
+      background: C.navyCard,
+      border: "1px solid ".concat(C.gold),
+      color: C.gold,
+      borderRadius: "8px",
+      padding: "10px 20px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "Question suivante \u2192"));
+}
+function Section2(_ref0) {
+  var onComplete = _ref0.onComplete;
+  var _useState13 = useState(null),
+    _useState14 = _slicedToArray(_useState13, 2),
+    selected = _useState14[0],
+    setSelected = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    showQuiz = _useState16[0],
+    setShowQuiz = _useState16[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "32px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement(SectionTitle, {
+    sub: "Derri\xE8re chaque anxi\xE9t\xE9 se cache l'une de ces 7 peurs. Elles sont universelles \u2014 tout \xEAtre humain les porte en lui."
+  }, "Les 7 peurs universelles"), /*#__PURE__*/React.createElement(VideoCard, {
+    href: "https://youtu.be/weAQzjtxNPE?si=i4XnH87VgkxUWFu5",
+    videoId: "weAQzjtxNPE",
+    label: "Comment vos masques emprisonnent votre nature authentique"
+  }), /*#__PURE__*/React.createElement(Card, {
+    style: {
+      marginBottom: "24px",
+      borderColor: C.gold + "44"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      lineHeight: 1.8,
+      margin: 0,
+      fontSize: "15px"
+    }
+  }, "Ces 7 peurs ont \xE9t\xE9 forg\xE9es dans le creuset de l'\xE9volution. Aujourd'hui, ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.gold
+    }
+  }, "les menaces ont chang\xE9, mais les alarmes sont rest\xE9es"), ". Chaque peur non int\xE9gr\xE9e cr\xE9e un masque. ", /*#__PURE__*/React.createElement("em", null, "Cliquez sur un masque pour le reconna\xEEtre en vous."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px",
+      marginBottom: "32px"
+    }
+  }, MASKS.map(function (mask, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: mask.id
+    }, /*#__PURE__*/React.createElement(MaskCard, {
+      mask: mask,
+      isSelected: selected === i,
+      onClick: function onClick() {
+        return setSelected(selected === i ? null : i);
+      }
+    }), selected === i && /*#__PURE__*/React.createElement(MaskDetail, {
+      mask: mask,
+      onClose: function onClose() {
+        return setSelected(null);
+      }
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px"
+    }
+  }, !showQuiz ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowQuiz(true);
+    },
+    style: {
+      background: C.navyCard,
+      border: "2px solid ".concat(C.gold),
+      color: C.gold,
+      borderRadius: "12px",
+      padding: "14px 28px",
+      cursor: "pointer",
+      fontSize: "15px",
+      fontWeight: 600
+    }
+  }, "\uD83C\uDFAF Ai-je bien compris ? \u2014 Mini-quiz")) : /*#__PURE__*/React.createElement(MiniQuiz, null)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement(GoldBtn, {
+    onClick: onComplete
+  }, "Comprendre comment naissent les masques \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-function Section2({ onComplete }) {
-  const [selected, setSelected] = useState(null);
-  const [showQuiz, setShowQuiz] = useState(false);
-
-  return (
-    <div style={{ padding: "32px 16px", maxWidth: "720px", margin: "0 auto" }}>
-      <SectionTitle sub="Derrière chaque anxiété se cache l'une de ces 7 peurs. Elles sont universelles — tout être humain les porte en lui.">
-        Les 7 peurs universelles
-      </SectionTitle>
-
-      {/* Vidéo 2 — lien externe car embedding désactivé par l'auteur */}
-      <div style={{ marginBottom: "32px" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", textAlign: "center", marginBottom: "10px", letterSpacing: "1px", textTransform: "uppercase" }}>📹 Comment vos masques emprisonnent votre nature authentique</p>
-        <a href="https://youtu.be/weAQzjtxNPE?si=i4XnH87VgkxUWFu5" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
-          <div style={{
-            position: "relative", borderRadius: "16px", overflow: "hidden",
-            border: `1px solid ${C.navyBorder}`, background: "#0d1117",
-            aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center",
-            backgroundImage: "url('https://img.youtube.com/vi/weAQzjtxNPE/maxresdefault.jpg')",
-            backgroundSize: "cover", backgroundPosition: "center", cursor: "pointer",
-          }}>
-            {/* Overlay sombre */}
-            <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.45)" }} />
-            {/* Bouton play */}
-            <div style={{
-              position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "12px"
-            }}>
-              <div style={{
-                width: "68px", height: "68px", borderRadius: "50%",
-                background: "rgba(255,0,0,0.85)", display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "0 4px 24px rgba(255,0,0,0.5)", transition: "transform 0.2s",
-              }}>
-                <div style={{ width: 0, height: 0, borderTop: "14px solid transparent", borderBottom: "14px solid transparent", borderLeft: "24px solid #fff", marginLeft: "4px" }} />
-              </div>
-              <p style={{ color: "#fff", fontWeight: 700, fontSize: "15px", margin: 0, textShadow: "0 2px 8px rgba(0,0,0,0.8)", textAlign: "center", padding: "0 16px" }}>
-                Regarder sur YouTube →
-              </p>
-            </div>
-          </div>
-        </a>
-        <p style={{ color: C.textMuted, fontSize: "12px", textAlign: "center", marginTop: "8px" }}>
-          S'ouvre dans un nouvel onglet · youtu.be/weAQzjtxNPE
-        </p>
-      </div>
-
-      {/* Intro universalité */}
-      <Card style={{ marginBottom: "24px", borderColor: C.gold + "44" }}>
-        <p style={{ color: C.textLight, lineHeight: 1.8, margin: 0, fontSize: "15px" }}>
-          Ces 7 peurs ont été forgées dans le creuset de l'évolution. Elles répondaient à des menaces vitales : la mort, le rejet du groupe, l'impuissance face aux prédateurs...
-          <br /><br />
-          Aujourd'hui, <strong style={{ color: C.gold }}>les menaces ont changé, mais les alarmes sont restées</strong>. Et chaque peur non intégrée crée un masque. <em>Cliquez sur un masque pour le reconnaître en vous.</em>
-        </p>
-      </Card>
-
-      {/* 7 masques */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "32px" }}>
-        {MASKS.map((mask, i) => (
-          <div key={mask.id}>
-            <MaskCard mask={mask} isSelected={selected === i} onClick={() => setSelected(selected === i ? null : i)} />
-            {selected === i && <MaskDetail mask={mask} onClose={() => setSelected(null)} />}
-          </div>
-        ))}
-      </div>
-
-      {/* Mini quiz */}
-      <div style={{ marginBottom: "32px" }}>
-        {!showQuiz ? (
-          <div style={{ textAlign: "center" }}>
-            <button onClick={() => setShowQuiz(true)} style={{ background: C.navyCard, border: `2px solid ${C.gold}`, color: C.gold, borderRadius: "12px", padding: "14px 28px", cursor: "pointer", fontSize: "15px", fontWeight: 600 }}>
-              🎯 Ai-je bien compris ? — Mini-quiz
-            </button>
-          </div>
-        ) : (
-          <MiniQuiz onComplete={() => {}} />
-        )}
-      </div>
-
-      <div style={{ textAlign: "center" }}>
-        <GoldBtn onClick={onComplete}>Comprendre comment naissent les masques →</GoldBtn>
-      </div>
-      <Copyright />
-    </div>
-  );
-}
-
-// ─── SECTION 3 — Comment naissent les masques ────────────────────
+// ── SECTION 3 ────────────────────────────────────────────────────
 
 function ToleranceWindow() {
-  return (
-    <div style={{ borderRadius: "16px", overflow: "hidden", border: `1px solid ${C.navyBorder}`, margin: "0 0 8px" }}>
-      {/* Zone rouge - hyperactivation */}
-      <div style={{ background: "linear-gradient(135deg, #2d1515, #3d1a1a)", padding: "18px 20px", borderBottom: `1px solid ${C.rouge}44` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
-          <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: C.rouge, flexShrink: 0 }} />
-          <span style={{ color: C.rouge, fontWeight: 700, fontSize: "14px" }}>HYPERACTIVATION ↑</span>
-        </div>
-        <p style={{ color: C.textMuted, fontSize: "13px", margin: "0 0 8px", fontStyle: "italic" }}>Au-dessus de la fenêtre — Mode alarme</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-          {["Anxiété", "Panique", "Agitation", "Colère", "Hypervigilance", "Pensées en boucle", "Cœur qui s'emballe"].map(s => (
-            <span key={s} style={{ background: `${C.rouge}22`, color: C.rougeLight, padding: "3px 10px", borderRadius: "20px", fontSize: "12px" }}>{s}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Zone verte - fenêtre */}
-      <div style={{ background: "linear-gradient(135deg, #0d2510, #0f2d15)", padding: "18px 20px", borderBottom: `1px solid ${C.vert}44` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
-          <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: C.vert, flexShrink: 0 }} />
-          <span style={{ color: C.vert, fontWeight: 700, fontSize: "14px" }}>ZONE OPTIMALE ✓</span>
-          <span style={{ background: `${C.vert}22`, color: C.vert, fontSize: "11px", padding: "2px 8px", borderRadius: "20px" }}>Fenêtre de tolérance</span>
-        </div>
-        <p style={{ color: C.textMuted, fontSize: "13px", margin: "0 0 8px", fontStyle: "italic" }}>Régulé, ancré, connecté — Théorie polyvagale (Dr Dan Siegel)</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-          {["Calme", "Clarté", "Connexion aux autres", "Créativité", "Empathie", "Décisions claires", "Apprentissage possible"].map(s => (
-            <span key={s} style={{ background: `${C.vert}22`, color: C.vertLight, padding: "3px 10px", borderRadius: "20px", fontSize: "12px" }}>{s}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Zone bleue - hypoactivation */}
-      <div style={{ background: "linear-gradient(135deg, #0d1a2d, #0f1f3d)", padding: "18px 20px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
-          <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: C.bleu, flexShrink: 0 }} />
-          <span style={{ color: C.bleu, fontWeight: 700, fontSize: "14px" }}>HYPOACTIVATION ↓</span>
-        </div>
-        <p style={{ color: C.textMuted, fontSize: "13px", margin: "0 0 8px", fontStyle: "italic" }}>En dessous de la fenêtre — Mode gel/sidération</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-          {["Déconnexion", "Engourdissement", "Dissociation", "Vide émotionnel", "Effondrement intérieur", "Fatigue profonde", "Figement"].map(s => (
-            <span key={s} style={{ background: `${C.bleu}22`, color: C.bleuLight, padding: "3px 10px", borderRadius: "20px", fontSize: "12px" }}>{s}</span>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ background: C.navyCard, padding: "14px 20px", borderTop: `1px solid ${C.navyBorder}` }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>
-          ⚠️ Vos masques de défense vous maintiennent en <strong style={{ color: C.rouge }}>hyperactivation</strong> ou en <strong style={{ color: C.bleu }}>sidération</strong>, même sans danger réel. <strong style={{ color: C.cream }}>La méthode V.A.L.E.U.R© vous aide à revenir dans votre zone verte.</strong>
-        </p>
-      </div>
-    </div>
-  );
+  var zones = [{
+    label: "HYPERACTIVATION ↑",
+    sub: "Au-dessus de la fenêtre — Mode alarme",
+    color: C.rouge,
+    bg: "linear-gradient(135deg,#2d1515,#3d1a1a)",
+    tags: ["Anxiété", "Panique", "Agitation", "Colère", "Hypervigilance", "Pensées en boucle", "Cœur qui s'emballe"]
+  }, {
+    label: "ZONE OPTIMALE ✓",
+    sub: "Régulé, ancré, connecté — Théorie polyvagale (Dr Dan Siegel)",
+    color: C.vert,
+    bg: "linear-gradient(135deg,#0d2510,#0f2d15)",
+    badge: "Fenêtre de tolérance",
+    tags: ["Calme", "Clarté", "Connexion aux autres", "Créativité", "Empathie", "Décisions claires", "Apprentissage possible"]
+  }, {
+    label: "HYPOACTIVATION ↓",
+    sub: "En dessous de la fenêtre — Mode gel/sidération",
+    color: C.bleu,
+    bg: "linear-gradient(135deg,#0d1a2d,#0f1f3d)",
+    tags: ["Déconnexion", "Engourdissement", "Dissociation", "Vide émotionnel", "Effondrement intérieur", "Fatigue profonde", "Figement"]
+  }];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: "16px",
+      overflow: "hidden",
+      border: "1px solid ".concat(C.navyBorder)
+    }
+  }, zones.map(function (z, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        background: z.bg,
+        padding: "18px 20px",
+        borderBottom: i < 2 ? "1px solid ".concat(z.color, "44") : "none"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        marginBottom: "10px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "12px",
+        height: "12px",
+        borderRadius: "50%",
+        background: z.color,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: z.color,
+        fontWeight: 700,
+        fontSize: "14px"
+      }
+    }, z.label), z.badge && /*#__PURE__*/React.createElement("span", {
+      style: {
+        background: "".concat(z.color, "22"),
+        color: z.color,
+        fontSize: "11px",
+        padding: "2px 8px",
+        borderRadius: "20px"
+      }
+    }, z.badge)), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "13px",
+        margin: "0 0 8px",
+        fontStyle: "italic"
+      }
+    }, z.sub), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "6px"
+      }
+    }, z.tags.map(function (t) {
+      return /*#__PURE__*/React.createElement("span", {
+        key: t,
+        style: {
+          background: "".concat(z.color, "22"),
+          color: z.color === "green" ? C.vertLight : z.color === C.rouge ? C.rougeLight : C.bleuLight,
+          padding: "3px 10px",
+          borderRadius: "20px",
+          fontSize: "12px"
+        }
+      }, t);
+    })));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.navyCard,
+      padding: "14px 20px",
+      borderTop: "1px solid ".concat(C.navyBorder)
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, "\u26A0\uFE0F Vos masques vous maintiennent en ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.rouge
+    }
+  }, "hyperactivation"), " ou en ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.bleu
+    }
+  }, "sid\xE9ration"), ", m\xEAme sans danger r\xE9el. ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.cream
+    }
+  }, "La m\xE9thode V.A.L.E.U.R\xA9 vous aide \xE0 revenir dans votre zone verte."))));
+}
+function Section3(_ref1) {
+  var onComplete = _ref1.onComplete;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "32px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement(SectionTitle, {
+    sub: "Avant de d\xE9couvrir vos masques dominants, comprenons comment ils sont n\xE9s \u2014 et pourquoi ils persistent."
+  }, "Comment naissent vos masques ?"), /*#__PURE__*/React.createElement(Card, {
+    style: {
+      marginBottom: "24px",
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      letterSpacing: "1px",
+      textTransform: "uppercase",
+      marginBottom: "20px"
+    }
+  }, "La formule de cr\xE9ation"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      flexWrap: "wrap",
+      marginBottom: "20px"
+    }
+  }, [{
+    emoji: "🌟",
+    l1: "NATURE",
+    l2: "AUTHENTIQUE",
+    c: C.gold
+  }, {
+    sep: "+"
+  }, {
+    emoji: "🛡️",
+    l1: "RÉSISTANCE À",
+    l2: "LA SOUFFRANCE",
+    c: C.rougeLight
+  }, {
+    sep: "="
+  }, {
+    emoji: "🎭",
+    l1: "MASQUE DE",
+    l2: "DÉFENSE",
+    c: C.violetLight
+  }].map(function (x, i) {
+    return x.sep ? /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        color: C.cream,
+        fontSize: "28px",
+        fontWeight: 700
+      }
+    }, x.sep) : /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        background: C.navyMid,
+        border: "2px solid ".concat(x.c),
+        borderRadius: "12px",
+        padding: "14px 18px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "28px",
+        marginBottom: "4px"
+      }
+    }, x.emoji), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: x.c,
+        fontWeight: 700,
+        fontSize: "13px",
+        margin: "0 0 2px"
+      }
+    }, x.l1), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: x.c,
+        fontWeight: 700,
+        fontSize: "13px",
+        margin: 0
+      }
+    }, x.l2));
+  })), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      fontSize: "14px",
+      lineHeight: 1.7,
+      maxWidth: "500px",
+      margin: "0 auto"
+    }
+  }, "Lorsqu'une \xE9motion d\xE9passe votre capacit\xE9 d'int\xE9gration, votre psych\xE9 cr\xE9e un masque. Ce n'est pas un choix conscient \u2014 c'est un ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.gold
+    }
+  }, "r\xE9flexe de survie"), ".")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "24px"
+    }
+  }, /*#__PURE__*/React.createElement(Card, {
+    style: {
+      borderLeft: "4px solid ".concat(C.indigo)
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.indigoLight,
+      fontWeight: 700,
+      marginBottom: "12px",
+      fontSize: "15px"
+    }
+  }, "\uD83D\uDD37 Un exemple universel"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      lineHeight: 1.8,
+      marginBottom: "12px",
+      fontSize: "14px"
+    }
+  }, "Un enfant est moqu\xE9 devant la classe. Sa psych\xE9 forge un masque Indigo en deux temps :"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "10px",
+      marginBottom: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a1535",
+      border: "1px solid ".concat(C.indigo, "44"),
+      borderRadius: "10px",
+      padding: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.indigoLight,
+      fontWeight: 700,
+      fontSize: "12px",
+      marginBottom: "6px"
+    }
+  }, "\u2460 La Prison"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, "La blessure est enferm\xE9e. L'enfant peut fonctionner \u2014 mais la honte reste fig\xE9e.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a1535",
+      border: "1px solid ".concat(C.indigo, "44"),
+      borderRadius: "10px",
+      padding: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.indigoLight,
+      fontWeight: 700,
+      fontSize: "12px",
+      marginBottom: "6px"
+    }
+  }, "\u2461 Le Gardien"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, "Le masque scanne l'environnement. Il \xE9vite toute situation d'exposition."))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      lineHeight: 1.8,
+      fontSize: "14px",
+      margin: 0
+    }
+  }, "Adulte, cet enfant se dira \"naturellement discret\". Il ne r\xE9alisera jamais que ce trait est son masque \u2014 renforc\xE9 depuis 30 ans."))), /*#__PURE__*/React.createElement(Card, {
+    style: {
+      marginBottom: "24px",
+      textAlign: "center",
+      borderColor: C.orange + "44"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "clamp(28px,8vw,48px)",
+      fontFamily: "Georgia,serif",
+      color: C.gold,
+      fontWeight: 700,
+      marginBottom: "16px"
+    }
+  }, "D = e \xD7 r\xB2"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "10px",
+      marginBottom: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#2d1515",
+      border: "1px solid ".concat(C.rouge),
+      borderRadius: "10px",
+      padding: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.rouge,
+      fontWeight: 700,
+      fontSize: "12px",
+      marginBottom: "4px"
+    }
+  }, "Forte r\xE9sistance"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.rougeLight,
+      fontSize: "14px",
+      margin: 0
+    }
+  }, "5 \xD7 5\xB2 = ", /*#__PURE__*/React.createElement("strong", null, "125"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#0d2010",
+      border: "1px solid ".concat(C.vert),
+      borderRadius: "10px",
+      padding: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vert,
+      fontWeight: 700,
+      fontSize: "12px",
+      marginBottom: "4px"
+    }
+  }, "Faible r\xE9sistance"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vertLight,
+      fontSize: "14px",
+      margin: 0
+    }
+  }, "5 \xD7 1\xB2 = ", /*#__PURE__*/React.createElement("strong", null, "5")))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      lineHeight: 1.6
+    }
+  }, "La m\xE9thode V.A.L.E.U.R\xA9 vous apprend \xE0 ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.gold
+    }
+  }, "r\xE9duire la r\xE9sistance"), " \u2014 soit 25\xD7 moins de souffrance.")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      letterSpacing: "1px",
+      textTransform: "uppercase",
+      marginBottom: "12px",
+      textAlign: "center"
+    }
+  }, "\uD83E\uDDE0 La fen\xEAtre de tol\xE9rance"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      fontSize: "14px",
+      lineHeight: 1.7,
+      marginBottom: "16px",
+      textAlign: "center"
+    }
+  }, "Le Dr Dan Siegel a d\xE9crit la zone dans laquelle votre syst\xE8me nerveux fonctionne de fa\xE7on optimale. Vos masques vous en font constamment sortir."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "8px"
+    }
+  }, /*#__PURE__*/React.createElement(ToleranceWindow, null)), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px",
+      marginBottom: "32px",
+      textAlign: "center"
+    }
+  }, "Inspir\xE9 de la Th\xE9orie Polyvagale (Porges, 1994) et des travaux de Deb Dana \u2014 Doc. C\xE9line Bourbon"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement(GoldBtn, {
+    onClick: onComplete
+  }, "Identifier mes masques dominants \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-function Section3({ onComplete }) {
-  return (
-    <div style={{ padding: "32px 16px", maxWidth: "720px", margin: "0 auto" }}>
-      <SectionTitle sub="Avant de découvrir vos masques dominants, comprenons comment ils sont nés — et pourquoi ils persistent.">
-        Comment naissent vos masques ?
-      </SectionTitle>
+// ── SECTION 4 ────────────────────────────────────────────────────
 
-      {/* Formule 1+1=3 */}
-      <Card style={{ marginBottom: "24px", textAlign: "center" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "20px" }}>La formule de création</p>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
-          <div style={{ background: C.navyMid, border: `2px solid ${C.gold}`, borderRadius: "12px", padding: "14px 18px", textAlign: "center" }}>
-            <div style={{ fontSize: "28px", marginBottom: "4px" }}>🌟</div>
-            <p style={{ color: C.gold, fontWeight: 700, fontSize: "13px", margin: "0 0 2px" }}>NATURE</p>
-            <p style={{ color: C.gold, fontWeight: 700, fontSize: "13px", margin: 0 }}>AUTHENTIQUE</p>
-          </div>
-          <div style={{ color: C.cream, fontSize: "28px", fontWeight: 700 }}>+</div>
-          <div style={{ background: C.navyMid, border: `2px solid ${C.rouge}`, borderRadius: "12px", padding: "14px 18px", textAlign: "center" }}>
-            <div style={{ fontSize: "28px", marginBottom: "4px" }}>🛡️</div>
-            <p style={{ color: C.rougeLight, fontWeight: 700, fontSize: "13px", margin: "0 0 2px" }}>RÉSISTANCE À</p>
-            <p style={{ color: C.rougeLight, fontWeight: 700, fontSize: "13px", margin: 0 }}>LA SOUFFRANCE</p>
-          </div>
-          <div style={{ color: C.cream, fontSize: "28px", fontWeight: 700 }}>=</div>
-          <div style={{ background: C.navyMid, border: `2px solid ${C.violet}`, borderRadius: "12px", padding: "14px 18px", textAlign: "center" }}>
-            <div style={{ fontSize: "28px", marginBottom: "4px" }}>🎭</div>
-            <p style={{ color: C.violetLight, fontWeight: 700, fontSize: "13px", margin: "0 0 2px" }}>MASQUE DE</p>
-            <p style={{ color: C.violetLight, fontWeight: 700, fontSize: "13px", margin: 0 }}>DÉFENSE</p>
-          </div>
-        </div>
-        <p style={{ color: C.textLight, fontSize: "14px", lineHeight: 1.7, maxWidth: "500px", margin: "0 auto" }}>
-          Lorsqu'une émotion ou une expérience dépasse votre capacité d'intégration, votre psyché crée un masque. Ce n'est pas un choix conscient — c'est un <strong style={{ color: C.gold }}>réflexe de survie</strong>.
-        </p>
-      </Card>
-
-      {/* Exemple concret */}
-      <div style={{ marginBottom: "24px" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "12px", textAlign: "center" }}>Un exemple universel</p>
-        <Card style={{ borderLeft: `4px solid ${C.indigo}` }}>
-          <p style={{ color: C.indigoLight, fontWeight: 700, marginBottom: "12px", fontSize: "15px" }}>🔷 Le masque qui se fait passer pour de la personnalité</p>
-          <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "12px", fontSize: "14px" }}>
-            Un enfant est moqué devant la classe. Cette humiliation dépasse sa capacité d'intégration. Sa psyché forge un masque (ici : le masque Indigo) en deux temps :
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "12px" }}>
-            <div style={{ background: "#1a1535", border: `1px solid ${C.indigo}44`, borderRadius: "10px", padding: "12px" }}>
-              <p style={{ color: C.indigoLight, fontWeight: 700, fontSize: "12px", marginBottom: "6px" }}>① La Prison</p>
-              <p style={{ color: C.textMuted, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>La blessure est enfermée. L'enfant peut fonctionner — mais la honte reste intacte, figée.</p>
-            </div>
-            <div style={{ background: "#1a1535", border: `1px solid ${C.indigo}44`, borderRadius: "10px", padding: "12px" }}>
-              <p style={{ color: C.indigoLight, fontWeight: 700, fontSize: "12px", marginBottom: "6px" }}>② Le Gardien</p>
-              <p style={{ color: C.textMuted, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>Le masque scanne l'environnement. Il évite toute situation où l'on pourrait être exposé.</p>
-            </div>
-          </div>
-          <p style={{ color: C.textLight, lineHeight: 1.8, fontSize: "14px", margin: 0 }}>
-            Adulte, cet enfant se dira simplement "naturellement discret" en société. Il ne réalisera jamais que ce trait de personnalité est son masque — renforcé depuis 30 ans, gouvernant encore sa vie sociale.
-          </p>
-        </Card>
-      </div>
-
-      {/* Formule de souffrance */}
-      <div style={{ marginBottom: "24px" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "12px", textAlign: "center" }}>La formule de la souffrance émotionnelle</p>
-        <Card style={{ textAlign: "center", borderColor: C.orange + "44" }}>
-          <div style={{ fontSize: "clamp(28px, 8vw, 48px)", fontFamily: "'Georgia', serif", color: C.gold, fontWeight: 700, marginBottom: "16px" }}>
-            D = e × r²
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px", marginBottom: "16px", textAlign: "center" }}>
-            <div>
-              <p style={{ color: C.gold, fontWeight: 700, fontSize: "20px", margin: "0 0 4px" }}>D</p>
-              <p style={{ color: C.textMuted, fontSize: "12px", margin: 0 }}>Durée & intensité de la souffrance</p>
-            </div>
-            <div>
-              <p style={{ color: C.orange, fontWeight: 700, fontSize: "20px", margin: "0 0 4px" }}>e</p>
-              <p style={{ color: C.textMuted, fontSize: "12px", margin: 0 }}>Émotion initiale</p>
-            </div>
-            <div>
-              <p style={{ color: C.rouge, fontWeight: 700, fontSize: "20px", margin: "0 0 4px" }}>r²</p>
-              <p style={{ color: C.textMuted, fontSize: "12px", margin: 0 }}>Résistance (au carré !)</p>
-            </div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            <div style={{ background: "#2d1515", border: `1px solid ${C.rouge}`, borderRadius: "10px", padding: "12px" }}>
-              <p style={{ color: C.rouge, fontWeight: 700, fontSize: "12px", marginBottom: "4px" }}>Forte résistance</p>
-              <p style={{ color: C.rougeLight, fontSize: "14px", margin: 0 }}>5 × 5² = <strong>125</strong> de souffrance</p>
-            </div>
-            <div style={{ background: "#0d2010", border: `1px solid ${C.vert}`, borderRadius: "10px", padding: "12px" }}>
-              <p style={{ color: C.vert, fontWeight: 700, fontSize: "12px", marginBottom: "4px" }}>Faible résistance</p>
-              <p style={{ color: C.vertLight, fontSize: "14px", margin: 0 }}>5 × 1² = <strong>5</strong> de souffrance</p>
-            </div>
-          </div>
-          <p style={{ color: C.textMuted, fontSize: "13px", marginTop: "12px", lineHeight: 1.6 }}>
-            La méthode V.A.L.E.U.R© vous apprend à <strong style={{ color: C.gold }}>réduire la résistance</strong> pour diminuer la souffrance de 25 fois.
-          </p>
-        </Card>
-      </div>
-
-      {/* Fenêtre de tolérance */}
-      <div style={{ marginBottom: "32px" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "12px", textAlign: "center" }}>🧠 Votre système nerveux — La fenêtre de tolérance</p>
-        <p style={{ color: C.textLight, fontSize: "14px", lineHeight: 1.7, marginBottom: "16px", textAlign: "center" }}>
-          Dr Dan Siegel a décrit la zone dans laquelle votre système nerveux peut fonctionner de façon optimale. Vos masques vous en font constamment sortir.
-        </p>
-        <ToleranceWindow />
-        <p style={{ color: C.textMuted, fontSize: "11px", marginTop: "8px", textAlign: "center" }}>
-          Inspiré de la Théorie Polyvagale (Porges, 1994) et des travaux de Deb Dana — Doc. Céline Bourbon
-        </p>
-      </div>
-
-      <div style={{ textAlign: "center" }}>
-        <GoldBtn onClick={onComplete}>Identifier mes masques dominants →</GoldBtn>
-      </div>
-      <Copyright />
-    </div>
-  );
+function Section4(_ref10) {
+  var onComplete = _ref10.onComplete;
+  var scoreContent = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      lineHeight: 1.8,
+      marginBottom: "12px",
+      fontSize: "14px"
+    }
+  }, "Le questionnaire vous donne un score de 0 \xE0 48 par masque (total : 0-336)."), [{
+    range: "0–30%",
+    label: "Masque peu actif",
+    color: C.vert,
+    desc: "Ce masque est présent mais peu dominant dans votre fonctionnement."
+  }, {
+    range: "30–50%",
+    label: "Masque modéré",
+    color: C.jaune,
+    desc: "Ce masque influence parfois vos réactions, surtout sous stress."
+  }, {
+    range: "50–65%",
+    label: "Masque dominant",
+    color: C.orange,
+    desc: "Ce masque gouverne une partie significative de vos comportements automatiques."
+  }, {
+    range: ">65%",
+    label: "Masque très actif",
+    color: C.rouge,
+    desc: "Ce masque est très présent. Une consultation professionnelle peut être bénéfique."
+  }].map(function (r) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: r.range,
+      style: {
+        display: "flex",
+        gap: "12px",
+        alignItems: "flex-start",
+        marginBottom: "10px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        background: "".concat(r.color, "22"),
+        color: r.color,
+        padding: "3px 10px",
+        borderRadius: "20px",
+        fontSize: "12px",
+        fontWeight: 700,
+        flexShrink: 0
+      }
+    }, r.range), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: r.color,
+        fontWeight: 700,
+        margin: "0 0 2px",
+        fontSize: "13px"
+      }
+    }, r.label), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "13px",
+        margin: 0
+      }
+    }, r.desc)));
+  }));
+  var combosContent = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      lineHeight: 1.8,
+      marginBottom: "14px",
+      fontSize: "14px"
+    }
+  }, "La plupart des personnes ont 2 \xE0 3 masques dominants \u2014 ils r\xE9pondent souvent \xE0 la m\xEAme blessure, mais de fa\xE7ons compl\xE9mentaires."), [{
+    combo: "🔴 + 🟡 Rouge + Jaune",
+    label: "Anxiété amplifiée",
+    desc: "Vous ruminez sur les pires scénarios. Plus vous prévoyez, plus vous vérifiez."
+  }, {
+    combo: "🟠 + 🟢 Orange + Vert",
+    label: "Distance dans l'intimité",
+    desc: "Vous cherchez la connexion mais vous vous fermez dès qu'elle approche."
+  }, {
+    combo: "🔵 + 🟢 Bleu + Vert",
+    label: "Contrôle et abandon",
+    desc: "Le besoin de contrôle s'amplifie avec la peur d'abandon."
+  }, {
+    combo: "💜 + 🟢 Violet + Vert",
+    label: "Codépendance",
+    desc: "Votre identité devient dépendante de la validation extérieure."
+  }].map(function (a) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: a.combo,
+      style: {
+        border: "1px solid ".concat(C.navyBorder),
+        borderRadius: "10px",
+        padding: "12px",
+        marginBottom: "8px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.cream,
+        fontWeight: 700,
+        fontSize: "13px",
+        marginBottom: "4px"
+      }
+    }, a.combo, " \u2014 ", a.label), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "13px",
+        lineHeight: 1.6,
+        margin: 0
+      }
+    }, a.desc));
+  }));
+  var faqContent = /*#__PURE__*/React.createElement("div", null, [{
+    q: "Mes scores sont hauts partout — que faire ?",
+    a: "Cela indique une stratégie défensive globale. Ce n'est pas une condamnation — c'est le point de départ du travail."
+  }, {
+    q: "Mes masques vont-ils diminuer avec le temps ?",
+    a: "Non sans travail conscient. Avec la méthode V.A.L.E.U.R©, leur emprise peut être significativement réduite."
+  }, {
+    q: "Mes masques semblent contradictoires — est-ce possible ?",
+    a: "Oui. Des masques opposés peuvent résoudre deux aspects d'une même insécurité profonde."
+  }].map(function (x) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: x.q,
+      style: {
+        borderBottom: "1px solid ".concat(C.navyBorder),
+        paddingBottom: "12px",
+        marginBottom: "12px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.gold,
+        fontWeight: 600,
+        fontSize: "14px",
+        marginBottom: "6px"
+      }
+    }, "Q : ", x.q), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "13px",
+        lineHeight: 1.7,
+        margin: 0
+      }
+    }, x.a));
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px"
+    }
+  }, "Source : FAQ post-questionnaire V.A.L.E.U.R\xA9 \u2014 \xA9 C\xE9line Bourbon"));
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "32px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement(SectionTitle, {
+    sub: "Pas un test de personnalit\xE9. Une cartographie de vos d\xE9fenses \u2014 ce qui est plus fort que vous, en ce moment."
+  }, "Le Questionnaire V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a2520",
+      border: "2px solid ".concat(C.gold),
+      borderRadius: "16px",
+      padding: "20px",
+      marginBottom: "24px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "16px",
+      marginBottom: "12px"
+    }
+  }, "\u26A0\uFE0F Important avant de commencer"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      lineHeight: 1.8,
+      fontSize: "14px",
+      marginBottom: "12px"
+    }
+  }, "Ce questionnaire ne mesure pas votre personnalit\xE9 ni vos qualit\xE9s. Il cartographie vos ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.gold
+    }
+  }, "m\xE9canismes de d\xE9fense"), " \u2014 les peurs et les masques qui agissent \xE0 votre insu, plus forts que votre volont\xE9."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      lineHeight: 1.8,
+      fontSize: "14px"
+    }
+  }, "R\xE9pondez \xE0 ce qui se passe ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.cream
+    }
+  }, "r\xE9ellement"), ", pas \xE0 ce que vous voudriez. Il s'agit de faire la lumi\xE8re sur ce qui ", /*#__PURE__*/React.createElement("em", null, "vous emp\xEAche d'\xEAtre vous-m\xEAme"), ".")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "12px",
+      marginBottom: "24px"
+    }
+  }, [{
+    icon: "⏱️",
+    label: "Durée",
+    val: "15 à 20 minutes"
+  }, {
+    icon: "📊",
+    label: "Format",
+    val: "84 questions · 7 masques"
+  }, {
+    icon: "🔒",
+    label: "Confidentialité",
+    val: "Résultats par email"
+  }, {
+    icon: "🔑",
+    label: "Code d'accès",
+    val: "VALEUR2025"
+  }].map(function (x) {
+    return /*#__PURE__*/React.createElement(Card, {
+      key: x.label,
+      style: {
+        textAlign: "center",
+        padding: "16px 12px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "24px",
+        marginBottom: "6px"
+      }
+    }, x.icon), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px",
+        marginBottom: "4px"
+      }
+    }, x.label), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.cream,
+        fontWeight: 700,
+        fontSize: "13px",
+        margin: 0
+      }
+    }, x.val));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://questionnaire-valeur-psyh.netlify.app",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    style: {
+      display: "inline-block",
+      textDecoration: "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      color: "#000",
+      borderRadius: "50px",
+      padding: "18px 44px",
+      fontSize: "17px",
+      fontWeight: 800,
+      boxShadow: "0 6px 30px rgba(201,168,76,0.4)"
+    }
+  }, "\u2192 Acc\xE9der au questionnaire")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      marginTop: "10px"
+    }
+  }, "questionnaire-valeur-psyh.netlify.app \xB7 S\xE9curis\xE9")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      letterSpacing: "1px",
+      textTransform: "uppercase",
+      marginBottom: "16px",
+      textAlign: "center"
+    }
+  }, "\uD83D\uDCC8 Lire mes r\xE9sultats"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement(Accordion, {
+    items: [{
+      title: "Comprendre votre score",
+      content: scoreContent
+    }, {
+      title: "Les associations de masques",
+      content: combosContent
+    }, {
+      title: "FAQ après le questionnaire",
+      content: faqContent
+    }]
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement(GoldBtn, {
+    onClick: onComplete
+  }, "D\xE9couvrir la M\xE9thode V.A.L.E.U.R\xA9 \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-// ─── SECTION 4 — Questionnaire ────────────────────────────────────
-
-function ScoreItem({ range, label, color, desc }) {
-  return (
-    <div style={{ display: "flex", gap: "12px", alignItems: "flex-start", marginBottom: "10px" }}>
-      <span style={{ background: `${color}22`, color: color, padding: "3px 10px", borderRadius: "20px", fontSize: "12px", fontWeight: 700, flexShrink: 0 }}>{range}</span>
-      <div>
-        <p style={{ color: color, fontWeight: 700, margin: "0 0 2px", fontSize: "13px" }}>{label}</p>
-        <p style={{ color: C.textMuted, fontSize: "13px", margin: 0 }}>{desc}</p>
-      </div>
-    </div>
-  );
-}
-
-function ComboItem({ combo, label, desc }) {
-  return (
-    <div style={{ border: `1px solid ${C.navyBorder}`, borderRadius: "10px", padding: "12px", marginBottom: "8px" }}>
-      <p style={{ color: C.cream, fontWeight: 700, fontSize: "13px", marginBottom: "4px" }}>{combo} — {label}</p>
-      <p style={{ color: C.textMuted, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>{desc}</p>
-    </div>
-  );
-}
-
-function FaqItem({ q, a }) {
-  return (
-    <div style={{ borderBottom: `1px solid ${C.navyBorder}`, paddingBottom: "12px", marginBottom: "12px" }}>
-      <p style={{ color: C.gold, fontWeight: 600, fontSize: "14px", marginBottom: "6px" }}>Q : {q}</p>
-      <p style={{ color: C.textLight, fontSize: "13px", lineHeight: 1.7, margin: 0 }}>{a}</p>
-    </div>
-  );
-}
-
-function AccordionScore() {
-  return (
-    <div>
-      <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "12px", fontSize: "14px" }}>
-        Le questionnaire vous donne un score de 0 à 48 par masque (total : 0-336). Voici comment lire votre profil :
-      </p>
-      <ScoreItem range="0–30%" label="Masque peu actif" color={C.vert} desc="Ce masque est présent mais peu dominant dans votre fonctionnement." />
-      <ScoreItem range="30–50%" label="Masque modéré" color={C.jaune} desc="Ce masque influence parfois vos réactions, surtout sous stress." />
-      <ScoreItem range="50–65%" label="Masque dominant" color={C.orange} desc="Ce masque gouverne une partie significative de vos comportements automatiques." />
-      <ScoreItem range=">65%" label="Masque très actif" color={C.rouge} desc="Ce masque est très présent. Une consultation professionnelle peut être bénéfique." />
-    </div>
-  );
-}
-
-function AccordionCombos() {
-  return (
-    <div>
-      <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "14px", fontSize: "14px" }}>
-        La plupart des personnes ont 2 à 3 masques dominants. C'est normal — ils répondent souvent à la même blessure originelle, mais de façons complémentaires.
-      </p>
-      <ComboItem combo="🔴 + 🟡 Rouge + Jaune" label="Anxiété amplifiée" desc="Vous ruminez sur les pires scénarios santé. Plus vous prévoyez, plus vous vérifiez. Un cycle auto-entretenu." />
-      <ComboItem combo="🟠 + 🟢 Orange + Vert" label="Distance dans l'intimité" desc="Vous cherchez la connexion mais vous vous fermez dès qu'elle approche." />
-      <ComboItem combo="🔵 + 🟢 Bleu + Vert" label="Contrôle et abandon" desc="Association difficile : le besoin de contrôle s'amplifie avec la peur d'abandon." />
-      <ComboItem combo="💜 + 🟢 Violet + Vert" label="Codépendance" desc="Votre identité devient entièrement dépendante de la validation extérieure." />
-    </div>
-  );
-}
-
-function AccordionFaq() {
-  return (
-    <div>
-      <FaqItem q="Mes scores sont hauts partout — que faire ?" a="Cela indique une stratégie défensive globale. Votre système nerveux a appris à rester vigilant. Ce n'est pas une condamnation — c'est le point de départ du travail." />
-      <FaqItem q="Mes masques vont-ils diminuer avec le temps ?" a="Non sans travail conscient. Les masques se stabilisent ou s'amplifient. Avec la méthode V.A.L.E.U.R©, leur emprise peut être significativement réduite." />
-      <FaqItem q="Mes masques semblent contradictoires — est-ce possible ?" a="Oui. Des masques apparemment opposés peuvent tenter de résoudre deux aspects différents d'une même insécurité profonde." />
-      <p style={{ color: C.textMuted, fontSize: "11px", marginTop: "8px" }}>Source : FAQ post-questionnaire V.A.L.E.U.R© — © Céline Bourbon</p>
-    </div>
-  );
-}
-
-function Section4({ onComplete }) {
-  const accordionItems = [
-    { title: "Comprendre votre score", content: <AccordionScore /> },
-    { title: "Les associations de masques", content: <AccordionCombos /> },
-    { title: "FAQ après le questionnaire", content: <AccordionFaq /> },
-  ];
-
-  return (
-    <div style={{ padding: "32px 16px", maxWidth: "720px", margin: "0 auto" }}>
-      <SectionTitle sub="Pas un test de personnalité. Une cartographie de vos défenses — ce qui est plus fort que vous, en ce moment.">
-        Le Questionnaire V.A.L.E.U.R©
-      </SectionTitle>
-
-      {/* Encadré important */}
-      <div style={{ background: "#1a2520", border: `2px solid ${C.gold}`, borderRadius: "16px", padding: "20px", marginBottom: "24px" }}>
-        <p style={{ color: C.gold, fontWeight: 700, fontSize: "16px", marginBottom: "12px" }}>⚠️ Important avant de commencer</p>
-        <p style={{ color: C.textLight, lineHeight: 1.8, fontSize: "14px", marginBottom: "12px" }}>
-          Ce questionnaire ne mesure pas votre personnalité ni vos qualités. Il cartographie vos <strong style={{ color: C.gold }}>mécanismes de défense</strong> — les peurs et les masques qui agissent à votre insu, plus forts que votre volonté.
-        </p>
-        <p style={{ color: C.textLight, lineHeight: 1.8, fontSize: "14px" }}>
-          Pour des résultats fiables : répondez à ce qui se passe <strong style={{ color: C.cream }}>réellement</strong>, pas à ce que vous voudriez qu'il se passe. Il s'agit de faire la lumière sur ce qui <em>vous empêche d'être vous-même</em>.
-        </p>
-      </div>
-
-      {/* Infos */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "24px" }}>
-        {[
-          { icon: "⏱️", label: "Durée", val: "15 à 20 minutes" },
-          { icon: "📊", label: "Format", val: "84 questions · 7 masques" },
-          { icon: "🔒", label: "Confidentialité", val: "Résultats par email" },
-          { icon: "🔑", label: "Code d'accès", val: "VALEUR2025" },
-        ].map(({ icon, label, val }) => (
-          <Card key={label} style={{ textAlign: "center", padding: "16px 12px" }}>
-            <div style={{ fontSize: "24px", marginBottom: "6px" }}>{icon}</div>
-            <p style={{ color: C.textMuted, fontSize: "11px", marginBottom: "4px", letterSpacing: "0.5px" }}>{label}</p>
-            <p style={{ color: C.cream, fontWeight: 700, fontSize: "13px", margin: 0 }}>{val}</p>
-          </Card>
-        ))}
-      </div>
-
-      {/* CTA principal */}
-      <div style={{ textAlign: "center", marginBottom: "32px" }}>
-        <a href="https://questionnaire-valeur-psyh.netlify.app" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", textDecoration: "none" }}>
-          <div style={{ background: `linear-gradient(135deg, ${C.gold}, #a07830)`, color: "#000", borderRadius: "50px", padding: "18px 44px", fontSize: "17px", fontWeight: 800, boxShadow: "0 6px 30px rgba(201,168,76,0.4)", letterSpacing: "0.5px" }}>
-            → Accéder au questionnaire
-          </div>
-        </a>
-        <p style={{ color: C.textMuted, fontSize: "12px", marginTop: "10px" }}>questionnaire-valeur-psyh.netlify.app · Sécurisé</p>
-      </div>
-
-      {/* Lire mes résultats */}
-      <div style={{ marginBottom: "32px" }}>
-        <p style={{ color: C.textMuted, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "16px", textAlign: "center" }}>📈 Lire mes résultats</p>
-        <Accordion items={accordionItems} />
-      </div>
-
-      <div style={{ textAlign: "center" }}>
-        <GoldBtn onClick={onComplete}>Découvrir la Méthode V.A.L.E.U.R© →</GoldBtn>
-      </div>
-      <Copyright />
-    </div>
-  );
-}
-
-// ─── SECTION 5 — La Méthode + Quiz final ─────────────────────────
+// ── SECTION 5 ────────────────────────────────────────────────────
 
 function FinalQuiz() {
-  const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [revealed, setRevealed] = useState(false);
-  const [results, setResults] = useState([]);
-  const [done, setDone] = useState(false);
-
-  const q = FINAL_QUIZ[current];
-  const score = results.filter(Boolean).length;
-
-  const handleSelect = (i) => {
+  var _useState17 = useState(0),
+    _useState18 = _slicedToArray(_useState17, 2),
+    current = _useState18[0],
+    setCurrent = _useState18[1];
+  var _useState19 = useState(null),
+    _useState20 = _slicedToArray(_useState19, 2),
+    selected = _useState20[0],
+    setSelected = _useState20[1];
+  var _useState21 = useState(false),
+    _useState22 = _slicedToArray(_useState21, 2),
+    revealed = _useState22[0],
+    setRevealed = _useState22[1];
+  var _useState23 = useState([]),
+    _useState24 = _slicedToArray(_useState23, 2),
+    results = _useState24[0],
+    setResults = _useState24[1];
+  var _useState25 = useState(false),
+    _useState26 = _slicedToArray(_useState25, 2),
+    done = _useState26[0],
+    setDone = _useState26[1];
+  var q = FINAL_QUIZ[current];
+  var score = results.filter(Boolean).length;
+  function handleSelect(i) {
     if (revealed) return;
     setSelected(i);
     setRevealed(true);
-    const r = [...results, i === q.ok];
+    var r = [].concat(_toConsumableArray(results), [i === q.ok]);
     setResults(r);
-  };
-
-  const next = () => {
+  }
+  function next() {
     if (current < FINAL_QUIZ.length - 1) {
       setCurrent(current + 1);
       setSelected(null);
       setRevealed(false);
-    } else {
-      setDone(true);
-    }
-  };
-
-  if (done) {
-    const pct = Math.round((score / FINAL_QUIZ.length) * 100);
-    return (
-      <div style={{ textAlign: "center", padding: "32px 24px" }}>
-        <div style={{ fontSize: "64px", marginBottom: "16px" }}>
-          {pct >= 80 ? "🏆" : pct >= 60 ? "🎯" : "💪"}
-        </div>
-        <div style={{ background: `linear-gradient(135deg, ${C.gold}22, transparent)`, border: `2px solid ${C.gold}`, borderRadius: "20px", padding: "24px", marginBottom: "24px" }}>
-          <p style={{ color: C.gold, fontWeight: 800, fontSize: "28px", margin: "0 0 8px" }}>{score}/{FINAL_QUIZ.length}</p>
-          <p style={{ color: C.cream, fontWeight: 700, fontSize: "18px", marginBottom: "12px" }}>
-            {pct >= 80 ? "Module 0 maîtrisé !" : pct >= 60 ? "Très bonne compréhension" : "Bonne base de départ !"}
-          </p>
-          <p style={{ color: C.textMuted, fontSize: "14px", lineHeight: 1.7 }}>
-            {pct >= 80 ? "Vous avez intégré les fondements essentiels de la méthode V.A.L.E.U.R©. Vous êtes prêt·e à commencer le travail en profondeur avec le Module 1 — VOIR." : "Prenez le temps de relire les sections qui vous ont semblé floues. Chaque relecture est un ancrage supplémentaire."}
-          </p>
-        </div>
-        <div style={{ background: C.navyCard, border: `1px solid ${C.vert}`, borderRadius: "16px", padding: "20px", marginBottom: "20px" }}>
-          <p style={{ color: C.vert, fontWeight: 700, fontSize: "16px", marginBottom: "12px" }}>🎉 Module 0 — COMPRENDRE — Complété !</p>
-          <p style={{ color: C.textLight, fontSize: "14px", lineHeight: 1.7 }}>
-            Vous comprenez maintenant : l'origine de l'anxiété · les 7 peurs universelles · comment naissent les masques · votre profil de défenses · les 6 étapes de la méthode.
-          </p>
-        </div>
-        <p style={{ color: C.textMuted, fontSize: "12px", lineHeight: 1.7 }}>
-          © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon — Tous droits réservés<br />
-          <em>De la peur à la joie d'être soi</em> — Éditions L'Harmattan
-        </p>
-      </div>
-    );
+    } else setDone(true);
   }
-
-  return (
-    <div>
-      {/* Barre de progression quiz */}
-      <div style={{ display: "flex", gap: "4px", marginBottom: "20px" }}>
-        {FINAL_QUIZ.map((_, i) => (
-          <div key={i} style={{ flex: 1, height: "4px", borderRadius: "2px", background: i < current ? C.gold : i === current ? `${C.gold}88` : C.navyBorder, transition: "background 0.3s" }} />
-        ))}
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
-        <span style={{ color: C.gold, fontWeight: 700, fontSize: "13px" }}>Question {current + 1}/{FINAL_QUIZ.length}</span>
-        <span style={{ color: C.vert, fontSize: "13px" }}>{results.filter(Boolean).length} ✓</span>
-      </div>
-      <p style={{ color: C.cream, fontSize: "clamp(15px, 4vw, 18px)", fontWeight: 700, lineHeight: 1.5, marginBottom: "20px" }}>{q.q}</p>
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
-        {q.opts.map((opt, i) => {
-          let bg = C.navyCard, border = C.navyBorder, col = C.textLight;
-          if (revealed) {
-            if (i === q.ok) { bg = "#0d2010"; border = C.vert; col = C.vertLight; }
-            else if (i === selected && i !== q.ok) { bg = "#2d1515"; border = C.rouge; col = C.rougeLight; }
-          } else if (selected === i) { border = C.gold; }
-          return (
-            <button key={i} onClick={() => handleSelect(i)} style={{
-              background: bg, border: `2px solid ${border}`, borderRadius: "12px", padding: "14px 18px",
-              color: col, cursor: revealed ? "default" : "pointer", textAlign: "left",
-              fontSize: "clamp(13px, 3.5vw, 15px)", lineHeight: 1.5, transition: "all 0.2s",
-            }}>
-              {i === q.ok && revealed ? "✓ " : (i === selected && i !== q.ok && revealed) ? "✗ " : ""}{opt}
-            </button>
-          );
-        })}
-      </div>
-      {revealed && (
-        <button onClick={next} style={{ width: "100%", background: `linear-gradient(135deg, ${C.gold}, #a07830)`, border: "none", borderRadius: "12px", padding: "14px", color: "#000", fontWeight: 700, fontSize: "16px", cursor: "pointer" }}>
-          {current < FINAL_QUIZ.length - 1 ? "Question suivante →" : "Voir mes résultats 🎉"}
-        </button>
-      )}
-    </div>
-  );
+  if (done) {
+    var pct = Math.round(score / FINAL_QUIZ.length * 100);
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        padding: "32px 24px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "64px",
+        marginBottom: "16px"
+      }
+    }, pct >= 80 ? "🏆" : pct >= 60 ? "🎯" : "💪"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "linear-gradient(135deg,".concat(C.gold, "22,transparent)"),
+        border: "2px solid ".concat(C.gold),
+        borderRadius: "20px",
+        padding: "24px",
+        marginBottom: "24px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.gold,
+        fontWeight: 800,
+        fontSize: "28px",
+        margin: "0 0 8px"
+      }
+    }, score, "/", FINAL_QUIZ.length), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.cream,
+        fontWeight: 700,
+        fontSize: "18px",
+        marginBottom: "12px"
+      }
+    }, pct >= 80 ? "Module 0 maîtrisé !" : pct >= 60 ? "Très bonne compréhension" : "Bonne base de départ !"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "14px",
+        lineHeight: 1.7
+      }
+    }, pct >= 80 ? "Vous avez intégré les fondements essentiels. Vous êtes prêt·e pour le Module 1 — VOIR." : "Prenez le temps de relire les sections qui vous ont semblé floues.")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyCard,
+        border: "1px solid ".concat(C.vert),
+        borderRadius: "16px",
+        padding: "20px",
+        marginBottom: "20px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.vert,
+        fontWeight: 700,
+        fontSize: "16px",
+        marginBottom: "12px"
+      }
+    }, "\uD83C\uDF89 Module 0 \u2014 COMPRENDRE \u2014 Compl\xE9t\xE9 !"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "14px",
+        lineHeight: 1.7
+      }
+    }, "Vous comprenez maintenant : l'origine de l'anxi\xE9t\xE9 \xB7 les 7 peurs universelles \xB7 comment naissent les masques \xB7 votre profil de d\xE9fenses \xB7 les 6 \xE9tapes de la m\xE9thode.")), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        lineHeight: 1.7
+      }
+    }, "\xA9 2025 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 Tous droits r\xE9serv\xE9s", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 \xC9ditions L'Harmattan"));
+  }
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "4px",
+      marginBottom: "20px"
+    }
+  }, FINAL_QUIZ.map(function (_, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        flex: 1,
+        height: "4px",
+        borderRadius: "2px",
+        background: i < current ? C.gold : i === current ? "".concat(C.gold, "88") : C.navyBorder
+      }
+    });
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "13px"
+    }
+  }, "Question ", current + 1, "/", FINAL_QUIZ.length), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.vert,
+      fontSize: "13px"
+    }
+  }, results.filter(Boolean).length, " \u2713")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontSize: "clamp(15px,4vw,18px)",
+      fontWeight: 700,
+      lineHeight: 1.5,
+      marginBottom: "20px"
+    }
+  }, q.q), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px",
+      marginBottom: "20px"
+    }
+  }, q.opts.map(function (opt, i) {
+    var bg = C.navyCard,
+      border = C.navyBorder,
+      col = C.textLight;
+    if (revealed) {
+      if (i === q.ok) {
+        bg = "#0d2010";
+        border = C.vert;
+        col = C.vertLight;
+      } else if (i === selected) {
+        bg = "#2d1515";
+        border = C.rouge;
+        col = C.rougeLight;
+      }
+    } else if (selected === i) {
+      border = C.gold;
+    }
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return handleSelect(i);
+      },
+      style: {
+        background: bg,
+        border: "2px solid ".concat(border),
+        borderRadius: "12px",
+        padding: "14px 18px",
+        color: col,
+        cursor: revealed ? "default" : "pointer",
+        textAlign: "left",
+        fontSize: "clamp(13px,3.5vw,15px)",
+        lineHeight: 1.5
+      }
+    }, i === q.ok && revealed ? "✓ " : i === selected && i !== q.ok && revealed ? "✗ " : "", opt);
+  })), revealed && /*#__PURE__*/React.createElement("button", {
+    onClick: next,
+    style: {
+      width: "100%",
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      border: "none",
+      borderRadius: "12px",
+      padding: "14px",
+      color: "#000",
+      fontWeight: 700,
+      fontSize: "16px",
+      cursor: "pointer"
+    }
+  }, current < FINAL_QUIZ.length - 1 ? "Question suivante →" : "Voir mes résultats 🎉"));
+}
+function Section5(_ref11) {
+  var onComplete = _ref11.onComplete;
+  var _useState27 = useState(false),
+    _useState28 = _slicedToArray(_useState27, 2),
+    showQuiz = _useState28[0],
+    setShowQuiz = _useState28[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "32px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement(SectionTitle, {
+    sub: "Vous connaissez vos masques. Voici les 6 \xE9tapes pour vous en lib\xE9rer progressivement."
+  }, "La M\xE9thode V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px",
+      borderRadius: "16px",
+      overflow: "hidden",
+      border: "1px solid ".concat(C.navyBorder)
+    }
+  }, /*#__PURE__*/React.createElement("iframe", {
+    src: "https://presentationmethodevaleur.netlify.app",
+    title: "Pr\xE9sentation M\xE9thode V.A.L.E.U.R\xA9",
+    style: {
+      width: "100%",
+      height: "500px",
+      border: "none"
+    }
+  })), /*#__PURE__*/React.createElement(Card, {
+    style: {
+      marginBottom: "32px",
+      borderColor: C.gold + "44"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "15px",
+      marginBottom: "16px"
+    }
+  }, "\u2728 Les cl\xE9s de votre lib\xE9ration"), ["Vos masques vous ont protégé — remerciez-les, sans leur obéir", "L'acceptation est 25 fois plus puissante que la résistance", "Votre système nerveux peut s'apaiser en quelques minutes", "Observer n'est pas juger — c'est le début de la liberté", "Chaque petit pas crée de nouveaux circuits neuronaux", "Vous n'êtes pas vos peurs — vous êtes celui/celle qui les observe", "La joie d'être soi est votre nature véritable"].map(function (k, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        gap: "10px",
+        marginBottom: "10px",
+        alignItems: "flex-start"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.gold,
+        fontWeight: 700,
+        fontSize: "16px",
+        flexShrink: 0
+      }
+    }, "\u2713"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "14px",
+        lineHeight: 1.7,
+        margin: 0
+      }
+    }, k));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "linear-gradient(135deg,".concat(C.gold, "22,transparent)"),
+      border: "2px solid ".concat(C.gold),
+      borderRadius: "16px",
+      padding: "20px",
+      textAlign: "center",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 800,
+      fontSize: "20px",
+      marginBottom: "8px"
+    }
+  }, "\uD83C\uDFC6 Quiz Final \u2014 Ai-je bien retenu ?"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      lineHeight: 1.7,
+      marginBottom: "16px"
+    }
+  }, "10 questions pour valider votre ma\xEEtrise du Module 0."), !showQuiz && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowQuiz(true);
+    },
+    style: {
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      color: "#000",
+      border: "none",
+      borderRadius: "50px",
+      padding: "14px 36px",
+      fontSize: "16px",
+      fontWeight: 800,
+      cursor: "pointer"
+    }
+  }, "Commencer le quiz \u2192")), showQuiz && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(FinalQuiz, null))), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-function Section5({ onComplete }) {
-  const [showQuiz, setShowQuiz] = useState(false);
-  return (
-    <div style={{ padding: "32px 16px", maxWidth: "720px", margin: "0 auto" }}>
-      <SectionTitle sub="Vous connaissez vos masques. Voici les 6 étapes pour vous en libérer progressivement.">
-        La Méthode V.A.L.E.U.R©
-      </SectionTitle>
+// ── APP ──────────────────────────────────────────────────────────
 
-      {/* Iframe présentation */}
-      <div style={{ marginBottom: "32px", borderRadius: "16px", overflow: "hidden", border: `1px solid ${C.navyBorder}` }}>
-        <iframe
-          src="https://presentationmethodevaleur.netlify.app"
-          title="Présentation Méthode V.A.L.E.U.R©"
-          style={{ width: "100%", height: "500px", border: "none" }}
-        />
-      </div>
-
-      {/* Rappels essentiels */}
-      <Card style={{ marginBottom: "32px", borderColor: C.gold + "44" }}>
-        <p style={{ color: C.gold, fontWeight: 700, fontSize: "15px", marginBottom: "16px" }}>✨ Les clés de votre libération</p>
-        {[
-          "Vos masques vous ont protégé — remerciez-les, sans leur obéir",
-          "L'acceptation est 25 fois plus puissante que la résistance",
-          "Votre système nerveux peut s'apaiser en quelques minutes",
-          "Observer n'est pas juger — c'est le début de la liberté",
-          "Chaque petit pas crée de nouveaux circuits neuronaux",
-          "Vous n'êtes pas vos peurs — vous êtes celui/celle qui les observe",
-          "La joie d'être soi est votre nature véritable",
-        ].map((key, i) => (
-          <div key={i} style={{ display: "flex", gap: "10px", marginBottom: "10px", alignItems: "flex-start" }}>
-            <span style={{ color: C.gold, fontWeight: 700, fontSize: "16px", flexShrink: 0 }}>✓</span>
-            <p style={{ color: C.textLight, fontSize: "14px", lineHeight: 1.7, margin: 0 }}>{key}</p>
-          </div>
-        ))}
-      </Card>
-
-      {/* Quiz final */}
-      <div style={{ marginBottom: "32px" }}>
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <div style={{ background: `linear-gradient(135deg, ${C.gold}22, transparent)`, border: `2px solid ${C.gold}`, borderRadius: "16px", padding: "20px" }}>
-            <p style={{ color: C.gold, fontWeight: 800, fontSize: "20px", marginBottom: "8px" }}>🏆 Quiz Final — Ai-je bien retenu ?</p>
-            <p style={{ color: C.textMuted, fontSize: "14px", lineHeight: 1.7, marginBottom: "16px" }}>
-              10 questions pour valider votre maîtrise du Module 0. Ce quiz couvre l'ensemble des concepts : anxiété · 7 peurs · création des masques · mécanismes de défense · méthode V.A.L.E.U.R©
-            </p>
-            {!showQuiz && (
-              <button onClick={() => setShowQuiz(true)} style={{
-                background: `linear-gradient(135deg, ${C.gold}, #a07830)`, color: "#000", border: "none",
-                borderRadius: "50px", padding: "14px 36px", fontSize: "16px", fontWeight: 800, cursor: "pointer",
-              }}>
-                Commencer le quiz →
-              </button>
-            )}
-          </div>
-        </div>
-        {showQuiz && <Card><FinalQuiz /></Card>}
-      </div>
-
-      <Copyright />
-    </div>
-  );
-}
-
-// ─── APP PRINCIPALE ───────────────────────────────────────────────
-
-export default function App() {
-  const [step, setStep] = useState(0);
-  const [completed, setCompleted] = useState([]);
-  const topRef = useRef(null);
-
-  const complete = (i) => {
-    if (!completed.includes(i)) setCompleted([...completed, i]);
+function App() {
+  var _useState29 = useState(0),
+    _useState30 = _slicedToArray(_useState29, 2),
+    step = _useState30[0],
+    setStep = _useState30[1];
+  var _useState31 = useState([]),
+    _useState32 = _slicedToArray(_useState31, 2),
+    completed = _useState32[0],
+    setCompleted = _useState32[1];
+  var topRef = useRef(null);
+  function complete(i) {
+    if (!completed.includes(i)) setCompleted([].concat(_toConsumableArray(completed), [i]));
     setStep(i + 1);
-    topRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <div ref={topRef} style={{ background: C.navy, minHeight: "100vh", fontFamily: "'Segoe UI', system-ui, sans-serif", color: C.textLight }}>
-      <ProgressBar step={step} setStep={setStep} completed={completed} />
-
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        {step === 0 && <Section1 onComplete={() => complete(0)} />}
-        {step === 1 && <Section2 onComplete={() => complete(1)} />}
-        {step === 2 && <Section3 onComplete={() => complete(2)} />}
-        {step === 3 && <Section4 onComplete={() => complete(3)} />}
-        {step === 4 && <Section5 onComplete={() => complete(4)} />}
-      </div>
-
-      {/* Watermark copyright discret */}
-      <div style={{ position: "fixed", bottom: "8px", right: "12px", opacity: 0.4, pointerEvents: "none" }}>
-        <p style={{ color: C.textMuted, fontSize: "10px", margin: 0 }}>© V.A.L.E.U.R© — C. Bourbon</p>
-      </div>
-    </div>
-  );
+    topRef.current && topRef.current.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    ref: topRef,
+    style: {
+      background: C.navy,
+      minHeight: "100vh"
+    }
+  }, /*#__PURE__*/React.createElement(ProgressBar, {
+    step: step,
+    setStep: setStep,
+    completed: completed
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: "800px",
+      margin: "0 auto"
+    }
+  }, step === 0 && /*#__PURE__*/React.createElement(Section1, {
+    onComplete: function onComplete() {
+      return complete(0);
+    }
+  }), step === 1 && /*#__PURE__*/React.createElement(Section2, {
+    onComplete: function onComplete() {
+      return complete(1);
+    }
+  }), step === 2 && /*#__PURE__*/React.createElement(Section3, {
+    onComplete: function onComplete() {
+      return complete(2);
+    }
+  }), step === 3 && /*#__PURE__*/React.createElement(Section4, {
+    onComplete: function onComplete() {
+      return complete(3);
+    }
+  }), step === 4 && /*#__PURE__*/React.createElement(Section5, {
+    onComplete: function onComplete() {
+      return complete(4);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      bottom: "8px",
+      right: "12px",
+      opacity: 0.4,
+      pointerEvents: "none"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "10px",
+      margin: 0
+    }
+  }, "\xA9 V.A.L.E.U.R\xA9 \u2014 C. Bourbon")));
 }
+ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
+
+  </script>
+</body>
+</html>
