@@ -832,7 +832,82 @@ function Section3({ onComplete }) {
 
 // ─── SECTION 4 — Questionnaire ────────────────────────────────────
 
+function ScoreItem({ range, label, color, desc }) {
+  return (
+    <div style={{ display: "flex", gap: "12px", alignItems: "flex-start", marginBottom: "10px" }}>
+      <span style={{ background: `${color}22`, color: color, padding: "3px 10px", borderRadius: "20px", fontSize: "12px", fontWeight: 700, flexShrink: 0 }}>{range}</span>
+      <div>
+        <p style={{ color: color, fontWeight: 700, margin: "0 0 2px", fontSize: "13px" }}>{label}</p>
+        <p style={{ color: C.textMuted, fontSize: "13px", margin: 0 }}>{desc}</p>
+      </div>
+    </div>
+  );
+}
+
+function ComboItem({ combo, label, desc }) {
+  return (
+    <div style={{ border: `1px solid ${C.navyBorder}`, borderRadius: "10px", padding: "12px", marginBottom: "8px" }}>
+      <p style={{ color: C.cream, fontWeight: 700, fontSize: "13px", marginBottom: "4px" }}>{combo} — {label}</p>
+      <p style={{ color: C.textMuted, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>{desc}</p>
+    </div>
+  );
+}
+
+function FaqItem({ q, a }) {
+  return (
+    <div style={{ borderBottom: `1px solid ${C.navyBorder}`, paddingBottom: "12px", marginBottom: "12px" }}>
+      <p style={{ color: C.gold, fontWeight: 600, fontSize: "14px", marginBottom: "6px" }}>Q : {q}</p>
+      <p style={{ color: C.textLight, fontSize: "13px", lineHeight: 1.7, margin: 0 }}>{a}</p>
+    </div>
+  );
+}
+
+function AccordionScore() {
+  return (
+    <div>
+      <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "12px", fontSize: "14px" }}>
+        Le questionnaire vous donne un score de 0 à 48 par masque (total : 0-336). Voici comment lire votre profil :
+      </p>
+      <ScoreItem range="0–30%" label="Masque peu actif" color={C.vert} desc="Ce masque est présent mais peu dominant dans votre fonctionnement." />
+      <ScoreItem range="30–50%" label="Masque modéré" color={C.jaune} desc="Ce masque influence parfois vos réactions, surtout sous stress." />
+      <ScoreItem range="50–65%" label="Masque dominant" color={C.orange} desc="Ce masque gouverne une partie significative de vos comportements automatiques." />
+      <ScoreItem range=">65%" label="Masque très actif" color={C.rouge} desc="Ce masque est très présent. Une consultation professionnelle peut être bénéfique." />
+    </div>
+  );
+}
+
+function AccordionCombos() {
+  return (
+    <div>
+      <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "14px", fontSize: "14px" }}>
+        La plupart des personnes ont 2 à 3 masques dominants. C'est normal — ils répondent souvent à la même blessure originelle, mais de façons complémentaires.
+      </p>
+      <ComboItem combo="🔴 + 🟡 Rouge + Jaune" label="Anxiété amplifiée" desc="Vous ruminez sur les pires scénarios santé. Plus vous prévoyez, plus vous vérifiez. Un cycle auto-entretenu." />
+      <ComboItem combo="🟠 + 🟢 Orange + Vert" label="Distance dans l'intimité" desc="Vous cherchez la connexion mais vous vous fermez dès qu'elle approche." />
+      <ComboItem combo="🔵 + 🟢 Bleu + Vert" label="Contrôle et abandon" desc="Association difficile : le besoin de contrôle s'amplifie avec la peur d'abandon." />
+      <ComboItem combo="💜 + 🟢 Violet + Vert" label="Codépendance" desc="Votre identité devient entièrement dépendante de la validation extérieure." />
+    </div>
+  );
+}
+
+function AccordionFaq() {
+  return (
+    <div>
+      <FaqItem q="Mes scores sont hauts partout — que faire ?" a="Cela indique une stratégie défensive globale. Votre système nerveux a appris à rester vigilant. Ce n'est pas une condamnation — c'est le point de départ du travail." />
+      <FaqItem q="Mes masques vont-ils diminuer avec le temps ?" a="Non sans travail conscient. Les masques se stabilisent ou s'amplifient. Avec la méthode V.A.L.E.U.R©, leur emprise peut être significativement réduite." />
+      <FaqItem q="Mes masques semblent contradictoires — est-ce possible ?" a="Oui. Des masques apparemment opposés peuvent tenter de résoudre deux aspects différents d'une même insécurité profonde." />
+      <p style={{ color: C.textMuted, fontSize: "11px", marginTop: "8px" }}>Source : FAQ post-questionnaire V.A.L.E.U.R© — © Céline Bourbon</p>
+    </div>
+  );
+}
+
 function Section4({ onComplete }) {
+  const accordionItems = [
+    { title: "Comprendre votre score", content: <AccordionScore /> },
+    { title: "Les associations de masques", content: <AccordionCombos /> },
+    { title: "FAQ après le questionnaire", content: <AccordionFaq /> },
+  ];
+
   return (
     <div style={{ padding: "32px 16px", maxWidth: "720px", margin: "0 auto" }}>
       <SectionTitle sub="Pas un test de personnalité. Une cartographie de vos défenses — ce qui est plus fort que vous, en ce moment.">
@@ -879,71 +954,7 @@ function Section4({ onComplete }) {
       {/* Lire mes résultats */}
       <div style={{ marginBottom: "32px" }}>
         <p style={{ color: C.textMuted, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "16px", textAlign: "center" }}>📈 Lire mes résultats</p>
-        <Accordion items={[
-          {
-            title: "Comprendre votre score",
-            content: (
-              <div>
-                <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "12px", fontSize: "14px" }}>
-                  Le questionnaire vous donne un score de 0 à 48 par masque (total : 0-336). Voici comment lire votre profil :
-                </p>
-                {[
-                  { range: "0–30%", label: "Masque peu actif", color: C.vert, desc: "Ce masque est présent mais peu dominant dans votre fonctionnement." },
-                  { range: "30–50%", label: "Masque modéré", color: C.jaune, desc: "Ce masque influence parfois vos réactions, surtout sous stress." },
-                  { range: "50–65%", label: "Masque dominant", color: C.orange, desc: "Ce masque gouverne une partie significative de vos comportements automatiques." },
-                  { range: ">65%", label: "Masque très actif", color: C.rouge, desc: "Ce masque est très présent. Une consultation professionnelle peut être bénéfique." },
-                ].map(r => (
-                  <div key={r.range} style={{ display: "flex", gap: "12px", alignItems: "flex-start", marginBottom: "10px" }}>
-                    <span style={{ background: `${r.color}22`, color: r.color, padding: "3px 10px", borderRadius: "20px", fontSize: "12px", fontWeight: 700, flexShrink: 0 }}>{r.range}</span>
-                    <div>
-                      <p style={{ color: r.color, fontWeight: 700, margin: "0 0 2px", fontSize: "13px" }}>{r.label}</p>
-                      <p style={{ color: C.textMuted, fontSize: "13px", margin: 0 }}>{r.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ),
-          },
-          {
-            title: "Les associations de masques",
-            content: (
-              <div>
-                <p style={{ color: C.textLight, lineHeight: 1.8, marginBottom: "14px", fontSize: "14px" }}>
-                  La plupart des personnes ont 2 à 3 masques dominants. C'est normal — ils répondent souvent à la même blessure originelle, mais de façons complémentaires.
-                </p>
-                {[
-                  { combo: "🔴 + 🟡 Rouge + Jaune", label: "Anxiété amplifiée", desc: "Vous ruminez sur les pires scénarios santé. Plus vous prévoyez, plus vous vérifiez. Un cycle auto-entretenu." },
-                  { combo: "🟠 + 🟢 Orange + Vert", label: "Distance dans l'intimité", desc: "Vous cherchez la connexion mais vous vous fermez dès qu'elle approche." },
-                  { combo: "🔵 + 🟢 Bleu + Vert", label: "Contrôle et abandon", desc: "Association difficile : le besoin de contrôle s'amplifie avec la peur d'abandon." },
-                  { combo: "💜 + 🟢 Violet + Vert", label: "Codépendance", desc: "Votre identité devient entièrement dépendante de la validation extérieure." },
-                ].map(a => (
-                  <div key={a.combo} style={{ border: `1px solid ${C.navyBorder}`, borderRadius: "10px", padding: "12px", marginBottom: "8px" }}>
-                    <p style={{ color: C.cream, fontWeight: 700, fontSize: "13px", marginBottom: "4px" }}>{a.combo} — {a.label}</p>
-                    <p style={{ color: C.textMuted, fontSize: "13px", lineHeight: 1.6, margin: 0 }}>{a.desc}</p>
-                  </div>
-                ))}
-              </div>
-            ),
-          },
-          {
-            title: "FAQ après le questionnaire",
-            content: (
-              <div>
-                {[
-                  { q: "Mes scores sont hauts partout — que faire ?", a: "Cela indique une stratégie défensive globale. Votre système nerveux a appris à rester vigilant. Ce n'est pas une condamnation — c'est le point de départ du travail." },
-                  { q: "Mes masques vont-ils diminuer avec le temps ?", a: "Non sans travail conscient. Les masques se stabilisent ou s'amplifient. Avec la méthode V.A.L.E.U.R©, leur emprise peut être significativement réduite." },
-                  { q: "Mes masques semblent contradictoires — est-ce possible ?", a: "Oui. Des masques apparemment opposés peuvent tenter de résoudre deux aspects différents d'une même insécurité profonde." },
-                ].map(({ q, a }) => (
-                  <div key={q} style={{ borderBottom: `1px solid ${C.navyBorder}`, paddingBottom: "12px", marginBottom: "12px" }}>
-                    <p style={{ color: C.gold, fontWeight: 600, fontSize: "14px", marginBottom: "6px" }}>Q : {q}</p>
-                    <p style={{ color: C.textLight, fontSize: "13px", lineHeight: 1.7, margin: 0 }}>{a}</p>
-                  </div>
-                ))}
-                <p style={{ color: C.textMuted, fontSize: "11px", marginTop: "8px" }}>Source : FAQ post-questionnaire V.A.L.E.U.R© — © Céline Bourbon</p>
-              </div>
-            ),
-          },
-        ]} />
+        <Accordion items={accordionItems} />
       </div>
 
       <div style={{ textAlign: "center" }}>
