@@ -1336,7 +1336,295 @@ body {
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 .pulsing { animation: pulse 2s ease infinite; }
 
-/* Scrollbar */
+
+/* ═══════════════════════════════════════
+   ══ MODULE 0 — STYLES ══
+═══════════════════════════════════════ */
+
+/* Accordéon leçon */
+.lesson-accordion {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lesson-accordion:hover { border-color: rgba(255,255,255,0.15); }
+.lesson-accordion.done { border-color: rgba(45,106,79,0.35); }
+.lesson-accordion.active { border-color: rgba(201,168,76,0.35); border-bottom-left-radius:0;border-bottom-right-radius:0;margin-bottom:0; }
+
+.acc-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(14px,2vw,20px) clamp(16px,3vw,24px);
+}
+.acc-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.acc-num.done { background: rgba(45,106,79,0.2); border-color: rgba(45,106,79,0.5); color:#5abf8a; }
+.acc-num.active-num { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.5); color:var(--gold); }
+
+.acc-info { flex: 1; }
+.acc-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem,2.5vw,1.2rem); font-weight: 600; margin-bottom: 4px; }
+.acc-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.acc-arrow { color: var(--grey); font-size: 0.9rem; flex-shrink:0; transition: transform 0.3s; }
+.acc-arrow.open { transform: rotate(90deg); color: var(--gold); }
+
+/* Contenu leçon */
+.lesson-content {
+  display: none;
+  background: var(--navy3);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-top: none;
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.lesson-content.open { display: block; }
+
+.lc-body { padding: clamp(18px,3vw,32px); }
+.lc-body h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--gold); margin-bottom: 12px; margin-top: 20px;
+}
+.lc-body h3:first-child { margin-top: 0; }
+.lc-body p { font-size: 0.88rem; line-height: 1.85; color: #c5cee0; font-weight: 300; margin-bottom: 12px; }
+
+/* Video responsive */
+.video-wrap {
+  position: relative;
+  padding-top: 56.25%;
+  background: var(--navy2);
+  border-bottom: 1px solid var(--border);
+}
+.video-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
+/* Insight box */
+.insight-box {
+  display: flex;
+  gap: 14px;
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin: 16px 0;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: #c5cee0;
+  font-weight: 300;
+}
+.insight-box strong { color: var(--white); }
+.insight-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+
+/* Quiz inline */
+.quiz-inline {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  margin-top: 20px;
+}
+.quiz-inline-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 600;
+  color: var(--gold); margin-bottom: 12px;
+}
+.qi-options { display: flex; flex-direction: column; gap: 8px; }
+.qi-opt {
+  padding: 11px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.83rem; color: var(--grey2); cursor: pointer;
+  transition: all 0.2s; font-weight: 300;
+}
+.qi-opt:hover, .qi-opt.selected {
+  background: rgba(201,168,76,0.1);
+  border-color: rgba(201,168,76,0.35); color: var(--white);
+}
+.qi-feedback {
+  margin-top: 12px;
+  font-size: 0.8rem; color: #5abf8a;
+  background: rgba(45,106,79,0.1);
+  border: 1px solid rgba(45,106,79,0.25);
+  border-radius: 6px; padding: 10px 14px;
+}
+
+/* Formule visuelle */
+.formula-visual {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px,2vw,16px);
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.formula-item {
+  flex: 1; min-width: 100px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+}
+.formula-num { font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 700; color: var(--gold); }
+.formula-label { font-size: 0.8rem; font-weight: 500; margin: 6px 0 4px; }
+.formula-sub { font-size: 0.72rem; color: var(--grey2); line-height: 1.5; font-weight: 300; }
+.formula-plus { font-size: 1.8rem; color: var(--grey); font-weight: 300; flex-shrink: 0; }
+
+/* Formule souffrance */
+.formula-souffrance {
+  background: rgba(192,57,43,0.08);
+  border: 1px solid rgba(192,57,43,0.25);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  margin: 14px 0;
+}
+.fs-title { font-family:'Cormorant Garamond',serif; font-size: 2.2rem; font-weight: 300; color: #e05a4e; letter-spacing:0.1em; margin-bottom: 10px; }
+.fs-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; font-size: 0.78rem; color: var(--grey2); }
+.fs-legend span { background: rgba(255,255,255,0.04); padding: 4px 10px; border-radius: 6px; }
+
+/* Comparison boxes */
+.comparison-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.comp-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+
+/* Schéma psyché */
+.psyche-schema { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
+.psyche-level {
+  display: flex; align-items: flex-start; gap: 14px;
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; background: rgba(255,255,255,0.02);
+}
+.psyche-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+.psyche-name { font-family:'Cormorant Garamond',serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+.psyche-desc { font-size: 0.8rem; color: var(--grey2); line-height: 1.6; font-weight: 300; }
+.psyche-arrow-down { text-align: center; font-size: 1.2rem; color: var(--grey); padding: 4px 0; }
+
+/* SNA States */
+.sna-states { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+.sna-state {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px;
+}
+.sna-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.sna-name { font-size: 0.9rem; font-weight: 500; margin-bottom: 3px; }
+.sna-desc { font-size: 0.78rem; color: var(--grey2); line-height: 1.5; font-weight: 300; }
+
+/* Masques liste */
+.masques-list { display: flex; flex-direction: column; gap: 8px; }
+.masque-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.masque-item:hover { border-color: rgba(255,255,255,0.12); }
+.masque-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+}
+.masque-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.masque-name { font-family:'Cormorant Garamond',serif; font-size: 1rem; font-weight: 600; }
+.masque-peur { font-size: 0.72rem; color: var(--grey2); margin-top: 2px; font-style: italic; }
+.masque-chevron { margin-left: auto; color: var(--grey); font-size: 0.85rem; transition: transform 0.3s; }
+.masque-chevron.open { transform: rotate(90deg); color: var(--gold); }
+.masque-content { display: none; padding: 0 16px 16px; }
+.masque-content.open { display: block; }
+
+.ombre-lumiere { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media(max-width:500px) { .ombre-lumiere { grid-template-columns: 1fr; } }
+.ol-block { padding: 12px; border-radius: 8px; }
+.ol-block.ombre { background: rgba(192,57,43,0.06); border: 1px solid rgba(192,57,43,0.2); }
+.ol-block.lumiere { background: rgba(45,106,79,0.06); border: 1px solid rgba(45,106,79,0.2); }
+.ol-title { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+.ol-block.ombre .ol-title { color: #e05a4e; }
+.ol-block.lumiere .ol-title { color: #5abf8a; }
+.ol-text { font-size: 0.8rem; color: var(--grey2); line-height: 1.65; font-weight: 300; }
+
+/* FAQ */
+.faq-list { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+.faq-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.faq-item:hover { border-color: rgba(255,255,255,0.12); }
+.faq-q {
+  padding: 13px 16px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.faq-q span { color: var(--grey); font-size: 0.8rem; flex-shrink: 0; }
+.faq-a {
+  display: none;
+  padding: 0 16px 14px;
+  font-size: 0.82rem;
+  color: var(--grey2);
+  line-height: 1.75;
+  font-weight: 300;
+}
+.faq-a.open { display: block; }
+
+/* Respiration steps */
+.breathing-steps { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.bs-step {
+  padding: 11px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.83rem;
+  color: var(--grey2);
+  line-height: 1.5;
+}
+
+/* Bouton compléter leçon */
+.btn-complete-lesson {
+  display: block;
+  width: calc(100% - 36px);
+  margin: 0 18px 18px;
+  padding: 13px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-complete-lesson:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -1654,55 +1942,703 @@ body {
 
       </div>
 
-      <!-- ══════════════════════════
-           VUE : MODULE 0
-      ══════════════════════════ -->
+      <!-- ══════════════════════════════════════
+           VUE : MODULE 0 — COMPRENDRE (COMPLET)
+      ══════════════════════════════════════ -->
       <div class="view fade-in" id="view-module0">
-        <div class="module-header" style="background:linear-gradient(135deg,rgba(201,168,76,0.12) 0%,rgba(13,17,23,0) 100%);border:1px solid rgba(201,168,76,0.2)">
-          <div class="module-header-label">Module 0 · Complété ✓</div>
+
+        <!-- En-tête module -->
+        <div class="module-header" style="background:linear-gradient(135deg,rgba(201,168,76,0.12) 0%,rgba(13,17,23,0) 100%);border:1px solid rgba(201,168,76,0.2);margin-bottom:28px">
+          <div class="module-header-label">Module 0 · Fondations</div>
           <div class="module-header-title">Comprendre</div>
-          <div class="module-header-subtitle">L'anxiété, les 7 peurs, les 7 masques — les fondations de votre parcours.</div>
+          <div class="module-header-subtitle">8 leçons pour comprendre votre anxiété, vos masques et votre potentiel de transformation.</div>
+          <!-- Barre progression module -->
+          <div style="margin-top:20px">
+            <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:rgba(255,255,255,0.4);margin-bottom:6px">
+              <span>Progression</span><span id="m0-pct">0 / 8 leçons</span>
+            </div>
+            <div style="height:3px;background:rgba(255,255,255,0.08);border-radius:3px">
+              <div id="m0-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--r),var(--o),var(--y));border-radius:3px;transition:width 0.6s ease"></div>
+            </div>
+          </div>
         </div>
 
-        <div class="module-steps">
-          <div class="module-step done" onclick="showLesson('intro')">
-            <div class="step-num done-num">✓</div>
-            <div class="step-content">
-              <div class="step-title">Introduction — La méthode V.A.L.E.U.R©</div>
-              <div class="step-desc">D'où vient l'anxiété ? Qu'est-ce qu'un masque ? Comment fonctionne la méthode ?</div>
-              <div class="step-type"><span class="type-tag">📹 Vidéo 8 min</span><span class="type-tag">📄 Lecture</span></div>
+        <!-- ── LEÇON 1 : D'OÙ VIENT L'ANXIÉTÉ ── -->
+        <div class="lesson-accordion" id="acc-0" onclick="toggleLesson(0)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-0">1</div>
+            <div class="acc-info">
+              <div class="acc-title">D'où vient l'anxiété ?</div>
+              <div class="acc-meta"><span class="type-tag">📹 Vidéo</span><span class="type-tag">💡 Concept clé</span><span class="type-tag">🎯 Quiz</span></div>
             </div>
-            <div class="step-arrow">✓</div>
-          </div>
-          <div class="module-step done">
-            <div class="step-num done-num">✓</div>
-            <div class="step-content">
-              <div class="step-title">Les 7 peurs universelles</div>
-              <div class="step-desc">Comprendre que chaque anxiété cache l'une des 7 peurs fondamentales de l'être humain.</div>
-              <div class="step-type"><span class="type-tag">📹 Vidéo 6 min</span><span class="type-tag">🎯 Exercice</span></div>
-            </div>
-            <div class="step-arrow">✓</div>
-          </div>
-          <div class="module-step done" onclick="showView('questionnaire')">
-            <div class="step-num done-num">✓</div>
-            <div class="step-content">
-              <div class="step-title">Questionnaire V.A.L.E.U.R© — 84 questions</div>
-              <div class="step-desc">Identifier vos masques dominants et votre profil unique.</div>
-              <div class="step-type"><span class="type-tag">📊 Questionnaire</span><span class="type-tag">📈 Résultats</span></div>
-            </div>
-            <div class="step-arrow">✓</div>
-          </div>
-          <div class="module-step done">
-            <div class="step-num done-num">✓</div>
-            <div class="step-content">
-              <div class="step-title">Lire mes résultats</div>
-              <div class="step-desc">Comprendre votre profil de masques et préparer votre parcours personnalisé.</div>
-              <div class="step-type"><span class="type-tag">📥 Fiche PDF</span></div>
-            </div>
-            <div class="step-arrow">✓</div>
+            <div class="acc-arrow" id="arr-0">▸</div>
           </div>
         </div>
-      </div>
+        <div class="lesson-content" id="lc-0">
+          <!-- Vidéo -->
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/HVVpa_-pLkE?si=9I4ryAVEYK82TKev" title="D'où vient l'anxiété ?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="lc-body">
+            <h3>Ce que vous venez d'apprendre</h3>
+            <p>L'anxiété n'est pas un défaut de fabrication. Ce n'est pas une maladie. C'est une <strong>réponse automatique</strong> de votre système nerveux face à une menace perçue — réelle ou imaginaire.</p>
+            <div class="insight-box">
+              <div class="insight-icon">💡</div>
+              <div><strong>L'insight clé</strong><br>Votre anxiété n'est pas le problème. Elle pointe vers quelque chose de plus profond : une peur non intégrée qui cherche à se faire entendre.</div>
+            </div>
+            <p>Cette peur s'est cristallisée en <strong>masque de défense</strong> — un bouclier psychique invisible qui vous protège, mais qui finit par vous limiter davantage qu'il ne vous protège.</p>
+
+            <!-- Quiz 1 -->
+            <div class="quiz-inline">
+              <div class="quiz-inline-title">🎯 Question de réflexion</div>
+              <p style="font-size:0.9rem;color:var(--grey2);margin-bottom:14px">Dans votre quotidien, votre anxiété se manifeste plutôt comment ?</p>
+              <div class="qi-options" id="q1">
+                <div class="qi-opt" onclick="selectQI('q1',this,'a')">Pensées qui s'emballent, ruminations</div>
+                <div class="qi-opt" onclick="selectQI('q1',this,'b')">Tension dans le corps, malaise physique</div>
+                <div class="qi-opt" onclick="selectQI('q1',this,'c')">Évitement, procrastination, fuite</div>
+                <div class="qi-opt" onclick="selectQI('q1',this,'d')">Besoin de contrôle, hypervigilance</div>
+              </div>
+              <div class="qi-feedback" id="fb-q1" style="display:none">✓ Noté. Toutes ces manifestations sont des expressions différentes de la même chose : une peur non intégrée. La méthode V.A.L.E.U.R© vous apprendra à identifier laquelle.</div>
+            </div>
+          </div>
+          <button class="btn-complete-lesson" onclick="completeLesson(0)">Leçon suivante →</button>
+        </div>
+
+        <!-- ── LEÇON 2 : COMMENT NAISSENT LES MASQUES ── -->
+        <div class="lesson-accordion" id="acc-1" onclick="toggleLesson(1)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-1">2</div>
+            <div class="acc-info">
+              <div class="acc-title">Comment naissent les masques ?</div>
+              <div class="acc-meta"><span class="type-tag">📹 Vidéo</span><span class="type-tag">🔬 Formule</span><span class="type-tag">🎯 Exercice</span></div>
+            </div>
+            <div class="acc-arrow" id="arr-1">▸</div>
+          </div>
+        </div>
+        <div class="lesson-content" id="lc-1">
+          <!-- Vidéo psychiatre -->
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/DTn8pvyc0Zo" title="Comment naissent les masques" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="lc-body">
+            <div class="insight-box" style="border-color:rgba(201,168,76,0.3)">
+              <div class="insight-icon">🔔</div>
+              <div><strong>Note importante sur cette vidéo</strong><br>Le psychiatre parle de <em>"moi adulte"</em> — c'est l'équivalent de notre <strong>Nature Authentique</strong>. Et ses <em>"parties émotionnelles"</em> correspondent exactement à nos <strong>masques du Personnâge</strong>. Même concept, vocabulaire différent.</div>
+            </div>
+
+            <h3>La formule de création : 1 + 1 = 3</h3>
+            <div class="formula-visual">
+              <div class="formula-item" style="border-color:rgba(45,106,79,0.4)">
+                <div class="formula-num">1</div>
+                <div class="formula-label">Nature Authentique</div>
+                <div class="formula-sub">Votre essence vivante qui veut s'exprimer librement</div>
+              </div>
+              <div class="formula-plus">+</div>
+              <div class="formula-item" style="border-color:rgba(192,57,43,0.4)">
+                <div class="formula-num">1</div>
+                <div class="formula-label">Résistance à la souffrance</div>
+                <div class="formula-sub">La peur que cette expression soit dangereuse</div>
+              </div>
+              <div class="formula-plus">=</div>
+              <div class="formula-item" style="border-color:rgba(108,52,131,0.5);background:rgba(108,52,131,0.08)">
+                <div class="formula-num" style="color:var(--i)">3</div>
+                <div class="formula-label" style="color:var(--i)">Le Masque</div>
+                <div class="formula-sub">Protection rigide et automatique</div>
+              </div>
+            </div>
+
+            <h3 style="margin-top:24px">La formule de la souffrance</h3>
+            <p>Voici la découverte la plus libératrice de la méthode :</p>
+            <div class="formula-souffrance">
+              <div class="fs-title">D = e × r²</div>
+              <div class="fs-legend">
+                <span><strong>D</strong> = Durée et intensité de la souffrance</span>
+                <span><strong>e</strong> = Émotion initiale</span>
+                <span><strong>r²</strong> = Résistance <em>(au carré !)</em></span>
+              </div>
+            </div>
+            <div class="comparison-boxes">
+              <div class="comp-box" style="border-color:rgba(45,106,79,0.4)">
+                <div style="font-size:0.7rem;letter-spacing:0.2em;color:#5abf8a;margin-bottom:8px">AVEC ACCEPTATION</div>
+                <div style="font-size:1.8rem;font-weight:700;color:#5abf8a">5</div>
+                <div style="font-size:0.78rem;color:var(--grey2)">Émotion (5) × résistance (1)²</div>
+              </div>
+              <div class="comp-box" style="border-color:rgba(192,57,43,0.4)">
+                <div style="font-size:0.7rem;letter-spacing:0.2em;color:#e05a4e;margin-bottom:8px">AVEC RÉSISTANCE</div>
+                <div style="font-size:1.8rem;font-weight:700;color:#e05a4e">125</div>
+                <div style="font-size:0.78rem;color:var(--grey2)">Émotion (5) × résistance (5)²</div>
+              </div>
+            </div>
+            <div class="highlight">
+              "Ce n'est pas l'émotion qui crée la souffrance durable — c'est la RÉSISTANCE à cette émotion. L'acceptation est 25 fois plus puissante."
+            </div>
+
+            <!-- Exercice -->
+            <div class="quiz-inline">
+              <div class="quiz-inline-title">🎯 Exercice de réflexion</div>
+              <p style="font-size:0.9rem;color:var(--grey2);margin-bottom:12px">Pensez à une émotion que vous résistez souvent. Notez-la dans votre journal :</p>
+              <textarea class="journal-textarea" style="min-height:80px" placeholder="Ex : Je résiste à ma tristesse quand... / Je fuis mon anxiété en faisant..."></textarea>
+              <button class="btn-save" style="margin-top:10px" onclick="showToast('✓ Enregistré dans votre journal')">Enregistrer dans mon journal</button>
+            </div>
+          </div>
+          <button class="btn-complete-lesson" onclick="completeLesson(1)">Leçon suivante →</button>
+        </div>
+
+        <!-- ── LEÇON 3 : VOTRE PSYCHÉ EN 3 NIVEAUX ── -->
+        <div class="lesson-accordion" id="acc-2" onclick="toggleLesson(2)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-2">3</div>
+            <div class="acc-info">
+              <div class="acc-title">Votre psyché en 3 niveaux</div>
+              <div class="acc-meta"><span class="type-tag">🧠 Psychoéducation</span><span class="type-tag">💓 Système nerveux</span><span class="type-tag">🎯 Auto-évaluation</span></div>
+            </div>
+            <div class="acc-arrow" id="arr-2">▸</div>
+          </div>
+        </div>
+        <div class="lesson-content" id="lc-2">
+          <div class="lc-body">
+            <h3>La structure de votre monde intérieur</h3>
+            <!-- Schéma 3 niveaux -->
+            <div class="psyche-schema">
+              <div class="psyche-level" style="background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3)">
+                <div class="psyche-icon">👁</div>
+                <div>
+                  <div class="psyche-name" style="color:var(--gold)">La Pleine Conscience</div>
+                  <div class="psyche-desc">L'observateur stable. La part de vous qui ne change pas. Elle voit tout sans juger.</div>
+                </div>
+              </div>
+              <div class="psyche-arrow-down">↓</div>
+              <div class="psyche-level" style="background:rgba(45,106,79,0.1);border-color:rgba(45,106,79,0.3)">
+                <div class="psyche-icon">🌱</div>
+                <div>
+                  <div class="psyche-name" style="color:#5abf8a">La Nature Authentique</div>
+                  <div class="psyche-desc">Votre essence vivante. Elle désire, crée, ressent, se connecte librement.</div>
+                </div>
+              </div>
+              <div class="psyche-arrow-down">↓</div>
+              <div class="psyche-level" style="background:rgba(108,52,131,0.1);border-color:rgba(108,52,131,0.3)">
+                <div class="psyche-icon">🎭</div>
+                <div>
+                  <div class="psyche-name" style="color:var(--i)">Les Masques du Personnâge</div>
+                  <div class="psyche-desc">Vos protections figées. Automatiques, rigides — et modifiables.</div>
+                </div>
+              </div>
+            </div>
+
+            <h3 style="margin-top:28px">Votre système nerveux autonome</h3>
+            <p>Vos masques agissent directement sur votre corps via le système nerveux autonome. Il crée 3 états :</p>
+
+            <div class="sna-states">
+              <div class="sna-state" style="border-color:rgba(45,106,79,0.4)">
+                <div class="sna-dot" style="background:var(--g)"></div>
+                <div>
+                  <div class="sna-name" style="color:#5abf8a">🟢 Sécurité</div>
+                  <div class="sna-desc">Calme · Ouverture · Connexion · Créativité<br><em>Votre zone optimale</em></div>
+                </div>
+              </div>
+              <div class="sna-state" style="border-color:rgba(201,168,76,0.4)">
+                <div class="sna-dot" style="background:var(--y)"></div>
+                <div>
+                  <div class="sna-name" style="color:var(--y)">🟡 Alerte</div>
+                  <div class="sna-desc">Combat/fuite · Cœur rapide · Hypervigilance<br><em>Utile en danger, épuisant si constant</em></div>
+                </div>
+              </div>
+              <div class="sna-state" style="border-color:rgba(192,57,43,0.4)">
+                <div class="sna-dot" style="background:var(--r)"></div>
+                <div>
+                  <div class="sna-name" style="color:#e05a4e">🔴 Sidération</div>
+                  <div class="sna-desc">Figement · Déconnexion · Effondrement<br><em>Protection extrême face au stress insurmontable</em></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="insight-box" style="margin-top:20px">
+              <div class="insight-icon">⚠️</div>
+              <div><strong>Le paradoxe des masques</strong><br>Vos masques vous maintiennent souvent en état d'Alerte ou de Sidération — même quand il n'y a <em>aucun danger réel</em>. C'est épuisant. Et c'est exactement ce que la méthode V.A.L.E.U.R© transforme.</div>
+            </div>
+
+            <!-- Quiz SNA -->
+            <div class="quiz-inline" style="margin-top:20px">
+              <div class="quiz-inline-title">🎯 Auto-évaluation</div>
+              <p style="font-size:0.9rem;color:var(--grey2);margin-bottom:14px">Dans quel état vous trouvez-vous le plus souvent au quotidien ?</p>
+              <div class="qi-options" id="q2">
+                <div class="qi-opt" onclick="selectQI('q2',this,'g')">🟢 Sécurité — Je me sens globalement calme et connecté(e)</div>
+                <div class="qi-opt" onclick="selectQI('q2',this,'y')">🟡 Alerte — Je suis souvent sur le qui-vive, tendu(e), en mode "faire"</div>
+                <div class="qi-opt" onclick="selectQI('q2',this,'r')">🔴 Sidération — Je me sens souvent vide, déconnecté(e), épuisé(e)</div>
+                <div class="qi-opt" onclick="selectQI('q2',this,'mix')">↔️ Je fluctue beaucoup entre Alerte et Sidération</div>
+              </div>
+              <div class="qi-feedback" id="fb-q2" style="display:none">✓ Noté. Cette réponse vous donnera un repère précieux pour mesurer votre évolution au fil du parcours.</div>
+            </div>
+          </div>
+          <button class="btn-complete-lesson" onclick="completeLesson(2)">Leçon suivante →</button>
+        </div>
+
+        <!-- ── LEÇON 4 : LES 7 MASQUES — OMBRE ET LUMIÈRE ── -->
+        <div class="lesson-accordion" id="acc-3" onclick="toggleLesson(3)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-3">4</div>
+            <div class="acc-info">
+              <div class="acc-title">Les 7 masques — ombre et lumière</div>
+              <div class="acc-meta"><span class="type-tag">🎭 7 masques</span><span class="type-tag">✨ Forces cachées</span></div>
+            </div>
+            <div class="acc-arrow" id="arr-3">▸</div>
+          </div>
+        </div>
+        <div class="lesson-content" id="lc-3">
+          <div class="lc-body">
+            <div class="highlight" style="margin-bottom:24px">
+              "Sous l'illusion des peurs se cachent des potentiels puissants, des lueurs de liberté capturées par l'obscurité. C'est au cœur même de ces ténèbres que réside la clé de votre libération."
+            </div>
+            <p style="margin-bottom:20px">Chaque masque a deux visages. L'ombre — ce qu'il vous coûte. La lumière — ce qu'il cache comme force endormie.</p>
+
+            <!-- Les 7 masques accordéon -->
+            <div class="masques-list">
+
+              <div class="masque-item" onclick="toggleMasque('m1')">
+                <div class="masque-header">
+                  <div class="masque-dot" style="background:var(--r)"></div>
+                  <div>
+                    <div class="masque-name">🔴 Masque Rouge</div>
+                    <div class="masque-peur">Peur de la mort / de la maladie</div>
+                  </div>
+                  <div class="masque-chevron" id="chev-m1">▸</div>
+                </div>
+                <div class="masque-content" id="mc-m1">
+                  <div class="ombre-lumiere">
+                    <div class="ol-block ombre">
+                      <div class="ol-title">🌑 Dans son ombre</div>
+                      <div class="ol-text">Hypervigilance corporelle · Anxiété santé chronique · Difficulté à vivre le présent · Survie plutôt que vie</div>
+                    </div>
+                    <div class="ol-block lumiere">
+                      <div class="ol-title">☀️ Dans sa lumière</div>
+                      <div class="ol-text">En acceptant la finitude, chaque instant devient sacré. Vous accédez à une présence totale, une créativité débordante, une capacité à prendre des risques pour une vie plus riche.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="masque-item" onclick="toggleMasque('m2')">
+                <div class="masque-header">
+                  <div class="masque-dot" style="background:var(--o)"></div>
+                  <div>
+                    <div class="masque-name">🟠 Masque Orange</div>
+                    <div class="masque-peur">Peur de la douleur / de la souffrance</div>
+                  </div>
+                  <div class="masque-chevron" id="chev-m2">▸</div>
+                </div>
+                <div class="masque-content" id="mc-m2">
+                  <div class="ombre-lumiere">
+                    <div class="ol-block ombre">
+                      <div class="ol-title">🌑 Dans son ombre</div>
+                      <div class="ol-text">Évitement émotionnel · Addictions (nourriture, écrans, travail...) · Relations en surface · Créativité bloquée</div>
+                    </div>
+                    <div class="ol-block lumiere">
+                      <div class="ol-title">☀️ Dans sa lumière</div>
+                      <div class="ol-text">La douleur devient enseignante. Vous accédez à une empathie extraordinaire, une capacité de guérison émotionnelle et une créativité retrouvée.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="masque-item" onclick="toggleMasque('m3')">
+                <div class="masque-header">
+                  <div class="masque-dot" style="background:var(--y)"></div>
+                  <div>
+                    <div class="masque-name">🟡 Masque Jaune</div>
+                    <div class="masque-peur">Peur de l'inconnu / de l'incertitude</div>
+                  </div>
+                  <div class="masque-chevron" id="chev-m3">▸</div>
+                </div>
+                <div class="masque-content" id="mc-m3">
+                  <div class="ombre-lumiere">
+                    <div class="ol-block ombre">
+                      <div class="ol-title">🌑 Dans son ombre</div>
+                      <div class="ol-text">Obsession du contrôle · Planification excessive · Ruminations · Rigidité · Panique face à l'imprévu</div>
+                    </div>
+                    <div class="ol-block lumiere">
+                      <div class="ol-title">☀️ Dans sa lumière</div>
+                      <div class="ol-text">L'incertitude devient source d'opportunités. Vous développez une confiance profonde en la vie et une adaptabilité qui ouvre des horizons insoupçonnés.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="masque-item" onclick="toggleMasque('m4')">
+                <div class="masque-header">
+                  <div class="masque-dot" style="background:var(--g)"></div>
+                  <div>
+                    <div class="masque-name">🟢 Masque Vert</div>
+                    <div class="masque-peur">Peur du rejet / de l'abandon</div>
+                  </div>
+                  <div class="masque-chevron" id="chev-m4">▸</div>
+                </div>
+                <div class="masque-content" id="mc-m4">
+                  <div class="ombre-lumiere">
+                    <div class="ol-block ombre">
+                      <div class="ol-title">🌑 Dans son ombre</div>
+                      <div class="ol-text">Incapacité à dire non · Perte de soi · Hyperadaptation · Dépendance affective · Relations insatisfaisantes</div>
+                    </div>
+                    <div class="ol-block lumiere">
+                      <div class="ol-title">☀️ Dans sa lumière</div>
+                      <div class="ol-text">Votre vulnérabilité assumée devient votre plus grande force. Vous attirez naturellement des relations profondes et authentiques, et créez des espaces de confiance où les autres s'épanouissent.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="masque-item" onclick="toggleMasque('m5')">
+                <div class="masque-header">
+                  <div class="masque-dot" style="background:var(--b)"></div>
+                  <div>
+                    <div class="masque-name">🔵 Masque Bleu</div>
+                    <div class="masque-peur">Peur de l'impuissance / du lâcher-prise</div>
+                  </div>
+                  <div class="masque-chevron" id="chev-m5">▸</div>
+                </div>
+                <div class="masque-content" id="mc-m5">
+                  <div class="ombre-lumiere">
+                    <div class="ol-block ombre">
+                      <div class="ol-title">🌑 Dans son ombre</div>
+                      <div class="ol-text">Hypercontrôle · Incapacité à recevoir · Colère défensive · Difficulté à déléguer · Épuisement chronique</div>
+                    </div>
+                    <div class="ol-block lumiere">
+                      <div class="ol-title">☀️ Dans sa lumière</div>
+                      <div class="ol-text">Vous découvrez la liberté dans l'acceptation. Un équilibre extraordinaire entre action et lâcher-prise, une capacité à nourrir des relations harmonieuses basées sur la vraie confiance.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="masque-item" onclick="toggleMasque('m6')">
+                <div class="masque-header">
+                  <div class="masque-dot" style="background:var(--i)"></div>
+                  <div>
+                    <div class="masque-name">🟣 Masque Indigo</div>
+                    <div class="masque-peur">Peur de l'échec / de l'insuffisance</div>
+                  </div>
+                  <div class="masque-chevron" id="chev-m6">▸</div>
+                </div>
+                <div class="masque-content" id="mc-m6">
+                  <div class="ombre-lumiere">
+                    <div class="ol-block ombre">
+                      <div class="ol-title">🌑 Dans son ombre</div>
+                      <div class="ol-text">Perfectionnisme paralysant · Procrastination · Syndrome de l'imposteur · Autosabotage · Comparaison constante</div>
+                    </div>
+                    <div class="ol-block lumiere">
+                      <div class="ol-title">☀️ Dans sa lumière</div>
+                      <div class="ol-text">L'échec perd son pouvoir intimidant et devient un professeur précieux. Vous libérez une créativité audacieuse et une capacité d'innovation qui transcende les limites conventionnelles.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="masque-item" onclick="toggleMasque('m7')">
+                <div class="masque-header">
+                  <div class="masque-dot" style="background:var(--v)"></div>
+                  <div>
+                    <div class="masque-name">💜 Masque Violet</div>
+                    <div class="masque-peur">Peur de perdre son identité</div>
+                  </div>
+                  <div class="masque-chevron" id="chev-m7">▸</div>
+                </div>
+                <div class="masque-content" id="mc-m7">
+                  <div class="ombre-lumiere">
+                    <div class="ol-block ombre">
+                      <div class="ol-title">🌑 Dans son ombre</div>
+                      <div class="ol-text">Résistance au changement · Attachement aux rôles · Vide intérieur · Angoisse existentielle · Faux self omniprésent</div>
+                    </div>
+                    <div class="ol-block lumiere">
+                      <div class="ol-title">☀️ Dans sa lumière</div>
+                      <div class="ol-text">Vous découvrez la nature fluide et infiniment riche de votre être. Toutes vos facettes s'intègrent en une danse harmonieuse. Vous vous alignez avec vos valeurs profondes et libérez les tensions intérieures.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /masques-list -->
+
+            <div class="quiz-inline" style="margin-top:20px">
+              <div class="quiz-inline-title">🎯 Première reconnaissance</div>
+              <p style="font-size:0.9rem;color:var(--grey2);margin-bottom:14px">Avant même le questionnaire — quel masque vous parle le plus instinctivement ?</p>
+              <div class="qi-options" id="q3">
+                <div class="qi-opt" onclick="selectQI('q3',this,'rouge')">🔴 Rouge — La peur pour ma santé / la mort</div>
+                <div class="qi-opt" onclick="selectQI('q3',this,'orange')">🟠 Orange — Fuir les émotions douloureuses</div>
+                <div class="qi-opt" onclick="selectQI('q3',this,'jaune')">🟡 Jaune — Tout contrôler, l'incertitude m'angoisse</div>
+                <div class="qi-opt" onclick="selectQI('q3',this,'vert')">🟢 Vert — Peur du rejet, du conflit, de décevoir</div>
+                <div class="qi-opt" onclick="selectQI('q3',this,'bleu')">🔵 Bleu — Montrer une faiblesse = danger</div>
+                <div class="qi-opt" onclick="selectQI('q3',this,'indigo')">🟣 Indigo — Peur d'échouer, de ne pas être à la hauteur</div>
+                <div class="qi-opt" onclick="selectQI('q3',this,'violet')">💜 Violet — "Qui suis-je vraiment ?" La peur de perdre ma boussole</div>
+              </div>
+              <div class="qi-feedback" id="fb-q3" style="display:none">✓ Noté. Le questionnaire va confirmer ou nuancer cette première intuition avec précision.</div>
+            </div>
+          </div>
+          <button class="btn-complete-lesson" onclick="completeLesson(3)">Leçon suivante →</button>
+        </div>
+
+        <!-- ── LEÇON 5 : QUESTIONNAIRE ── -->
+        <div class="lesson-accordion" id="acc-4" onclick="toggleLesson(4)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-4">5</div>
+            <div class="acc-info">
+              <div class="acc-title">Questionnaire V.A.L.E.U.R© — Identifier mes masques</div>
+              <div class="acc-meta"><span class="type-tag">📊 84 questions</span><span class="type-tag">⏱ 20-25 min</span><span class="type-tag">📈 Résultats immédiats</span></div>
+            </div>
+            <div class="acc-arrow" id="arr-4">▸</div>
+          </div>
+        </div>
+        <div class="lesson-content" id="lc-4">
+          <div class="lc-body">
+            <p>Le questionnaire V.A.L.E.U.R© est l'outil de diagnostic qui révèle avec précision quels masques sont dominants chez vous et leur intensité. Il est basé sur des outils psychométriques validés scientifiquement.</p>
+            <div class="insight-box">
+              <div class="insight-icon">📋</div>
+              <div><strong>Ce que vous obtenez</strong><br>Un score sur 48 pour chacun des 7 masques · Votre masque dominant · Vos associations de masques · Des recommandations personnalisées</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0">
+              <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px">
+                <div style="font-size:1.8rem;font-weight:700;color:var(--gold)">84</div>
+                <div style="font-size:0.72rem;color:var(--grey2)">Questions</div>
+              </div>
+              <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px">
+                <div style="font-size:1.8rem;font-weight:700;color:var(--gold)">7</div>
+                <div style="font-size:0.72rem;color:var(--grey2)">Masques</div>
+              </div>
+              <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px">
+                <div style="font-size:1.8rem;font-weight:700;color:var(--gold)">20'</div>
+                <div style="font-size:0.72rem;color:var(--grey2)">Durée estimée</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <button class="btn-primary" style="flex:1;min-width:200px" onclick="showView('questionnaire')">Faire le questionnaire dans l'app →</button>
+              <a href="https://questionnaire-valeur-psyh.netlify.app" target="_blank" style="flex:1;min-width:200px;text-decoration:none">
+                <button class="topbar-btn" style="width:100%;padding:14px">Version complète externe ↗</button>
+              </a>
+            </div>
+          </div>
+          <button class="btn-complete-lesson" onclick="completeLesson(4)">J'ai complété le questionnaire →</button>
+        </div>
+
+        <!-- ── LEÇON 6 : FAQ POST-QUESTIONNAIRE ── -->
+        <div class="lesson-accordion" id="acc-5" onclick="toggleLesson(5)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-5">6</div>
+            <div class="acc-info">
+              <div class="acc-title">Comprendre mes résultats</div>
+              <div class="acc-meta"><span class="type-tag">❓ FAQ</span><span class="type-tag">📈 Associations de masques</span></div>
+            </div>
+            <div class="acc-arrow" id="arr-5">▸</div>
+          </div>
+        </div>
+        <div class="lesson-content" id="lc-5">
+          <div class="lc-body">
+            <h3>Questions fréquentes après le questionnaire</h3>
+
+            <div class="faq-list">
+              <div class="faq-item" onclick="toggleFaq('f1')">
+                <div class="faq-q">J'ai plusieurs masques élevés. Est-ce normal ? <span id="fiq-f1">▸</span></div>
+                <div class="faq-a" id="fa-f1">Oui, c'est extrêmement courant. La plupart des personnes portent 2 à 3 masques dominants qui interagissent et s'amplifient mutuellement. Ce n'est pas un diagnostic alarmant — c'est une stratégie défensive plus élaborée.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('f2')">
+                <div class="faq-q">Pourquoi certains masques s'associent-ils ? <span id="fiq-f2">▸</span></div>
+                <div class="faq-a" id="fa-f2">Vos masques s'associent parce qu'ils répondent à la même blessure originelle, mais de façons complémentaires. Quelqu'un qui a connu l'abandon peut développer à la fois la peur du rejet (Vert) et le besoin de contrôle relationnel (Bleu). Ces deux masques travaillent ensemble pour prévenir la même catastrophe.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('f3')">
+                <div class="faq-q">Quelles associations sont les plus fréquentes ? <span id="fiq-f3">▸</span></div>
+                <div class="faq-a" id="fa-f3">
+                  <strong>Anxiété amplifiée :</strong> Rouge + Jaune — ruminations sur les pires scénarios santé.<br><br>
+                  <strong>Distance dans l'intimité :</strong> Orange + Vert — vous cherchez la connexion mais vous vous fermez quand elle approche.<br><br>
+                  <strong>Contrôle relationnel :</strong> Jaune + Vert — besoin constant de savoir où est l'autre, ce qu'il fait.<br><br>
+                  <strong>Associations fréquentes :</strong> Bleu + Vert · Violet + Vert · Jaune + Bleu · Rouge + Jaune
+                </div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('f4')">
+                <div class="faq-q">Mes scores sont élevés partout. Que faire ? <span id="fiq-f4">▸</span></div>
+                <div class="faq-a" id="fa-f4">Cela indique une stratégie défensive globale basée sur la vigilance. Votre système a intériorisé : "le monde est dangereux, protège-toi de tous côtés." C'est épuisant — et ce système peut être recalibré. C'est exactement ce que fait ce parcours.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('f5')">
+                <div class="faq-q">Certaines associations sont-elles préoccupantes ? <span id="fiq-f5">▸</span></div>
+                <div class="faq-a" id="fa-f5">
+                  Trois associations créent davantage de souffrance si les scores dépassent 65% dans les deux masques :<br><br>
+                  🔵+🟢 <strong>Bleu + Vert</strong> — cycle de contrôle et d'abandon dans les relations<br>
+                  💜+🟢 <strong>Violet + Vert</strong> — codépendance sévère<br>
+                  🟠+💜 <strong>Orange + Violet</strong> — dissociation émotionnelle et perte d'identité<br><br>
+                  Dans ces cas, un accompagnement professionnel est recommandé en complément de ce parcours.
+                </div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('f6')">
+                <div class="faq-q">Mes masques vont-ils diminuer avec le temps ? <span id="fiq-f6">▸</span></div>
+                <div class="faq-a" id="fa-f6">Seuls, généralement non — ils se figent ou s'amplifient avec l'âge. Mais avec un travail conscient comme ce parcours, leur emprise peut être significativement réduite. Ils ne disparaissent pas complètement : vous développez une relation différente avec eux. La prise de conscience que vous avez maintenant est déjà la première étape.</div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-complete-lesson" onclick="completeLesson(5)">Leçon suivante →</button>
+        </div>
+
+        <!-- ── LEÇON 7 : LA CONSCIENCE OBSERVATRICE ── -->
+        <div class="lesson-accordion" id="acc-6" onclick="toggleLesson(6)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-6">7</div>
+            <div class="acc-info">
+              <div class="acc-title">Développer ma conscience observatrice</div>
+              <div class="acc-meta"><span class="type-tag">🧘 Pratique</span><span class="type-tag">⚡ 4 exercices</span><span class="type-tag">📥 Fiche PDF</span></div>
+            </div>
+            <div class="acc-arrow" id="arr-6">▸</div>
+          </div>
+        </div>
+        <div class="lesson-content" id="lc-6">
+          <div class="lc-body">
+            <div class="highlight" style="margin-bottom:20px">
+              "C'est la part de vous qui ne change pas pendant que tout le reste change. Celle qui peut observer 'il y a de la colère en moi' au lieu de 'je suis en colère'."
+            </div>
+
+            <h3>Le changement de préfixe — votre outil quotidien</h3>
+            <div class="comparison-boxes" style="margin:16px 0">
+              <div class="comp-box" style="border-color:rgba(192,57,43,0.4)">
+                <div style="font-size:0.65rem;letter-spacing:0.2em;color:#e05a4e;margin-bottom:8px">❌ FUSION</div>
+                <div style="font-style:italic;color:var(--grey2);font-size:0.88rem">"Je suis anxieux/anxieuse"<br>"Je suis nul(le)"<br>"Je suis en danger"</div>
+              </div>
+              <div class="comp-box" style="border-color:rgba(45,106,79,0.4)">
+                <div style="font-size:0.65rem;letter-spacing:0.2em;color:#5abf8a;margin-bottom:8px">✓ OBSERVATION</div>
+                <div style="font-style:italic;color:var(--grey2);font-size:0.88rem">"Je remarque de l'anxiété en moi"<br>"Une partie de moi se sent insuffisante"<br>"Mon masque s'active en ce moment"</div>
+              </div>
+            </div>
+
+            <h3>4 exercices pratiques</h3>
+
+            <div class="exercise-card" style="margin-bottom:16px">
+              <div class="exercise-title"><span>⏱</span> Exercice 1 — La pause observatrice (30 secondes)</div>
+              <div class="exercise-question">Maintenant, posez-vous la question : <em>Qu'est-ce que je remarque en moi en ce moment ?</em><br><br>Nommez 3 éléments : une pensée, une sensation, une émotion.</div>
+              <textarea class="journal-textarea" style="min-height:80px" placeholder="Je remarque... / Je sens... / J'observe que..."></textarea>
+              <button class="btn-save" style="margin-top:10px" onclick="showToast('✓ Exercice enregistré')">Enregistrer</button>
+            </div>
+
+            <div class="exercise-card" style="margin-bottom:16px">
+              <div class="exercise-title"><span>💓</span> Exercice 2 — Respiration 5-5-5 (cohérence cardiaque)</div>
+              <div class="exercise-question">Quand un masque s'active, cette respiration calme votre système nerveux en 2-3 minutes :</div>
+              <div class="breathing-steps">
+                <div class="bs-step" style="border-color:rgba(45,106,79,0.3)">👃 <strong>Inspirez</strong> par le nez — 5 secondes</div>
+                <div class="bs-step" style="border-color:rgba(201,168,76,0.3)">⏸ <strong>Retenez</strong> — 5 secondes</div>
+                <div class="bs-step" style="border-color:rgba(27,111,162,0.3)">💨 <strong>Expirez</strong> par la bouche — 5 secondes</div>
+                <div class="bs-step" style="border-color:rgba(108,52,131,0.3)">🔁 <strong>Répétez</strong> 5 fois</div>
+              </div>
+              <div style="font-size:0.78rem;color:var(--grey2);margin-top:10px;font-style:italic">Pourquoi ça marche : ce rythme synchronise votre cœur et votre respiration, activant le système parasympathique (apaisement) de manière mesurable et prouvée.</div>
+            </div>
+
+            <div class="exercise-card" style="margin-bottom:16px">
+              <div class="exercise-title"><span>📓</span> Exercice 3 — Journal d'observation (5 min/soir)</div>
+              <div class="exercise-question">Chaque soir pendant 5 jours, identifiez un moment où un masque s'est activé :</div>
+              <textarea class="journal-textarea" style="min-height:100px" placeholder="Quelle situation ? → Quel masque s'est activé ? → Quelle réaction automatique j'ai eu ? → Est-ce que j'ai pu l'observer ?"></textarea>
+              <button class="btn-save" style="margin-top:10px" onclick="showToast('✓ Enregistré dans votre journal')">Enregistrer dans mon journal</button>
+            </div>
+
+            <div class="exercise-card">
+              <div class="exercise-title"><span>🌊</span> Exercice 4 — Accueillir l'émotion (5 min)</div>
+              <div class="exercise-question">La prochaine fois qu'une émotion forte surgit :</div>
+              <div class="breathing-steps">
+                <div class="bs-step">1. Arrêtez-vous. 3 respirations conscientes.</div>
+                <div class="bs-step">2. Demandez-vous : <em>"Qu'est-ce que je remarque en moi ?"</em></div>
+                <div class="bs-step">3. Dites mentalement : <em>"Cette émotion a le droit d'être là."</em></div>
+                <div class="bs-step">4. Observez ce qui se passe dans votre corps sans chercher à changer.</div>
+              </div>
+            </div>
+
+            <div class="pdf-download" style="margin-top:20px" onclick="showToast('✓ Fiche Conscience Observatrice téléchargée')">
+              <div class="pdf-icon">📄</div>
+              <div class="pdf-info">
+                <div class="pdf-name">Fiche — Conscience Observatrice</div>
+                <div class="pdf-size">Livret V.A.L.E.U.R© · Page 1 · © Céline Bourbon</div>
+              </div>
+              <button class="pdf-btn">Télécharger</button>
+            </div>
+          </div>
+          <button class="btn-complete-lesson" onclick="completeLesson(6)">Leçon suivante →</button>
+        </div>
+
+        <!-- ── LEÇON 8 : FAQ MÉTHODE + RESSOURCES ── -->
+        <div class="lesson-accordion" id="acc-7" onclick="toggleLesson(7)">
+          <div class="acc-header">
+            <div class="acc-num" id="num-7">8</div>
+            <div class="acc-info">
+              <div class="acc-title">FAQ Méthode V.A.L.E.U.R© & Ressources à télécharger</div>
+              <div class="acc-meta"><span class="type-tag">❓ FAQ</span><span class="type-tag">📥 3 documents</span><span class="type-tag">🎓 Livret personnel</span></div>
+            </div>
+            <div class="acc-arrow" id="arr-7">▸</div>
+          </div>
+        </div>
+        <div class="lesson-content" id="lc-7">
+          <div class="lc-body">
+
+            <h3>FAQ — La méthode V.A.L.E.U.R©</h3>
+            <div class="faq-list">
+              <div class="faq-item" onclick="toggleFaq('fm1')">
+                <div class="faq-q">Qu'est-ce que la méthode V.A.L.E.U.R© ? <span id="fiq-fm1">▸</span></div>
+                <div class="faq-a" id="fa-fm1">Une méthode en 6 étapes qui vous aide à reconnaître vos peurs automatiques, comprendre vos réactions, et agir en accord avec vos valeurs profondes pour retrouver votre authenticité.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('fm2')">
+                <div class="faq-q">Que sont les "masques" ? Sont-ils mauvais ? <span id="fiq-fm2">▸</span></div>
+                <div class="faq-a" id="fa-fm2">Les masques sont des comportements automatiques que votre psyché a créés pour vous protéger des émotions douloureuses. Ils ne sont ni bons ni mauvais — ils vous ont protégé. Ils peuvent devenir limitants quand le danger initial a disparu mais qu'ils continuent d'opérer.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('fm3')">
+                <div class="faq-q">Vais-je perdre mon identité en travaillant sur mes masques ? <span id="fiq-fm3">▸</span></div>
+                <div class="faq-a" id="fa-fm3">Non — au contraire. L'objectif est de dépasser les fausses identités créées par les masques pour retrouver votre vraie nature, plus libre et pleine de vie. Vous ne perdez rien — vous retrouvez ce qui était captif derrière les défenses.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('fm4')">
+                <div class="faq-q">Combien de temps pour voir des résultats ? <span id="fiq-fm4">▸</span></div>
+                <div class="faq-a" id="fa-fm4">Avec une pratique régulière, beaucoup ressentent un apaisement et plus de clarté dès les premières semaines. La profondeur de la transformation dépend de votre engagement. Chaque petit pas crée de nouveaux circuits neuronaux.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('fm5')">
+                <div class="faq-q">Est-ce normal de ressentir plus de mal-être au début ? <span id="fiq-fm5">▸</span></div>
+                <div class="faq-a" id="fa-fm5">Oui, c'est le signe que des émotions mises de côté remontent à la surface. C'est temporaire et fait partie du processus de transformation. Soyez bienveillant(e) avec vous-même — chaque pas, même inconfortable, vous rapproche de votre liberté.</div>
+              </div>
+              <div class="faq-item" onclick="toggleFaq('fm6')">
+                <div class="faq-q">Comment mesurer mes progrès ? <span id="fiq-fm6">▸</span></div>
+                <div class="faq-a" id="fa-fm6">Le progrès se mesure par : une meilleure conscience de soi, un apaisement intérieur progressif, moins de réactions automatiques, et une capacité croissante à choisir consciemment vos réponses plutôt que de les subir.</div>
+              </div>
+            </div>
+
+            <!-- Ressources PDF -->
+            <h3 style="margin-top:28px">📚 Votre livret V.A.L.E.U.R© personnel</h3>
+            <div class="insight-box" style="margin-bottom:20px">
+              <div class="insight-icon">🎓</div>
+              <div><strong>Construisez votre livret au fil du parcours</strong><br>Chaque document téléchargé à chaque étape est une page de votre livret personnel. À la fin du parcours complet, vous aurez un livret V.A.L.E.U.R© unique, rempli de vos propres notes et exercices — une ressource à relire et à réutiliser toute votre vie.</div>
+            </div>
+
+            <div class="pdf-download" onclick="showToast('✓ Fiche Conscience Observatrice téléchargée')">
+              <div class="pdf-icon">📄</div>
+              <div class="pdf-info">
+                <div class="pdf-name">Page 1 — La Conscience Observatrice</div>
+                <div class="pdf-size">Livret V.A.L.E.U.R© · © Céline Bourbon · Méthode V.A.L.E.U.R©</div>
+              </div>
+              <button class="pdf-btn">Télécharger</button>
+            </div>
+
+            <div class="pdf-download" onclick="showToast('✓ Liste des valeurs téléchargée')">
+              <div class="pdf-icon" style="background:rgba(45,106,79,0.15);border-color:rgba(45,106,79,0.3)">📋</div>
+              <div class="pdf-info">
+                <div class="pdf-name">Page 2 — Ma liste de valeurs personnelles</div>
+                <div class="pdf-size">Livret V.A.L.E.U.R© · D'après Harris (2011) · © Céline Bourbon</div>
+              </div>
+              <button class="pdf-btn">Télécharger</button>
+            </div>
+
+            <div class="pdf-download" onclick="showToast('✓ Matrice téléchargée')">
+              <div class="pdf-icon" style="background:rgba(27,111,162,0.15);border-color:rgba(27,111,162,0.3)">🗂</div>
+              <div class="pdf-info">
+                <div class="pdf-name">Page 3 — Ma Matrice personnelle (ACT)</div>
+                <div class="pdf-size">Livret V.A.L.E.U.R© · © Céline Bourbon · Méthode V.A.L.E.U.R©</div>
+              </div>
+              <button class="pdf-btn">Télécharger</button>
+            </div>
+
+          </div>
+          <button class="btn-complete-lesson" style="background:linear-gradient(135deg,rgba(201,168,76,0.25),rgba(201,168,76,0.15));border-color:var(--gold);color:var(--gold)" onclick="completeLesson(7)">🎉 Module 0 complété — Passer au Module 1</button>
+        </div>
+
+        <!-- Copyright discret -->
+        <div style="text-align:center;padding:24px 0 8px;font-size:0.62rem;color:var(--grey);letter-spacing:0.15em">
+          © Céline Bourbon · Méthode V.A.L.E.U.R© · Tous droits réservés · Contenu confidentiel réservé aux membres
+        </div>
+
+      </div><!-- /view-module0 -->
 
       <!-- ══════════════════════════
            VUE : MODULE 1
@@ -2527,6 +3463,121 @@ async function sendMessage() {
 
   showToast('✓ Message envoyé à Céline Bourbon');
   if (input) input.value = '';
+}
+
+/* ═══════════════════════════════════════════════════
+   MODULE 0 — INTERACTIONS
+═══════════════════════════════════════════════════ */
+let lessonsDone = new Array(8).fill(false);
+
+function toggleLesson(index) {
+  const content = document.getElementById('lc-' + index);
+  const arrow   = document.getElementById('arr-' + index);
+  const acc     = document.getElementById('acc-' + index);
+  const numEl   = document.getElementById('num-' + index);
+
+  const isOpen = content.classList.contains('open');
+
+  // Fermer toutes les leçons
+  document.querySelectorAll('.lesson-content').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.acc-arrow').forEach(a => { a.classList.remove('open'); });
+  document.querySelectorAll('.lesson-accordion').forEach(a => a.classList.remove('active'));
+
+  if (!isOpen) {
+    content.classList.add('open');
+    arrow.classList.add('open');
+    acc.classList.add('active');
+    if (numEl && !lessonsDone[index]) numEl.classList.add('active-num');
+  }
+}
+
+function completeLesson(index) {
+  lessonsDone[index] = true;
+
+  // Mettre à jour le numéro visuellement
+  const numEl = document.getElementById('num-' + index);
+  if (numEl) {
+    numEl.textContent = '✓';
+    numEl.classList.remove('active-num');
+    numEl.classList.add('done');
+  }
+  const acc = document.getElementById('acc-' + index);
+  if (acc) acc.classList.add('done');
+
+  // Mettre à jour la barre de progression
+  const done  = lessonsDone.filter(Boolean).length;
+  const pct   = Math.round(done / 8 * 100);
+  const bar   = document.getElementById('m0-bar');
+  const label = document.getElementById('m0-pct');
+  if (bar)   bar.style.width   = pct + '%';
+  if (label) label.textContent = done + ' / 8 leçons';
+
+  // Sauvegarder en base si connecté
+  if (currentUser) markLessonDone('module0', 'lecon-' + index);
+
+  // Fermer la leçon courante et ouvrir la suivante
+  const nextIndex = index + 1;
+  if (nextIndex < 8) {
+    // Fermer l'actuelle
+    const currentContent = document.getElementById('lc-' + index);
+    const currentArrow   = document.getElementById('arr-' + index);
+    const currentAcc     = document.getElementById('acc-' + index);
+    if (currentContent) currentContent.classList.remove('open');
+    if (currentArrow)   currentArrow.classList.remove('open');
+    if (currentAcc)     currentAcc.classList.remove('active');
+    // Ouvrir la suivante après un court délai
+    setTimeout(() => toggleLesson(nextIndex), 300);
+    showToast('✓ Leçon complétée ! Passage à la suivante…');
+  } else {
+    // Module complet !
+    showToast('🎉 Module 0 complété ! Vous pouvez démarrer le Module 1.');
+    setTimeout(() => showModule('module1'), 2000);
+  }
+
+  // Scroll vers le haut du module
+  setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 400);
+}
+
+/* Quiz inline Module 0 */
+function selectQI(groupId, el, val) {
+  const group = document.getElementById(groupId);
+  if (!group) return;
+  group.querySelectorAll('.qi-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const fb = document.getElementById('fb-' + groupId);
+  if (fb) { fb.style.display = 'block'; }
+}
+
+/* Accordéon masques */
+function toggleMasque(id) {
+  const content = document.getElementById('mc-' + id);
+  const chev    = document.getElementById('chev-' + id);
+  if (!content) return;
+  const isOpen = content.classList.contains('open');
+  // Fermer tous
+  document.querySelectorAll('.masque-content').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.masque-chevron').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    content.classList.add('open');
+    if (chev) chev.classList.add('open');
+  }
+}
+
+/* Accordéon FAQ */
+function toggleFaq(id) {
+  const answer = document.getElementById('fa-' + id);
+  const icon   = document.getElementById('fiq-' + id);
+  if (!answer) return;
+  const isOpen = answer.classList.contains('open');
+  // Fermer tous dans la même liste
+  answer.closest('.faq-list')
+    .querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  answer.closest('.faq-list')
+    .querySelectorAll('.faq-q span').forEach(s => s.textContent = '▸');
+  if (!isOpen) {
+    answer.classList.add('open');
+    if (icon) icon.textContent = '▾';
+  }
 }
 
 /* ═══════════════════════════════════════════════════
