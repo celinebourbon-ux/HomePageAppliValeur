@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>V.A.L.E.U.R© — Application</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
 /* ═══════════════════════════════════════
@@ -1385,19 +1386,19 @@ body {
     <div id="signin-form">
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input class="form-input" type="email" placeholder="votre@email.com">
+        <input class="form-input" type="email" id="signin-email" placeholder="votre@email.com">
       </div>
       <div class="form-group">
         <label class="form-label">Mot de passe</label>
-        <input class="form-input" type="password" placeholder="••••••••">
+        <input class="form-input" type="password" id="signin-password" placeholder="••••••••">
       </div>
-      <button class="btn-primary" onclick="enterApp()">Accéder à mon espace</button>
+      <button class="btn-primary" onclick="signIn()">Accéder à mon espace</button>
 
       <div class="login-code-section">
         <div class="login-code-label">Vous avez un code d'accès ?</div>
         <div class="code-input-row">
-          <input class="form-input" placeholder="VALEUR2025" style="text-transform:uppercase">
-          <button class="btn-code" onclick="enterApp()">Activer</button>
+          <input class="form-input" id="access-code" placeholder="VALEUR2025" style="text-transform:uppercase">
+          <button class="btn-code" onclick="activateCode()">Activer</button>
         </div>
       </div>
     </div>
@@ -1405,21 +1406,21 @@ body {
     <div id="signup-form" style="display:none">
       <div class="form-group">
         <label class="form-label">Prénom</label>
-        <input class="form-input" type="text" placeholder="Votre prénom">
+        <input class="form-input" type="text" id="signup-prenom" placeholder="Votre prénom">
       </div>
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input class="form-input" type="email" placeholder="votre@email.com">
+        <input class="form-input" type="email" id="signup-email" placeholder="votre@email.com">
       </div>
       <div class="form-group">
         <label class="form-label">Mot de passe</label>
-        <input class="form-input" type="password" placeholder="Minimum 8 caractères">
+        <input class="form-input" type="password" id="signup-password" placeholder="Minimum 8 caractères">
       </div>
       <div class="form-group">
         <label class="form-label">Code d'accès</label>
-        <input class="form-input" placeholder="VALEUR2025" style="text-transform:uppercase">
+        <input class="form-input" id="signup-code" placeholder="VALEUR2025" style="text-transform:uppercase">
       </div>
-      <button class="btn-primary" onclick="enterApp()">Créer mon compte</button>
+      <button class="btn-primary" onclick="signUp()">Créer mon compte</button>
     </div>
 
     <div class="login-footer">
@@ -1882,26 +1883,11 @@ body {
         </div>
 
         <div class="section-title-label">Mes entrées précédentes</div>
-        <div class="journal-entries">
-
-          <div class="journal-entry">
-            <div class="entry-date">Samedi 28 février 2026</div>
-            <span class="entry-module-tag" style="background:rgba(192,57,43,0.15);color:#e05a4e;border:1px solid rgba(192,57,43,0.25)">Module 1 — Voir</span>
-            <div class="entry-text">J'ai réalisé aujourd'hui que ma réaction de contrôle excessif dans mon travail est liée à mon masque Jaune. Quand mon chef a changé les plans sans me prévenir, j'ai ressenti cette panique familière. Mais cette fois, je l'ai <em>vue</em> arriver. C'est déjà différent.</div>
+        <div class="journal-entries" id="journal-entries-list">
+          <!-- Chargé dynamiquement depuis Supabase -->
+          <div style="text-align:center;padding:40px;color:var(--grey);font-style:italic;font-size:0.88rem">
+            Chargement de votre journal...
           </div>
-
-          <div class="journal-entry">
-            <div class="entry-date">Vendredi 27 février 2026</div>
-            <span class="entry-module-tag" style="background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.25)">Module 0 — Comprendre</span>
-            <div class="entry-text">Les résultats du questionnaire m'ont surprise. Mon masque dominant est Indigo — la peur de l'échec. Je pensais que c'était le vert. Ça explique beaucoup de choses... notamment pourquoi je procrastine sur des projets importants pour moi.</div>
-          </div>
-
-          <div class="journal-entry">
-            <div class="entry-date">Jeudi 26 février 2026</div>
-            <span class="entry-module-tag" style="background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.25)">Module 0 — Comprendre</span>
-            <div class="entry-text">Premier jour dans l'application. L'idée que mon anxiété n'est pas un défaut mais une stratégie de survie me bouleverse. Je n'avais jamais vu les choses ainsi. J'espère que ce parcours va m'aider à trouver ce qui est "vrai" sous tout ça.</div>
-          </div>
-
         </div>
       </div>
 
@@ -2040,24 +2026,115 @@ body {
      JAVASCRIPT
 ═══════════════════════════════════════ -->
 <script>
+/* ═══════════════════════════════════════════════════
+   SUPABASE — INITIALISATION
+   © Céline Bourbon — Méthode V.A.L.E.U.R© — Confidentiel
+═══════════════════════════════════════════════════ */
+const SUPABASE_URL  = 'https://ecetwkusxzbqoztokgtk.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_OAESsD6hq6D38azq6Pjxuw_28frwX6M';
+const CODE_VALIDE   = 'VALEUR2025'; // code d'accès unique
 
-/* === ÉTAT === */
-let currentView = 'dashboard';
-let currentModule = null;
-let quizQ = 1;
-const totalQ = 84;
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* === DATES === */
+/* ═══════════════════════════════════════════════════
+   ÉTAT GLOBAL
+═══════════════════════════════════════════════════ */
+let currentUser    = null;
+let currentProfile = null;
+let currentView    = 'dashboard';
+let currentModule  = null;
+let quizQ          = 1;
+const totalQ       = 84;
+let journalEntries = [];
+
+/* ═══════════════════════════════════════════════════
+   INITIALISATION AU CHARGEMENT
+═══════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', async () => {
+  setDates();
+
+  // Vérifier session existante
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    await loadProfile();
+    enterApp();
+  }
+
+  // Écouter les changements d'auth
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      currentUser = session.user;
+      await loadProfile();
+      enterApp();
+    }
+    if (event === 'SIGNED_OUT') {
+      currentUser = null;
+      currentProfile = null;
+      showLoginScreen();
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   DATES
+═══════════════════════════════════════════════════ */
 function setDates() {
   const now = new Date();
   const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
   const str = now.toLocaleDateString('fr-FR', opts);
-  document.getElementById('today-date').textContent = str;
-  document.getElementById('journal-date').textContent = str;
+  ['today-date','journal-date'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = str;
+  });
 }
-setDates();
 
-/* === LOGIN === */
+/* ═══════════════════════════════════════════════════
+   PROFIL MEMBRE
+═══════════════════════════════════════════════════ */
+async function loadProfile() {
+  if (!currentUser) return;
+  const { data, error } = await sb
+    .from('profiles')
+    .select('*')
+    .eq('id', currentUser.id)
+    .single();
+
+  if (data) {
+    currentProfile = data;
+    updateUIWithProfile();
+  }
+}
+
+function updateUIWithProfile() {
+  if (!currentProfile) return;
+  const prenom = currentProfile.prenom || currentUser.email.split('@')[0];
+  const initial = prenom.charAt(0).toUpperCase();
+
+  // Mettre à jour avatar et nom dans la sidebar
+  document.querySelectorAll('.user-avatar').forEach(el => el.textContent = initial);
+  document.querySelectorAll('.user-name').forEach(el => el.textContent = prenom);
+
+  // Greeting dashboard
+  const greetEl = document.querySelector('.greeting-name');
+  if (greetEl) greetEl.textContent = `Bonjour, ${prenom} 👋`;
+}
+
+async function createProfile(userId, prenom, email) {
+  const { error } = await sb.from('profiles').insert({
+    id: userId,
+    prenom: prenom,
+    email: email,
+    code_acces: CODE_VALIDE,
+    module_actuel: 0,
+    progression: {}
+  });
+  if (error) console.error('Erreur création profil:', error);
+}
+
+/* ═══════════════════════════════════════════════════
+   CONNEXION / INSCRIPTION
+═══════════════════════════════════════════════════ */
 function switchLoginTab(tab) {
   document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
@@ -2065,83 +2142,164 @@ function switchLoginTab(tab) {
   document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none';
 }
 
+// Connexion email + mot de passe
+async function signIn() {
+  const email = document.getElementById('signin-email').value.trim();
+  const password = document.getElementById('signin-password').value;
+
+  if (!email || !password) {
+    showToast('⚠️ Remplissez tous les champs', 'error'); return;
+  }
+
+  setLoginLoading(true);
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  setLoginLoading(false);
+
+  if (error) {
+    showToast('Email ou mot de passe incorrect', 'error');
+  } else {
+    currentUser = data.user;
+    await loadProfile();
+    enterApp();
+  }
+}
+
+// Inscription
+async function signUp() {
+  const prenom   = document.getElementById('signup-prenom').value.trim();
+  const email    = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const code     = document.getElementById('signup-code').value.trim().toUpperCase();
+
+  if (!prenom || !email || !password || !code) {
+    showToast('⚠️ Remplissez tous les champs', 'error'); return;
+  }
+  if (code !== CODE_VALIDE) {
+    showToast('❌ Code d\'accès invalide', 'error'); return;
+  }
+  if (password.length < 8) {
+    showToast('⚠️ Mot de passe trop court (8 caractères min)', 'error'); return;
+  }
+
+  setLoginLoading(true);
+  const { data, error } = await sb.auth.signUp({ email, password });
+  setLoginLoading(false);
+
+  if (error) {
+    showToast('Erreur : ' + error.message, 'error');
+  } else {
+    currentUser = data.user;
+    await createProfile(data.user.id, prenom, email);
+    await loadProfile();
+    showToast('✓ Compte créé avec succès !');
+    setTimeout(() => enterApp(), 800);
+  }
+}
+
+// Activation par code seul (accès rapide)
+async function activateCode() {
+  const code = document.getElementById('access-code').value.trim().toUpperCase();
+  if (code !== CODE_VALIDE) {
+    showToast('❌ Code d\'accès invalide', 'error'); return;
+  }
+  // Connexion démo avec le code
+  showToast('✓ Code valide — Bienvenue !');
+  setTimeout(() => enterAppDemo(), 800);
+}
+
+// Mode démo sans Supabase (si besoin de tester rapidement)
+function enterAppDemo() {
+  currentProfile = { prenom: 'Céline', module_actuel: 1 };
+  updateUIWithProfile();
+  document.getElementById('screen-login').classList.remove('active');
+  document.getElementById('screen-app').classList.add('active');
+  showView('dashboard');
+  loadJournalEntries();
+}
+
+function setLoginLoading(on) {
+  const btns = document.querySelectorAll('.btn-primary, .btn-code');
+  btns.forEach(b => { b.disabled = on; b.style.opacity = on ? '0.6' : '1'; });
+}
+
+/* ═══════════════════════════════════════════════════
+   AFFICHAGE APP
+═══════════════════════════════════════════════════ */
 function enterApp() {
   document.getElementById('screen-login').classList.remove('active');
   document.getElementById('screen-app').classList.add('active');
   showView('dashboard');
+  loadJournalEntries();
 }
 
-function logout() {
+function showLoginScreen() {
   document.getElementById('screen-app').classList.remove('active');
   document.getElementById('screen-login').classList.add('active');
 }
 
-/* === NAVIGATION === */
-function setActiveNav(selector) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if(selector) {
-    const items = document.querySelectorAll('.nav-item');
-    items.forEach(item => {
-      if(item.getAttribute('onclick') && item.getAttribute('onclick').includes(selector)) {
-        item.classList.add('active');
-      }
-    });
-  }
+async function logout() {
+  await sb.auth.signOut();
+  showLoginScreen();
 }
+
+/* ═══════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════ */
+function setActiveNav(viewName) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const oc = item.getAttribute('onclick') || '';
+    if (oc.includes(viewName)) item.classList.add('active');
+  });
+}
+
+const VIEW_TITLES = {
+  dashboard:     ['Tableau de bord',           'Bienvenue dans votre espace V.A.L.E.U.R©'],
+  module0:       ['Module 0 — Comprendre',     'Les fondations de votre parcours'],
+  module1:       ['Module 1 — Voir',           'Identifier votre masque dominant'],
+  module2:       ['Module 2 — Accueillir',     'Recevoir l\'émotion sans la fuir'],
+  module3:       ['Module 3 — Localiser',      'Trouver la trace dans le corps'],
+  module4:       ['Module 4 — Explorer',       'Comprendre la peur sous-jacente'],
+  module5:       ['Module 5 — Unifier',        'Réconcilier les parties en conflit'],
+  module6:       ['Module 6 — Renforcer',      'Ancrer la nouvelle posture'],
+  lesson:        ['Leçon en cours',            'Module 1 — Voir'],
+  questionnaire: ['Questionnaire V.A.L.E.U.R©','84 questions · 7 masques'],
+  journal:       ['Journal de bord',           'Vos réflexions et prises de conscience'],
+  chat:          ['Chat & Suivi',              'Accompagnement par Céline Bourbon'],
+};
 
 function showView(viewName) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   const target = document.getElementById('view-' + viewName);
-  if(target) {
-    target.classList.add('active');
-    currentView = viewName;
-  }
+  if (target) { target.classList.add('active'); currentView = viewName; }
   closeSidebar();
-
-  // Mettre à jour topbar
-  const titles = {
-    dashboard: ['Tableau de bord', 'Bienvenue dans votre espace V.A.L.E.U.R©'],
-    module0: ['Module 0 — Comprendre', 'Les fondations de votre parcours'],
-    module1: ['Module 1 — Voir', 'Identifier votre masque dominant'],
-    module2: ['Module 2 — Accueillir', 'Recevoir l\'émotion sans la fuir'],
-    module3: ['Module 3 — Localiser', 'Trouver la trace dans le corps'],
-    module4: ['Module 4 — Explorer', 'Comprendre la peur sous-jacente'],
-    module5: ['Module 5 — Unifier', 'Réconcilier les parties en conflit'],
-    module6: ['Module 6 — Renforcer', 'Ancrer la nouvelle posture'],
-    lesson: ['Leçon en cours', 'Module 1 — Voir'],
-    questionnaire: ['Questionnaire V.A.L.E.U.R©', '84 questions · 7 masques'],
-    journal: ['Journal de bord', 'Vos réflexions et prises de conscience'],
-    chat: ['Chat & Suivi', 'Accompagnement par Céline Bourbon'],
-  };
-  if(titles[viewName]) {
-    document.getElementById('topbar-title').textContent = titles[viewName][0];
-    document.getElementById('topbar-sub').textContent = titles[viewName][1];
+  if (VIEW_TITLES[viewName]) {
+    document.getElementById('topbar-title').textContent = VIEW_TITLES[viewName][0];
+    document.getElementById('topbar-sub').textContent   = VIEW_TITLES[viewName][1];
   }
   setActiveNav(viewName);
   window.scrollTo(0, 0);
+
+  // Charger les données spécifiques à la vue
+  if (viewName === 'journal') renderJournal();
 }
 
-function showModule(mod) {
-  showView(mod);
-  currentModule = mod;
-}
+function showModule(mod) { showView(mod); currentModule = mod; }
 
 function showLesson(lessonId) {
-  const lessonTitles = {
-    'intro': 'Introduction — La méthode V.A.L.E.U.R©',
+  const titles = {
+    'intro':  'Introduction — La méthode V.A.L.E.U.R©',
     'voir-1': 'Voir — Introduction',
     'voir-2': 'Reconnaître mon masque dominant',
     'voir-3': 'Les signaux d\'alerte de mon masque',
     'voir-4': 'Ma carte personnelle des masques',
     'voir-5': 'Validation & passage au Module 2',
   };
-  document.getElementById('lesson-title').textContent = lessonTitles[lessonId] || 'Leçon';
+  document.getElementById('lesson-title').textContent = titles[lessonId] || 'Leçon';
   showView('lesson');
 }
 
-function backToModule() {
-  showModule(currentModule || 'module1');
-}
+function backToModule() { showModule(currentModule || 'module1'); }
 
 /* === SIDEBAR MOBILE === */
 function toggleSidebar() {
@@ -2153,75 +2311,236 @@ function closeSidebar() {
   document.getElementById('overlay').classList.remove('active');
 }
 
-/* === QUESTIONNAIRE === */
+/* ═══════════════════════════════════════════════════
+   JOURNAL — SAUVEGARDE EN BASE
+═══════════════════════════════════════════════════ */
+async function loadJournalEntries() {
+  if (!currentUser) return;
+  const { data, error } = await sb
+    .from('journal')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  if (data) { journalEntries = data; renderJournal(); }
+}
+
+function renderJournal() {
+  const container = document.getElementById('journal-entries-list');
+  if (!container) return;
+
+  if (journalEntries.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:40px;color:var(--grey);font-style:italic;font-size:0.88rem">
+      Votre journal est vide. Écrivez votre première entrée ci-dessus.
+    </div>`;
+    return;
+  }
+
+  const colors = {
+    'Module 0': 'rgba(201,168,76,0.15)', 'Module 1': 'rgba(192,57,43,0.15)',
+    'Module 2': 'rgba(196,98,45,0.15)',  'Module 3': 'rgba(201,168,76,0.1)',
+    'Module 4': 'rgba(45,106,79,0.15)',  'Module 5': 'rgba(27,111,162,0.15)',
+    'Module 6': 'rgba(125,60,152,0.15)'
+  };
+  const textColors = {
+    'Module 0': 'var(--gold)', 'Module 1': '#e05a4e', 'Module 2': '#e07840',
+    'Module 3': 'var(--y)', 'Module 4': '#3d8a64', 'Module 5': '#2980b9', 'Module 6': '#9b59b6'
+  };
+
+  container.innerHTML = journalEntries.map(entry => {
+    const date = new Date(entry.created_at);
+    const dateStr = date.toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    const tag = entry.module_tag || 'Général';
+    const bg  = colors[tag] || 'rgba(255,255,255,0.05)';
+    const tc  = textColors[tag] || 'var(--grey2)';
+    return `
+      <div class="journal-entry">
+        <div class="entry-date">${dateStr}</div>
+        <span class="entry-module-tag" style="background:${bg};color:${tc};border:1px solid ${tc}40">${tag}</span>
+        <div class="entry-text">${entry.contenu.replace(/\n/g,'<br>')}</div>
+      </div>`;
+  }).join('');
+}
+
+async function saveJournal() {
+  const textarea = document.getElementById('quick-journal') || document.querySelector('.journal-textarea');
+  const contenu  = textarea ? textarea.value.trim() : '';
+  if (!contenu) { showToast('⚠️ Écrivez quelque chose avant d\'enregistrer', 'error'); return; }
+
+  // Détecter le module actuel pour le tag
+  const moduleTag = currentModule
+    ? 'Module ' + (currentModule.replace('module',''))
+    : 'Général';
+
+  if (currentUser) {
+    // Sauvegarde réelle en base
+    const { data, error } = await sb.from('journal').insert({
+      user_id:    currentUser.id,
+      contenu:    contenu,
+      module_tag: moduleTag
+    }).select().single();
+
+    if (error) {
+      showToast('Erreur d\'enregistrement', 'error');
+    } else {
+      journalEntries.unshift(data);
+      renderJournal();
+      showToast('✓ Entrée enregistrée dans votre journal');
+      if (textarea) textarea.value = '';
+    }
+  } else {
+    // Mode démo — sauvegarde locale
+    journalEntries.unshift({
+      id: Date.now(),
+      contenu: contenu,
+      module_tag: moduleTag,
+      created_at: new Date().toISOString()
+    });
+    renderJournal();
+    showToast('✓ Entrée enregistrée');
+    if (textarea) textarea.value = '';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   PROGRESSION
+═══════════════════════════════════════════════════ */
+async function markLessonDone(moduleId, leconId) {
+  if (!currentUser) return;
+  await sb.from('progression').upsert({
+    user_id:  currentUser.id,
+    module_id: moduleId,
+    lecon_id:  leconId,
+    statut:    'done',
+    completed_at: new Date().toISOString()
+  }, { onConflict: 'user_id,module_id,lecon_id' });
+
+  showToast('✓ Leçon complétée !');
+}
+
+/* ═══════════════════════════════════════════════════
+   QUESTIONNAIRE
+═══════════════════════════════════════════════════ */
 const questions = [
-  { num:'01', masque:'Masque Rouge', text:'Je surveille régulièrement mon corps à la recherche de signaux d\'alerte qui pourraient indiquer une maladie ou un problème de santé.' },
-  { num:'02', masque:'Masque Rouge', text:'Lorsque je ressens une douleur ou une sensation inhabituelle, j\'imagine souvent le pire scénario possible.' },
-  { num:'03', masque:'Masque Orange', text:'Je préfère éviter les situations émotionnellement intenses, même si cela signifie manquer des expériences importantes.' },
-  { num:'04', masque:'Masque Orange', text:'Quand je souffre émotionnellement, j\'ai tendance à chercher à m\'étourdir plutôt qu\'à traverser la douleur.' },
-  { num:'05', masque:'Masque Jaune', text:'L\'incertitude concernant l\'avenir me génère une anxiété difficile à gérer.' },
-  { num:'06', masque:'Masque Jaune', text:'J\'ai besoin de planifier et d\'anticiper pour me sentir en sécurité.' },
-  { num:'07', masque:'Masque Vert', text:'La peur de décevoir les autres influence souvent mes décisions.' },
-  { num:'08', masque:'Masque Vert', text:'J\'ai du mal à refuser des demandes de peur de blesser les relations.' },
+  { num:'01', masque:'Masque Rouge 🔴',   text:'Je surveille régulièrement mon corps à la recherche de signaux d\'alerte qui pourraient indiquer une maladie ou un problème de santé.' },
+  { num:'02', masque:'Masque Rouge 🔴',   text:'Lorsque je ressens une douleur ou une sensation inhabituelle, j\'imagine souvent le pire scénario possible.' },
+  { num:'03', masque:'Masque Rouge 🔴',   text:'J\'évite certaines activités physiques par peur que mon corps ne réagisse mal.' },
+  { num:'04', masque:'Masque Orange 🟠',  text:'Je préfère éviter les situations émotionnellement intenses, même si cela signifie manquer des expériences importantes.' },
+  { num:'05', masque:'Masque Orange 🟠',  text:'Quand je souffre émotionnellement, j\'ai tendance à chercher à m\'étourdir plutôt qu\'à traverser la douleur.' },
+  { num:'06', masque:'Masque Orange 🟠',  text:'Je ressens une résistance à m\'ouvrir émotionnellement aux autres, même à ceux en qui j\'ai confiance.' },
+  { num:'07', masque:'Masque Jaune 🟡',  text:'L\'incertitude concernant l\'avenir me génère une anxiété difficile à gérer.' },
+  { num:'08', masque:'Masque Jaune 🟡',  text:'J\'ai besoin de planifier et d\'anticiper pour me sentir en sécurité.' },
+  { num:'09', masque:'Masque Jaune 🟡',  text:'Je vis difficilement les changements imprévus dans mon quotidien.' },
+  { num:'10', masque:'Masque Vert 🟢',   text:'La peur de décevoir les autres influence souvent mes décisions.' },
+  { num:'11', masque:'Masque Vert 🟢',   text:'J\'ai du mal à refuser des demandes de peur de blesser les relations.' },
+  { num:'12', masque:'Masque Vert 🟢',   text:'Je ressens une angoisse quand je sens qu\'une relation importante est fragilisée.' },
+  { num:'13', masque:'Masque Bleu 🔵',   text:'Je préfère tout gérer moi-même plutôt que de déléguer ou de demander de l\'aide.' },
+  { num:'14', masque:'Masque Bleu 🔵',   text:'Quand les choses m\'échappent, je ressens une forte tension intérieure.' },
+  { num:'15', masque:'Masque Bleu 🔵',   text:'Accepter ma vulnérabilité me semble difficile, voire dangereux.' },
+  { num:'16', masque:'Masque Indigo 🟣', text:'Je me compare souvent aux autres et crains de ne pas être à la hauteur.' },
+  { num:'17', masque:'Masque Indigo 🟣', text:'La peur de l\'échec me pousse parfois à ne pas commencer ce qui est important pour moi.' },
+  { num:'18', masque:'Masque Indigo 🟣', text:'Je suis très exigeant(e) avec moi-même et je me critique facilement.' },
+  { num:'19', masque:'Masque Violet 💜', text:'Je me demande parfois qui je suis vraiment, au-delà des rôles que je joue.' },
+  { num:'20', masque:'Masque Violet 💜', text:'J\'ai l\'impression de vivre parfois à côté de moi-même, sans vraiment me sentir présent(e).' },
+  { num:'21', masque:'Masque Violet 💜', text:'Je ressens un manque de sens profond malgré une vie qui semble "normale" de l\'extérieur.' },
 ];
+let quizAnswers = {};
 
 function updateQuizDisplay() {
-  const q = questions[Math.min(quizQ-1, questions.length-1)];
-  document.getElementById('quiz-num').textContent = `Question ${q.num} · ${q.masque}`;
-  document.getElementById('quiz-text').textContent = q.text;
+  const idx = Math.min(quizQ - 1, questions.length - 1);
+  const q   = questions[idx];
+  const num = String(quizQ).padStart(2,'0');
+  document.getElementById('quiz-num').textContent   = `Question ${num} · ${q.masque}`;
+  document.getElementById('quiz-text').textContent  = q.text;
   document.getElementById('quiz-counter').textContent = `Question ${quizQ} sur ${totalQ}`;
-  const pct = Math.round((quizQ-1)/totalQ*100);
-  document.getElementById('quiz-pct').textContent = pct + '% complété';
-  document.getElementById('quiz-fill').style.width = Math.max(2, pct) + '%';
-  // Reset selection
-  document.querySelectorAll('.quiz-scale-btn').forEach(b => b.classList.remove('selected'));
+  const pct = Math.round((quizQ - 1) / totalQ * 100);
+  document.getElementById('quiz-pct').textContent   = pct + '% complété';
+  document.getElementById('quiz-fill').style.width  = Math.max(2, pct) + '%';
+  document.querySelectorAll('.quiz-scale-btn').forEach((b, i) => {
+    b.classList.toggle('selected', quizAnswers[quizQ] === i + 1);
+  });
 }
 
 function answerQuiz(score, el) {
+  quizAnswers[quizQ] = score;
   document.querySelectorAll('.quiz-scale-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
 }
 
 function nextQuestion() {
-  if(quizQ < totalQ) {
-    quizQ++;
-    updateQuizDisplay();
-  } else {
-    showToast('Questionnaire terminé ! Vos résultats sont calculés ✓');
+  if (!quizAnswers[quizQ]) { showToast('⚠️ Choisissez une réponse', 'error'); return; }
+  if (quizQ < totalQ) { quizQ++; updateQuizDisplay(); }
+  else {
+    showToast('✓ Questionnaire terminé ! Résultats calculés.');
     setTimeout(() => showView('dashboard'), 1500);
   }
 }
 
 function prevQuestion() {
-  if(quizQ > 1) { quizQ--; updateQuizDisplay(); }
+  if (quizQ > 1) { quizQ--; updateQuizDisplay(); }
 }
 
-/* === EXERCICE === */
+/* ═══════════════════════════════════════════════════
+   EXERCICE
+═══════════════════════════════════════════════════ */
 function selectOption(el) {
   document.querySelectorAll('.exercise-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
 }
 
-/* === JOURNAL === */
-function saveJournal() {
-  showToast('Entrée enregistrée dans votre journal ✓');
-  document.getElementById('quick-journal').value = '';
-}
-
-/* === CHAT === */
-function sendMessage() {
+/* ═══════════════════════════════════════════════════
+   CHAT
+═══════════════════════════════════════════════════ */
+async function sendMessage() {
   const input = document.getElementById('chat-input');
-  if(!input.value.trim()) return;
-  showToast('Message envoyé à Céline Bourbon ✓');
-  input.value = '';
+  const msg   = input ? input.value.trim() : '';
+  if (!msg) return;
+
+  // Ajouter visuellement le message
+  const chatMsgs = document.querySelector('.chat-messages');
+  if (chatMsgs) {
+    const prenom  = currentProfile ? currentProfile.prenom : 'Vous';
+    const initial = prenom.charAt(0).toUpperCase();
+    chatMsgs.insertAdjacentHTML('beforeend', `
+      <div class="chat-msg me">
+        <div class="chat-avatar">${initial}</div>
+        <div class="chat-bubble">${msg}</div>
+      </div>
+      <div class="chat-msg" style="margin-top:12px">
+        <div class="chat-avatar cb">CB</div>
+        <div class="chat-bubble" style="font-style:italic;color:var(--grey2)">
+          ✉️ Message reçu. Céline Bourbon vous répondra sous 48h.
+        </div>
+      </div>`);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+  }
+
+  // Sauvegarder en base si connecté
+  if (currentUser) {
+    await sb.from('messages').insert({
+      user_id: currentUser.id,
+      contenu: msg,
+      expediteur: 'membre'
+    }).then(({error}) => { if(error) console.log('Chat non configuré en base:', error.message); });
+  }
+
+  showToast('✓ Message envoyé à Céline Bourbon');
+  if (input) input.value = '';
 }
 
-/* === TOAST === */
-function showToast(msg) {
+/* ═══════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════ */
+function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   t.textContent = msg;
+  t.style.borderColor = type === 'error'
+    ? 'rgba(192,57,43,0.5)'
+    : 'rgba(201,168,76,0.3)';
+  t.style.color = type === 'error' ? '#e05a4e' : 'var(--gold)';
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 
 </script>
