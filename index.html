@@ -18,8 +18,7 @@
 </head>
 <body>
   <div id="root"></div>
-  <script>
-"use strict";
+  <script>"use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t.return || t.return(); } finally { if (u) throw o; } } }; }
@@ -53,10 +52,10 @@ var _React = React,
 var APP_PASSWORD = "VALEUR2025"; // Mot de passe unique pour tous les patients
 var ADMIN_EMAIL = "celine.bourbon@gmail.com";
 var ADMIN_PASSWORD = "Admin2025!"; // Mot de passe admin spécial
-var EMAILJS_SERVICE = "service_celine_valeur"; // ← votre Service ID EmailJS
-var EMAILJS_TEMPLATE_INSCRIPTION = "template_inscription"; // ← Template "nouvelle inscription"
-var EMAILJS_TEMPLATE_PROGRESS = "template_progress"; // ← Template "progression"
-var EMAILJS_PUBLIC_KEY = "VOTRE_CLE_PUBLIQUE_EMAILJS"; // ← Votre clé publique EmailJS
+var EMAILJS_SERVICE = "Questionnaire VALEUR";
+var EMAILJS_TEMPLATE_INSCRIPTION = "template_inscription";
+var EMAILJS_TEMPLATE_PROGRESS = "template_inscription"; // même template, sujet différent
+var EMAILJS_PUBLIC_KEY = "Qamyb35cCRJ5Pulqs";
 
 // ── STORAGE HELPERS (données par email = données par patient) ─────
 function loadUser(email, key) {
@@ -123,7 +122,7 @@ function sendEmailNotification(templateId, params) {
 }
 function notifyInscription(email, name) {
   sendEmailNotification(EMAILJS_TEMPLATE_INSCRIPTION, {
-    to_email: ADMIN_EMAIL,
+    to_email: "celine.bourbon@gmail.com",
     patient_email: email,
     patient_name: name || email,
     date: new Date().toLocaleDateString('fr-FR', {
@@ -132,17 +131,20 @@ function notifyInscription(email, name) {
       month: 'long',
       year: 'numeric'
     }),
-    heure: new Date().toLocaleTimeString('fr-FR')
+    heure: new Date().toLocaleTimeString('fr-FR'),
+    app_notification: "\uD83C\uDF89 NOUVELLE INSCRIPTION\nPr\xE9nom : ".concat(name || email, "\nEmail  : ").concat(email, "\nDate   : ").concat(new Date().toLocaleDateString('fr-FR'), " \xE0 ").concat(new Date().toLocaleTimeString('fr-FR'), "\n\n\u2192 homepagevaleur.netlify.app")
   });
 }
 function notifyProgress(email, name, sectionLabel, score) {
   sendEmailNotification(EMAILJS_TEMPLATE_PROGRESS, {
-    to_email: ADMIN_EMAIL,
+    to_email: "celine.bourbon@gmail.com",
     patient_email: email,
     patient_name: name || email,
     section: sectionLabel,
     score: score || '',
-    date: new Date().toLocaleDateString('fr-FR')
+    date: new Date().toLocaleDateString('fr-FR'),
+    heure: new Date().toLocaleTimeString('fr-FR'),
+    app_notification: "\uD83D\uDCC8 PROGRESSION\nPr\xE9nom  : ".concat(name || email, "\nEmail   : ").concat(email, "\nSection : ").concat(sectionLabel, "\nDate    : ").concat(new Date().toLocaleDateString('fr-FR'), "\n\n\u2192 homepagevaleur.netlify.app")
   });
 }
 
@@ -4910,7 +4912,6 @@ function App() {
   }, "\xA9 V.A.L.E.U.R\xA9 \u2014 C. Bourbon")));
 }
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
-
-  </script>
+</script>
 </body>
 </html>
