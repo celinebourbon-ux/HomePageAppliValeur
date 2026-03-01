@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Les 7 peurs qui empêchent d'être soi — Méthode V.A.L.E.U.R©</title>
-  <meta name="description" content="Module 0 — Comprendre. Méthode V.A.L.E.U.R© par Céline Bourbon, Psychologue." />
-  <!-- React depuis CDN — pré-compilé, aucun Babel navigateur -->
+  <meta name="description" content="Méthode V.A.L.E.U.R© par Céline Bourbon, Psychologue. Module 0 — Comprendre."/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #0a0f1a; font-family: 'Segoe UI', system-ui, sans-serif; color: #e2e8f0; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0f1a; }
-    ::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 3px; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#0a0f1a;font-family:'Segoe UI',system-ui,sans-serif;color:#e2e8f0;-webkit-font-smoothing:antialiased;}
+    textarea{font-family:inherit;}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:#0a0f1a;}
+    ::-webkit-scrollbar-thumb{background:#c9a84c;border-radius:3px;}
+    @media(max-width:480px){button{min-height:44px;}textarea{font-size:16px!important;}}
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <!-- Code pré-compilé — aucun avertissement Babel, chargement optimisé -->
   <script>
 "use strict";
 
@@ -40,13 +40,38 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var _React = React,
   useState = _React.useState,
-  useRef = _React.useRef;
+  useRef = _React.useRef,
+  useEffect = _React.useEffect;
 
 /* ============================================================
    © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
    Tous droits réservés. Toute reproduction interdite.
    Basé sur "De la peur à la joie d'être soi" — L'Harmattan
    ============================================================ */
+
+// ── STORAGE (localStorage) ───────────────────────────────────────
+
+var STORAGE_KEYS = {
+  profile: 'valeur_profile',
+  progress: 'valeur_progress',
+  journal: 'valeur_journal',
+  quizScores: 'valeur_scores'
+};
+function load(key) {
+  try {
+    var v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : null;
+  } catch (_unused) {
+    return null;
+  }
+}
+function save(key, val) {
+  try {
+    localStorage.setItem(key, JSON.stringify(val));
+  } catch (_unused2) {}
+}
+
+// ── COULEURS ─────────────────────────────────────────────────────
 
 var C = {
   navy: "#0a0f1a",
@@ -83,7 +108,8 @@ var MASKS = [{
   tagline: "Vous espionnez votre propre corps.",
   lines: ["La moindre douleur devient suspecte. Vous consultez internet avant le médecin — ou à sa place.", "Réveil à 2h du matin : est-ce que ce battement est normal ? Cette tension dans la poitrine, ça va ?", "Vous savez que c'est excessif. Mais vous ne pouvez pas vous en empêcher.", "Ce gardien vigilant a été créé un jour pour vous protéger. Aujourd'hui, il vous épuise."],
   manifestation: "Hypervigilance somatique",
-  hook: "Vous surveillez votre corps comme s'il pouvait vous trahir à tout moment ?"
+  hook: "Vous surveillez votre corps comme s'il pouvait vous trahir à tout moment ?",
+  journalPrompt: "Quel signal physique vous préoccupe le plus en ce moment ? Comment réagissez-vous quand il apparaît ?"
 }, {
   id: "orange",
   color: C.orange,
@@ -95,7 +121,8 @@ var MASKS = [{
   tagline: "Vous êtes fort·e pour les autres — mais vous fuyez vos propres émotions.",
   lines: ["Quand les émotions montent, vous changez de sujet. Ou de pièce. Ou vous rendez service.", "On dit de vous que vous êtes \"solide\", \"rationnel·le\", \"toujours là pour les autres\".", "Les films trop intenses ? Vous regardez ailleurs. Les conflits intimes ? Vous esquivez.", "Vous avez appris très tôt que ressentir était dangereux. Ce réflexe vous coûte aujourd'hui votre vie intérieure."],
   manifestation: "Évitement émotionnel",
-  hook: "Quand avez-vous pleuré pour vous — pas pour les autres — pour la dernière fois ?"
+  hook: "Quand avez-vous pleuré pour vous — pas pour les autres — pour la dernière fois ?",
+  journalPrompt: "Quelle émotion avez-vous le plus de mal à traverser ? Dans quelles situations l'esquivez-vous ?"
 }, {
   id: "jaune",
   color: C.jaune,
@@ -107,7 +134,8 @@ var MASKS = [{
   tagline: "L'imprévu vous angoisse. Vous devez tout maîtriser.",
   lines: ["Vacances sans plan ? Réunion sans ordre du jour ? Vous ne supportez pas.", "Vous posez des questions que les autres trouvent excessives — mais pour vous, c'est vital.", "Vous révisez les scénarios en boucle : et si ça tourne mal ? Et si je n'ai pas tout prévu ?", "Ce besoin de contrôle cache une question plus profonde : et si le sol se dérobait sous vos pieds ?"],
   manifestation: "Obsession de contrôle",
-  hook: "Combien d'énergie dépensez-vous chaque jour à contrôler l'incontrôlable ?"
+  hook: "Combien d'énergie dépensez-vous chaque jour à contrôler l'incontrôlable ?",
+  journalPrompt: "Qu'est-ce que vous ne supportez pas de ne pas maîtriser ? Qu'est-ce qui se passe en vous quand l'imprévu survient ?"
 }, {
   id: "vert",
   color: C.vert,
@@ -120,7 +148,8 @@ var MASKS = [{
   lines: ["Vous dites oui quand vous pensez non. Vous souriez quand vous êtes blessé·e.", "Vous êtes l'ami·e, le/la collègue, le/la conjoint·e sur qui tout le monde s'appuie.", "Mais qui prend soin de vous ?", "Au fond, une conviction silencieuse gouverne tout : \"Si je suis vraiment moi, on me quittera.\""],
   manifestation: "Insécurité relationnelle",
   hook: "Quand avez-vous dit non sans vous en vouloir juste après ?",
-  scienceFact: "Le rejet social active les mêmes zones cérébrales que la douleur physique. Une étude (Science, 2003) a montré que le paracétamol réduisait significativement la souffrance de l'exclusion sociale. Votre cerveau vit un rejet comme une vraie blessure. Vous n'êtes pas \"trop sensible\" — vous êtes humain·e."
+  scienceFact: "Le rejet social active les mêmes zones cérébrales que la douleur physique. Une étude (Science, 2003) a montré que le paracétamol réduisait significativement la souffrance de l'exclusion sociale. Votre cerveau vit un rejet comme une vraie blessure. Vous n'êtes pas \"trop sensible\" — vous êtes humain·e.",
+  journalPrompt: "Dans quelle relation avez-vous le plus peur d'être vous-même ? Quel besoin n'exprimez-vous jamais ?"
 }, {
   id: "bleu",
   color: C.bleu,
@@ -132,7 +161,8 @@ var MASKS = [{
   tagline: "Vous ne pouvez pas vous permettre de montrer votre faiblesse.",
   lines: ["Vous dirigez, organisez, décidez. Déléguer ? Presque impossible — ils vont mal faire.", "On vous perçoit comme fort·e, maître/maîtresse de vous, inébranlable.", "Mais intérieurement : une peur permanente que tout s'écroule si vous lâchez le contrôle.", "Ce masque vous isole. Il vous empêche de recevoir — de l'aide, de l'amour, de la vraie connexion."],
   manifestation: "Hypercontrôle relationnel",
-  hook: "Avez-vous déjà laissé quelqu'un vous aider vraiment — sans vous sentir diminué·e ?"
+  hook: "Avez-vous déjà laissé quelqu'un vous aider vraiment — sans vous sentir diminué·e ?",
+  journalPrompt: "Dans quel domaine de votre vie avez-vous le plus besoin de contrôle ? Que craignez-vous s'il vous échappe ?"
 }, {
   id: "indigo",
   color: C.indigo,
@@ -144,7 +174,8 @@ var MASKS = [{
   tagline: "Parfait — ou rien.",
   lines: ["Vous remettez à plus tard pour ne pas risquer d'échouer. Vous commencez dix projets, finissez un.", "La critique vous touche bien plus profondément qu'elle ne le devrait.", "Vous voyez vos erreurs en HD et vos réussites en flou.", "\"Si je ne suis pas à la hauteur, les autres verront que je ne vaux pas grand-chose.\""],
   manifestation: "Anxiété de performance",
-  hook: "Qu'avez-vous abandonné par peur de ne pas assez bien réussir ?"
+  hook: "Qu'avez-vous abandonné par peur de ne pas assez bien réussir ?",
+  journalPrompt: "Qu'est-ce que vous n'avez pas encore osé commencer ? Quelle serait votre réaction si vous échouiez ?"
 }, {
   id: "violet",
   color: C.violet,
@@ -156,7 +187,8 @@ var MASKS = [{
   tagline: "Qui êtes-vous sans vos rôles ?",
   lines: ["Changer vous terrifie. Perdre une relation, un travail, un statut — c'est perdre qui vous êtes.", "Vous vous accrochez à des rôles devenus trop petits, trop étroits — mais au moins, vous les connaissez.", "Ce masque est unique : il absorbe et intensifie tous les autres.", "Il est le gardien ultime de votre nature authentique — emprisonnée depuis si longtemps."],
   manifestation: "Angoisse existentielle",
-  hook: "Si on vous enlevait tous vos rôles, qui resterait-il ?"
+  hook: "Si on vous enlevait tous vos rôles, qui resterait-il ?",
+  journalPrompt: "Si vous pouviez changer quelque chose dans votre vie sans perdre votre identité — qu'est-ce que ce serait ?"
 }];
 var MINI_QUIZ = [{
   q: "D'où viennent les 7 peurs universelles ?",
@@ -220,50 +252,35 @@ var FINAL_QUIZ = [{
   opts: ["Uniquement aux personnes en crise", "Aux patients en thérapie", "À tout être humain — les 7 peurs sont universelles", "Aux personnes avec un diagnostic"],
   ok: 2
 }];
+var SECTION_LABELS = ["Introduction", "7 Peurs", "Les Masques", "Questionnaire", "La Méthode"];
+var JOURNAL_PROMPTS = ["Qu'est-ce qui vous a le plus marqué·e dans cette introduction ? Quelle prise de conscience avez-vous eue ?", "Parmi les 7 peurs, laquelle vous a le plus touché·e ? Pourquoi ?", "Comment vos masques se sont-ils formés selon vous ? Quel exemple de votre vie vous vient en tête ?", "Après le questionnaire : qu'avez-vous découvert sur vous-même ? Qu'est-ce qui vous surprend ?", "Quelle étape de la méthode V.A.L.E.U.R© vous semble la plus difficile à appliquer ? Pourquoi ?"];
 
-// ── Utilitaires ──────────────────────────────────────────────────
+// ── UTILITAIRES ───────────────────────────────────────────────────
 
+function formatDate(iso) {
+  var d = new Date(iso);
+  return d.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
 function Copyright() {
   return /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
       fontSize: "10px",
       textAlign: "center",
-      marginTop: "8px",
+      marginTop: "12px",
       letterSpacing: "0.5px"
     }
-  }, "\xA9 2025 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 Tous droits r\xE9serv\xE9s");
+  }, "\xA9 2025 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 Tous droits r\xE9serv\xE9s \xB7 ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), ", L'Harmattan");
 }
-function SectionTitle(_ref) {
+function Card(_ref) {
   var children = _ref.children,
-    sub = _ref.sub;
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      marginBottom: "32px"
-    }
-  }, /*#__PURE__*/React.createElement("h2", {
-    style: {
-      fontFamily: "Georgia,serif",
-      fontSize: "clamp(22px,5vw,32px)",
-      fontWeight: 700,
-      color: C.cream,
-      lineHeight: 1.2,
-      marginBottom: sub ? "12px" : 0
-    }
-  }, children), sub && /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "clamp(14px,3.5vw,16px)",
-      lineHeight: 1.6,
-      maxWidth: "600px",
-      margin: "0 auto"
-    }
-  }, sub));
-}
-function Card(_ref2) {
-  var children = _ref2.children,
-    style = _ref2.style;
+    style = _ref.style;
   return /*#__PURE__*/React.createElement("div", {
     style: _objectSpread({
       background: C.navyCard,
@@ -273,12 +290,13 @@ function Card(_ref2) {
     }, style)
   }, children);
 }
-function GoldBtn(_ref3) {
-  var children = _ref3.children,
-    onClick = _ref3.onClick;
+function GoldBtn(_ref2) {
+  var children = _ref2.children,
+    onClick = _ref2.onClick,
+    style = _ref2.style;
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
-    style: {
+    style: _objectSpread({
       background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
       color: "#fff",
       border: "none",
@@ -289,19 +307,19 @@ function GoldBtn(_ref3) {
       cursor: "pointer",
       letterSpacing: "0.5px",
       boxShadow: "0 4px 20px rgba(201,168,76,0.35)"
-    },
+    }, style),
     onMouseEnter: function onMouseEnter(e) {
-      e.target.style.transform = "translateY(-2px)";
+      return e.currentTarget.style.transform = "translateY(-2px)";
     },
     onMouseLeave: function onMouseLeave(e) {
-      e.target.style.transform = "none";
+      return e.currentTarget.style.transform = "none";
     }
   }, children);
 }
-function VideoCard(_ref4) {
-  var href = _ref4.href,
-    videoId = _ref4.videoId,
-    label = _ref4.label;
+function VideoCard(_ref3) {
+  var href = _ref3.href,
+    videoId = _ref3.videoId,
+    label = _ref3.label;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: "32px"
@@ -384,93 +402,8 @@ function VideoCard(_ref4) {
     }
   }, "Regarder sur YouTube \u2192")))));
 }
-
-// ── Barre de progression ─────────────────────────────────────────
-
-function ProgressBar(_ref5) {
-  var step = _ref5.step,
-    setStep = _ref5.setStep,
-    completed = _ref5.completed;
-  var steps = ["Introduction", "7 Peurs", "Les Masques", "Questionnaire", "La Méthode"];
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: "sticky",
-      top: 0,
-      zIndex: 100,
-      background: C.navy,
-      borderBottom: "1px solid ".concat(C.navyBorder),
-      padding: "12px 16px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "4px",
-      maxWidth: "700px",
-      margin: "0 auto"
-    }
-  }, steps.map(function (s, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        return (completed.includes(i) || i === step) && setStep(i);
-      },
-      style: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "4px",
-        background: "none",
-        border: "none",
-        cursor: completed.includes(i) || i === step ? "pointer" : "default",
-        padding: "0",
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: "28px",
-        height: "28px",
-        borderRadius: "50%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: i === step ? C.gold : completed.includes(i) ? "#2a4a2a" : C.navyCard,
-        border: "2px solid ".concat(i === step ? C.gold : completed.includes(i) ? C.vert : C.navyBorder),
-        color: i === step ? "#000" : completed.includes(i) ? C.vert : C.textMuted,
-        fontSize: "12px",
-        fontWeight: 700,
-        flexShrink: 0
-      }
-    }, completed.includes(i) ? "✓" : i + 1), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: "9px",
-        color: i === step ? C.gold : C.textMuted,
-        textAlign: "center",
-        lineHeight: 1.2
-      }
-    }, s)), i < steps.length - 1 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        height: "2px",
-        flex: 1,
-        background: completed.includes(i) ? C.vert : C.navyBorder,
-        margin: "0 2px",
-        borderRadius: "2px"
-      }
-    }));
-  })));
-}
-
-// ── Accordéon ────────────────────────────────────────────────────
-
-function Accordion(_ref6) {
-  var items = _ref6.items;
+function Accordion(_ref4) {
+  var items = _ref4.items;
   var _useState = useState(null),
     _useState2 = _slicedToArray(_useState, 2),
     open = _useState2[0],
@@ -528,10 +461,1202 @@ function Accordion(_ref6) {
   }));
 }
 
+// ── JOURNAL ENTRY WIDGET ─────────────────────────────────────────
+
+function JournalEntryWidget(_ref5) {
+  var sectionIndex = _ref5.sectionIndex,
+    sectionLabel = _ref5.sectionLabel,
+    onSave = _ref5.onSave;
+  var key = "section_".concat(sectionIndex);
+  var existing = (load(STORAGE_KEYS.journal) || []).find(function (e) {
+    return e.key === key;
+  });
+  var _useState3 = useState(existing ? existing.text : ''),
+    _useState4 = _slicedToArray(_useState3, 2),
+    text = _useState4[0],
+    setText = _useState4[1];
+  var _useState5 = useState(!!existing),
+    _useState6 = _slicedToArray(_useState5, 2),
+    saved = _useState6[0],
+    setSaved = _useState6[1];
+  var _useState7 = useState(!existing),
+    _useState8 = _slicedToArray(_useState7, 2),
+    editing = _useState8[0],
+    setEditing = _useState8[1];
+  var prompt = JOURNAL_PROMPTS[sectionIndex] || "Qu'avez-vous retenu de cette section ?";
+  function handleSave() {
+    if (!text.trim()) return;
+    var entries = (load(STORAGE_KEYS.journal) || []).filter(function (e) {
+      return e.key !== key;
+    });
+    var newEntry = {
+      key: key,
+      sectionIndex: sectionIndex,
+      sectionLabel: sectionLabel,
+      text: text.trim(),
+      date: new Date().toISOString()
+    };
+    save(STORAGE_KEYS.journal, [].concat(_toConsumableArray(entries), [newEntry]));
+    setSaved(true);
+    setEditing(false);
+    if (onSave) onSave();
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "linear-gradient(135deg,#1a2535,#111827)",
+      border: "2px solid ".concat(C.gold, "44"),
+      borderRadius: "16px",
+      padding: "20px",
+      marginTop: "24px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+      marginBottom: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "20px"
+    }
+  }, "\uD83D\uDCD3"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "14px",
+      margin: 0
+    }
+  }, "Journal de bord \u2014 ", sectionLabel), saved && !editing && /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vert,
+      fontSize: "12px",
+      margin: 0
+    }
+  }, "\u2713 Entr\xE9e sauvegard\xE9e")), saved && !editing && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setEditing(true);
+    },
+    style: {
+      marginLeft: "auto",
+      background: "none",
+      border: "1px solid ".concat(C.navyBorder),
+      color: C.textMuted,
+      borderRadius: "8px",
+      padding: "4px 12px",
+      cursor: "pointer",
+      fontSize: "12px"
+    }
+  }, "Modifier")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      lineHeight: 1.7,
+      marginBottom: "12px",
+      fontStyle: "italic"
+    }
+  }, "\u270D\uFE0F ", prompt), editing ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("textarea", {
+    value: text,
+    onChange: function onChange(e) {
+      return setText(e.target.value);
+    },
+    placeholder: "\xC9crivez librement... vos r\xE9flexions n'appartiennent qu'\xE0 vous.",
+    rows: 4,
+    style: {
+      width: "100%",
+      background: C.navyCard,
+      border: "1px solid ".concat(C.navyBorder),
+      borderRadius: "10px",
+      padding: "12px",
+      color: C.textLight,
+      fontSize: "14px",
+      lineHeight: 1.7,
+      resize: "vertical",
+      fontFamily: "inherit",
+      outline: "none"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "10px",
+      marginTop: "10px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: handleSave,
+    disabled: !text.trim(),
+    style: {
+      background: text.trim() ? "linear-gradient(135deg,".concat(C.gold, ",#a07830)") : "#333",
+      color: text.trim() ? "#000" : "#666",
+      border: "none",
+      borderRadius: "8px",
+      padding: "10px 20px",
+      cursor: text.trim() ? "pointer" : "not-allowed",
+      fontWeight: 700,
+      fontSize: "14px"
+    }
+  }, "\uD83D\uDCBE Sauvegarder"), saved && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setText(existing ? existing.text : '');
+      setEditing(false);
+    },
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.navyBorder),
+      color: C.textMuted,
+      borderRadius: "8px",
+      padding: "10px 16px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "Annuler"))) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.navyCard,
+      borderRadius: "10px",
+      padding: "14px",
+      whiteSpace: "pre-wrap"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      fontSize: "14px",
+      lineHeight: 1.8,
+      margin: 0
+    }
+  }, text)));
+}
+
+// ── PROGRESS RING ─────────────────────────────────────────────────
+
+function ProgressRing(_ref6) {
+  var pct = _ref6.pct,
+    _ref6$size = _ref6.size,
+    size = _ref6$size === void 0 ? 80 : _ref6$size,
+    _ref6$color = _ref6.color,
+    color = _ref6$color === void 0 ? C.gold : _ref6$color,
+    label = _ref6.label;
+  var r = (size - 10) / 2;
+  var circ = 2 * Math.PI * r;
+  var dash = circ * pct / 100;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "4px"
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: size,
+    height: size,
+    style: {
+      transform: "rotate(-90deg)"
+    }
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: size / 2,
+    cy: size / 2,
+    r: r,
+    fill: "none",
+    stroke: C.navyBorder,
+    strokeWidth: 5
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: size / 2,
+    cy: size / 2,
+    r: r,
+    fill: "none",
+    stroke: color,
+    strokeWidth: 5,
+    strokeDasharray: "".concat(dash, " ").concat(circ),
+    strokeLinecap: "round",
+    style: {
+      transition: "stroke-dasharray 0.8s ease"
+    }
+  }), /*#__PURE__*/React.createElement("text", {
+    x: size / 2,
+    y: size / 2,
+    textAnchor: "middle",
+    dominantBaseline: "middle",
+    fill: color,
+    fontSize: "14",
+    fontWeight: "700",
+    style: {
+      transform: "rotate(90deg)",
+      transformOrigin: "".concat(size / 2, "px ").concat(size / 2, "px")
+    }
+  }, pct, "%")), label && /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px",
+      textAlign: "center",
+      maxWidth: "70px",
+      lineHeight: 1.3
+    }
+  }, label));
+}
+
+// ── TABLEAU DE BORD ───────────────────────────────────────────────
+
+function Dashboard(_ref7) {
+  var onStart = _ref7.onStart,
+    onOpenJournal = _ref7.onOpenJournal,
+    progress = _ref7.progress,
+    journal = _ref7.journal,
+    profile = _ref7.profile,
+    onSaveProfile = _ref7.onSaveProfile;
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    editName = _useState0[0],
+    setEditName = _useState0[1];
+  var _useState1 = useState((profile === null || profile === void 0 ? void 0 : profile.name) || ''),
+    _useState10 = _slicedToArray(_useState1, 2),
+    name = _useState10[0],
+    setName = _useState10[1];
+  var completed = (progress === null || progress === void 0 ? void 0 : progress.completedSections) || [];
+  var pct = Math.round(completed.length / 5 * 100);
+  var scores = load(STORAGE_KEYS.quizScores) || {};
+  var recentEntries = _toConsumableArray(journal || []).sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  }).slice(0, 3);
+  function saveName() {
+    onSaveProfile(_objectSpread(_objectSpread({}, profile), {}, {
+      name: name.trim()
+    }));
+    setEditName(false);
+  }
+  var today = new Date().toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "24px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "inline-block",
+      background: "linear-gradient(135deg,".concat(C.gold, "22,transparent)"),
+      border: "1px solid ".concat(C.gold, "44"),
+      borderRadius: "20px",
+      padding: "6px 18px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold,
+      fontSize: "12px",
+      letterSpacing: "2px",
+      fontWeight: 600
+    }
+  }, "M\xC9THODE V.A.L.E.U.R\xA9")), editName ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "8px",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    value: name,
+    onChange: function onChange(e) {
+      return setName(e.target.value);
+    },
+    onKeyDown: function onKeyDown(e) {
+      return e.key === 'Enter' && saveName();
+    },
+    placeholder: "Votre pr\xE9nom",
+    autoFocus: true,
+    style: {
+      background: C.navyCard,
+      border: "2px solid ".concat(C.gold),
+      borderRadius: "10px",
+      padding: "8px 16px",
+      color: C.cream,
+      fontSize: "18px",
+      textAlign: "center",
+      outline: "none",
+      maxWidth: "200px"
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: saveName,
+    style: {
+      background: C.gold,
+      border: "none",
+      borderRadius: "8px",
+      padding: "8px 16px",
+      cursor: "pointer",
+      fontWeight: 700,
+      color: "#000"
+    }
+  }, "OK")) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "8px"
+    }
+  }, profile !== null && profile !== void 0 && profile.name ? /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(22px,5vw,32px)",
+      color: C.cream,
+      marginBottom: "4px"
+    }
+  }, "Bonjour, ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold
+    }
+  }, profile.name), " \uD83D\uDC4B") : /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(22px,5vw,32px)",
+      color: C.cream,
+      marginBottom: "4px"
+    }
+  }, "Bienvenue ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold
+    }
+  }, "dans votre espace")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setEditName(true);
+    },
+    style: {
+      background: "none",
+      border: "none",
+      color: C.textMuted,
+      cursor: "pointer",
+      fontSize: "12px",
+      textDecoration: "underline"
+    }
+  }, profile !== null && profile !== void 0 && profile.name ? "Modifier mon prénom" : "→ Ajouter mon prénom")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px"
+    }
+  }, today)), /*#__PURE__*/React.createElement(Card, {
+    style: {
+      marginBottom: "20px",
+      borderColor: pct > 0 ? C.gold + "44" : C.navyBorder
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "20px"
+    }
+  }, /*#__PURE__*/React.createElement(ProgressRing, {
+    pct: pct,
+    size: 80,
+    color: pct === 100 ? C.vert : C.gold
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontWeight: 700,
+      fontSize: "16px",
+      marginBottom: "4px"
+    }
+  }, "Module 0 \u2014 Comprendre"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      marginBottom: "8px"
+    }
+  }, completed.length, "/5 sections compl\xE9t\xE9es"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "4px"
+    }
+  }, SECTION_LABELS.map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      title: s,
+      style: {
+        flex: 1,
+        height: "6px",
+        borderRadius: "3px",
+        background: completed.includes(i) ? C.gold : C.navyBorder,
+        transition: "background 0.3s"
+      }
+    });
+  })))), pct === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "16px",
+      paddingTop: "16px",
+      borderTop: "1px solid ".concat(C.navyBorder),
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      marginBottom: "12px"
+    }
+  }, "Commencez votre voyage vers la joie d'\xEAtre vous-m\xEAme."), /*#__PURE__*/React.createElement(GoldBtn, {
+    onClick: onStart
+  }, "Commencer le Module 0 \u2192")), pct > 0 && pct < 100 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "16px",
+      paddingTop: "16px",
+      borderTop: "1px solid ".concat(C.navyBorder),
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement(GoldBtn, {
+    onClick: onStart
+  }, "Reprendre l\xE0 o\xF9 j'en suis \u2192")), pct === 100 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "16px",
+      paddingTop: "16px",
+      borderTop: "1px solid ".concat(C.vert, "44"),
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vert,
+      fontWeight: 700,
+      fontSize: "15px",
+      marginBottom: "8px"
+    }
+  }, "\uD83C\uDF89 Module 0 compl\xE9t\xE9 !"), /*#__PURE__*/React.createElement("button", {
+    onClick: onStart,
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.vert),
+      color: C.vert,
+      borderRadius: "8px",
+      padding: "10px 20px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "Revoir le module"))), (scores.mini !== undefined || scores.final !== undefined) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "12px",
+      marginBottom: "20px"
+    }
+  }, scores.mini !== undefined && /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px",
+      marginBottom: "8px",
+      textTransform: "uppercase",
+      letterSpacing: "1px"
+    }
+  }, "Mini-quiz"), /*#__PURE__*/React.createElement(ProgressRing, {
+    pct: Math.round(scores.mini / 4 * 100),
+    size: 64,
+    color: C.bleu
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.bleuLight,
+      fontSize: "13px",
+      marginTop: "6px"
+    }
+  }, scores.mini, "/4")), scores.final !== undefined && /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px",
+      marginBottom: "8px",
+      textTransform: "uppercase",
+      letterSpacing: "1px"
+    }
+  }, "Quiz final"), /*#__PURE__*/React.createElement(ProgressRing, {
+    pct: Math.round(scores.final / 10 * 100),
+    size: 64,
+    color: C.violet
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.violetLight,
+      fontSize: "13px",
+      marginTop: "6px"
+    }
+  }, scores.final, "/10"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "12px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontWeight: 700,
+      fontSize: "15px"
+    }
+  }, "\uD83D\uDCD3 Journal de bord"), /*#__PURE__*/React.createElement("button", {
+    onClick: onOpenJournal,
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.gold, "44"),
+      color: C.gold,
+      borderRadius: "8px",
+      padding: "6px 14px",
+      cursor: "pointer",
+      fontSize: "13px"
+    }
+  }, "Voir tout \u2192")), recentEntries.length === 0 ? /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "24px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: "32px",
+      marginBottom: "8px"
+    }
+  }, "\u270D\uFE0F"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      lineHeight: 1.7
+    }
+  }, "Votre journal est vide. Chaque section du module vous invite \xE0 \xE9crire une r\xE9flexion. Elles appara\xEEtront ici.")) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px"
+    }
+  }, recentEntries.map(function (entry, i) {
+    return /*#__PURE__*/React.createElement(Card, {
+      key: i,
+      style: {
+        padding: "14px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: "6px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.gold,
+        fontSize: "12px",
+        fontWeight: 600
+      }
+    }, entry.sectionLabel), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px"
+      }
+    }, formatDate(entry.date))), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "13px",
+        lineHeight: 1.6,
+        margin: 0,
+        overflow: "hidden",
+        display: "-webkit-box",
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: "vertical"
+      }
+    }, entry.text));
+  }), (journal || []).length > 3 && /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      textAlign: "center"
+    }
+  }, (journal || []).length - 3, " autres entr\xE9e(s) \u2192 voir tout"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontWeight: 700,
+      fontSize: "15px",
+      marginBottom: "12px"
+    }
+  }, "\uD83D\uDDFA\uFE0F Parcours complet"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px"
+    }
+  }, [{
+    num: 0,
+    title: "COMPRENDRE",
+    sub: "Les 7 peurs · Les masques · Questionnaire",
+    color: C.gold,
+    active: true
+  }, {
+    num: 1,
+    title: "VOIR",
+    sub: "Identifier le déclencheur",
+    color: C.rouge,
+    active: false
+  }, {
+    num: 2,
+    title: "ACCUEILLIR",
+    sub: "Recevoir l'émotion sans résistance",
+    color: C.orange,
+    active: false
+  }, {
+    num: 3,
+    title: "LOCALISER",
+    sub: "Trouver la sensation dans le corps",
+    color: C.jaune,
+    active: false
+  }, {
+    num: 4,
+    title: "EXPLORER",
+    sub: "Comprendre la peur sous-jacente",
+    color: C.vert,
+    active: false
+  }, {
+    num: 5,
+    title: "UNIFIER",
+    sub: "Réconcilier les parties en conflit",
+    color: C.bleu,
+    active: false
+  }, {
+    num: 6,
+    title: "RENFORCER",
+    sub: "Ancrer la nouvelle posture",
+    color: C.violet,
+    active: false
+  }].map(function (m, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        background: m.active ? "".concat(m.color, "11") : C.navyCard,
+        border: "1px solid ".concat(m.active ? m.color + "44" : C.navyBorder),
+        borderRadius: "12px",
+        padding: "12px 16px",
+        opacity: m.active ? 1 : 0.6
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "36px",
+        height: "36px",
+        borderRadius: "50%",
+        background: m.active ? m.color : "#2a3650",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, m.active ? pct === 100 ? /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#fff",
+        fontSize: "16px"
+      }
+    }, "\u2713") : /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#fff",
+        fontSize: "13px",
+        fontWeight: 700
+      }
+    }, m.num) : /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.textMuted,
+        fontSize: "13px"
+      }
+    }, "\uD83D\uDD12")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: m.active ? m.color : C.textMuted,
+        fontWeight: 700,
+        fontSize: "13px",
+        margin: 0
+      }
+    }, "Module ", m.num, " \u2014 ", m.title), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        margin: 0
+      }
+    }, m.sub)), m.active && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: m.color,
+        fontSize: "12px",
+        fontWeight: 600
+      }
+    }, pct === 100 ? "Terminé" : "En cours"), !m.active && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px"
+      }
+    }, "Bient\xF4t"));
+  }))), /*#__PURE__*/React.createElement(Copyright, null));
+}
+
+// ── JOURNAL COMPLET ───────────────────────────────────────────────
+
+function JournalPage(_ref8) {
+  var journal = _ref8.journal,
+    onBack = _ref8.onBack;
+  var entries = _toConsumableArray(journal || []).sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+  var _useState11 = useState(null),
+    _useState12 = _slicedToArray(_useState11, 2),
+    editKey = _useState12[0],
+    setEditKey = _useState12[1];
+  var _useState13 = useState(''),
+    _useState14 = _slicedToArray(_useState13, 2),
+    editText = _useState14[0],
+    setEditText = _useState14[1];
+  function startEdit(e) {
+    setEditKey(e.key);
+    setEditText(e.text);
+  }
+  function saveEdit() {
+    var updated = (load(STORAGE_KEYS.journal) || []).map(function (e) {
+      return e.key === editKey ? _objectSpread(_objectSpread({}, e), {}, {
+        text: editText,
+        editedAt: new Date().toISOString()
+      }) : e;
+    });
+    save(STORAGE_KEYS.journal, updated);
+    setEditKey(null);
+    window.location.reload();
+  }
+  function deleteEntry(key) {
+    if (!window.confirm("Supprimer cette entrée ?")) return;
+    var updated = (load(STORAGE_KEYS.journal) || []).filter(function (e) {
+      return e.key !== key;
+    });
+    save(STORAGE_KEYS.journal, updated);
+    window.location.reload();
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "24px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      marginBottom: "28px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onBack,
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.navyBorder),
+      color: C.textMuted,
+      borderRadius: "8px",
+      padding: "8px 16px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "\u2190 Retour"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "Georgia,serif",
+      color: C.cream,
+      fontSize: "22px",
+      margin: 0
+    }
+  }, "\uD83D\uDCD3 Mon Journal de bord"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      margin: 0
+    }
+  }, entries.length, " entr\xE9e", entries.length > 1 ? "s" : ""))), entries.length === 0 ? /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "48px 24px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: "48px",
+      marginBottom: "16px"
+    }
+  }, "\u270D\uFE0F"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "16px",
+      lineHeight: 1.7
+    }
+  }, "Votre journal est vide pour l'instant.", /*#__PURE__*/React.createElement("br", null), "Compl\xE9tez les sections du Module 0 pour \xE9crire vos premi\xE8res r\xE9flexions."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onBack,
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.gold),
+      color: C.gold,
+      borderRadius: "8px",
+      padding: "10px 24px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "Commencer le module \u2192"))) : entries.map(function (entry) {
+    return /*#__PURE__*/React.createElement(Card, {
+      key: entry.key,
+      style: {
+        marginBottom: "12px",
+        borderColor: editKey === entry.key ? C.gold : C.navyBorder
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: "10px",
+        flexWrap: "wrap",
+        gap: "8px"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+      style: {
+        background: "".concat(C.gold, "22"),
+        color: C.gold,
+        fontSize: "12px",
+        padding: "3px 10px",
+        borderRadius: "20px",
+        fontWeight: 600
+      }
+    }, entry.sectionLabel), entry.editedAt && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px",
+        marginLeft: "8px"
+      }
+    }, "(modifi\xE9)")), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px"
+      }
+    }, formatDate(entry.date))), editKey === entry.key ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("textarea", {
+      value: editText,
+      onChange: function onChange(e) {
+        return setEditText(e.target.value);
+      },
+      rows: 5,
+      style: {
+        width: "100%",
+        background: C.navyMid,
+        border: "1px solid ".concat(C.gold),
+        borderRadius: "10px",
+        padding: "12px",
+        color: C.textLight,
+        fontSize: "14px",
+        lineHeight: 1.7,
+        resize: "vertical",
+        fontFamily: "inherit",
+        outline: "none",
+        marginBottom: "10px"
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: "8px"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: saveEdit,
+      style: {
+        background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+        color: "#000",
+        border: "none",
+        borderRadius: "8px",
+        padding: "8px 16px",
+        cursor: "pointer",
+        fontWeight: 700,
+        fontSize: "14px"
+      }
+    }, "\uD83D\uDCBE Sauvegarder"), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setEditKey(null);
+      },
+      style: {
+        background: "none",
+        border: "1px solid ".concat(C.navyBorder),
+        color: C.textMuted,
+        borderRadius: "8px",
+        padding: "8px 14px",
+        cursor: "pointer",
+        fontSize: "14px"
+      }
+    }, "Annuler"))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "14px",
+        lineHeight: 1.8,
+        margin: "0 0 12px",
+        whiteSpace: "pre-wrap"
+      }
+    }, entry.text), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: "8px"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return startEdit(entry);
+      },
+      style: {
+        background: "none",
+        border: "1px solid ".concat(C.navyBorder),
+        color: C.textMuted,
+        borderRadius: "8px",
+        padding: "6px 14px",
+        cursor: "pointer",
+        fontSize: "13px"
+      }
+    }, "\u270F\uFE0F Modifier"), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return deleteEntry(entry.key);
+      },
+      style: {
+        background: "none",
+        border: "1px solid ".concat(C.rouge, "44"),
+        color: C.rouge,
+        borderRadius: "8px",
+        padding: "6px 14px",
+        cursor: "pointer",
+        fontSize: "13px"
+      }
+    }, "\uD83D\uDDD1\uFE0F Supprimer"))));
+  }), /*#__PURE__*/React.createElement(Copyright, null));
+}
+
+// ── BARRE DE NAV GLOBALE ─────────────────────────────────────────
+
+function GlobalNav(_ref9) {
+  var screen = _ref9.screen,
+    setScreen = _ref9.setScreen,
+    completedSections = _ref9.completedSections;
+  var pct = Math.round((completedSections || []).length / 5 * 100);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "sticky",
+      top: 0,
+      zIndex: 100,
+      background: C.navy,
+      borderBottom: "1px solid ".concat(C.navyBorder)
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "10px 16px",
+      maxWidth: "800px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setScreen('dashboard');
+    },
+    style: {
+      background: "none",
+      border: "none",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      width: "28px",
+      height: "28px",
+      borderRadius: "8px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "14px",
+      fontWeight: 900,
+      color: "#000"
+    }
+  }, "V"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.cream,
+      fontWeight: 700,
+      fontSize: "14px",
+      display: "none"
+    }
+  }, "V.A.L.E.U.R\xA9")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "6px"
+    }
+  }, [{
+    id: 'dashboard',
+    icon: '🏠',
+    label: 'Accueil'
+  }, {
+    id: 'module0',
+    icon: '📚',
+    label: 'Module 0'
+  }, {
+    id: 'journal',
+    icon: '📓',
+    label: 'Journal'
+  }].map(function (btn) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: btn.id,
+      onClick: function onClick() {
+        return setScreen(btn.id);
+      },
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "2px",
+        background: screen === btn.id ? "".concat(C.gold, "22") : "none",
+        border: screen === btn.id ? "1px solid ".concat(C.gold, "44") : "1px solid transparent",
+        borderRadius: "10px",
+        padding: "6px 14px",
+        cursor: "pointer",
+        transition: "all 0.2s"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "16px"
+      }
+    }, btn.icon), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "10px",
+        color: screen === btn.id ? C.gold : C.textMuted,
+        fontWeight: screen === btn.id ? 700 : 400
+      }
+    }, btn.label));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "6px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "32px",
+      height: "32px",
+      borderRadius: "50%",
+      background: C.navyCard,
+      border: "2px solid ".concat(pct === 100 ? C.vert : pct > 0 ? C.gold : C.navyBorder),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: pct === 100 ? C.vert : pct > 0 ? C.gold : C.textMuted,
+      fontSize: "10px",
+      fontWeight: 700
+    }
+  }, pct, "%")))));
+}
+
+// ── BARRE DE PROGRESSION MODULE ──────────────────────────────────
+
+function ModuleProgressBar(_ref0) {
+  var step = _ref0.step,
+    setStep = _ref0.setStep,
+    completed = _ref0.completed;
+  var steps = ["Intro", "7 Peurs", "Masques", "Quiz", "Méthode"];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.navyMid,
+      borderBottom: "1px solid ".concat(C.navyBorder),
+      padding: "10px 16px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "4px",
+      maxWidth: "700px",
+      margin: "0 auto"
+    }
+  }, steps.map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return (completed.includes(i) || i === step) && setStep(i);
+      },
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "3px",
+        background: "none",
+        border: "none",
+        cursor: completed.includes(i) || i === step ? "pointer" : "default",
+        padding: "0",
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "26px",
+        height: "26px",
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: i === step ? C.gold : completed.includes(i) ? "#1a3a1a" : C.navyCard,
+        border: "2px solid ".concat(i === step ? C.gold : completed.includes(i) ? C.vert : C.navyBorder),
+        color: i === step ? "#000" : completed.includes(i) ? C.vert : C.textMuted,
+        fontSize: "11px",
+        fontWeight: 700,
+        flexShrink: 0
+      }
+    }, completed.includes(i) ? "✓" : i + 1), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "9px",
+        color: i === step ? C.gold : C.textMuted,
+        lineHeight: 1.2
+      }
+    }, s)), i < steps.length - 1 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: "2px",
+        flex: 1,
+        background: completed.includes(i) ? C.vert : C.navyBorder,
+        margin: "0 2px",
+        borderRadius: "2px"
+      }
+    }));
+  })));
+}
+
 // ── SECTION 1 ────────────────────────────────────────────────────
 
-function Section1(_ref7) {
-  var onComplete = _ref7.onComplete;
+function Section1(_ref1) {
+  var onComplete = _ref1.onComplete,
+    onJournalSave = _ref1.onJournalSave;
   var accordItems = [{
     title: "D'où vient l'anxiété ?",
     content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
@@ -731,7 +1856,7 @@ function Section1(_ref7) {
         borderTop: "1px solid ".concat(C.navyBorder),
         paddingTop: "12px"
       }
-    }, "Fondements scientifiques : SHAI, TAS-20, IUS-12, ECR-R, LOC+NPI, FMPS, MSI", /*#__PURE__*/React.createElement("br", null), "Bas\xE9 sur : ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 C\xE9line Bourbon, L'Harmattan"))
+    }, "Fondements scientifiques : SHAI, TAS-20, IUS-12, ECR-R, LOC+NPI, FMPS, MSI"))
   }];
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -778,14 +1903,9 @@ function Section1(_ref7) {
       fontSize: "clamp(15px,3.5vw,17px)",
       lineHeight: 1.7,
       maxWidth: "560px",
-      margin: "0 auto 8px"
+      margin: "0 auto"
     }
-  }, "Vous avez l'impression de jouer un r\xF4le dans votre propre vie ? Votre nature authentique est emprisonn\xE9e derri\xE8re des masques de d\xE9fense que vous portez sans le savoir."), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px"
-    }
-  }, "Ce module vous donne les cl\xE9s pour les comprendre.")), /*#__PURE__*/React.createElement(VideoCard, {
+  }, "Vous avez l'impression de jouer un r\xF4le dans votre propre vie ? Votre nature authentique est emprisonn\xE9e derri\xE8re des masques de d\xE9fense que vous portez sans le savoir.")), /*#__PURE__*/React.createElement(VideoCard, {
     href: "https://youtu.be/HVVpa_-pLkE?si=F9ehsoz5M7eATHRh",
     videoId: "HVVpa_-pLkE",
     label: "D'o\xF9 vient votre anxi\xE9t\xE9 ?"
@@ -800,13 +1920,18 @@ function Section1(_ref7) {
     }
   }, "\uD83D\uDCD6 Concepts fondamentaux"), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginBottom: "40px"
+      marginBottom: "32px"
     }
   }, /*#__PURE__*/React.createElement(Accordion, {
     items: accordItems
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+    sectionIndex: 0,
+    sectionLabel: "Introduction",
+    onSave: onJournalSave
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      textAlign: "center"
+      textAlign: "center",
+      marginTop: "32px"
     }
   }, /*#__PURE__*/React.createElement(GoldBtn, {
     onClick: onComplete
@@ -815,10 +1940,10 @@ function Section1(_ref7) {
 
 // ── SECTION 2 ────────────────────────────────────────────────────
 
-function MaskCard(_ref8) {
-  var mask = _ref8.mask,
-    isSelected = _ref8.isSelected,
-    onClick = _ref8.onClick;
+function MaskCard(_ref10) {
+  var mask = _ref10.mask,
+    isSelected = _ref10.isSelected,
+    onClick = _ref10.onClick;
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
     style: {
@@ -895,13 +2020,13 @@ function MaskCard(_ref8) {
     }
   }, isSelected ? "▲" : "▼")));
 }
-function MaskDetail(_ref9) {
-  var mask = _ref9.mask,
-    onClose = _ref9.onClose;
-  var _useState3 = useState(false),
-    _useState4 = _slicedToArray(_useState3, 2),
-    showSci = _useState4[0],
-    setShowSci = _useState4[1];
+function MaskDetail(_ref11) {
+  var mask = _ref11.mask,
+    onClose = _ref11.onClose;
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    showSci = _useState16[0],
+    setShowSci = _useState16[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       background: mask.bg,
@@ -1010,27 +2135,28 @@ function MaskDetail(_ref9) {
     }
   }, "\xA9 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), ", L'Harmattan"));
 }
-function MiniQuiz() {
-  var _useState5 = useState(0),
-    _useState6 = _slicedToArray(_useState5, 2),
-    current = _useState6[0],
-    setCurrent = _useState6[1];
-  var _useState7 = useState(null),
-    _useState8 = _slicedToArray(_useState7, 2),
-    selected = _useState8[0],
-    setSelected = _useState8[1];
-  var _useState9 = useState(false),
-    _useState0 = _slicedToArray(_useState9, 2),
-    revealed = _useState0[0],
-    setRevealed = _useState0[1];
-  var _useState1 = useState([]),
-    _useState10 = _slicedToArray(_useState1, 2),
-    results = _useState10[0],
-    setResults = _useState10[1];
-  var _useState11 = useState(false),
-    _useState12 = _slicedToArray(_useState11, 2),
-    done = _useState12[0],
-    setDone = _useState12[1];
+function MiniQuiz(_ref12) {
+  var onDone = _ref12.onDone;
+  var _useState17 = useState(0),
+    _useState18 = _slicedToArray(_useState17, 2),
+    current = _useState18[0],
+    setCurrent = _useState18[1];
+  var _useState19 = useState(null),
+    _useState20 = _slicedToArray(_useState19, 2),
+    selected = _useState20[0],
+    setSelected = _useState20[1];
+  var _useState21 = useState(false),
+    _useState22 = _slicedToArray(_useState21, 2),
+    revealed = _useState22[0],
+    setRevealed = _useState22[1];
+  var _useState23 = useState([]),
+    _useState24 = _slicedToArray(_useState23, 2),
+    results = _useState24[0],
+    setResults = _useState24[1];
+  var _useState25 = useState(false),
+    _useState26 = _slicedToArray(_useState25, 2),
+    done = _useState26[0],
+    setDone = _useState26[1];
   var q = MINI_QUIZ[current];
   var score = results.filter(Boolean).length;
   function handleSelect(i) {
@@ -1039,9 +2165,16 @@ function MiniQuiz() {
     setRevealed(true);
     var r = [].concat(_toConsumableArray(results), [i === q.ok]);
     setResults(r);
-    if (current === MINI_QUIZ.length - 1) setTimeout(function () {
-      return setDone(true);
-    }, 2000);
+    if (current === MINI_QUIZ.length - 1) {
+      var finalScore = r.filter(Boolean).length;
+      var scores = load(STORAGE_KEYS.quizScores) || {};
+      save(STORAGE_KEYS.quizScores, _objectSpread(_objectSpread({}, scores), {}, {
+        mini: finalScore
+      }));
+      setTimeout(function () {
+        return setDone(true);
+      }, 1500);
+    }
   }
   function next() {
     if (current < MINI_QUIZ.length - 1) {
@@ -1071,9 +2204,21 @@ function MiniQuiz() {
     style: {
       color: C.textMuted,
       fontSize: "14px",
-      lineHeight: 1.7
+      lineHeight: 1.7,
+      marginBottom: "12px"
     }
-  }, score >= 3 ? "Vous avez intégré les concepts fondamentaux des 7 peurs." : "Prenez le temps de relire les fiches des masques. Tout s'éclairera progressivement."));
+  }, score >= 3 ? "Votre score a été sauvegardé dans votre tableau de bord." : "Relisez les fiches des masques. Tout s'éclairera progressivement."), onDone && /*#__PURE__*/React.createElement("button", {
+    onClick: onDone,
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.gold),
+      color: C.gold,
+      borderRadius: "8px",
+      padding: "10px 20px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "Continuer \u2193"));
   return /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -1169,25 +2314,46 @@ function MiniQuiz() {
     }
   }, "Question suivante \u2192"));
 }
-function Section2(_ref0) {
-  var onComplete = _ref0.onComplete;
-  var _useState13 = useState(null),
-    _useState14 = _slicedToArray(_useState13, 2),
-    selected = _useState14[0],
-    setSelected = _useState14[1];
-  var _useState15 = useState(false),
-    _useState16 = _slicedToArray(_useState15, 2),
-    showQuiz = _useState16[0],
-    setShowQuiz = _useState16[1];
+function Section2(_ref13) {
+  var onComplete = _ref13.onComplete,
+    onJournalSave = _ref13.onJournalSave;
+  var _useState27 = useState(null),
+    _useState28 = _slicedToArray(_useState27, 2),
+    selected = _useState28[0],
+    setSelected = _useState28[1];
+  var _useState29 = useState(false),
+    _useState30 = _slicedToArray(_useState29, 2),
+    showQuiz = _useState30[0],
+    setShowQuiz = _useState30[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
       maxWidth: "720px",
       margin: "0 auto"
     }
-  }, /*#__PURE__*/React.createElement(SectionTitle, {
-    sub: "Derri\xE8re chaque anxi\xE9t\xE9 se cache l'une de ces 7 peurs. Elles sont universelles \u2014 tout \xEAtre humain les porte en lui."
-  }, "Les 7 peurs universelles"), /*#__PURE__*/React.createElement(VideoCard, {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(22px,5vw,32px)",
+      fontWeight: 700,
+      color: C.cream,
+      lineHeight: 1.2,
+      marginBottom: "12px"
+    }
+  }, "Les 7 peurs universelles"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "clamp(14px,3.5vw,16px)",
+      lineHeight: 1.6,
+      maxWidth: "600px",
+      margin: "0 auto"
+    }
+  }, "Derri\xE8re chaque anxi\xE9t\xE9 se cache l'une de ces 7 peurs. Elles sont universelles \u2014 tout \xEAtre humain les porte en lui.")), /*#__PURE__*/React.createElement(VideoCard, {
     href: "https://youtu.be/weAQzjtxNPE?si=i4XnH87VgkxUWFu5",
     videoId: "weAQzjtxNPE",
     label: "Comment vos masques emprisonnent votre nature authentique"
@@ -1251,9 +2417,14 @@ function Section2(_ref0) {
       fontSize: "15px",
       fontWeight: 600
     }
-  }, "\uD83C\uDFAF Ai-je bien compris ? \u2014 Mini-quiz")) : /*#__PURE__*/React.createElement(MiniQuiz, null)), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83C\uDFAF Ai-je bien compris ? \u2014 Mini-quiz")) : /*#__PURE__*/React.createElement(MiniQuiz, null)), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+    sectionIndex: 1,
+    sectionLabel: "Les 7 Peurs",
+    onSave: onJournalSave
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      textAlign: "center"
+      textAlign: "center",
+      marginTop: "32px"
     }
   }, /*#__PURE__*/React.createElement(GoldBtn, {
     onClick: onComplete
@@ -1344,7 +2515,7 @@ function ToleranceWindow() {
         key: t,
         style: {
           background: "".concat(z.color, "22"),
-          color: z.color === "green" ? C.vertLight : z.color === C.rouge ? C.rougeLight : C.bleuLight,
+          color: z.color,
           padding: "3px 10px",
           borderRadius: "20px",
           fontSize: "12px"
@@ -1378,17 +2549,38 @@ function ToleranceWindow() {
     }
   }, "La m\xE9thode V.A.L.E.U.R\xA9 vous aide \xE0 revenir dans votre zone verte."))));
 }
-function Section3(_ref1) {
-  var onComplete = _ref1.onComplete;
+function Section3(_ref14) {
+  var onComplete = _ref14.onComplete,
+    onJournalSave = _ref14.onJournalSave;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
       maxWidth: "720px",
       margin: "0 auto"
     }
-  }, /*#__PURE__*/React.createElement(SectionTitle, {
-    sub: "Avant de d\xE9couvrir vos masques dominants, comprenons comment ils sont n\xE9s \u2014 et pourquoi ils persistent."
-  }, "Comment naissent vos masques ?"), /*#__PURE__*/React.createElement(Card, {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(22px,5vw,32px)",
+      fontWeight: 700,
+      color: C.cream,
+      lineHeight: 1.2,
+      marginBottom: "12px"
+    }
+  }, "Comment naissent vos masques ?"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "clamp(14px,3.5vw,16px)",
+      lineHeight: 1.6,
+      maxWidth: "600px",
+      margin: "0 auto"
+    }
+  }, "Avant de d\xE9couvrir vos masques dominants, comprenons comment ils sont n\xE9s \u2014 et pourquoi ils persistent.")), /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: "24px",
       textAlign: "center"
@@ -1478,12 +2670,9 @@ function Section3(_ref1) {
     style: {
       color: C.gold
     }
-  }, "r\xE9flexe de survie"), ".")), /*#__PURE__*/React.createElement("div", {
+  }, "r\xE9flexe de survie"), ".")), /*#__PURE__*/React.createElement(Card, {
     style: {
-      marginBottom: "24px"
-    }
-  }, /*#__PURE__*/React.createElement(Card, {
-    style: {
+      marginBottom: "24px",
       borderLeft: "4px solid ".concat(C.indigo)
     }
   }, /*#__PURE__*/React.createElement("p", {
@@ -1556,7 +2745,7 @@ function Section3(_ref1) {
       fontSize: "14px",
       margin: 0
     }
-  }, "Adulte, cet enfant se dira \"naturellement discret\". Il ne r\xE9alisera jamais que ce trait est son masque \u2014 renforc\xE9 depuis 30 ans."))), /*#__PURE__*/React.createElement(Card, {
+  }, "Adulte, cet enfant se dira \"naturellement discret\". Il ne r\xE9alisera jamais que ce trait est son masque \u2014 renforc\xE9 depuis 30 ans.")), /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: "24px",
       textAlign: "center",
@@ -1636,15 +2825,7 @@ function Section3(_ref1) {
       marginBottom: "12px",
       textAlign: "center"
     }
-  }, "\uD83E\uDDE0 La fen\xEAtre de tol\xE9rance"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      fontSize: "14px",
-      lineHeight: 1.7,
-      marginBottom: "16px",
-      textAlign: "center"
-    }
-  }, "Le Dr Dan Siegel a d\xE9crit la zone dans laquelle votre syst\xE8me nerveux fonctionne de fa\xE7on optimale. Vos masques vous en font constamment sortir."), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83E\uDDE0 La fen\xEAtre de tol\xE9rance"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: "8px"
     }
@@ -1652,12 +2833,17 @@ function Section3(_ref1) {
     style: {
       color: C.textMuted,
       fontSize: "11px",
-      marginBottom: "32px",
+      marginBottom: "24px",
       textAlign: "center"
     }
-  }, "Inspir\xE9 de la Th\xE9orie Polyvagale (Porges, 1994) et des travaux de Deb Dana \u2014 Doc. C\xE9line Bourbon"), /*#__PURE__*/React.createElement("div", {
+  }, "Inspir\xE9 de la Th\xE9orie Polyvagale (Porges, 1994) et des travaux de Deb Dana \u2014 Doc. C\xE9line Bourbon"), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+    sectionIndex: 2,
+    sectionLabel: "Comment naissent les masques",
+    onSave: onJournalSave
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      textAlign: "center"
+      textAlign: "center",
+      marginTop: "32px"
     }
   }, /*#__PURE__*/React.createElement(GoldBtn, {
     onClick: onComplete
@@ -1666,8 +2852,9 @@ function Section3(_ref1) {
 
 // ── SECTION 4 ────────────────────────────────────────────────────
 
-function Section4(_ref10) {
-  var onComplete = _ref10.onComplete;
+function Section4(_ref15) {
+  var onComplete = _ref15.onComplete,
+    onJournalSave = _ref15.onJournalSave;
   var scoreContent = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textLight,
@@ -1736,7 +2923,7 @@ function Section4(_ref10) {
       marginBottom: "14px",
       fontSize: "14px"
     }
-  }, "La plupart des personnes ont 2 \xE0 3 masques dominants \u2014 ils r\xE9pondent souvent \xE0 la m\xEAme blessure, mais de fa\xE7ons compl\xE9mentaires."), [{
+  }, "La plupart des personnes ont 2 \xE0 3 masques dominants \u2014 ils r\xE9pondent souvent \xE0 la m\xEAme blessure."), [{
     combo: "🔴 + 🟡 Rouge + Jaune",
     label: "Anxiété amplifiée",
     desc: "Vous ruminez sur les pires scénarios. Plus vous prévoyez, plus vous vérifiez."
@@ -1821,9 +3008,29 @@ function Section4(_ref10) {
       maxWidth: "720px",
       margin: "0 auto"
     }
-  }, /*#__PURE__*/React.createElement(SectionTitle, {
-    sub: "Pas un test de personnalit\xE9. Une cartographie de vos d\xE9fenses \u2014 ce qui est plus fort que vous, en ce moment."
-  }, "Le Questionnaire V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(22px,5vw,32px)",
+      fontWeight: 700,
+      color: C.cream,
+      lineHeight: 1.2,
+      marginBottom: "12px"
+    }
+  }, "Le Questionnaire V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "clamp(14px,3.5vw,16px)",
+      lineHeight: 1.6,
+      maxWidth: "600px",
+      margin: "0 auto"
+    }
+  }, "Pas un test de personnalit\xE9. Une cartographie de vos d\xE9fenses \u2014 ce qui est plus fort que vous, en ce moment.")), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#1a2520",
       border: "2px solid ".concat(C.gold),
@@ -1961,9 +3168,14 @@ function Section4(_ref10) {
       title: "FAQ après le questionnaire",
       content: faqContent
     }]
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+    sectionIndex: 3,
+    sectionLabel: "Questionnaire",
+    onSave: onJournalSave
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      textAlign: "center"
+      textAlign: "center",
+      marginTop: "32px"
     }
   }, /*#__PURE__*/React.createElement(GoldBtn, {
     onClick: onComplete
@@ -1972,27 +3184,28 @@ function Section4(_ref10) {
 
 // ── SECTION 5 ────────────────────────────────────────────────────
 
-function FinalQuiz() {
-  var _useState17 = useState(0),
-    _useState18 = _slicedToArray(_useState17, 2),
-    current = _useState18[0],
-    setCurrent = _useState18[1];
-  var _useState19 = useState(null),
-    _useState20 = _slicedToArray(_useState19, 2),
-    selected = _useState20[0],
-    setSelected = _useState20[1];
-  var _useState21 = useState(false),
-    _useState22 = _slicedToArray(_useState21, 2),
-    revealed = _useState22[0],
-    setRevealed = _useState22[1];
-  var _useState23 = useState([]),
-    _useState24 = _slicedToArray(_useState23, 2),
-    results = _useState24[0],
-    setResults = _useState24[1];
-  var _useState25 = useState(false),
-    _useState26 = _slicedToArray(_useState25, 2),
-    done = _useState26[0],
-    setDone = _useState26[1];
+function FinalQuiz(_ref16) {
+  var onDone = _ref16.onDone;
+  var _useState31 = useState(0),
+    _useState32 = _slicedToArray(_useState31, 2),
+    current = _useState32[0],
+    setCurrent = _useState32[1];
+  var _useState33 = useState(null),
+    _useState34 = _slicedToArray(_useState33, 2),
+    selected = _useState34[0],
+    setSelected = _useState34[1];
+  var _useState35 = useState(false),
+    _useState36 = _slicedToArray(_useState35, 2),
+    revealed = _useState36[0],
+    setRevealed = _useState36[1];
+  var _useState37 = useState([]),
+    _useState38 = _slicedToArray(_useState37, 2),
+    results = _useState38[0],
+    setResults = _useState38[1];
+  var _useState39 = useState(false),
+    _useState40 = _slicedToArray(_useState39, 2),
+    done = _useState40[0],
+    setDone = _useState40[1];
   var q = FINAL_QUIZ[current];
   var score = results.filter(Boolean).length;
   function handleSelect(i) {
@@ -2001,6 +3214,13 @@ function FinalQuiz() {
     setRevealed(true);
     var r = [].concat(_toConsumableArray(results), [i === q.ok]);
     setResults(r);
+    if (current === FINAL_QUIZ.length - 1) {
+      var finalScore = r.filter(Boolean).length;
+      var scores = load(STORAGE_KEYS.quizScores) || {};
+      save(STORAGE_KEYS.quizScores, _objectSpread(_objectSpread({}, scores), {}, {
+        final: finalScore
+      }));
+    }
   }
   function next() {
     if (current < FINAL_QUIZ.length - 1) {
@@ -2049,7 +3269,7 @@ function FinalQuiz() {
         fontSize: "14px",
         lineHeight: 1.7
       }
-    }, pct >= 80 ? "Vous avez intégré les fondements essentiels. Vous êtes prêt·e pour le Module 1 — VOIR." : "Prenez le temps de relire les sections qui vous ont semblé floues.")), /*#__PURE__*/React.createElement("div", {
+    }, "Score sauvegard\xE9 dans votre tableau de bord.")), /*#__PURE__*/React.createElement("div", {
       style: {
         background: C.navyCard,
         border: "1px solid ".concat(C.vert),
@@ -2070,13 +3290,18 @@ function FinalQuiz() {
         fontSize: "14px",
         lineHeight: 1.7
       }
-    }, "Vous comprenez maintenant : l'origine de l'anxi\xE9t\xE9 \xB7 les 7 peurs universelles \xB7 comment naissent les masques \xB7 votre profil de d\xE9fenses \xB7 les 6 \xE9tapes de la m\xE9thode.")), /*#__PURE__*/React.createElement("p", {
+    }, "Vous comprenez maintenant : l'origine de l'anxi\xE9t\xE9 \xB7 les 7 peurs universelles \xB7 comment naissent les masques \xB7 votre profil de d\xE9fenses \xB7 les 6 \xE9tapes de la m\xE9thode.")), onDone && /*#__PURE__*/React.createElement("button", {
+      onClick: onDone,
       style: {
-        color: C.textMuted,
-        fontSize: "12px",
-        lineHeight: 1.7
+        background: "none",
+        border: "1px solid ".concat(C.gold),
+        color: C.gold,
+        borderRadius: "8px",
+        padding: "10px 20px",
+        cursor: "pointer",
+        fontSize: "14px"
       }
-    }, "\xA9 2025 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 Tous droits r\xE9serv\xE9s", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 \xC9ditions L'Harmattan"));
+    }, "Voir mon tableau de bord \u2192"), /*#__PURE__*/React.createElement(Copyright, null));
   }
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2175,36 +3400,154 @@ function FinalQuiz() {
     }
   }, current < FINAL_QUIZ.length - 1 ? "Question suivante →" : "Voir mes résultats 🎉"));
 }
-function Section5(_ref11) {
-  var onComplete = _ref11.onComplete;
-  var _useState27 = useState(false),
-    _useState28 = _slicedToArray(_useState27, 2),
-    showQuiz = _useState28[0],
-    setShowQuiz = _useState28[1];
+function Section5(_ref17) {
+  var onComplete = _ref17.onComplete,
+    onJournalSave = _ref17.onJournalSave,
+    onGoHome = _ref17.onGoHome;
+  var _useState41 = useState(false),
+    _useState42 = _slicedToArray(_useState41, 2),
+    showQuiz = _useState42[0],
+    setShowQuiz = _useState42[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
       maxWidth: "720px",
       margin: "0 auto"
     }
-  }, /*#__PURE__*/React.createElement(SectionTitle, {
-    sub: "Vous connaissez vos masques. Voici les 6 \xE9tapes pour vous en lib\xE9rer progressivement."
-  }, "La M\xE9thode V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "clamp(22px,5vw,32px)",
+      fontWeight: 700,
+      color: C.cream,
+      lineHeight: 1.2,
+      marginBottom: "12px"
+    }
+  }, "La M\xE9thode V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "clamp(14px,3.5vw,16px)",
+      lineHeight: 1.6,
+      maxWidth: "600px",
+      margin: "0 auto"
+    }
+  }, "Vous connaissez vos masques. Voici les 6 \xE9tapes pour vous en lib\xE9rer progressivement.")), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: "32px",
-      borderRadius: "16px",
-      overflow: "hidden",
-      border: "1px solid ".concat(C.navyBorder)
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px"
     }
-  }, /*#__PURE__*/React.createElement("iframe", {
-    src: "https://presentationmethodevaleur.netlify.app",
-    title: "Pr\xE9sentation M\xE9thode V.A.L.E.U.R\xA9",
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://presentationmethodevaleur.netlify.app",
+    target: "_blank",
+    rel: "noopener noreferrer",
     style: {
-      width: "100%",
-      height: "500px",
-      border: "none"
+      textDecoration: "none"
     }
-  })), /*#__PURE__*/React.createElement(Card, {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "linear-gradient(135deg,#1a2235,#0d1117)",
+      border: "2px solid ".concat(C.gold),
+      borderRadius: "16px",
+      padding: "20px 24px",
+      display: "flex",
+      alignItems: "center",
+      gap: "16px",
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "52px",
+      height: "52px",
+      borderRadius: "12px",
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+      fontSize: "24px"
+    }
+  }, "\uD83C\uDFAF"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "16px",
+      margin: "0 0 4px"
+    }
+  }, "Pr\xE9sentation de la M\xE9thode V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      margin: 0
+    }
+  }, "D\xE9couvrez les 6 \xE9tapes en d\xE9tail \u2014 s'ouvre dans un nouvel onglet")), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold,
+      fontSize: "20px"
+    }
+  }, "\u2192"))), /*#__PURE__*/React.createElement("a", {
+    href: "https://questionnaire-valeur-psyh.netlify.app",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    style: {
+      textDecoration: "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "linear-gradient(135deg,#1a2520,#0d1117)",
+      border: "2px solid ".concat(C.vert, "44"),
+      borderRadius: "16px",
+      padding: "20px 24px",
+      display: "flex",
+      alignItems: "center",
+      gap: "16px",
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "52px",
+      height: "52px",
+      borderRadius: "12px",
+      background: "linear-gradient(135deg,".concat(C.vert, ",#2a7a50)"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+      fontSize: "24px"
+    }
+  }, "\uD83D\uDCCA"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vertLight,
+      fontWeight: 700,
+      fontSize: "16px",
+      margin: "0 0 4px"
+    }
+  }, "Acc\xE9der au Questionnaire V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      margin: 0
+    }
+  }, "Code d'acc\xE8s : VALEUR2025 \xB7 84 questions \xB7 7 masques")), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.vert,
+      fontSize: "20px"
+    }
+  }, "\u2192")))), /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: "32px",
       borderColor: C.gold + "44"
@@ -2240,9 +3583,14 @@ function Section5(_ref11) {
         margin: 0
       }
     }, k));
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+    sectionIndex: 4,
+    sectionLabel: "La M\xE9thode V.A.L.E.U.R\xA9",
+    onSave: onJournalSave
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginBottom: "32px"
+      marginBottom: "32px",
+      marginTop: "24px"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2267,7 +3615,7 @@ function Section5(_ref11) {
       lineHeight: 1.7,
       marginBottom: "16px"
     }
-  }, "10 questions pour valider votre ma\xEEtrise du Module 0."), !showQuiz && /*#__PURE__*/React.createElement("button", {
+  }, "10 questions pour valider votre ma\xEEtrise du Module 0. Score sauvegard\xE9 dans votre tableau de bord."), !showQuiz && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setShowQuiz(true);
     },
@@ -2281,80 +3629,170 @@ function Section5(_ref11) {
       fontWeight: 800,
       cursor: "pointer"
     }
-  }, "Commencer le quiz \u2192")), showQuiz && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(FinalQuiz, null))), /*#__PURE__*/React.createElement(Copyright, null));
+  }, "Commencer le quiz \u2192")), showQuiz && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(FinalQuiz, {
+    onDone: onGoHome
+  }))), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-// ── APP ──────────────────────────────────────────────────────────
+// ── MODULE 0 WRAPPER ─────────────────────────────────────────────
 
-function App() {
-  var _useState29 = useState(0),
-    _useState30 = _slicedToArray(_useState29, 2),
-    step = _useState30[0],
-    setStep = _useState30[1];
-  var _useState31 = useState([]),
-    _useState32 = _slicedToArray(_useState31, 2),
-    completed = _useState32[0],
-    setCompleted = _useState32[1];
+function Module0(_ref18) {
+  var _load;
+  var initialStep = _ref18.initialStep,
+    onSectionComplete = _ref18.onSectionComplete,
+    onJournalSave = _ref18.onJournalSave,
+    onGoHome = _ref18.onGoHome;
+  var _useState43 = useState(initialStep || 0),
+    _useState44 = _slicedToArray(_useState43, 2),
+    step = _useState44[0],
+    setStep = _useState44[1];
+  var _useState45 = useState(((_load = load(STORAGE_KEYS.progress)) === null || _load === void 0 ? void 0 : _load.completedSections) || []),
+    _useState46 = _slicedToArray(_useState45, 2),
+    completed = _useState46[0],
+    setCompleted = _useState46[1];
   var topRef = useRef(null);
   function complete(i) {
-    if (!completed.includes(i)) setCompleted([].concat(_toConsumableArray(completed), [i]));
+    var prev = load(STORAGE_KEYS.progress) || {};
+    var newCompleted = prev.completedSections ? _toConsumableArray(new Set([].concat(_toConsumableArray(prev.completedSections), [i]))) : [i];
+    var updated = _objectSpread(_objectSpread({}, prev), {}, {
+      completedSections: newCompleted,
+      lastVisit: new Date().toISOString(),
+      startDate: prev.startDate || new Date().toISOString()
+    });
+    save(STORAGE_KEYS.progress, updated);
+    setCompleted(newCompleted);
     setStep(i + 1);
+    if (onSectionComplete) onSectionComplete(newCompleted);
     topRef.current && topRef.current.scrollIntoView({
       behavior: "smooth"
     });
   }
   return /*#__PURE__*/React.createElement("div", {
-    ref: topRef,
+    ref: topRef
+  }, /*#__PURE__*/React.createElement(ModuleProgressBar, {
+    step: step,
+    setStep: setStep,
+    completed: completed
+  }), step === 0 && /*#__PURE__*/React.createElement(Section1, {
+    onComplete: function onComplete() {
+      return complete(0);
+    },
+    onJournalSave: onJournalSave
+  }), step === 1 && /*#__PURE__*/React.createElement(Section2, {
+    onComplete: function onComplete() {
+      return complete(1);
+    },
+    onJournalSave: onJournalSave
+  }), step === 2 && /*#__PURE__*/React.createElement(Section3, {
+    onComplete: function onComplete() {
+      return complete(2);
+    },
+    onJournalSave: onJournalSave
+  }), step === 3 && /*#__PURE__*/React.createElement(Section4, {
+    onComplete: function onComplete() {
+      return complete(3);
+    },
+    onJournalSave: onJournalSave
+  }), step === 4 && /*#__PURE__*/React.createElement(Section5, {
+    onComplete: function onComplete() {
+      return complete(4);
+    },
+    onJournalSave: onJournalSave,
+    onGoHome: onGoHome
+  }));
+}
+
+// ── APP PRINCIPALE ────────────────────────────────────────────────
+
+function App() {
+  var _useState47 = useState('dashboard'),
+    _useState48 = _slicedToArray(_useState47, 2),
+    screen = _useState48[0],
+    setScreen = _useState48[1];
+  var _useState49 = useState(function () {
+      return load(STORAGE_KEYS.progress) || {
+        completedSections: []
+      };
+    }),
+    _useState50 = _slicedToArray(_useState49, 2),
+    progress = _useState50[0],
+    setProgress = _useState50[1];
+  var _useState51 = useState(function () {
+      return load(STORAGE_KEYS.journal) || [];
+    }),
+    _useState52 = _slicedToArray(_useState51, 2),
+    journal = _useState52[0],
+    setJournal = _useState52[1];
+  var _useState53 = useState(function () {
+      return load(STORAGE_KEYS.profile) || {};
+    }),
+    _useState54 = _slicedToArray(_useState53, 2),
+    profile = _useState54[0],
+    setProfile = _useState54[1];
+  function saveProfile(p) {
+    save(STORAGE_KEYS.profile, p);
+    setProfile(p);
+  }
+  function refreshJournal() {
+    setJournal(load(STORAGE_KEYS.journal) || []);
+  }
+  function onSectionComplete(newCompleted) {
+    setProgress(function (p) {
+      return _objectSpread(_objectSpread({}, p), {}, {
+        completedSections: newCompleted
+      });
+    });
+  }
+  var startStep = progress.completedSections ? Math.min(progress.completedSections.length, 4) : 0;
+  return /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.navy,
       minHeight: "100vh"
     }
-  }, /*#__PURE__*/React.createElement(ProgressBar, {
-    step: step,
-    setStep: setStep,
-    completed: completed
+  }, /*#__PURE__*/React.createElement(GlobalNav, {
+    screen: screen,
+    setScreen: setScreen,
+    completedSections: progress.completedSections
+  }), screen === 'dashboard' && /*#__PURE__*/React.createElement(Dashboard, {
+    onStart: function onStart() {
+      return setScreen('module0');
+    },
+    onOpenJournal: function onOpenJournal() {
+      return setScreen('journal');
+    },
+    progress: progress,
+    journal: journal,
+    profile: profile,
+    onSaveProfile: saveProfile
+  }), screen === 'module0' && /*#__PURE__*/React.createElement(Module0, {
+    initialStep: startStep,
+    onSectionComplete: onSectionComplete,
+    onJournalSave: refreshJournal,
+    onGoHome: function onGoHome() {
+      return setScreen('dashboard');
+    }
+  }), screen === 'journal' && /*#__PURE__*/React.createElement(JournalPage, {
+    journal: journal,
+    onBack: function onBack() {
+      return setScreen('dashboard');
+    }
   }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: "800px",
-      margin: "0 auto"
-    }
-  }, step === 0 && /*#__PURE__*/React.createElement(Section1, {
-    onComplete: function onComplete() {
-      return complete(0);
-    }
-  }), step === 1 && /*#__PURE__*/React.createElement(Section2, {
-    onComplete: function onComplete() {
-      return complete(1);
-    }
-  }), step === 2 && /*#__PURE__*/React.createElement(Section3, {
-    onComplete: function onComplete() {
-      return complete(2);
-    }
-  }), step === 3 && /*#__PURE__*/React.createElement(Section4, {
-    onComplete: function onComplete() {
-      return complete(3);
-    }
-  }), step === 4 && /*#__PURE__*/React.createElement(Section5, {
-    onComplete: function onComplete() {
-      return complete(4);
-    }
-  })), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "fixed",
       bottom: "8px",
       right: "12px",
-      opacity: 0.4,
+      opacity: 0.3,
       pointerEvents: "none"
     }
   }, /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
-      fontSize: "10px",
+      fontSize: "9px",
       margin: 0
     }
   }, "\xA9 V.A.L.E.U.R\xA9 \u2014 C. Bourbon")));
 }
-ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
 
   </script>
 </body>
