@@ -3581,6 +3581,74 @@ function Section2(_ref18) {
     _useState54 = _slicedToArray(_useState53, 2),
     showQuiz = _useState54[0],
     setShowQuiz = _useState54[1];
+  var _useState55 = useState(false),
+    _useState56 = _slicedToArray(_useState55, 2),
+    showMasks = _useState56[0],
+    setShowMasks = _useState56[1];
+  var SEPT_PEURS = [{
+    emoji: "🔴",
+    color: C.rouge,
+    bg: "#2d1515",
+    peur: "Peur de la mort et de la maladie",
+    masque: "Masque Rouge",
+    manifestation: "Anxiété de survie · Hypervigilance somatique",
+    description: "Vous craignez constamment pour votre santé ou celle de vos proches. Votre corps devient un territoire à surveiller en permanence. Cette peur primordiale est la plus archaïque — elle remonte à nos origines animales où la mort était une menace constante et immédiate.",
+    reconnais: ["Vous consultez internet à la moindre douleur", "Vous interprétez chaque symptôme comme un danger grave", "Vous évitez certains endroits ou activités par peur de tomber malade", "Vous ressentez une anxiété diffuse autour de votre corps"]
+  }, {
+    emoji: "🟠",
+    color: C.orange,
+    bg: "#2d1a0a",
+    peur: "Peur de la douleur et de la souffrance",
+    masque: "Masque Orange",
+    manifestation: "Fuite émotionnelle · Évitement de l'intime",
+    description: "Vous évitez tout ce qui pourrait vous faire souffrir émotionnellement. Vous fuyez les conflits, les conversations profondes, les films trop intenses. On dit de vous que vous êtes \"fort·e\" — mais c'est parce que vous avez appris à ne rien laisser entrer.",
+    reconnais: ["Vous changez de sujet quand ça devient trop intime", "Vous gardez vos émotions pour vous", "Vous rationalisez plutôt que ressentir", "Vous êtes plus à l'aise à aider les autres qu'à recevoir de l'aide"]
+  }, {
+    emoji: "🟡",
+    color: C.jaune,
+    bg: "#2d2200",
+    peur: "Peur de l'inconnu et de l'incertitude",
+    masque: "Masque Jaune",
+    manifestation: "Obsession de contrôle · Besoin de prévisibilité",
+    description: "L'imprévu vous angoisse profondément. Vous devez tout planifier, tout anticiper. Quand les choses échappent à votre contrôle, c'est une menace existentielle. Au fond, cette peur dit : \"Si je ne contrôle pas, quelque chose de terrible va se produire.\"",
+    reconnais: ["Vacances sans plan précis = cauchemar", "Vous posez beaucoup de questions pour anticiper", "Vous avez du mal à déléguer", "Vous retravaillez les scénarios en boucle avant de dormir"]
+  }, {
+    emoji: "🟢",
+    color: C.vert,
+    bg: "#0d2010",
+    peur: "Peur du rejet et de l'abandon",
+    masque: "Masque Vert",
+    manifestation: "Insécurité relationnelle · Hyperadaptation",
+    description: "Vous faites tout pour plaire et être accepté·e. Dire non, décevoir, être en désaccord — tout cela déclenche une alarme intérieure intense. Vous avez appris très tôt qu'être soi-même pouvait coûter l'amour de l'autre.",
+    reconnais: ["Vous dites oui quand vous pensez non", "Vous vous excusez souvent, même sans raison", "Vous avez du mal à exprimer vos vrais besoins", "Vous ressentez de l'anxiété quand quelqu'un semble mécontent de vous"]
+  }, {
+    emoji: "🔵",
+    color: C.bleu,
+    bg: "#0d1a2d",
+    peur: "Peur de l'impuissance",
+    masque: "Masque Bleu",
+    manifestation: "Besoin de pouvoir · Hypercontrôle relationnel",
+    description: "Vous avez besoin de contrôler votre environnement et parfois les autres. Montrer votre vulnérabilité vous semble dangereux. Vous avez appris que la faiblesse est une menace — que si vous lâchez le contrôle, tout s'effondre.",
+    reconnais: ["Déléguer vous est très difficile", "Vous avez du mal à demander de l'aide", "On vous perçoit comme fort·e, inébranlable", "Vous vous épuisez à tout gérer seul·e"]
+  }, {
+    emoji: "🔷",
+    color: C.indigo,
+    bg: "#120d2d",
+    peur: "Peur de l'échec et de l'inadéquation",
+    masque: "Masque Indigo",
+    manifestation: "Perfectionnisme · Procrastination · Anxiété de performance",
+    description: "Vous avez peur de ne pas être à la hauteur. Soit vous sur-performez pour compenser cette peur, soit vous ne commencez pas pour ne pas risquer d'échouer. La critique vous touche bien plus profondément qu'elle ne le devrait.",
+    reconnais: ["Vous reportez les projets importants", "La critique vous affecte durablement", "Vous voyez vos erreurs en HD et vos réussites en flou", "\"Parfait ou rien\" est votre mode de fonctionnement"]
+  }, {
+    emoji: "💜",
+    color: C.violet,
+    bg: "#1a0d2d",
+    peur: "Peur de perdre son identité",
+    masque: "Masque Violet",
+    manifestation: "Résistance au changement · Angoisse existentielle",
+    description: "Changer vous terrifie. Perdre un rôle, une relation, un statut — c'est perdre qui vous êtes. Ce masque est unique : il absorbe et intensifie tous les autres. Il est le gardien ultime de votre nature authentique, emprisonnée derrière l'accumulation de vos défenses.",
+    reconnais: ["Le changement vous angoisse même quand il est positif", "Vous vous accrochez à des rôles devenus trop étroits", "Vous vous demandez souvent \"qui suis-je vraiment ?\"", "Vous avez du mal à imaginer une vie différente de la vôtre"]
+  }];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
@@ -3609,7 +3677,7 @@ function Section2(_ref18) {
       maxWidth: "600px",
       margin: "0 auto"
     }
-  }, "Derri\xE8re chaque anxi\xE9t\xE9 se cache l'une de ces 7 peurs primordiales. Elles sont universelles \u2014 tout \xEAtre humain les porte en lui.")), /*#__PURE__*/React.createElement(VideoCard, {
+  }, "Ces 7 peurs sont inscrites dans tout \xEAtre humain. Elles ne sont pas des pathologies \u2014 elles sont notre h\xE9ritage \xE9volutif. Ce qui varie, c'est laquelle est la plus active en vous.")), /*#__PURE__*/React.createElement(VideoCard, {
     href: "https://youtu.be/weAQzjtxNPE?si=i4XnH87VgkxUWFu5",
     videoId: "weAQzjtxNPE",
     label: "Comment vos masques emprisonnent votre nature authentique"
@@ -3632,12 +3700,11 @@ function Section2(_ref18) {
     style: {
       color: C.cream
     }
-  }, "parts \xE9motionnelles"), ". Voici comment les relier \xE0 la m\xE9thode V.A.L.E.U.R\xA9 :"), /*#__PURE__*/React.createElement("div", {
+  }, "parts \xE9motionnelles"), ". Voici comment les relier \xE0 la m\xE9thode :"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
-      gap: "10px",
-      marginBottom: "12px"
+      gap: "10px"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3649,7 +3716,7 @@ function Section2(_ref18) {
     }
   }, /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: "24px",
+      fontSize: "22px",
       margin: "0 0 6px"
     }
   }, "\uD83C\uDF1F"), /*#__PURE__*/React.createElement("p", {
@@ -3679,7 +3746,7 @@ function Section2(_ref18) {
     }
   }, /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: "24px",
+      fontSize: "22px",
       margin: "0 0 6px"
     }
   }, "\uD83C\uDFAD"), /*#__PURE__*/React.createElement("p", {
@@ -3699,118 +3766,430 @@ function Section2(_ref18) {
     style: {
       color: C.violetLight
     }
-  }, "masques de d\xE9fense"), /*#__PURE__*/React.createElement("br", null), "Vos protections fig\xE9es"))), /*#__PURE__*/React.createElement("p", {
+  }, "masques de d\xE9fense"), /*#__PURE__*/React.createElement("br", null), "Vos protections fig\xE9es")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 800,
+      fontSize: "18px",
+      marginBottom: "6px"
+    }
+  }, "Partie 1 \u2014 Les 7 peurs primordiales"), /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
-      fontSize: "13px",
-      lineHeight: 1.7,
-      margin: 0,
-      fontStyle: "italic"
+      fontSize: "14px",
+      lineHeight: 1.6
     }
-  }, "En r\xE9sum\xE9 : quand vos masques prennent le dessus, votre moi adulte \u2014 votre nature authentique \u2014 est mis en retrait. Le travail V.A.L.E.U.R\xA9 consiste \xE0 le r\xE9veiller.")), /*#__PURE__*/React.createElement(PedaVignette, {
-    emoji: "\uD83C\uDFDB\uFE0F",
-    title: "La structure de votre psych\xE9 en 3 niveaux",
-    color: C.bleu
+  }, "Cliquez sur chaque peur pour vous reconna\xEEtre")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px"
+    }
+  }, SEPT_PEURS.map(function (peur, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setSelected(selected === i ? null : i);
+      },
+      style: {
+        width: "100%",
+        background: selected === i ? peur.bg : C.navyCard,
+        border: "2px solid ".concat(selected === i ? peur.color : C.navyBorder),
+        borderRadius: "14px",
+        padding: "16px 18px",
+        cursor: "pointer",
+        textAlign: "left",
+        transition: "all 0.2s",
+        display: "flex",
+        alignItems: "center",
+        gap: "12px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "24px",
+        flexShrink: 0
+      }
+    }, peur.emoji), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: selected === i ? peur.color : C.cream,
+        fontWeight: 700,
+        fontSize: "15px",
+        margin: "0 0 2px"
+      }
+    }, peur.peur), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        margin: 0
+      }
+    }, peur.manifestation)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: peur.color,
+        fontSize: "18px",
+        transform: selected === i ? "rotate(45deg)" : "none",
+        transition: "transform 0.3s",
+        flexShrink: 0
+      }
+    }, "+")), selected === i && /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: peur.bg,
+        border: "2px solid ".concat(peur.color, "44"),
+        borderRadius: "0 0 14px 14px",
+        padding: "20px",
+        marginTop: "-2px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "14px",
+        lineHeight: 1.8,
+        marginBottom: "16px"
+      }
+    }, peur.description), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: peur.color,
+        fontWeight: 700,
+        fontSize: "13px",
+        marginBottom: "10px",
+        textTransform: "uppercase",
+        letterSpacing: "1px"
+      }
+    }, "Vous reconnaissez-vous ?"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "6px",
+        marginBottom: "16px"
+      }
+    }, peur.reconnais.map(function (r, j) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: j,
+        style: {
+          display: "flex",
+          gap: "8px",
+          alignItems: "flex-start"
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: peur.color,
+          fontWeight: 700,
+          flexShrink: 0
+        }
+      }, "\u203A"), /*#__PURE__*/React.createElement("p", {
+        style: {
+          color: "#CBD5E0",
+          fontSize: "13px",
+          lineHeight: 1.6,
+          margin: 0,
+          fontStyle: "italic"
+        }
+      }, r));
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "".concat(peur.color, "11"),
+        border: "1px solid ".concat(peur.color, "44"),
+        borderRadius: "10px",
+        padding: "12px 16px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: peur.color,
+        fontSize: "13px",
+        margin: 0,
+        fontWeight: 600
+      }
+    }, "\uD83C\uDFAD Cette peur non int\xE9gr\xE9e cr\xE9e le ", /*#__PURE__*/React.createElement("strong", null, peur.masque)))));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px"
+    }
   }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 800,
+      fontSize: "18px",
+      marginBottom: "6px"
+    }
+  }, "Partie 2 \u2014 Comment na\xEEt un masque ?"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      lineHeight: 1.6
+    }
+  }, "Le m\xE9canisme universel de cr\xE9ation")), /*#__PURE__*/React.createElement(PedaVignette, {
+    emoji: "\u26A1",
+    title: "La peur entre en conflit avec votre nature profonde",
+    color: C.orange
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textLight,
+      fontSize: "14px",
+      lineHeight: 1.8,
+      marginBottom: "16px"
+    }
+  }, "Quand une peur primordiale est trop intense pour \xEAtre int\xE9gr\xE9e, elle entre en ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.cream
+    }
+  }, "conflit direct avec votre nature authentique"), " et vos valeurs profondes. Ce conflit cr\xE9e une tension insupportable \u2014 et votre psych\xE9 invente une solution : le masque."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
       gap: "8px",
-      marginBottom: "12px"
+      marginBottom: "16px"
     }
-  }, [{
-    emoji: "👁️",
-    label: "La Pleine Conscience",
-    sub: "L'observateur stable — il voit sans juger, toujours présent, toujours bienveillant",
-    color: C.cream,
-    bg: "#1a1f2e"
-  }, {
-    emoji: "🌟",
-    label: "La Nature Authentique",
-    sub: "Votre vraie essence — créative, libre, vivante, capable de ressentir et d'agir selon vos valeurs",
-    color: C.gold,
-    bg: "#1a1a10"
-  }, {
-    emoji: "🎭",
-    label: "Les Masques du Personnâge",
-    sub: "Vos protections rigides et automatiques — créées à partir de blessures anciennes",
-    color: C.violet,
-    bg: "#1a1025"
-  }].map(function (item, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        background: item.bg,
-        border: "1px solid ".concat(item.color, "44"),
-        borderRadius: "10px",
-        padding: "12px 16px",
-        display: "flex",
-        gap: "12px",
-        alignItems: "flex-start"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: "20px",
-        flexShrink: 0
-      }
-    }, item.emoji), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: item.color,
-        fontWeight: 700,
-        fontSize: "14px",
-        margin: "0 0 4px"
-      }
-    }, item.label), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textMuted,
-        fontSize: "13px",
-        lineHeight: 1.6,
-        margin: 0
-      }
-    }, item.sub)));
-  })), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#0d1a2d",
+      border: "1px solid ".concat(C.bleu),
+      borderRadius: "10px",
+      padding: "14px",
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.bleuLight,
+      fontWeight: 700,
+      fontSize: "13px",
+      margin: "0 0 4px"
+    }
+  }, "\uD83C\uDF1F Votre nature authentique veut\u2026"), /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
+      fontSize: "13px",
+      fontStyle: "italic",
+      margin: 0
+    }
+  }, "\"S'exprimer librement, \xEAtre vu\xB7e, aimer et \xEAtre aim\xE9\xB7e, cr\xE9er, agir selon ses valeurs\"")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      fontSize: "20px",
+      color: C.rouge,
+      fontWeight: 700
+    }
+  }, "\u26A1 CONFLIT"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#2d1515",
+      border: "1px solid ".concat(C.rouge),
+      borderRadius: "10px",
+      padding: "14px",
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.rougeLight,
+      fontWeight: 700,
+      fontSize: "13px",
+      margin: "0 0 4px"
+    }
+  }, "\uD83D\uDE30 Mais la peur dit\u2026"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      fontStyle: "italic",
+      margin: 0
+    }
+  }, "\"Si tu es toi-m\xEAme, tu seras rejet\xE9\xB7e / jug\xE9\xB7e / abandonn\xE9\xB7e / bless\xE9\xB7e\"")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      fontSize: "20px",
+      color: C.gold,
+      fontWeight: 700
+    }
+  }, "\u2193"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a1025",
+      border: "2px solid ".concat(C.violet),
+      borderRadius: "10px",
+      padding: "14px",
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.violetLight,
+      fontWeight: 700,
+      fontSize: "14px",
+      margin: "0 0 4px"
+    }
+  }, "\uD83C\uDFAD La psych\xE9 cr\xE9e un masque"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      margin: 0
+    }
+  }, "\"Un comportement automatique qui \xE9loigne la menace \u2014 mais qui enferme la nature authentique\""))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a2520",
+      border: "1px solid ".concat(C.vert),
+      borderRadius: "10px",
+      padding: "14px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vertLight,
       fontSize: "13px",
       lineHeight: 1.7,
       margin: 0
     }
-  }, "\uD83C\uDFAF ", /*#__PURE__*/React.createElement("strong", {
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Exemple concret :"), " Votre nature authentique veut exprimer ses besoins (valeur : authenticit\xE9). Mais la peur du rejet dit \"si tu exprimes tes besoins, on t'abandonnera\". Le masque vert na\xEEt : vous apprenez \xE0 tout donner sans jamais rien demander. Efficace en enfance \u2014 \xE9puisant \xE0 l'\xE2ge adulte."))), /*#__PURE__*/React.createElement(Card, {
     style: {
-      color: C.cream
+      textAlign: "center",
+      marginBottom: "20px"
     }
-  }, "Le but de la m\xE9thode :"), " que vos masques redeviennent souples et conscients, pour que votre nature authentique puisse \xE0 nouveau s'exprimer librement \u2014 guid\xE9e par votre pleine conscience.")), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
-      fontSize: "13px",
+      fontSize: "12px",
       letterSpacing: "1px",
       textTransform: "uppercase",
-      marginBottom: "16px",
+      marginBottom: "16px"
+    }
+  }, "La formule de cr\xE9ation"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      flexWrap: "wrap"
+    }
+  }, [{
+    emoji: "🌟",
+    l1: "NATURE",
+    l2: "AUTHENTIQUE",
+    c: C.gold
+  }, {
+    sep: "+"
+  }, {
+    emoji: "😰",
+    l1: "PEUR NON",
+    l2: "INTÉGRÉE",
+    c: C.rouge
+  }, {
+    sep: "="
+  }, {
+    emoji: "🎭",
+    l1: "MASQUE DE",
+    l2: "DÉFENSE",
+    c: C.violet
+  }].map(function (x, i) {
+    return x.sep ? /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        color: C.cream,
+        fontSize: "22px",
+        fontWeight: 700
+      }
+    }, x.sep) : /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        background: C.navyMid,
+        border: "2px solid ".concat(x.c),
+        borderRadius: "12px",
+        padding: "12px 14px",
+        textAlign: "center",
+        minWidth: "90px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "22px",
+        marginBottom: "4px"
+      }
+    }, x.emoji), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: x.c,
+        fontWeight: 700,
+        fontSize: "11px",
+        margin: "0 0 2px"
+      }
+    }, x.l1), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: x.c,
+        fontWeight: 700,
+        fontSize: "11px",
+        margin: 0
+      }
+    }, x.l2));
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "32px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 800,
+      fontSize: "18px",
+      marginBottom: "6px"
+    }
+  }, "Partie 3 \u2014 Les 7 masques en d\xE9tail"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      lineHeight: 1.6
+    }
+  }, "Cliquez pour vous reconna\xEEtre dans chaque masque")), !showMasks ? /*#__PURE__*/React.createElement("div", {
+    style: {
       textAlign: "center"
     }
-  }, "\uD83C\uDFAD Les 7 masques \u2014 cliquez pour vous reconna\xEEtre"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowMasks(true);
+    },
+    style: {
+      background: C.navyCard,
+      border: "2px solid ".concat(C.violet),
+      color: C.violetLight,
+      borderRadius: "12px",
+      padding: "14px 28px",
+      cursor: "pointer",
+      fontSize: "15px",
+      fontWeight: 600
+    }
+  }, "\uD83C\uDFAD Explorer les 7 masques \u2192")) : /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: "10px",
-      marginBottom: "32px"
+      gap: "10px"
     }
   }, MASKS.map(function (mask, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: mask.id
     }, /*#__PURE__*/React.createElement(MaskCard, {
       mask: mask,
-      isSelected: selected === i,
+      isSelected: selected === "mask_".concat(i),
       onClick: function onClick() {
-        return setSelected(selected === i ? null : i);
+        return setSelected(selected === "mask_".concat(i) ? null : "mask_".concat(i));
       }
-    }), selected === i && /*#__PURE__*/React.createElement(MaskDetail, {
+    }), selected === "mask_".concat(i) && /*#__PURE__*/React.createElement(MaskDetail, {
       mask: mask,
       onClose: function onClose() {
         return setSelected(null);
       }
     }));
-  })), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: "32px"
     }
@@ -3851,10 +4230,10 @@ function Section2(_ref18) {
 function Section3(_ref19) {
   var onComplete = _ref19.onComplete,
     session = _ref19.session;
-  var _useState55 = useState(null),
-    _useState56 = _slicedToArray(_useState55, 2),
-    expandedStep = _useState56[0],
-    setExpandedStep = _useState56[1];
+  var _useState57 = useState(null),
+    _useState58 = _slicedToArray(_useState57, 2),
+    expandedStep = _useState58[0],
+    setExpandedStep = _useState58[1];
   var MASK_STEPS = [{
     num: "1",
     color: C.rouge,
@@ -4496,10 +4875,10 @@ function Section5(_ref21) {
   var onComplete = _ref21.onComplete,
     session = _ref21.session,
     onGoHome = _ref21.onGoHome;
-  var _useState57 = useState(false),
-    _useState58 = _slicedToArray(_useState57, 2),
-    showQuiz = _useState58[0],
-    setShowQuiz = _useState58[1];
+  var _useState59 = useState(false),
+    _useState60 = _slicedToArray(_useState59, 2),
+    showQuiz = _useState60[0],
+    setShowQuiz = _useState60[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
@@ -4528,71 +4907,104 @@ function Section5(_ref21) {
       maxWidth: "600px",
       margin: "0 auto"
     }
-  }, "Vous connaissez vos masques. Voici les 6 \xE9tapes pour vous en lib\xE9rer progressivement.")), /*#__PURE__*/React.createElement("div", {
+  }, "Vous connaissez vos masques. Voici les 6 \xE9tapes pour vous en lib\xE9rer progressivement.")), /*#__PURE__*/React.createElement(PedaVignette, {
+    emoji: "\uD83D\uDDFA\uFE0F",
+    title: "Les 6 \xE9tapes de la M\xE9thode V.A.L.E.U.R\xA9",
+    color: C.gold
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
-      marginBottom: "32px",
       display: "flex",
       flexDirection: "column",
-      gap: "12px"
+      gap: "10px"
     }
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "https://presentationmethodevaleur.netlify.app",
-    target: "_blank",
-    rel: "noopener noreferrer",
-    style: {
-      textDecoration: "none"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "linear-gradient(135deg,#1a2235,#0d1117)",
-      border: "2px solid ".concat(C.gold),
-      borderRadius: "16px",
-      padding: "20px 24px",
-      display: "flex",
-      alignItems: "center",
-      gap: "16px",
-      cursor: "pointer"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: "52px",
-      height: "52px",
-      borderRadius: "12px",
-      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexShrink: 0,
-      fontSize: "24px"
-    }
-  }, "\uD83C\uDFAF"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.gold,
-      fontWeight: 700,
-      fontSize: "16px",
-      margin: "0 0 4px"
-    }
-  }, "Pr\xE9sentation de la M\xE9thode V.A.L.E.U.R\xA9"), /*#__PURE__*/React.createElement("p", {
+  }, [{
+    l: "V",
+    t: "VOIR le déclencheur",
+    d: "Identifier précisément la situation qui vient d'activer votre masque. \"Qu'est-ce qui vient de se passer ?\" — Voir le déclencheur, c'est déjà commencer à reprendre le contrôle.",
+    c: C.rouge
+  }, {
+    l: "A",
+    t: "ACCUEILLIR l'émotion",
+    d: "Reconnaître ce que vous ressentez SANS jugement. Nommer l'émotion au lieu de la combattre. Souvenez-vous : D = e × r². Accueillir divise la souffrance par 25.",
+    c: C.orange
+  }, {
+    l: "L",
+    t: "LOCALISER dans le corps",
+    d: "Identifier OÙ dans votre corps vous ressentez l'émotion. Gorge serrée ? Ventre noué ? Tension dans les épaules ? Le corps ne ment jamais.",
+    c: C.jaune
+  }, {
+    l: "E",
+    t: "EXPLORER le conflit",
+    d: "Comprendre ce que le masque protège vraiment — et identifier votre valeur profonde piégée dans cette situation. Quel est le conflit entre les deux ?",
+    c: C.vert
+  }, {
+    l: "U",
+    t: "UNIFIER les polarités",
+    d: "Créer une nouvelle perspective : \"J'ai peur ET je peux agir quand même.\" Reconnaître deux réalités simultanément — la peur ET la capacité à la traverser.",
+    c: C.bleu
+  }, {
+    l: "R",
+    t: "RENFORCER par l'action",
+    d: "Un petit geste concret en alignement avec votre nature authentique. Chaque fois que vous agissez ainsi, vous gravez un nouveau circuit neuronal.",
+    c: C.violet
+  }].map(function (step, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        gap: "12px",
+        alignItems: "flex-start",
+        padding: "14px",
+        background: C.navyCard,
+        borderRadius: "12px",
+        border: "1px solid ".concat(step.c, "33")
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "36px",
+        height: "36px",
+        borderRadius: "50%",
+        background: step.c,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        fontWeight: 900,
+        fontSize: "16px",
+        color: "#fff"
+      }
+    }, step.l), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: step.c,
+        fontWeight: 700,
+        fontSize: "14px",
+        margin: "0 0 4px"
+      }
+    }, step.t), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "13px",
+        lineHeight: 1.6,
+        margin: 0
+      }
+    }, step.d)));
+  })), /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
-      fontSize: "13px",
-      margin: 0
+      fontSize: "12px",
+      marginTop: "16px",
+      borderTop: "1px solid ".concat(C.navyBorder),
+      paddingTop: "12px",
+      textAlign: "center"
     }
-  }, "D\xE9couvrez les 6 \xE9tapes en d\xE9tail \u2014 s'ouvre dans un nouvel onglet")), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.gold,
-      fontSize: "20px"
-    }
-  }, "\u2192"))), /*#__PURE__*/React.createElement("a", {
+  }, "Fondements scientifiques : SHAI, TAS-20, IUS-12, ECR-R, LOC+NPI, FMPS, MSI \xB7 ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 L'Harmattan")), /*#__PURE__*/React.createElement("a", {
     href: "https://questionnaire-valeur-psyh.netlify.app",
     target: "_blank",
     rel: "noopener noreferrer",
     style: {
-      textDecoration: "none"
+      textDecoration: "none",
+      display: "block",
+      marginBottom: "24px"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4639,7 +5051,7 @@ function Section5(_ref21) {
       color: C.vert,
       fontSize: "20px"
     }
-  }, "\u2192")))), /*#__PURE__*/React.createElement(Card, {
+  }, "\u2192"))), /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: "32px",
       borderColor: C.gold + "44"
@@ -4651,7 +5063,7 @@ function Section5(_ref21) {
       fontSize: "15px",
       marginBottom: "16px"
     }
-  }, "\u2728 Les cl\xE9s de votre lib\xE9ration"), ["Vos masques vous ont protégé — remerciez-les, sans leur obéir", "L'acceptation est 25 fois plus puissante que la résistance", "Votre système nerveux peut s'apaiser en quelques minutes", "Chaque petit pas crée de nouveaux circuits neuronaux", "Vous n'êtes pas vos peurs — vous êtes celui/celle qui les observe", "La joie d'être soi est votre nature véritable"].map(function (k, i) {
+  }, "\u2728 Les cl\xE9s essentielles \xE0 retenir"), ["Vos masques vous ont protégé — remerciez-les, sans leur obéir", "L'acceptation est 25 fois plus puissante que la résistance", "Votre système nerveux peut s'apaiser en quelques minutes", "Chaque petit pas crée de nouveaux circuits neuronaux", "Vous n'êtes pas vos peurs — vous êtes celui/celle qui les observe", "La joie d'être soi est votre nature véritable — pas un objectif lointain"].map(function (k, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
@@ -4734,23 +5146,23 @@ function Module0(_ref22) {
     onGoHome = _ref22.onGoHome,
     onSectionComplete = _ref22.onSectionComplete;
   var email = session.email;
-  var _useState59 = useState(function () {
+  var _useState61 = useState(function () {
       return (loadUser(email, 'progress') || {
         completedSections: []
       }).completedSections || [];
     }),
-    _useState60 = _slicedToArray(_useState59, 2),
-    completed = _useState60[0],
-    setCompleted = _useState60[1];
-  var _useState61 = useState(function () {
+    _useState62 = _slicedToArray(_useState61, 2),
+    completed = _useState62[0],
+    setCompleted = _useState62[1];
+  var _useState63 = useState(function () {
       var _completedSections;
       return Math.min(((_completedSections = (loadUser(email, 'progress') || {
         completedSections: []
       }).completedSections) === null || _completedSections === void 0 ? void 0 : _completedSections.length) || 0, 4);
     }),
-    _useState62 = _slicedToArray(_useState61, 2),
-    step = _useState62[0],
-    setStep = _useState62[1];
+    _useState64 = _slicedToArray(_useState63, 2),
+    step = _useState64[0],
+    setStep = _useState64[1];
   var topRef = useRef(null);
   function complete(i) {
     var prog = loadUser(email, 'progress') || {};
@@ -4810,7 +5222,7 @@ function Module0(_ref22) {
 
 // ── APP ───────────────────────────────────────────────────────────
 function App() {
-  var _useState63 = useState(function () {
+  var _useState65 = useState(function () {
       // Cherche une session active parmi tous les emails
       var reg = loadRegistry();
       var _iterator = _createForOfIteratorHelper(reg),
@@ -4832,13 +5244,13 @@ function App() {
       }
       return null;
     }),
-    _useState64 = _slicedToArray(_useState63, 2),
-    session = _useState64[0],
-    setSession = _useState64[1];
-  var _useState65 = useState('dashboard'),
     _useState66 = _slicedToArray(_useState65, 2),
-    screen = _useState66[0],
-    setScreen = _useState66[1];
+    session = _useState66[0],
+    setSession = _useState66[1];
+  var _useState67 = useState('dashboard'),
+    _useState68 = _slicedToArray(_useState67, 2),
+    screen = _useState68[0],
+    setScreen = _useState68[1];
   function handleLogin(s) {
     setSession(s);
     setScreen('dashboard');
