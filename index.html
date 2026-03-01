@@ -7,14 +7,14 @@
   <meta name="description" content="Méthode V.A.L.E.U.R© par Céline Bourbon, Psychologue. Espace membres sécurisé."/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <!-- EmailJS pour notifications automatiques -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{background:#0a0f1a;font-family:'Segoe UI',system-ui,sans-serif;color:#e2e8f0;-webkit-font-smoothing:antialiased;}
     textarea,input{font-family:inherit;}
     input:-webkit-autofill{-webkit-box-shadow:0 0 0 30px #111827 inset!important;-webkit-text-fill-color:#f7f3ee!important;}
-    ::-webkit-scrollbar{width:5px;}
-    ::-webkit-scrollbar-track{background:#0a0f1a;}
-    ::-webkit-scrollbar-thumb{background:#c9a84c;border-radius:3px;}
+    ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:#0a0f1a;}::-webkit-scrollbar-thumb{background:#c9a84c;border-radius:3px;}
     @media(max-width:480px){button{min-height:44px;}textarea,input{font-size:16px!important;}}
   </style>
 </head>
@@ -24,6 +24,7 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t.return || t.return(); } finally { if (u) throw o; } } }; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -50,51 +51,104 @@ var _React = React,
    Basé sur "De la peur à la joie d'être soi" — L'Harmattan
    ============================================================ */
 
-// ── COMPTES AUTORISÉS ────────────────────────────────────────────
-// Pour ajouter un patient : ajoutez une ligne, redéployez sur GitHub
-var AUTHORIZED_USERS = [{
-  email: "celine.bourbon@gmail.com",
-  password: "Admin2025!",
-  name: "Céline"
-}, {
-  email: "patient1@test.com",
-  password: "Valeur2025",
-  name: "Patient 1"
-}, {
-  email: "patient2@test.com",
-  password: "Valeur2025",
-  name: "Patient 2"
-}, {
-  email: "patient3@test.com",
-  password: "Valeur2025",
-  name: "Patient 3"
-}];
+// ── CONFIG ────────────────────────────────────────────────────────
+var APP_PASSWORD = "VALEUR2025"; // Mot de passe unique pour tous les patients
+var ADMIN_EMAIL = "celine.bourbon@gmail.com";
+var ADMIN_PASSWORD = "Admin2025!"; // Mot de passe admin spécial
+var EMAILJS_SERVICE = "service_celine_valeur"; // ← votre Service ID EmailJS
+var EMAILJS_TEMPLATE_INSCRIPTION = "template_inscription"; // ← Template "nouvelle inscription"
+var EMAILJS_TEMPLATE_PROGRESS = "template_progress"; // ← Template "progression"
+var EMAILJS_PUBLIC_KEY = "VOTRE_CLE_PUBLIQUE_EMAILJS"; // ← Votre clé publique EmailJS
 
-// ── STORAGE (localStorage) ───────────────────────────────────────
-
-var STORAGE_KEYS = {
-  profile: 'valeur_profile',
-  progress: 'valeur_progress',
-  journal: 'valeur_journal',
-  quizScores: 'valeur_scores',
-  session: 'valeur_session'
-};
-function load(key) {
+// ── STORAGE HELPERS (données par email = données par patient) ─────
+function loadUser(email, key) {
   try {
-    var v = localStorage.getItem(key);
+    var v = localStorage.getItem("valeur_".concat(email, "_").concat(key));
     return v ? JSON.parse(v) : null;
   } catch (_unused) {
     return null;
   }
 }
-function save(key, val) {
+function saveUser(email, key, val) {
   try {
-    localStorage.setItem(key, JSON.stringify(val));
+    localStorage.setItem("valeur_".concat(email, "_").concat(key), JSON.stringify(val));
   } catch (_unused2) {}
+}
+// Registre global de tous les patients (sur cet appareil)
+function loadRegistry() {
+  try {
+    var v = localStorage.getItem('valeur_registry');
+    return v ? JSON.parse(v) : [];
+  } catch (_unused3) {
+    return [];
+  }
+}
+function addToRegistry(email, name, date) {
+  var reg = loadRegistry();
+  if (!reg.find(function (u) {
+    return u.email === email;
+  })) {
+    reg.push({
+      email: email,
+      name: name,
+      registeredAt: date,
+      lastSeen: date
+    });
+    try {
+      localStorage.setItem('valeur_registry', JSON.stringify(reg));
+    } catch (_unused4) {}
+  } else {
+    var updated = reg.map(function (u) {
+      return u.email === email ? _objectSpread(_objectSpread({}, u), {}, {
+        lastSeen: date
+      }) : u;
+    });
+    try {
+      localStorage.setItem('valeur_registry', JSON.stringify(updated));
+    } catch (_unused5) {}
+  }
+}
+function updateRegistry(email, fields) {
+  var reg = loadRegistry();
+  var updated = reg.map(function (u) {
+    return u.email === email ? _objectSpread(_objectSpread({}, u), fields) : u;
+  });
+  try {
+    localStorage.setItem('valeur_registry', JSON.stringify(updated));
+  } catch (_unused6) {}
+}
+
+// ── EMAILJS — notifications automatiques ─────────────────────────
+function sendEmailNotification(templateId, params) {
+  if (typeof emailjs === 'undefined') return;
+  emailjs.send(EMAILJS_SERVICE, templateId, params, EMAILJS_PUBLIC_KEY).catch(function () {}); // silencieux si échec
+}
+function notifyInscription(email, name) {
+  sendEmailNotification(EMAILJS_TEMPLATE_INSCRIPTION, {
+    to_email: ADMIN_EMAIL,
+    patient_email: email,
+    patient_name: name || email,
+    date: new Date().toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }),
+    heure: new Date().toLocaleTimeString('fr-FR')
+  });
+}
+function notifyProgress(email, name, sectionLabel, score) {
+  sendEmailNotification(EMAILJS_TEMPLATE_PROGRESS, {
+    to_email: ADMIN_EMAIL,
+    patient_email: email,
+    patient_name: name || email,
+    section: sectionLabel,
+    score: score || '',
+    date: new Date().toLocaleDateString('fr-FR')
+  });
 }
 
 // ── COULEURS ─────────────────────────────────────────────────────
-
 var C = {
   navy: "#0a0f1a",
   navyMid: "#111827",
@@ -157,7 +211,7 @@ var MASKS = [{
   lines: ["Vacances sans plan ? Réunion sans ordre du jour ? Vous ne supportez pas.", "Vous posez des questions que les autres trouvent excessives — mais pour vous, c'est vital.", "Vous révisez les scénarios en boucle : et si ça tourne mal ? Et si je n'ai pas tout prévu ?", "Ce besoin de contrôle cache une question plus profonde : et si le sol se dérobait sous vos pieds ?"],
   manifestation: "Obsession de contrôle",
   hook: "Combien d'énergie dépensez-vous chaque jour à contrôler l'incontrôlable ?",
-  journalPrompt: "Qu'est-ce que vous ne supportez pas de ne pas maîtriser ? Qu'est-ce qui se passe en vous quand l'imprévu survient ?"
+  journalPrompt: "Qu'est-ce que vous ne supportez pas de ne pas maîtriser ? Qu'arrive-t-il en vous quand l'imprévu survient ?"
 }, {
   id: "vert",
   color: C.vert,
@@ -170,7 +224,7 @@ var MASKS = [{
   lines: ["Vous dites oui quand vous pensez non. Vous souriez quand vous êtes blessé·e.", "Vous êtes l'ami·e, le/la collègue, le/la conjoint·e sur qui tout le monde s'appuie.", "Mais qui prend soin de vous ?", "Au fond, une conviction silencieuse gouverne tout : \"Si je suis vraiment moi, on me quittera.\""],
   manifestation: "Insécurité relationnelle",
   hook: "Quand avez-vous dit non sans vous en vouloir juste après ?",
-  scienceFact: "Le rejet social active les mêmes zones cérébrales que la douleur physique. Une étude (Science, 2003) a montré que le paracétamol réduisait significativement la souffrance de l'exclusion sociale. Votre cerveau vit un rejet comme une vraie blessure. Vous n'êtes pas \"trop sensible\" — vous êtes humain·e.",
+  scienceFact: "Le rejet social active les mêmes zones cérébrales que la douleur physique. Une étude (Science, 2003) a montré que le paracétamol réduisait significativement la souffrance de l'exclusion sociale.",
   journalPrompt: "Dans quelle relation avez-vous le plus peur d'être vous-même ? Quel besoin n'exprimez-vous jamais ?"
 }, {
   id: "bleu",
@@ -263,7 +317,7 @@ var FINAL_QUIZ = [{
   ok: 1
 }, {
   q: "Le questionnaire V.A.L.E.U.R© est :",
-  opts: ["Un test de personnalité", "Un diagnostic psychiatrique", "Une cartographie de vos défenses — ce qui est plus fort que vous", "Un test de QI émotionnel"],
+  opts: ["Un test de personnalité", "Un diagnostic psychiatrique", "Une cartographie de vos défenses", "Un test de QI émotionnel"],
   ok: 2
 }, {
   q: "Que signifie le V de V.A.L.E.U.R© ?",
@@ -276,9 +330,6 @@ var FINAL_QUIZ = [{
 }];
 var SECTION_LABELS = ["Introduction", "7 Peurs", "Les Masques", "Questionnaire", "La Méthode"];
 var JOURNAL_PROMPTS = ["Qu'est-ce qui vous a le plus marqué·e dans cette introduction ? Quelle prise de conscience avez-vous eue ?", "Parmi les 7 peurs, laquelle vous a le plus touché·e ? Pourquoi ?", "Comment vos masques se sont-ils formés selon vous ? Quel exemple de votre vie vous vient en tête ?", "Après le questionnaire : qu'avez-vous découvert sur vous-même ? Qu'est-ce qui vous surprend ?", "Quelle étape de la méthode V.A.L.E.U.R© vous semble la plus difficile à appliquer ? Pourquoi ?"];
-
-// ── UTILITAIRES ───────────────────────────────────────────────────
-
 function formatDate(iso) {
   var d = new Date(iso);
   return d.toLocaleDateString('fr-FR', {
@@ -483,32 +534,871 @@ function Accordion(_ref4) {
   }));
 }
 
-// ── JOURNAL ENTRY WIDGET ─────────────────────────────────────────
+// ── ÉCRAN CONNEXION ───────────────────────────────────────────────
+function LoginScreen(_ref5) {
+  var onLogin = _ref5.onLogin;
+  var _useState3 = useState(''),
+    _useState4 = _slicedToArray(_useState3, 2),
+    email = _useState4[0],
+    setEmail = _useState4[1];
+  var _useState5 = useState(''),
+    _useState6 = _slicedToArray(_useState5, 2),
+    password = _useState6[0],
+    setPassword = _useState6[1];
+  var _useState7 = useState(''),
+    _useState8 = _slicedToArray(_useState7, 2),
+    name = _useState8[0],
+    setName = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    showPwd = _useState0[0],
+    setShowPwd = _useState0[1];
+  var _useState1 = useState(''),
+    _useState10 = _slicedToArray(_useState1, 2),
+    error = _useState10[0],
+    setError = _useState10[1];
+  var _useState11 = useState(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    loading = _useState12[0],
+    setLoading = _useState12[1];
+  var _useState13 = useState('login'),
+    _useState14 = _slicedToArray(_useState13, 2),
+    step = _useState14[0],
+    setStep = _useState14[1]; // 'login' | 'register' (nouveau patient)
 
-function JournalEntryWidget(_ref5) {
-  var sectionIndex = _ref5.sectionIndex,
-    sectionLabel = _ref5.sectionLabel,
-    onSave = _ref5.onSave;
+  var isAdmin = email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase();
+  function handleSubmit(e) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    setTimeout(function () {
+      // Admin avec son mot de passe spécial
+      if (isAdmin && password === ADMIN_PASSWORD) {
+        var session = {
+          email: ADMIN_EMAIL,
+          name: "Céline",
+          isAdmin: true,
+          loginAt: new Date().toISOString()
+        };
+        saveUser(ADMIN_EMAIL, 'session', session);
+        addToRegistry(ADMIN_EMAIL, "Céline (Admin)", new Date().toISOString());
+        onLogin(session);
+        return;
+      }
+      // Patient avec mot de passe universel
+      if (password === APP_PASSWORD && email.trim() && email.includes('@')) {
+        var existing = loadUser(email.trim().toLowerCase(), 'profile');
+        if (existing) {
+          // Patient déjà connu → connexion directe
+          var _session = {
+            email: email.trim().toLowerCase(),
+            name: existing.name || email,
+            isAdmin: false,
+            loginAt: new Date().toISOString()
+          };
+          saveUser(email.trim().toLowerCase(), 'session', _session);
+          addToRegistry(email.trim().toLowerCase(), existing.name, new Date().toISOString());
+          onLogin(_session);
+        } else {
+          // Nouveau patient → demander le prénom
+          setStep('register');
+          setLoading(false);
+        }
+        return;
+      }
+      setError("Mot de passe incorrect. Contactez Céline Bourbon si vous n'avez pas encore vos accès.");
+      setLoading(false);
+    }, 600);
+  }
+  function handleRegister(e) {
+    e.preventDefault();
+    setLoading(true);
+    var cleanEmail = email.trim().toLowerCase();
+    var cleanName = name.trim() || cleanEmail.split('@')[0];
+    var now = new Date().toISOString();
+    var profile = {
+      name: cleanName,
+      email: cleanEmail,
+      registeredAt: now
+    };
+    saveUser(cleanEmail, 'profile', profile);
+    var session = {
+      email: cleanEmail,
+      name: cleanName,
+      isAdmin: false,
+      loginAt: now
+    };
+    saveUser(cleanEmail, 'session', session);
+    addToRegistry(cleanEmail, cleanName, now);
+    notifyInscription(cleanEmail, cleanName);
+    onLogin(session);
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: "linear-gradient(135deg,#0a0f1a 0%,#111827 50%,#0d1a0f 100%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "100%",
+      maxWidth: "420px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "36px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "72px",
+      height: "72px",
+      borderRadius: "20px",
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      boxShadow: "0 8px 32px rgba(201,168,76,0.4)",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "32px",
+      fontWeight: 900,
+      color: "#000"
+    }
+  }, "V")), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontFamily: "Georgia,serif",
+      fontSize: "26px",
+      color: C.cream,
+      lineHeight: 1.2,
+      marginBottom: "8px"
+    }
+  }, "M\xE9thode ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold
+    }
+  }, "V.A.L.E.U.R\xA9")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px"
+    }
+  }, "Espace membres \xB7 Acc\xE8s s\xE9curis\xE9")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.navyCard,
+      border: "1px solid ".concat(C.navyBorder),
+      borderRadius: "20px",
+      padding: "32px",
+      boxShadow: "0 20px 60px rgba(0,0,0,0.5)"
+    }
+  }, step === 'login' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontWeight: 700,
+      fontSize: "18px",
+      marginBottom: "24px",
+      textAlign: "center"
+    }
+  }, isAdmin ? "👑 Connexion Administrateur" : "Connexion à votre espace"), /*#__PURE__*/React.createElement("form", {
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("label", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      letterSpacing: "1px",
+      textTransform: "uppercase",
+      display: "block",
+      marginBottom: "8px"
+    }
+  }, "Votre adresse email"), /*#__PURE__*/React.createElement("input", {
+    type: "email",
+    value: email,
+    onChange: function onChange(e) {
+      setEmail(e.target.value);
+      setError('');
+    },
+    placeholder: "votre@email.com",
+    required: true,
+    autoComplete: "email",
+    style: {
+      width: "100%",
+      background: C.navyMid,
+      border: "2px solid ".concat(error ? C.rouge : C.navyBorder),
+      borderRadius: "12px",
+      padding: "14px 16px",
+      color: C.cream,
+      fontSize: "15px",
+      outline: "none",
+      fontFamily: "inherit"
+    },
+    onFocus: function onFocus(e) {
+      return e.target.style.borderColor = C.gold;
+    },
+    onBlur: function onBlur(e) {
+      return e.target.style.borderColor = C.navyBorder;
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "24px"
+    }
+  }, /*#__PURE__*/React.createElement("label", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      letterSpacing: "1px",
+      textTransform: "uppercase",
+      display: "block",
+      marginBottom: "8px"
+    }
+  }, isAdmin ? "Mot de passe admin" : "Code d'accès"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: showPwd ? "text" : "password",
+    value: password,
+    onChange: function onChange(e) {
+      setPassword(e.target.value);
+      setError('');
+    },
+    placeholder: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
+    required: true,
+    autoComplete: "current-password",
+    style: {
+      width: "100%",
+      background: C.navyMid,
+      border: "2px solid ".concat(error ? C.rouge : C.navyBorder),
+      borderRadius: "12px",
+      padding: "14px 48px 14px 16px",
+      color: C.cream,
+      fontSize: "15px",
+      outline: "none",
+      fontFamily: "inherit"
+    },
+    onFocus: function onFocus(e) {
+      return e.target.style.borderColor = C.gold;
+    },
+    onBlur: function onBlur(e) {
+      return e.target.style.borderColor = C.navyBorder;
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return setShowPwd(!showPwd);
+    },
+    style: {
+      position: "absolute",
+      right: "14px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      background: "none",
+      border: "none",
+      color: C.textMuted,
+      cursor: "pointer",
+      fontSize: "18px",
+      padding: "4px"
+    }
+  }, showPwd ? "🙈" : "👁️")), !isAdmin && /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      marginTop: "6px"
+    }
+  }, "\uD83D\uDCA1 Code fourni par C\xE9line Bourbon lors de votre suivi")), error && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#2d1515",
+      border: "1px solid ".concat(C.rouge),
+      borderRadius: "10px",
+      padding: "12px 16px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.rougeLight,
+      fontSize: "13px",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, "\u26A0\uFE0F ", error)), /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    disabled: loading || !email || !password,
+    style: {
+      width: "100%",
+      background: loading || !email || !password ? "#333" : "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      color: loading || !email || !password ? "#666" : "#000",
+      border: "none",
+      borderRadius: "12px",
+      padding: "16px",
+      fontSize: "16px",
+      fontWeight: 800,
+      cursor: loading || !email || !password ? "not-allowed" : "pointer"
+    }
+  }, loading ? "Connexion en cours..." : "Accéder à mon espace →")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "24px",
+      paddingTop: "20px",
+      borderTop: "1px solid ".concat(C.navyBorder),
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      lineHeight: 1.7
+    }
+  }, "Pas encore d'acc\xE8s ?", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+    href: "mailto:celine.bourbon@gmail.com",
+    style: {
+      color: C.gold,
+      textDecoration: "none",
+      fontWeight: 600
+    }
+  }, "celine.bourbon@gmail.com")))), step === 'register' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: "24px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "40px",
+      marginBottom: "12px"
+    }
+  }, "\uD83C\uDF89"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "18px",
+      marginBottom: "8px"
+    }
+  }, "Bienvenue dans votre espace !"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      lineHeight: 1.6
+    }
+  }, "C'est votre premi\xE8re connexion.", /*#__PURE__*/React.createElement("br", null), "Comment souhaitez-vous \xEAtre appel\xE9\xB7e ?")), /*#__PURE__*/React.createElement("form", {
+    onSubmit: handleRegister
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: "24px"
+    }
+  }, /*#__PURE__*/React.createElement("label", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      letterSpacing: "1px",
+      textTransform: "uppercase",
+      display: "block",
+      marginBottom: "8px"
+    }
+  }, "Votre pr\xE9nom (affich\xE9 dans l'application)"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: name,
+    onChange: function onChange(e) {
+      return setName(e.target.value);
+    },
+    placeholder: "Votre pr\xE9nom...",
+    autoFocus: true,
+    style: {
+      width: "100%",
+      background: C.navyMid,
+      border: "2px solid ".concat(C.navyBorder),
+      borderRadius: "12px",
+      padding: "14px 16px",
+      color: C.cream,
+      fontSize: "15px",
+      outline: "none",
+      fontFamily: "inherit"
+    },
+    onFocus: function onFocus(e) {
+      return e.target.style.borderColor = C.gold;
+    },
+    onBlur: function onBlur(e) {
+      return e.target.style.borderColor = C.navyBorder;
+    }
+  })), /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    style: {
+      width: "100%",
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      color: "#000",
+      border: "none",
+      borderRadius: "12px",
+      padding: "16px",
+      fontSize: "16px",
+      fontWeight: 800,
+      cursor: "pointer"
+    }
+  }, "Commencer mon parcours V.A.L.E.U.R\xA9 \u2192")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      textAlign: "center",
+      marginTop: "16px"
+    }
+  }, "Votre email : ", email))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px",
+      textAlign: "center",
+      marginTop: "20px",
+      lineHeight: 1.6
+    }
+  }, "\xA9 2025 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon, Psychologue", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 \xC9ditions L'Harmattan")));
+}
+
+// ── ADMIN DASHBOARD ───────────────────────────────────────────────
+function AdminDashboard(_ref6) {
+  var onBack = _ref6.onBack;
+  var registry = loadRegistry().filter(function (u) {
+    return u.email !== ADMIN_EMAIL;
+  });
+  var _useState15 = useState(null),
+    _useState16 = _slicedToArray(_useState15, 2),
+    selected = _useState16[0],
+    setSelected = _useState16[1];
+  function PatientDetail(_ref7) {
+    var u = _ref7.u;
+    var prog = loadUser(u.email, 'progress') || {
+      completedSections: []
+    };
+    var journal = loadUser(u.email, 'journal') || [];
+    var scores = loadUser(u.email, 'quizScores') || {};
+    var completed = prog.completedSections || [];
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyCard,
+        border: "1px solid ".concat(C.gold, "44"),
+        borderRadius: "16px",
+        padding: "20px",
+        marginTop: "12px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "16px"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.gold,
+        fontWeight: 700,
+        fontSize: "16px",
+        margin: 0
+      }
+    }, u.name), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        margin: 0
+      }
+    }, u.email)), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setSelected(null);
+      },
+      style: {
+        background: "none",
+        border: "none",
+        color: C.textMuted,
+        fontSize: "20px",
+        cursor: "pointer"
+      }
+    }, "\u2715")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gap: "10px",
+        marginBottom: "16px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyMid,
+        borderRadius: "10px",
+        padding: "12px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.gold,
+        fontWeight: 700,
+        fontSize: "22px",
+        margin: 0
+      }
+    }, completed.length, "/5"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px",
+        margin: 0
+      }
+    }, "Sections")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyMid,
+        borderRadius: "10px",
+        padding: "12px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.bleu,
+        fontWeight: 700,
+        fontSize: "22px",
+        margin: 0
+      }
+    }, journal.length), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px",
+        margin: 0
+      }
+    }, "Entr\xE9es journal")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyMid,
+        borderRadius: "10px",
+        padding: "12px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.violet,
+        fontWeight: 700,
+        fontSize: "22px",
+        margin: 0
+      }
+    }, scores.final !== undefined ? "".concat(scores.final, "/10") : "—"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px",
+        margin: 0
+      }
+    }, "Quiz final"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginBottom: "12px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        marginBottom: "8px",
+        textTransform: "uppercase",
+        letterSpacing: "1px"
+      }
+    }, "Progression Module 0"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: "4px"
+      }
+    }, ["Intro", "7 Peurs", "Masques", "Quiz", "Méthode"].map(function (s, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          flex: 1,
+          background: completed.includes(i) ? C.gold : C.navyBorder,
+          borderRadius: "4px",
+          padding: "6px 4px",
+          textAlign: "center"
+        }
+      }, /*#__PURE__*/React.createElement("p", {
+        style: {
+          color: completed.includes(i) ? "#000" : C.textMuted,
+          fontSize: "9px",
+          margin: 0,
+          fontWeight: completed.includes(i) ? 700 : 400
+        }
+      }, s));
+    }))), journal.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        marginBottom: "8px",
+        textTransform: "uppercase",
+        letterSpacing: "1px"
+      }
+    }, "Derni\xE8re entr\xE9e journal"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyMid,
+        borderRadius: "10px",
+        padding: "12px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.gold,
+        fontSize: "11px",
+        margin: "0 0 4px"
+      }
+    }, journal[journal.length - 1].sectionLabel, " \xB7 ", formatDate(journal[journal.length - 1].date)), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "13px",
+        lineHeight: 1.6,
+        margin: 0,
+        display: "-webkit-box",
+        WebkitLineClamp: 3,
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden"
+      }
+    }, journal[journal.length - 1].text))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: "12px",
+        paddingTop: "12px",
+        borderTop: "1px solid ".concat(C.navyBorder)
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px",
+        margin: 0
+      }
+    }, "Inscrit\xB7e le ", formatDate(u.registeredAt), " \xB7 Derni\xE8re connexion : ", formatDate(u.lastSeen))));
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "24px 16px",
+      maxWidth: "720px",
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      marginBottom: "28px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onBack,
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.navyBorder),
+      color: C.textMuted,
+      borderRadius: "8px",
+      padding: "8px 16px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "\u2190 Retour"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontFamily: "Georgia,serif",
+      color: C.cream,
+      fontSize: "22px",
+      margin: 0
+    }
+  }, "\uD83D\uDC51 Tableau de bord Admin"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      margin: 0
+    }
+  }, registry.length, " patient", registry.length > 1 ? "s" : "", " enregistr\xE9", registry.length > 1 ? "s" : "", " sur cet appareil"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "".concat(C.gold, "11"),
+      border: "1px solid ".concat(C.gold, "33"),
+      borderRadius: "12px",
+      padding: "14px 16px",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontSize: "13px",
+      lineHeight: 1.7,
+      margin: 0
+    }
+  }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "Comment \xE7a marche :"), " vous voyez ici les patients qui se sont connect\xE9s sur cet appareil. Pour tous vos patients, consultez votre bo\xEEte email \u2014 vous recevez une notification automatique \xE0 chaque inscription et chaque module compl\xE9t\xE9.")), registry.length === 0 ? /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "48px 24px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: "40px",
+      marginBottom: "12px"
+    }
+  }, "\uD83D\uDC65"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "15px",
+      lineHeight: 1.7
+    }
+  }, "Aucun patient enregistr\xE9 sur cet appareil pour l'instant.", /*#__PURE__*/React.createElement("br", null), "D\xE8s qu'un patient se connecte avec le code ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.gold
+    }
+  }, "VALEUR2025"), ", il appara\xEEt ici.")) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px"
+    }
+  }, registry.map(function (u) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: u.email
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setSelected(selected === u.email ? null : u.email);
+      },
+      style: {
+        width: "100%",
+        background: selected === u.email ? "".concat(C.gold, "11") : C.navyCard,
+        border: "1px solid ".concat(selected === u.email ? C.gold : C.navyBorder),
+        borderRadius: "14px",
+        padding: "16px 20px",
+        cursor: "pointer",
+        textAlign: "left",
+        transition: "all 0.2s"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "14px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "44px",
+        height: "44px",
+        borderRadius: "50%",
+        background: "linear-gradient(135deg,".concat(C.gold, "44,").concat(C.violet, "44)"),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "18px",
+        flexShrink: 0
+      }
+    }, u.name.charAt(0).toUpperCase()), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.cream,
+        fontWeight: 700,
+        fontSize: "15px",
+        margin: "0 0 2px"
+      }
+    }, u.name), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "12px",
+        margin: 0
+      }
+    }, u.email)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right"
+      }
+    }, function () {
+      var prog = loadUser(u.email, 'progress') || {
+        completedSections: []
+      };
+      var n = (prog.completedSections || []).length;
+      return /*#__PURE__*/React.createElement("span", {
+        style: {
+          background: n === 5 ? "".concat(C.vert, "22") : n > 0 ? "".concat(C.gold, "22") : C.navyMid,
+          color: n === 5 ? C.vert : n > 0 ? C.gold : C.textMuted,
+          borderRadius: "20px",
+          padding: "4px 12px",
+          fontSize: "12px",
+          fontWeight: 600
+        }
+      }, n === 5 ? "✓ Complété" : n > 0 ? "".concat(n, "/5 sections") : "Non commencé");
+    }(), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "11px",
+        margin: "4px 0 0"
+      }
+    }, selected === u.email ? "▲" : "▼", " d\xE9tail")))), selected === u.email && /*#__PURE__*/React.createElement(PatientDetail, {
+      u: u
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "24px",
+      padding: "16px",
+      background: C.navyMid,
+      borderRadius: "12px",
+      border: "1px solid ".concat(C.navyBorder)
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontWeight: 700,
+      fontSize: "14px",
+      marginBottom: "8px"
+    }
+  }, "\uD83D\uDD11 Code d'acc\xE8s patient universel"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.navyCard,
+      borderRadius: "8px",
+      padding: "10px 16px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold,
+      fontWeight: 800,
+      fontSize: "18px",
+      fontFamily: "Courier New",
+      letterSpacing: "2px"
+    }
+  }, "VALEUR2025"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      navigator.clipboard && navigator.clipboard.writeText("VALEUR2025");
+    },
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.navyBorder),
+      color: C.textMuted,
+      borderRadius: "6px",
+      padding: "4px 12px",
+      cursor: "pointer",
+      fontSize: "12px"
+    }
+  }, "Copier")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      marginTop: "8px",
+      margin: "8px 0 0"
+    }
+  }, "Partagez ce code \xE0 vos patients avec l'URL de l'application.")), /*#__PURE__*/React.createElement(Copyright, null));
+}
+
+// ── JOURNAL ENTRY WIDGET ─────────────────────────────────────────
+function JournalEntryWidget(_ref8) {
+  var sectionIndex = _ref8.sectionIndex,
+    sectionLabel = _ref8.sectionLabel,
+    userEmail = _ref8.userEmail,
+    onSave = _ref8.onSave;
   var key = "section_".concat(sectionIndex);
-  var existing = (load(STORAGE_KEYS.journal) || []).find(function (e) {
+  var allEntries = loadUser(userEmail, 'journal') || [];
+  var existing = allEntries.find(function (e) {
     return e.key === key;
   });
-  var _useState3 = useState(existing ? existing.text : ''),
-    _useState4 = _slicedToArray(_useState3, 2),
-    text = _useState4[0],
-    setText = _useState4[1];
-  var _useState5 = useState(!!existing),
-    _useState6 = _slicedToArray(_useState5, 2),
-    saved = _useState6[0],
-    setSaved = _useState6[1];
-  var _useState7 = useState(!existing),
-    _useState8 = _slicedToArray(_useState7, 2),
-    editing = _useState8[0],
-    setEditing = _useState8[1];
+  var _useState17 = useState(existing ? existing.text : ''),
+    _useState18 = _slicedToArray(_useState17, 2),
+    text = _useState18[0],
+    setText = _useState18[1];
+  var _useState19 = useState(!!existing),
+    _useState20 = _slicedToArray(_useState19, 2),
+    saved = _useState20[0],
+    setSaved = _useState20[1];
+  var _useState21 = useState(!existing),
+    _useState22 = _slicedToArray(_useState21, 2),
+    editing = _useState22[0],
+    setEditing = _useState22[1];
   var prompt = JOURNAL_PROMPTS[sectionIndex] || "Qu'avez-vous retenu de cette section ?";
   function handleSave() {
     if (!text.trim()) return;
-    var entries = (load(STORAGE_KEYS.journal) || []).filter(function (e) {
+    var entries = (loadUser(userEmail, 'journal') || []).filter(function (e) {
       return e.key !== key;
     });
     var newEntry = {
@@ -518,7 +1408,7 @@ function JournalEntryWidget(_ref5) {
       text: text.trim(),
       date: new Date().toISOString()
     };
-    save(STORAGE_KEYS.journal, [].concat(_toConsumableArray(entries), [newEntry]));
+    saveUser(userEmail, 'journal', [].concat(_toConsumableArray(entries), [newEntry]));
     setSaved(true);
     setEditing(false);
     if (onSave) onSave();
@@ -648,17 +1538,16 @@ function JournalEntryWidget(_ref5) {
 }
 
 // ── PROGRESS RING ─────────────────────────────────────────────────
-
-function ProgressRing(_ref6) {
-  var pct = _ref6.pct,
-    _ref6$size = _ref6.size,
-    size = _ref6$size === void 0 ? 80 : _ref6$size,
-    _ref6$color = _ref6.color,
-    color = _ref6$color === void 0 ? C.gold : _ref6$color,
-    label = _ref6.label;
-  var r = (size - 10) / 2;
-  var circ = 2 * Math.PI * r;
-  var dash = circ * pct / 100;
+function ProgressRing(_ref9) {
+  var pct = _ref9.pct,
+    _ref9$size = _ref9.size,
+    size = _ref9$size === void 0 ? 80 : _ref9$size,
+    _ref9$color = _ref9.color,
+    color = _ref9$color === void 0 ? C.gold : _ref9$color,
+    label = _ref9.label;
+  var r = (size - 10) / 2,
+    circ = 2 * Math.PI * r,
+    dash = circ * pct / 100;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -714,35 +1603,24 @@ function ProgressRing(_ref6) {
   }, label));
 }
 
-// ── TABLEAU DE BORD ───────────────────────────────────────────────
-
-function Dashboard(_ref7) {
-  var onStart = _ref7.onStart,
-    onOpenJournal = _ref7.onOpenJournal,
-    progress = _ref7.progress,
-    journal = _ref7.journal,
-    profile = _ref7.profile,
-    onSaveProfile = _ref7.onSaveProfile;
-  var _useState9 = useState(false),
-    _useState0 = _slicedToArray(_useState9, 2),
-    editName = _useState0[0],
-    setEditName = _useState0[1];
-  var _useState1 = useState((profile === null || profile === void 0 ? void 0 : profile.name) || ''),
-    _useState10 = _slicedToArray(_useState1, 2),
-    name = _useState10[0],
-    setName = _useState10[1];
-  var completed = (progress === null || progress === void 0 ? void 0 : progress.completedSections) || [];
+// ── DASHBOARD ─────────────────────────────────────────────────────
+function Dashboard(_ref0) {
+  var onStart = _ref0.onStart,
+    onOpenJournal = _ref0.onOpenJournal,
+    session = _ref0.session,
+    isAdmin = _ref0.isAdmin,
+    onOpenAdmin = _ref0.onOpenAdmin;
+  var email = session.email;
+  var progress = loadUser(email, 'progress') || {
+    completedSections: []
+  };
+  var journal = loadUser(email, 'journal') || [];
+  var scores = loadUser(email, 'quizScores') || {};
+  var completed = progress.completedSections || [];
   var pct = Math.round(completed.length / 5 * 100);
-  var scores = load(STORAGE_KEYS.quizScores) || {};
   var recentEntries = _toConsumableArray(journal || []).sort(function (a, b) {
     return new Date(b.date) - new Date(a.date);
   }).slice(0, 3);
-  function saveName() {
-    onSaveProfile(_objectSpread(_objectSpread({}, profile), {}, {
-      name: name.trim()
-    }));
-    setEditName(false);
-  }
   var today = new Date().toLocaleDateString('fr-FR', {
     weekday: 'long',
     day: 'numeric',
@@ -775,51 +1653,7 @@ function Dashboard(_ref7) {
       letterSpacing: "2px",
       fontWeight: 600
     }
-  }, "M\xC9THODE V.A.L.E.U.R\xA9")), editName ? /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: "8px",
-      justifyContent: "center",
-      alignItems: "center",
-      marginBottom: "8px"
-    }
-  }, /*#__PURE__*/React.createElement("input", {
-    value: name,
-    onChange: function onChange(e) {
-      return setName(e.target.value);
-    },
-    onKeyDown: function onKeyDown(e) {
-      return e.key === 'Enter' && saveName();
-    },
-    placeholder: "Votre pr\xE9nom",
-    autoFocus: true,
-    style: {
-      background: C.navyCard,
-      border: "2px solid ".concat(C.gold),
-      borderRadius: "10px",
-      padding: "8px 16px",
-      color: C.cream,
-      fontSize: "18px",
-      textAlign: "center",
-      outline: "none",
-      maxWidth: "200px"
-    }
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: saveName,
-    style: {
-      background: C.gold,
-      border: "none",
-      borderRadius: "8px",
-      padding: "8px 16px",
-      cursor: "pointer",
-      fontWeight: 700,
-      color: "#000"
-    }
-  }, "OK")) : /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: "8px"
-    }
-  }, profile !== null && profile !== void 0 && profile.name ? /*#__PURE__*/React.createElement("h1", {
+  }, "M\xC9THODE V.A.L.E.U.R\xA9")), /*#__PURE__*/React.createElement("h1", {
     style: {
       fontFamily: "Georgia,serif",
       fontSize: "clamp(22px,5vw,32px)",
@@ -830,35 +1664,25 @@ function Dashboard(_ref7) {
     style: {
       color: C.gold
     }
-  }, profile.name), " \uD83D\uDC4B") : /*#__PURE__*/React.createElement("h1", {
-    style: {
-      fontFamily: "Georgia,serif",
-      fontSize: "clamp(22px,5vw,32px)",
-      color: C.cream,
-      marginBottom: "4px"
-    }
-  }, "Bienvenue ", /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.gold
-    }
-  }, "dans votre espace")), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setEditName(true);
-    },
-    style: {
-      background: "none",
-      border: "none",
-      color: C.textMuted,
-      cursor: "pointer",
-      fontSize: "12px",
-      textDecoration: "underline"
-    }
-  }, profile !== null && profile !== void 0 && profile.name ? "Modifier mon prénom" : "→ Ajouter mon prénom")), /*#__PURE__*/React.createElement("p", {
+  }, session.name), " ", isAdmin ? "👑" : "👋"), /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
       fontSize: "14px"
     }
-  }, today)), /*#__PURE__*/React.createElement(Card, {
+  }, today), isAdmin && /*#__PURE__*/React.createElement("button", {
+    onClick: onOpenAdmin,
+    style: {
+      marginTop: "12px",
+      background: "linear-gradient(135deg,".concat(C.gold, "22,transparent)"),
+      border: "2px solid ".concat(C.gold),
+      color: C.gold,
+      borderRadius: "10px",
+      padding: "8px 20px",
+      cursor: "pointer",
+      fontSize: "14px",
+      fontWeight: 700
+    }
+  }, "\uD83D\uDC51 Tableau de bord Administrateur \u2192")), /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: "20px",
       borderColor: pct > 0 ? C.gold + "44" : C.navyBorder
@@ -895,7 +1719,7 @@ function Dashboard(_ref7) {
       display: "flex",
       gap: "4px"
     }
-  }, SECTION_LABELS.map(function (s, i) {
+  }, ["Intro", "7 Peurs", "Masques", "Quiz", "Méthode"].map(function (s, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       title: s,
@@ -907,22 +1731,7 @@ function Dashboard(_ref7) {
         transition: "background 0.3s"
       }
     });
-  })))), pct === 0 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: "16px",
-      paddingTop: "16px",
-      borderTop: "1px solid ".concat(C.navyBorder),
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "14px",
-      marginBottom: "12px"
-    }
-  }, "Commencez votre voyage vers la joie d'\xEAtre vous-m\xEAme."), /*#__PURE__*/React.createElement(GoldBtn, {
-    onClick: onStart
-  }, "Commencer le Module 0 \u2192")), pct > 0 && pct < 100 && /*#__PURE__*/React.createElement("div", {
+  })))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: "16px",
       paddingTop: "16px",
@@ -931,32 +1740,7 @@ function Dashboard(_ref7) {
     }
   }, /*#__PURE__*/React.createElement(GoldBtn, {
     onClick: onStart
-  }, "Reprendre l\xE0 o\xF9 j'en suis \u2192")), pct === 100 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: "16px",
-      paddingTop: "16px",
-      borderTop: "1px solid ".concat(C.vert, "44"),
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.vert,
-      fontWeight: 700,
-      fontSize: "15px",
-      marginBottom: "8px"
-    }
-  }, "\uD83C\uDF89 Module 0 compl\xE9t\xE9 !"), /*#__PURE__*/React.createElement("button", {
-    onClick: onStart,
-    style: {
-      background: "none",
-      border: "1px solid ".concat(C.vert),
-      color: C.vert,
-      borderRadius: "8px",
-      padding: "10px 20px",
-      cursor: "pointer",
-      fontSize: "14px"
-    }
-  }, "Revoir le module"))), (scores.mini !== undefined || scores.final !== undefined) && /*#__PURE__*/React.createElement("div", {
+  }, pct === 0 ? "Commencer le Module 0 →" : pct === 100 ? "Revoir le module →" : "Reprendre là où j'en suis →"))), (scores.mini !== undefined || scores.final !== undefined) && /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -1026,7 +1810,7 @@ function Dashboard(_ref7) {
       fontWeight: 700,
       fontSize: "15px"
     }
-  }, "\uD83D\uDCD3 Journal de bord"), /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCD3 Mon journal de bord"), /*#__PURE__*/React.createElement("button", {
     onClick: onOpenJournal,
     style: {
       background: "none",
@@ -1053,7 +1837,7 @@ function Dashboard(_ref7) {
       fontSize: "14px",
       lineHeight: 1.7
     }
-  }, "Votre journal est vide. Chaque section du module vous invite \xE0 \xE9crire une r\xE9flexion. Elles appara\xEEtront ici.")) : /*#__PURE__*/React.createElement("div", {
+  }, "Votre journal est vide. Chaque section vous invite \xE0 \xE9crire une r\xE9flexion.")) : /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -1095,13 +1879,7 @@ function Dashboard(_ref7) {
         WebkitBoxOrient: "vertical"
       }
     }, entry.text));
-  }), (journal || []).length > 3 && /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "12px",
-      textAlign: "center"
-    }
-  }, (journal || []).length - 3, " autres entr\xE9e(s) \u2192 voir tout"))), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: "20px"
     }
@@ -1128,38 +1906,32 @@ function Dashboard(_ref7) {
     num: 1,
     title: "VOIR",
     sub: "Identifier le déclencheur",
-    color: C.rouge,
-    active: false
+    color: C.rouge
   }, {
     num: 2,
     title: "ACCUEILLIR",
     sub: "Recevoir l'émotion sans résistance",
-    color: C.orange,
-    active: false
+    color: C.orange
   }, {
     num: 3,
     title: "LOCALISER",
     sub: "Trouver la sensation dans le corps",
-    color: C.jaune,
-    active: false
+    color: C.jaune
   }, {
     num: 4,
     title: "EXPLORER",
     sub: "Comprendre la peur sous-jacente",
-    color: C.vert,
-    active: false
+    color: C.vert
   }, {
     num: 5,
     title: "UNIFIER",
     sub: "Réconcilier les parties en conflit",
-    color: C.bleu,
-    active: false
+    color: C.bleu
   }, {
     num: 6,
     title: "RENFORCER",
     sub: "Ancrer la nouvelle posture",
-    color: C.violet,
-    active: false
+    color: C.violet
   }].map(function (m, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
@@ -1184,12 +1956,7 @@ function Dashboard(_ref7) {
         justifyContent: "center",
         flexShrink: 0
       }
-    }, m.active ? pct === 100 ? /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: "#fff",
-        fontSize: "16px"
-      }
-    }, "\u2713") : /*#__PURE__*/React.createElement("span", {
+    }, m.active ? /*#__PURE__*/React.createElement("span", {
       style: {
         color: "#fff",
         fontSize: "13px",
@@ -1217,13 +1984,7 @@ function Dashboard(_ref7) {
         fontSize: "12px",
         margin: 0
       }
-    }, m.sub)), m.active && /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: m.color,
-        fontSize: "12px",
-        fontWeight: 600
-      }
-    }, pct === 100 ? "Terminé" : "En cours"), !m.active && /*#__PURE__*/React.createElement("span", {
+    }, m.sub)), !m.active && /*#__PURE__*/React.createElement("span", {
       style: {
         color: C.textMuted,
         fontSize: "11px"
@@ -1232,44 +1993,53 @@ function Dashboard(_ref7) {
   }))), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-// ── JOURNAL COMPLET ───────────────────────────────────────────────
-
-function JournalPage(_ref8) {
-  var journal = _ref8.journal,
-    onBack = _ref8.onBack;
-  var entries = _toConsumableArray(journal || []).sort(function (a, b) {
-    return new Date(b.date) - new Date(a.date);
-  });
-  var _useState11 = useState(null),
-    _useState12 = _slicedToArray(_useState11, 2),
-    editKey = _useState12[0],
-    setEditKey = _useState12[1];
-  var _useState13 = useState(''),
-    _useState14 = _slicedToArray(_useState13, 2),
-    editText = _useState14[0],
-    setEditText = _useState14[1];
+// ── JOURNAL PAGE ──────────────────────────────────────────────────
+function JournalPage(_ref1) {
+  var session = _ref1.session,
+    onBack = _ref1.onBack;
+  var email = session.email;
+  var _useState23 = useState(function () {
+      return _toConsumableArray(loadUser(email, 'journal') || []).sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+    }),
+    _useState24 = _slicedToArray(_useState23, 2),
+    entries = _useState24[0],
+    setEntries = _useState24[1];
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    editKey = _useState26[0],
+    setEditKey = _useState26[1];
+  var _useState27 = useState(''),
+    _useState28 = _slicedToArray(_useState27, 2),
+    editText = _useState28[0],
+    setEditText = _useState28[1];
   function startEdit(e) {
     setEditKey(e.key);
     setEditText(e.text);
   }
   function saveEdit() {
-    var updated = (load(STORAGE_KEYS.journal) || []).map(function (e) {
+    var updated = (loadUser(email, 'journal') || []).map(function (e) {
       return e.key === editKey ? _objectSpread(_objectSpread({}, e), {}, {
         text: editText,
         editedAt: new Date().toISOString()
       }) : e;
     });
-    save(STORAGE_KEYS.journal, updated);
+    saveUser(email, 'journal', updated);
+    setEntries(_toConsumableArray(updated).sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    }));
     setEditKey(null);
-    window.location.reload();
   }
   function deleteEntry(key) {
     if (!window.confirm("Supprimer cette entrée ?")) return;
-    var updated = (load(STORAGE_KEYS.journal) || []).filter(function (e) {
+    var updated = (loadUser(email, 'journal') || []).filter(function (e) {
       return e.key !== key;
     });
-    save(STORAGE_KEYS.journal, updated);
-    window.location.reload();
+    saveUser(email, 'journal', updated);
+    setEntries(_toConsumableArray(updated).sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    }));
   }
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1324,22 +2094,7 @@ function JournalPage(_ref8) {
       fontSize: "16px",
       lineHeight: 1.7
     }
-  }, "Votre journal est vide pour l'instant.", /*#__PURE__*/React.createElement("br", null), "Compl\xE9tez les sections du Module 0 pour \xE9crire vos premi\xE8res r\xE9flexions."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: "20px"
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: onBack,
-    style: {
-      background: "none",
-      border: "1px solid ".concat(C.gold),
-      color: C.gold,
-      borderRadius: "8px",
-      padding: "10px 24px",
-      cursor: "pointer",
-      fontSize: "14px"
-    }
-  }, "Commencer le module \u2192"))) : entries.map(function (entry) {
+  }, "Votre journal est vide.", /*#__PURE__*/React.createElement("br", null), "Compl\xE9tez les sections du Module 0 pour \xE9crire vos premi\xE8res r\xE9flexions.")) : entries.map(function (entry) {
     return /*#__PURE__*/React.createElement(Card, {
       key: entry.key,
       style: {
@@ -1355,7 +2110,7 @@ function JournalPage(_ref8) {
         flexWrap: "wrap",
         gap: "8px"
       }
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       style: {
         background: "".concat(C.gold, "22"),
         color: C.gold,
@@ -1364,13 +2119,7 @@ function JournalPage(_ref8) {
         borderRadius: "20px",
         fontWeight: 600
       }
-    }, entry.sectionLabel), entry.editedAt && /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: C.textMuted,
-        fontSize: "11px",
-        marginLeft: "8px"
-      }
-    }, "(modifi\xE9)")), /*#__PURE__*/React.createElement("span", {
+    }, entry.sectionLabel), /*#__PURE__*/React.createElement("span", {
       style: {
         color: C.textMuted,
         fontSize: "11px"
@@ -1468,13 +2217,13 @@ function JournalPage(_ref8) {
   }), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-// ── BARRE DE NAV GLOBALE ─────────────────────────────────────────
-
-function GlobalNav(_ref9) {
-  var screen = _ref9.screen,
-    setScreen = _ref9.setScreen,
-    completedSections = _ref9.completedSections,
-    onLogout = _ref9.onLogout;
+// ── NAV GLOBALE ───────────────────────────────────────────────────
+function GlobalNav(_ref10) {
+  var screen = _ref10.screen,
+    setScreen = _ref10.setScreen,
+    completedSections = _ref10.completedSections,
+    session = _ref10.session,
+    onLogout = _ref10.onLogout;
   var pct = Math.round((completedSections || []).length / 5 * 100);
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1518,14 +2267,7 @@ function GlobalNav(_ref9) {
       fontWeight: 900,
       color: "#000"
     }
-  }, "V"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.cream,
-      fontWeight: 700,
-      fontSize: "14px",
-      display: "none"
-    }
-  }, "V.A.L.E.U.R\xA9")), /*#__PURE__*/React.createElement("div", {
+  }, "V")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: "6px"
@@ -1615,12 +2357,11 @@ function GlobalNav(_ref9) {
   }, "\u238B"))));
 }
 
-// ── BARRE DE PROGRESSION MODULE ──────────────────────────────────
-
-function ModuleProgressBar(_ref0) {
-  var step = _ref0.step,
-    setStep = _ref0.setStep,
-    completed = _ref0.completed;
+// ── MODULE PROGRESS BAR ───────────────────────────────────────────
+function ModuleProgressBar(_ref11) {
+  var step = _ref11.step,
+    setStep = _ref11.setStep,
+    completed = _ref11.completed;
   var steps = ["Intro", "7 Peurs", "Masques", "Quiz", "Méthode"];
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1693,11 +2434,704 @@ function ModuleProgressBar(_ref0) {
   })));
 }
 
-// ── SECTION 1 ────────────────────────────────────────────────────
+// ── SECTIONS (simplifié — même contenu que v2, avec userEmail) ────
 
-function Section1(_ref1) {
-  var onComplete = _ref1.onComplete,
-    onJournalSave = _ref1.onJournalSave;
+function MaskCard(_ref12) {
+  var mask = _ref12.mask,
+    isSelected = _ref12.isSelected,
+    onClick = _ref12.onClick;
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onClick,
+    style: {
+      background: isSelected ? mask.bg : C.navyCard,
+      border: "2px solid ".concat(isSelected ? mask.color : C.navyBorder),
+      borderRadius: "16px",
+      padding: "20px 16px",
+      cursor: "pointer",
+      textAlign: "left",
+      transition: "all 0.3s",
+      width: "100%",
+      boxShadow: isSelected ? "0 0 20px ".concat(mask.color, "33") : "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      marginBottom: "10px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "44px",
+      height: "44px",
+      borderRadius: "50%",
+      background: "".concat(mask.color, "22"),
+      border: "2px solid ".concat(mask.color),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "20px",
+      flexShrink: 0
+    }
+  }, mask.emoji), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: mask.color,
+      fontWeight: 700,
+      fontSize: "15px",
+      margin: 0
+    }
+  }, mask.name), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "12px",
+      margin: 0
+    }
+  }, mask.fear))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontSize: "14px",
+      fontStyle: "italic",
+      margin: "0 0 8px",
+      lineHeight: 1.5
+    }
+  }, "\"", mask.tagline, "\""), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      background: "".concat(mask.color, "22"),
+      color: mask.color,
+      fontSize: "11px",
+      padding: "3px 10px",
+      borderRadius: "20px",
+      fontWeight: 600
+    }
+  }, mask.manifestation), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px"
+    }
+  }, isSelected ? "▲" : "▼")));
+}
+function MaskDetail(_ref13) {
+  var mask = _ref13.mask,
+    onClose = _ref13.onClose;
+  var _useState29 = useState(false),
+    _useState30 = _slicedToArray(_useState29, 2),
+    showSci = _useState30[0],
+    setShowSci = _useState30[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: mask.bg,
+      border: "2px solid ".concat(mask.color),
+      borderRadius: "16px",
+      padding: "24px",
+      marginTop: "8px",
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      position: "absolute",
+      top: "12px",
+      right: "16px",
+      background: "none",
+      border: "none",
+      color: C.textMuted,
+      fontSize: "20px",
+      cursor: "pointer"
+    }
+  }, "\u2715"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: mask.color,
+      fontWeight: 700,
+      fontSize: "16px",
+      marginBottom: "16px"
+    }
+  }, "Vous reconnaissez-vous ?"), mask.lines.map(function (line, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        gap: "10px",
+        marginBottom: "10px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: mask.color,
+        flexShrink: 0,
+        marginTop: "2px"
+      }
+    }, "\u203A"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        lineHeight: 1.7,
+        margin: 0,
+        fontSize: "15px"
+      }
+    }, line));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "".concat(mask.color, "11"),
+      border: "1px solid ".concat(mask.color, "44"),
+      borderRadius: "10px",
+      padding: "14px",
+      marginTop: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: mask.light,
+      fontStyle: "italic",
+      fontSize: "14px",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, "\u275D ", mask.hook, " \u275E")), mask.scienceFact && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowSci(!showSci);
+    },
+    style: {
+      background: "none",
+      border: "1px dashed ".concat(C.vert),
+      borderRadius: "8px",
+      padding: "8px 14px",
+      color: C.vertLight,
+      fontSize: "13px",
+      cursor: "pointer"
+    }
+  }, "\uD83D\uDD2C Fait scientifique ", showSci ? "▲" : "▼"), showSci && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#0d2010",
+      border: "1px solid ".concat(C.vert),
+      borderRadius: "10px",
+      padding: "14px",
+      marginTop: "8px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vertLight,
+      fontSize: "13px",
+      lineHeight: 1.7,
+      margin: 0
+    }
+  }, mask.scienceFact))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "11px",
+      marginTop: "16px",
+      borderTop: "1px solid ".concat(mask.color, "33"),
+      paddingTop: "10px"
+    }
+  }, "\xA9 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon"));
+}
+function MiniQuiz(_ref14) {
+  var onDone = _ref14.onDone,
+    userEmail = _ref14.userEmail;
+  var _useState31 = useState(0),
+    _useState32 = _slicedToArray(_useState31, 2),
+    current = _useState32[0],
+    setCurrent = _useState32[1];
+  var _useState33 = useState(null),
+    _useState34 = _slicedToArray(_useState33, 2),
+    selected = _useState34[0],
+    setSelected = _useState34[1];
+  var _useState35 = useState(false),
+    _useState36 = _slicedToArray(_useState35, 2),
+    revealed = _useState36[0],
+    setRevealed = _useState36[1];
+  var _useState37 = useState([]),
+    _useState38 = _slicedToArray(_useState37, 2),
+    results = _useState38[0],
+    setResults = _useState38[1];
+  var _useState39 = useState(false),
+    _useState40 = _slicedToArray(_useState39, 2),
+    done = _useState40[0],
+    setDone = _useState40[1];
+  var q = MINI_QUIZ[current];
+  function handleSelect(i) {
+    if (revealed) return;
+    setSelected(i);
+    setRevealed(true);
+    var r = [].concat(_toConsumableArray(results), [i === q.ok]);
+    setResults(r);
+    if (current === MINI_QUIZ.length - 1) {
+      var s = r.filter(Boolean).length;
+      var sc = loadUser(userEmail, 'quizScores') || {};
+      saveUser(userEmail, 'quizScores', _objectSpread(_objectSpread({}, sc), {}, {
+        mini: s
+      }));
+      setTimeout(function () {
+        return setDone(true);
+      }, 1500);
+    }
+  }
+  function next() {
+    if (current < MINI_QUIZ.length - 1) {
+      setCurrent(current + 1);
+      setSelected(null);
+      setRevealed(false);
+    }
+  }
+  var score = results.filter(Boolean).length;
+  if (done) return /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "32px 24px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "48px",
+      marginBottom: "12px"
+    }
+  }, score >= 3 ? "🎯" : "💡"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "20px",
+      marginBottom: "8px"
+    }
+  }, score, "/4 \u2014 ", score >= 3 ? "Excellente compréhension !" : "Bonne base !"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "14px",
+      lineHeight: 1.7,
+      marginBottom: "12px"
+    }
+  }, "Score sauvegard\xE9 dans votre tableau de bord."), onDone && /*#__PURE__*/React.createElement("button", {
+    onClick: onDone,
+    style: {
+      background: "none",
+      border: "1px solid ".concat(C.gold),
+      color: C.gold,
+      borderRadius: "8px",
+      padding: "10px 20px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "Continuer \u2193"));
+  return /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "13px",
+      margin: 0
+    }
+  }, "\uD83C\uDFAF Mini-quiz"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px"
+    }
+  }, current + 1, "/", MINI_QUIZ.length)), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontSize: "16px",
+      fontWeight: 600,
+      lineHeight: 1.5,
+      marginBottom: "20px"
+    }
+  }, q.q), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px",
+      marginBottom: "16px"
+    }
+  }, q.opts.map(function (opt, i) {
+    var bg = C.navyMid,
+      border = C.navyBorder,
+      col = C.textLight;
+    if (revealed) {
+      if (i === q.ok) {
+        bg = "#0d2010";
+        border = C.vert;
+        col = C.vertLight;
+      } else if (i === selected) {
+        bg = "#2d1515";
+        border = C.rouge;
+        col = C.rougeLight;
+      }
+    } else if (selected === i) {
+      border = C.gold;
+    }
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return handleSelect(i);
+      },
+      style: {
+        background: bg,
+        border: "2px solid ".concat(border),
+        borderRadius: "10px",
+        padding: "12px 16px",
+        color: col,
+        cursor: "pointer",
+        textAlign: "left",
+        fontSize: "14px",
+        lineHeight: 1.5
+      }
+    }, i === q.ok && revealed ? "✓ " : i === selected && selected !== q.ok && revealed ? "✗ " : "", opt);
+  })), revealed && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1a2520",
+      border: "1px solid ".concat(C.vert),
+      borderRadius: "10px",
+      padding: "14px",
+      marginBottom: "16px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.vertLight,
+      fontSize: "13px",
+      lineHeight: 1.7,
+      margin: 0
+    }
+  }, "\uD83D\uDCA1 ", q.exp)), revealed && current < MINI_QUIZ.length - 1 && /*#__PURE__*/React.createElement("button", {
+    onClick: next,
+    style: {
+      background: C.navyCard,
+      border: "1px solid ".concat(C.gold),
+      color: C.gold,
+      borderRadius: "8px",
+      padding: "10px 20px",
+      cursor: "pointer",
+      fontSize: "14px"
+    }
+  }, "Question suivante \u2192"));
+}
+function FinalQuiz(_ref15) {
+  var userEmail = _ref15.userEmail,
+    onGoHome = _ref15.onGoHome;
+  var _useState41 = useState(0),
+    _useState42 = _slicedToArray(_useState41, 2),
+    current = _useState42[0],
+    setCurrent = _useState42[1];
+  var _useState43 = useState(null),
+    _useState44 = _slicedToArray(_useState43, 2),
+    selected = _useState44[0],
+    setSelected = _useState44[1];
+  var _useState45 = useState(false),
+    _useState46 = _slicedToArray(_useState45, 2),
+    revealed = _useState46[0],
+    setRevealed = _useState46[1];
+  var _useState47 = useState([]),
+    _useState48 = _slicedToArray(_useState47, 2),
+    results = _useState48[0],
+    setResults = _useState48[1];
+  var _useState49 = useState(false),
+    _useState50 = _slicedToArray(_useState49, 2),
+    done = _useState50[0],
+    setDone = _useState50[1];
+  var q = FINAL_QUIZ[current];
+  var score = results.filter(Boolean).length;
+  function handleSelect(i) {
+    if (revealed) return;
+    setSelected(i);
+    setRevealed(true);
+    var r = [].concat(_toConsumableArray(results), [i === q.ok]);
+    setResults(r);
+    if (current === FINAL_QUIZ.length - 1) {
+      var s = r.filter(Boolean).length;
+      var sc = loadUser(userEmail, 'quizScores') || {};
+      saveUser(userEmail, 'quizScores', _objectSpread(_objectSpread({}, sc), {}, {
+        final: s
+      }));
+    }
+  }
+  function next() {
+    if (current < FINAL_QUIZ.length - 1) {
+      setCurrent(current + 1);
+      setSelected(null);
+      setRevealed(false);
+    } else setDone(true);
+  }
+  if (done) {
+    var pct = Math.round(score / FINAL_QUIZ.length * 100);
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        padding: "32px 24px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "64px",
+        marginBottom: "16px"
+      }
+    }, pct >= 80 ? "🏆" : pct >= 60 ? "🎯" : "💪"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "linear-gradient(135deg,".concat(C.gold, "22,transparent)"),
+        border: "2px solid ".concat(C.gold),
+        borderRadius: "20px",
+        padding: "24px",
+        marginBottom: "24px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.gold,
+        fontWeight: 800,
+        fontSize: "28px",
+        margin: "0 0 8px"
+      }
+    }, score, "/", FINAL_QUIZ.length), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.cream,
+        fontWeight: 700,
+        fontSize: "18px",
+        marginBottom: "12px"
+      }
+    }, pct >= 80 ? "Module 0 maîtrisé !" : pct >= 60 ? "Très bonne compréhension !" : "Bonne base de départ !")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: C.navyCard,
+        border: "1px solid ".concat(C.vert),
+        borderRadius: "16px",
+        padding: "20px",
+        marginBottom: "20px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.vert,
+        fontWeight: 700,
+        fontSize: "16px",
+        marginBottom: "8px"
+      }
+    }, "\uD83C\uDF89 Module 0 \u2014 Compl\xE9t\xE9 !"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textLight,
+        fontSize: "14px",
+        lineHeight: 1.7
+      }
+    }, "Vous comprenez maintenant l'origine de vos masques et les 6 \xE9tapes de la m\xE9thode.")), onGoHome && /*#__PURE__*/React.createElement("button", {
+      onClick: onGoHome,
+      style: {
+        background: "none",
+        border: "1px solid ".concat(C.gold),
+        color: C.gold,
+        borderRadius: "8px",
+        padding: "10px 20px",
+        cursor: "pointer",
+        fontSize: "14px"
+      }
+    }, "Voir mon tableau de bord \u2192"), /*#__PURE__*/React.createElement(Copyright, null));
+  }
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: "4px",
+      marginBottom: "20px"
+    }
+  }, FINAL_QUIZ.map(function (_, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        flex: 1,
+        height: "4px",
+        borderRadius: "2px",
+        background: i < current ? C.gold : i === current ? "".concat(C.gold, "88") : C.navyBorder
+      }
+    });
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: "20px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.gold,
+      fontWeight: 700,
+      fontSize: "13px"
+    }
+  }, "Question ", current + 1, "/", FINAL_QUIZ.length), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.vert,
+      fontSize: "13px"
+    }
+  }, results.filter(Boolean).length, " \u2713")), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.cream,
+      fontSize: "clamp(15px,4vw,18px)",
+      fontWeight: 700,
+      lineHeight: 1.5,
+      marginBottom: "20px"
+    }
+  }, q.q), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px",
+      marginBottom: "20px"
+    }
+  }, q.opts.map(function (opt, i) {
+    var bg = C.navyCard,
+      border = C.navyBorder,
+      col = C.textLight;
+    if (revealed) {
+      if (i === q.ok) {
+        bg = "#0d2010";
+        border = C.vert;
+        col = C.vertLight;
+      } else if (i === selected) {
+        bg = "#2d1515";
+        border = C.rouge;
+        col = C.rougeLight;
+      }
+    } else if (selected === i) {
+      border = C.gold;
+    }
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return handleSelect(i);
+      },
+      style: {
+        background: bg,
+        border: "2px solid ".concat(border),
+        borderRadius: "12px",
+        padding: "14px 18px",
+        color: col,
+        cursor: revealed ? "default" : "pointer",
+        textAlign: "left",
+        fontSize: "clamp(13px,3.5vw,15px)",
+        lineHeight: 1.5
+      }
+    }, i === q.ok && revealed ? "✓ " : i === selected && i !== q.ok && revealed ? "✗ " : "", opt);
+  })), revealed && /*#__PURE__*/React.createElement("button", {
+    onClick: next,
+    style: {
+      width: "100%",
+      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
+      border: "none",
+      borderRadius: "12px",
+      padding: "14px",
+      color: "#000",
+      fontWeight: 700,
+      fontSize: "16px",
+      cursor: "pointer"
+    }
+  }, current < FINAL_QUIZ.length - 1 ? "Question suivante →" : "Voir mes résultats 🎉"));
+}
+function ToleranceWindow() {
+  var zones = [{
+    label: "HYPERACTIVATION ↑",
+    sub: "Au-dessus de la fenêtre — Mode alarme",
+    color: C.rouge,
+    bg: "linear-gradient(135deg,#2d1515,#3d1a1a)",
+    tags: ["Anxiété", "Panique", "Agitation", "Colère", "Hypervigilance", "Pensées en boucle"]
+  }, {
+    label: "ZONE OPTIMALE ✓",
+    sub: "Régulé, ancré, connecté — Théorie polyvagale (Dr Dan Siegel)",
+    color: C.vert,
+    bg: "linear-gradient(135deg,#0d2510,#0f2d15)",
+    badge: "Fenêtre de tolérance",
+    tags: ["Calme", "Clarté", "Connexion", "Créativité", "Empathie", "Apprentissage"]
+  }, {
+    label: "HYPOACTIVATION ↓",
+    sub: "En dessous de la fenêtre — Mode gel",
+    color: C.bleu,
+    bg: "linear-gradient(135deg,#0d1a2d,#0f1f3d)",
+    tags: ["Déconnexion", "Engourdissement", "Dissociation", "Vide émotionnel", "Figement"]
+  }];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: "16px",
+      overflow: "hidden",
+      border: "1px solid ".concat(C.navyBorder)
+    }
+  }, zones.map(function (z, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        background: z.bg,
+        padding: "18px 20px",
+        borderBottom: i < 2 ? "1px solid ".concat(z.color, "44") : "none"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        marginBottom: "10px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "12px",
+        height: "12px",
+        borderRadius: "50%",
+        background: z.color,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: z.color,
+        fontWeight: 700,
+        fontSize: "14px"
+      }
+    }, z.label), z.badge && /*#__PURE__*/React.createElement("span", {
+      style: {
+        background: "".concat(z.color, "22"),
+        color: z.color,
+        fontSize: "11px",
+        padding: "2px 8px",
+        borderRadius: "20px"
+      }
+    }, z.badge)), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: C.textMuted,
+        fontSize: "13px",
+        margin: "0 0 8px",
+        fontStyle: "italic"
+      }
+    }, z.sub), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "6px"
+      }
+    }, z.tags.map(function (t) {
+      return /*#__PURE__*/React.createElement("span", {
+        key: t,
+        style: {
+          background: "".concat(z.color, "22"),
+          color: z.color,
+          padding: "3px 10px",
+          borderRadius: "20px",
+          fontSize: "12px"
+        }
+      }, t);
+    })));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.navyCard,
+      padding: "14px 20px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: C.textMuted,
+      fontSize: "13px",
+      lineHeight: 1.6,
+      margin: 0
+    }
+  }, "La m\xE9thode V.A.L.E.U.R\xA9 vous aide \xE0 revenir dans votre ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: C.vert
+    }
+  }, "zone verte"), ".")));
+}
+function Section1(_ref16) {
+  var onComplete = _ref16.onComplete,
+    session = _ref16.session;
   var accordItems = [{
     title: "D'où vient l'anxiété ?",
     content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
@@ -1706,7 +3140,7 @@ function Section1(_ref1) {
         lineHeight: 1.8,
         marginBottom: "16px"
       }
-    }, "L'anxi\xE9t\xE9 n'est pas un dysfonctionnement. Ce n'est pas une faiblesse, ni une pathologie. C'est votre ", /*#__PURE__*/React.createElement("strong", {
+    }, "L'anxi\xE9t\xE9 n'est pas un dysfonctionnement. C'est votre ", /*#__PURE__*/React.createElement("strong", {
       style: {
         color: C.gold
       }
@@ -1734,7 +3168,7 @@ function Section1(_ref1) {
         lineHeight: 1.7,
         margin: 0
       }
-    }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "D = e \xD7 r\xB2"), " \u2014 La souffrance = \xE9motion \xD7 r\xE9sistance au carr\xE9.", /*#__PURE__*/React.createElement("br", null), "\xC9motion 5/10 + r\xE9sistance 5 = ", /*#__PURE__*/React.createElement("strong", null, "125"), " de souffrance. La m\xEAme \xE9motion + faible r\xE9sistance = ", /*#__PURE__*/React.createElement("strong", null, "5"), ". Soit 25\xD7 moins.")), /*#__PURE__*/React.createElement("p", {
+    }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", null, "D = e \xD7 r\xB2"), " \u2014 La souffrance = \xE9motion \xD7 r\xE9sistance au carr\xE9. \xC9motion 5/10 + r\xE9sistance 5 = ", /*#__PURE__*/React.createElement("strong", null, "125"), " de souffrance. M\xEAme \xE9motion + faible r\xE9sistance = ", /*#__PURE__*/React.createElement("strong", null, "5"), ". Soit 25\xD7 moins.")), /*#__PURE__*/React.createElement("p", {
       style: {
         color: C.textMuted,
         fontSize: "12px",
@@ -1753,7 +3187,7 @@ function Section1(_ref1) {
       style: {
         color: C.gold
       }
-    }, "d\xE9pass\xE9 votre capacit\xE9 \xE0 l'int\xE9grer"), ". Votre psych\xE9 a cr\xE9\xE9 une barri\xE8re protectrice \u2014 le masque."), /*#__PURE__*/React.createElement("div", {
+    }, "d\xE9pass\xE9 votre capacit\xE9 \xE0 l'int\xE9grer"), ". Votre psych\xE9 a cr\xE9\xE9 une barri\xE8re protectrice."), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -1814,7 +3248,7 @@ function Section1(_ref1) {
         lineHeight: 1.7,
         margin: 0
       }
-    }, "\u26A0\uFE0F ", /*#__PURE__*/React.createElement("strong", null, "Le paradoxe :"), " Ce qui devait vous prot\xE9ger temporairement est devenu une prison permanente. Le masque g\xE9n\xE8re aujourd'hui ", /*#__PURE__*/React.createElement("strong", null, "plus de souffrance que ce qu'il \xE9vite"), ".")))
+    }, "\u26A0\uFE0F ", /*#__PURE__*/React.createElement("strong", null, "Le paradoxe :"), " Ce masque g\xE9n\xE8re aujourd'hui ", /*#__PURE__*/React.createElement("strong", null, "plus de souffrance que ce qu'il \xE9vite"), ".")))
   }, {
     title: "Comment fonctionne la Méthode V.A.L.E.U.R© ?",
     content: /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
@@ -1836,7 +3270,7 @@ function Section1(_ref1) {
     }, {
       l: "L",
       t: "Localiser dans le corps",
-      d: "Gorge serrée ? Ventre noué ? Identifier la sensation",
+      d: "Gorge serrée ? Ventre noué ?",
       c: C.jaune
     }, {
       l: "E",
@@ -1946,20 +3380,11 @@ function Section1(_ref1) {
       maxWidth: "560px",
       margin: "0 auto"
     }
-  }, "Vous avez l'impression de jouer un r\xF4le dans votre propre vie ? Votre nature authentique est emprisonn\xE9e derri\xE8re des masques de d\xE9fense que vous portez sans le savoir.")), /*#__PURE__*/React.createElement(VideoCard, {
+  }, "Vous avez l'impression de jouer un r\xF4le dans votre propre vie ? Votre nature authentique est emprisonn\xE9e derri\xE8re des masques que vous portez sans le savoir.")), /*#__PURE__*/React.createElement(VideoCard, {
     href: "https://youtu.be/HVVpa_-pLkE?si=F9ehsoz5M7eATHRh",
     videoId: "HVVpa_-pLkE",
     label: "D'o\xF9 vient votre anxi\xE9t\xE9 ?"
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px",
-      textAlign: "center",
-      marginBottom: "16px",
-      letterSpacing: "1px",
-      textTransform: "uppercase"
-    }
-  }, "\uD83D\uDCD6 Concepts fondamentaux"), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: "32px"
     }
@@ -1968,7 +3393,8 @@ function Section1(_ref1) {
   })), /*#__PURE__*/React.createElement(JournalEntryWidget, {
     sectionIndex: 0,
     sectionLabel: "Introduction",
-    onSave: onJournalSave
+    userEmail: session.email,
+    onSave: function onSave() {}
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
@@ -1978,394 +3404,17 @@ function Section1(_ref1) {
     onClick: onComplete
   }, "D\xE9couvrir les 7 peurs universelles \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
 }
-
-// ── SECTION 2 ────────────────────────────────────────────────────
-
-function MaskCard(_ref10) {
-  var mask = _ref10.mask,
-    isSelected = _ref10.isSelected,
-    onClick = _ref10.onClick;
-  return /*#__PURE__*/React.createElement("button", {
-    onClick: onClick,
-    style: {
-      background: isSelected ? mask.bg : C.navyCard,
-      border: "2px solid ".concat(isSelected ? mask.color : C.navyBorder),
-      borderRadius: "16px",
-      padding: "20px 16px",
-      cursor: "pointer",
-      textAlign: "left",
-      transition: "all 0.3s",
-      width: "100%",
-      boxShadow: isSelected ? "0 0 20px ".concat(mask.color, "33") : "none"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: "12px",
-      marginBottom: "10px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: "44px",
-      height: "44px",
-      borderRadius: "50%",
-      background: "".concat(mask.color, "22"),
-      border: "2px solid ".concat(mask.color),
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: "20px",
-      flexShrink: 0
-    }
-  }, mask.emoji), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: mask.color,
-      fontWeight: 700,
-      fontSize: "15px",
-      margin: 0
-    }
-  }, mask.name), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "12px",
-      margin: 0
-    }
-  }, mask.fear))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.cream,
-      fontSize: "14px",
-      fontStyle: "italic",
-      margin: "0 0 8px",
-      lineHeight: 1.5
-    }
-  }, "\"", mask.tagline, "\""), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      background: "".concat(mask.color, "22"),
-      color: mask.color,
-      fontSize: "11px",
-      padding: "3px 10px",
-      borderRadius: "20px",
-      fontWeight: 600
-    }
-  }, mask.manifestation), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px"
-    }
-  }, isSelected ? "▲" : "▼")));
-}
-function MaskDetail(_ref11) {
-  var mask = _ref11.mask,
-    onClose = _ref11.onClose;
-  var _useState15 = useState(false),
-    _useState16 = _slicedToArray(_useState15, 2),
-    showSci = _useState16[0],
-    setShowSci = _useState16[1];
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: mask.bg,
-      border: "2px solid ".concat(mask.color),
-      borderRadius: "16px",
-      padding: "24px",
-      marginTop: "8px",
-      position: "relative"
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: onClose,
-    style: {
-      position: "absolute",
-      top: "12px",
-      right: "16px",
-      background: "none",
-      border: "none",
-      color: C.textMuted,
-      fontSize: "20px",
-      cursor: "pointer"
-    }
-  }, "\u2715"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: mask.color,
-      fontWeight: 700,
-      fontSize: "16px",
-      marginBottom: "16px"
-    }
-  }, "Vous reconnaissez-vous ?"), mask.lines.map(function (line, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        display: "flex",
-        gap: "10px",
-        marginBottom: "10px"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: mask.color,
-        flexShrink: 0,
-        marginTop: "2px"
-      }
-    }, "\u203A"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textLight,
-        lineHeight: 1.7,
-        margin: 0,
-        fontSize: "15px"
-      }
-    }, line));
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "".concat(mask.color, "11"),
-      border: "1px solid ".concat(mask.color, "44"),
-      borderRadius: "10px",
-      padding: "14px",
-      marginTop: "16px"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: mask.light,
-      fontStyle: "italic",
-      fontSize: "14px",
-      lineHeight: 1.6,
-      margin: 0
-    }
-  }, "\u275D ", mask.hook, " \u275E")), mask.scienceFact && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: "16px"
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setShowSci(!showSci);
-    },
-    style: {
-      background: "none",
-      border: "1px dashed ".concat(C.vert),
-      borderRadius: "8px",
-      padding: "8px 14px",
-      color: C.vertLight,
-      fontSize: "13px",
-      cursor: "pointer"
-    }
-  }, "\uD83D\uDD2C Le saviez-vous ? (fait scientifique) ", showSci ? "▲" : "▼"), showSci && /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#0d2010",
-      border: "1px solid ".concat(C.vert),
-      borderRadius: "10px",
-      padding: "14px",
-      marginTop: "8px"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.vertLight,
-      fontSize: "13px",
-      lineHeight: 1.7,
-      margin: 0
-    }
-  }, mask.scienceFact))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "11px",
-      marginTop: "16px",
-      borderTop: "1px solid ".concat(mask.color, "33"),
-      paddingTop: "10px"
-    }
-  }, "\xA9 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon \u2014 ", /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), ", L'Harmattan"));
-}
-function MiniQuiz(_ref12) {
-  var onDone = _ref12.onDone;
-  var _useState17 = useState(0),
-    _useState18 = _slicedToArray(_useState17, 2),
-    current = _useState18[0],
-    setCurrent = _useState18[1];
-  var _useState19 = useState(null),
-    _useState20 = _slicedToArray(_useState19, 2),
-    selected = _useState20[0],
-    setSelected = _useState20[1];
-  var _useState21 = useState(false),
-    _useState22 = _slicedToArray(_useState21, 2),
-    revealed = _useState22[0],
-    setRevealed = _useState22[1];
-  var _useState23 = useState([]),
-    _useState24 = _slicedToArray(_useState23, 2),
-    results = _useState24[0],
-    setResults = _useState24[1];
-  var _useState25 = useState(false),
-    _useState26 = _slicedToArray(_useState25, 2),
-    done = _useState26[0],
-    setDone = _useState26[1];
-  var q = MINI_QUIZ[current];
-  var score = results.filter(Boolean).length;
-  function handleSelect(i) {
-    if (revealed) return;
-    setSelected(i);
-    setRevealed(true);
-    var r = [].concat(_toConsumableArray(results), [i === q.ok]);
-    setResults(r);
-    if (current === MINI_QUIZ.length - 1) {
-      var finalScore = r.filter(Boolean).length;
-      var scores = load(STORAGE_KEYS.quizScores) || {};
-      save(STORAGE_KEYS.quizScores, _objectSpread(_objectSpread({}, scores), {}, {
-        mini: finalScore
-      }));
-      setTimeout(function () {
-        return setDone(true);
-      }, 1500);
-    }
-  }
-  function next() {
-    if (current < MINI_QUIZ.length - 1) {
-      setCurrent(current + 1);
-      setSelected(null);
-      setRevealed(false);
-    }
-  }
-  if (done) return /*#__PURE__*/React.createElement(Card, {
-    style: {
-      textAlign: "center",
-      padding: "32px 24px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: "48px",
-      marginBottom: "12px"
-    }
-  }, score >= 3 ? "🎯" : "💡"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.gold,
-      fontWeight: 700,
-      fontSize: "20px",
-      marginBottom: "8px"
-    }
-  }, score, "/4 \u2014 ", score >= 3 ? "Excellente compréhension !" : "Bonne base !"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "14px",
-      lineHeight: 1.7,
-      marginBottom: "12px"
-    }
-  }, score >= 3 ? "Votre score a été sauvegardé dans votre tableau de bord." : "Relisez les fiches des masques. Tout s'éclairera progressivement."), onDone && /*#__PURE__*/React.createElement("button", {
-    onClick: onDone,
-    style: {
-      background: "none",
-      border: "1px solid ".concat(C.gold),
-      color: C.gold,
-      borderRadius: "8px",
-      padding: "10px 20px",
-      cursor: "pointer",
-      fontSize: "14px"
-    }
-  }, "Continuer \u2193"));
-  return /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      marginBottom: "16px"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.gold,
-      fontWeight: 700,
-      fontSize: "13px",
-      margin: 0
-    }
-  }, "\uD83C\uDFAF V\xE9rifiez votre compr\xE9hension"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px"
-    }
-  }, current + 1, "/", MINI_QUIZ.length)), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.cream,
-      fontSize: "16px",
-      fontWeight: 600,
-      lineHeight: 1.5,
-      marginBottom: "20px"
-    }
-  }, q.q), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "8px",
-      marginBottom: "16px"
-    }
-  }, q.opts.map(function (opt, i) {
-    var bg = C.navyMid,
-      border = C.navyBorder,
-      col = C.textLight;
-    if (revealed) {
-      if (i === q.ok) {
-        bg = "#0d2010";
-        border = C.vert;
-        col = C.vertLight;
-      } else if (i === selected) {
-        bg = "#2d1515";
-        border = C.rouge;
-        col = C.rougeLight;
-      }
-    } else if (selected === i) {
-      border = C.gold;
-    }
-    return /*#__PURE__*/React.createElement("button", {
-      key: i,
-      onClick: function onClick() {
-        return handleSelect(i);
-      },
-      style: {
-        background: bg,
-        border: "2px solid ".concat(border),
-        borderRadius: "10px",
-        padding: "12px 16px",
-        color: col,
-        cursor: "pointer",
-        textAlign: "left",
-        fontSize: "14px",
-        lineHeight: 1.5
-      }
-    }, i === q.ok && revealed ? "✓ " : i === selected && selected !== q.ok && revealed ? "✗ " : "", opt);
-  })), revealed && /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#1a2520",
-      border: "1px solid ".concat(C.vert),
-      borderRadius: "10px",
-      padding: "14px",
-      marginBottom: "16px"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.vertLight,
-      fontSize: "13px",
-      lineHeight: 1.7,
-      margin: 0
-    }
-  }, "\uD83D\uDCA1 ", q.exp)), revealed && current < MINI_QUIZ.length - 1 && /*#__PURE__*/React.createElement("button", {
-    onClick: next,
-    style: {
-      background: C.navyCard,
-      border: "1px solid ".concat(C.gold),
-      color: C.gold,
-      borderRadius: "8px",
-      padding: "10px 20px",
-      cursor: "pointer",
-      fontSize: "14px"
-    }
-  }, "Question suivante \u2192"));
-}
-function Section2(_ref13) {
-  var onComplete = _ref13.onComplete,
-    onJournalSave = _ref13.onJournalSave;
-  var _useState27 = useState(null),
-    _useState28 = _slicedToArray(_useState27, 2),
-    selected = _useState28[0],
-    setSelected = _useState28[1];
-  var _useState29 = useState(false),
-    _useState30 = _slicedToArray(_useState29, 2),
-    showQuiz = _useState30[0],
-    setShowQuiz = _useState30[1];
+function Section2(_ref17) {
+  var onComplete = _ref17.onComplete,
+    session = _ref17.session;
+  var _useState51 = useState(null),
+    _useState52 = _slicedToArray(_useState51, 2),
+    selected = _useState52[0],
+    setSelected = _useState52[1];
+  var _useState53 = useState(false),
+    _useState54 = _slicedToArray(_useState53, 2),
+    showQuiz = _useState54[0],
+    setShowQuiz = _useState54[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
@@ -2398,23 +3447,7 @@ function Section2(_ref13) {
     href: "https://youtu.be/weAQzjtxNPE?si=i4XnH87VgkxUWFu5",
     videoId: "weAQzjtxNPE",
     label: "Comment vos masques emprisonnent votre nature authentique"
-  }), /*#__PURE__*/React.createElement(Card, {
-    style: {
-      marginBottom: "24px",
-      borderColor: C.gold + "44"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      lineHeight: 1.8,
-      margin: 0,
-      fontSize: "15px"
-    }
-  }, "Ces 7 peurs ont \xE9t\xE9 forg\xE9es dans le creuset de l'\xE9volution. Aujourd'hui, ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: C.gold
-    }
-  }, "les menaces ont chang\xE9, mais les alarmes sont rest\xE9es"), ". Chaque peur non int\xE9gr\xE9e cr\xE9e un masque. ", /*#__PURE__*/React.createElement("em", null, "Cliquez sur un masque pour le reconna\xEEtre en vous."))), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -2458,10 +3491,13 @@ function Section2(_ref13) {
       fontSize: "15px",
       fontWeight: 600
     }
-  }, "\uD83C\uDFAF Ai-je bien compris ? \u2014 Mini-quiz")) : /*#__PURE__*/React.createElement(MiniQuiz, null)), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+  }, "\uD83C\uDFAF Mini-quiz")) : /*#__PURE__*/React.createElement(MiniQuiz, {
+    userEmail: session.email
+  })), /*#__PURE__*/React.createElement(JournalEntryWidget, {
     sectionIndex: 1,
     sectionLabel: "Les 7 Peurs",
-    onSave: onJournalSave
+    userEmail: session.email,
+    onSave: function onSave() {}
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
@@ -2471,128 +3507,9 @@ function Section2(_ref13) {
     onClick: onComplete
   }, "Comprendre comment naissent les masques \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
 }
-
-// ── SECTION 3 ────────────────────────────────────────────────────
-
-function ToleranceWindow() {
-  var zones = [{
-    label: "HYPERACTIVATION ↑",
-    sub: "Au-dessus de la fenêtre — Mode alarme",
-    color: C.rouge,
-    bg: "linear-gradient(135deg,#2d1515,#3d1a1a)",
-    tags: ["Anxiété", "Panique", "Agitation", "Colère", "Hypervigilance", "Pensées en boucle", "Cœur qui s'emballe"]
-  }, {
-    label: "ZONE OPTIMALE ✓",
-    sub: "Régulé, ancré, connecté — Théorie polyvagale (Dr Dan Siegel)",
-    color: C.vert,
-    bg: "linear-gradient(135deg,#0d2510,#0f2d15)",
-    badge: "Fenêtre de tolérance",
-    tags: ["Calme", "Clarté", "Connexion aux autres", "Créativité", "Empathie", "Décisions claires", "Apprentissage possible"]
-  }, {
-    label: "HYPOACTIVATION ↓",
-    sub: "En dessous de la fenêtre — Mode gel/sidération",
-    color: C.bleu,
-    bg: "linear-gradient(135deg,#0d1a2d,#0f1f3d)",
-    tags: ["Déconnexion", "Engourdissement", "Dissociation", "Vide émotionnel", "Effondrement intérieur", "Fatigue profonde", "Figement"]
-  }];
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      borderRadius: "16px",
-      overflow: "hidden",
-      border: "1px solid ".concat(C.navyBorder)
-    }
-  }, zones.map(function (z, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        background: z.bg,
-        padding: "18px 20px",
-        borderBottom: i < 2 ? "1px solid ".concat(z.color, "44") : "none"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-        marginBottom: "10px"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: "12px",
-        height: "12px",
-        borderRadius: "50%",
-        background: z.color,
-        flexShrink: 0
-      }
-    }), /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: z.color,
-        fontWeight: 700,
-        fontSize: "14px"
-      }
-    }, z.label), z.badge && /*#__PURE__*/React.createElement("span", {
-      style: {
-        background: "".concat(z.color, "22"),
-        color: z.color,
-        fontSize: "11px",
-        padding: "2px 8px",
-        borderRadius: "20px"
-      }
-    }, z.badge)), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textMuted,
-        fontSize: "13px",
-        margin: "0 0 8px",
-        fontStyle: "italic"
-      }
-    }, z.sub), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "6px"
-      }
-    }, z.tags.map(function (t) {
-      return /*#__PURE__*/React.createElement("span", {
-        key: t,
-        style: {
-          background: "".concat(z.color, "22"),
-          color: z.color,
-          padding: "3px 10px",
-          borderRadius: "20px",
-          fontSize: "12px"
-        }
-      }, t);
-    })));
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: C.navyCard,
-      padding: "14px 20px",
-      borderTop: "1px solid ".concat(C.navyBorder)
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px",
-      lineHeight: 1.6,
-      margin: 0
-    }
-  }, "\u26A0\uFE0F Vos masques vous maintiennent en ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: C.rouge
-    }
-  }, "hyperactivation"), " ou en ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: C.bleu
-    }
-  }, "sid\xE9ration"), ", m\xEAme sans danger r\xE9el. ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: C.cream
-    }
-  }, "La m\xE9thode V.A.L.E.U.R\xA9 vous aide \xE0 revenir dans votre zone verte."))));
-}
-function Section3(_ref14) {
-  var onComplete = _ref14.onComplete,
-    onJournalSave = _ref14.onJournalSave;
+function Section3(_ref18) {
+  var onComplete = _ref18.onComplete,
+    session = _ref18.session;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
@@ -2613,15 +3530,7 @@ function Section3(_ref14) {
       lineHeight: 1.2,
       marginBottom: "12px"
     }
-  }, "Comment naissent vos masques ?"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "clamp(14px,3.5vw,16px)",
-      lineHeight: 1.6,
-      maxWidth: "600px",
-      margin: "0 auto"
-    }
-  }, "Avant de d\xE9couvrir vos masques dominants, comprenons comment ils sont n\xE9s \u2014 et pourquoi ils persistent.")), /*#__PURE__*/React.createElement(Card, {
+  }, "Comment naissent vos masques ?")), /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: "24px",
       textAlign: "center"
@@ -2699,94 +3608,7 @@ function Section3(_ref14) {
         margin: 0
       }
     }, x.l2));
-  })), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      fontSize: "14px",
-      lineHeight: 1.7,
-      maxWidth: "500px",
-      margin: "0 auto"
-    }
-  }, "Lorsqu'une \xE9motion d\xE9passe votre capacit\xE9 d'int\xE9gration, votre psych\xE9 cr\xE9e un masque. Ce n'est pas un choix conscient \u2014 c'est un ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: C.gold
-    }
-  }, "r\xE9flexe de survie"), ".")), /*#__PURE__*/React.createElement(Card, {
-    style: {
-      marginBottom: "24px",
-      borderLeft: "4px solid ".concat(C.indigo)
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.indigoLight,
-      fontWeight: 700,
-      marginBottom: "12px",
-      fontSize: "15px"
-    }
-  }, "\uD83D\uDD37 Un exemple universel"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      lineHeight: 1.8,
-      marginBottom: "12px",
-      fontSize: "14px"
-    }
-  }, "Un enfant est moqu\xE9 devant la classe. Sa psych\xE9 forge un masque Indigo en deux temps :"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: "10px",
-      marginBottom: "12px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#1a1535",
-      border: "1px solid ".concat(C.indigo, "44"),
-      borderRadius: "10px",
-      padding: "12px"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.indigoLight,
-      fontWeight: 700,
-      fontSize: "12px",
-      marginBottom: "6px"
-    }
-  }, "\u2460 La Prison"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px",
-      lineHeight: 1.6,
-      margin: 0
-    }
-  }, "La blessure est enferm\xE9e. L'enfant peut fonctionner \u2014 mais la honte reste fig\xE9e.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#1a1535",
-      border: "1px solid ".concat(C.indigo, "44"),
-      borderRadius: "10px",
-      padding: "12px"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.indigoLight,
-      fontWeight: 700,
-      fontSize: "12px",
-      marginBottom: "6px"
-    }
-  }, "\u2461 Le Gardien"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px",
-      lineHeight: 1.6,
-      margin: 0
-    }
-  }, "Le masque scanne l'environnement. Il \xE9vite toute situation d'exposition."))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      lineHeight: 1.8,
-      fontSize: "14px",
-      margin: 0
-    }
-  }, "Adulte, cet enfant se dira \"naturellement discret\". Il ne r\xE9alisera jamais que ce trait est son masque \u2014 renforc\xE9 depuis 30 ans.")), /*#__PURE__*/React.createElement(Card, {
+  }))), /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: "24px",
       textAlign: "center",
@@ -2847,17 +3669,7 @@ function Section3(_ref14) {
       fontSize: "14px",
       margin: 0
     }
-  }, "5 \xD7 1\xB2 = ", /*#__PURE__*/React.createElement("strong", null, "5")))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px",
-      lineHeight: 1.6
-    }
-  }, "La m\xE9thode V.A.L.E.U.R\xA9 vous apprend \xE0 ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: C.gold
-    }
-  }, "r\xE9duire la r\xE9sistance"), " \u2014 soit 25\xD7 moins de souffrance.")), /*#__PURE__*/React.createElement("p", {
+  }, "5 \xD7 1\xB2 = ", /*#__PURE__*/React.createElement("strong", null, "5"))))), /*#__PURE__*/React.createElement("p", {
     style: {
       color: C.textMuted,
       fontSize: "13px",
@@ -2868,19 +3680,13 @@ function Section3(_ref14) {
     }
   }, "\uD83E\uDDE0 La fen\xEAtre de tol\xE9rance"), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginBottom: "8px"
+      marginBottom: "24px"
     }
-  }, /*#__PURE__*/React.createElement(ToleranceWindow, null)), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "11px",
-      marginBottom: "24px",
-      textAlign: "center"
-    }
-  }, "Inspir\xE9 de la Th\xE9orie Polyvagale (Porges, 1994) et des travaux de Deb Dana \u2014 Doc. C\xE9line Bourbon"), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+  }, /*#__PURE__*/React.createElement(ToleranceWindow, null)), /*#__PURE__*/React.createElement(JournalEntryWidget, {
     sectionIndex: 2,
     sectionLabel: "Comment naissent les masques",
-    onSave: onJournalSave
+    userEmail: session.email,
+    onSave: function onSave() {}
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
@@ -2890,159 +3696,9 @@ function Section3(_ref14) {
     onClick: onComplete
   }, "Identifier mes masques dominants \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
 }
-
-// ── SECTION 4 ────────────────────────────────────────────────────
-
-function Section4(_ref15) {
-  var onComplete = _ref15.onComplete,
-    onJournalSave = _ref15.onJournalSave;
-  var scoreContent = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      lineHeight: 1.8,
-      marginBottom: "12px",
-      fontSize: "14px"
-    }
-  }, "Le questionnaire vous donne un score de 0 \xE0 48 par masque (total : 0-336)."), [{
-    range: "0–30%",
-    label: "Masque peu actif",
-    color: C.vert,
-    desc: "Ce masque est présent mais peu dominant dans votre fonctionnement."
-  }, {
-    range: "30–50%",
-    label: "Masque modéré",
-    color: C.jaune,
-    desc: "Ce masque influence parfois vos réactions, surtout sous stress."
-  }, {
-    range: "50–65%",
-    label: "Masque dominant",
-    color: C.orange,
-    desc: "Ce masque gouverne une partie significative de vos comportements automatiques."
-  }, {
-    range: ">65%",
-    label: "Masque très actif",
-    color: C.rouge,
-    desc: "Ce masque est très présent. Une consultation professionnelle peut être bénéfique."
-  }].map(function (r) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: r.range,
-      style: {
-        display: "flex",
-        gap: "12px",
-        alignItems: "flex-start",
-        marginBottom: "10px"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        background: "".concat(r.color, "22"),
-        color: r.color,
-        padding: "3px 10px",
-        borderRadius: "20px",
-        fontSize: "12px",
-        fontWeight: 700,
-        flexShrink: 0
-      }
-    }, r.range), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: r.color,
-        fontWeight: 700,
-        margin: "0 0 2px",
-        fontSize: "13px"
-      }
-    }, r.label), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textMuted,
-        fontSize: "13px",
-        margin: 0
-      }
-    }, r.desc)));
-  }));
-  var combosContent = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      lineHeight: 1.8,
-      marginBottom: "14px",
-      fontSize: "14px"
-    }
-  }, "La plupart des personnes ont 2 \xE0 3 masques dominants \u2014 ils r\xE9pondent souvent \xE0 la m\xEAme blessure."), [{
-    combo: "🔴 + 🟡 Rouge + Jaune",
-    label: "Anxiété amplifiée",
-    desc: "Vous ruminez sur les pires scénarios. Plus vous prévoyez, plus vous vérifiez."
-  }, {
-    combo: "🟠 + 🟢 Orange + Vert",
-    label: "Distance dans l'intimité",
-    desc: "Vous cherchez la connexion mais vous vous fermez dès qu'elle approche."
-  }, {
-    combo: "🔵 + 🟢 Bleu + Vert",
-    label: "Contrôle et abandon",
-    desc: "Le besoin de contrôle s'amplifie avec la peur d'abandon."
-  }, {
-    combo: "💜 + 🟢 Violet + Vert",
-    label: "Codépendance",
-    desc: "Votre identité devient dépendante de la validation extérieure."
-  }].map(function (a) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: a.combo,
-      style: {
-        border: "1px solid ".concat(C.navyBorder),
-        borderRadius: "10px",
-        padding: "12px",
-        marginBottom: "8px"
-      }
-    }, /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.cream,
-        fontWeight: 700,
-        fontSize: "13px",
-        marginBottom: "4px"
-      }
-    }, a.combo, " \u2014 ", a.label), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textMuted,
-        fontSize: "13px",
-        lineHeight: 1.6,
-        margin: 0
-      }
-    }, a.desc));
-  }));
-  var faqContent = /*#__PURE__*/React.createElement("div", null, [{
-    q: "Mes scores sont hauts partout — que faire ?",
-    a: "Cela indique une stratégie défensive globale. Ce n'est pas une condamnation — c'est le point de départ du travail."
-  }, {
-    q: "Mes masques vont-ils diminuer avec le temps ?",
-    a: "Non sans travail conscient. Avec la méthode V.A.L.E.U.R©, leur emprise peut être significativement réduite."
-  }, {
-    q: "Mes masques semblent contradictoires — est-ce possible ?",
-    a: "Oui. Des masques opposés peuvent résoudre deux aspects d'une même insécurité profonde."
-  }].map(function (x) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: x.q,
-      style: {
-        borderBottom: "1px solid ".concat(C.navyBorder),
-        paddingBottom: "12px",
-        marginBottom: "12px"
-      }
-    }, /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.gold,
-        fontWeight: 600,
-        fontSize: "14px",
-        marginBottom: "6px"
-      }
-    }, "Q : ", x.q), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textLight,
-        fontSize: "13px",
-        lineHeight: 1.7,
-        margin: 0
-      }
-    }, x.a));
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "11px"
-    }
-  }, "Source : FAQ post-questionnaire V.A.L.E.U.R\xA9 \u2014 \xA9 C\xE9line Bourbon"));
+function Section4(_ref19) {
+  var onComplete = _ref19.onComplete,
+    session = _ref19.session;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
@@ -3090,24 +3746,13 @@ function Section4(_ref15) {
     style: {
       color: C.textLight,
       lineHeight: 1.8,
-      fontSize: "14px",
-      marginBottom: "12px"
-    }
-  }, "Ce questionnaire ne mesure pas votre personnalit\xE9 ni vos qualit\xE9s. Il cartographie vos ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: C.gold
-    }
-  }, "m\xE9canismes de d\xE9fense"), " \u2014 les peurs et les masques qui agissent \xE0 votre insu, plus forts que votre volont\xE9."), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textLight,
-      lineHeight: 1.8,
       fontSize: "14px"
     }
   }, "R\xE9pondez \xE0 ce qui se passe ", /*#__PURE__*/React.createElement("strong", {
     style: {
       color: C.cream
     }
-  }, "r\xE9ellement"), ", pas \xE0 ce que vous voudriez. Il s'agit de faire la lumi\xE8re sur ce qui ", /*#__PURE__*/React.createElement("em", null, "vous emp\xEAche d'\xEAtre vous-m\xEAme"), ".")), /*#__PURE__*/React.createElement("div", {
+  }, "r\xE9ellement"), ", pas \xE0 ce que vous voudriez. Il s'agit de faire la lumi\xE8re sur ce qui vous emp\xEAche d'\xEAtre vous-m\xEAme.")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -3124,8 +3769,8 @@ function Section4(_ref15) {
     val: "84 questions · 7 masques"
   }, {
     icon: "🔒",
-    label: "Confidentialité",
-    val: "Résultats par email"
+    label: "Résultats",
+    val: "Envoyés par email"
   }, {
     icon: "🔑",
     label: "Code d'accès",
@@ -3185,34 +3830,11 @@ function Section4(_ref15) {
       fontSize: "12px",
       marginTop: "10px"
     }
-  }, "questionnaire-valeur-psyh.netlify.app \xB7 S\xE9curis\xE9")), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px",
-      letterSpacing: "1px",
-      textTransform: "uppercase",
-      marginBottom: "16px",
-      textAlign: "center"
-    }
-  }, "\uD83D\uDCC8 Lire mes r\xE9sultats"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: "32px"
-    }
-  }, /*#__PURE__*/React.createElement(Accordion, {
-    items: [{
-      title: "Comprendre votre score",
-      content: scoreContent
-    }, {
-      title: "Les associations de masques",
-      content: combosContent
-    }, {
-      title: "FAQ après le questionnaire",
-      content: faqContent
-    }]
-  })), /*#__PURE__*/React.createElement(JournalEntryWidget, {
+  }, "Code : VALEUR2025 \xB7 questionnaire-valeur-psyh.netlify.app")), /*#__PURE__*/React.createElement(JournalEntryWidget, {
     sectionIndex: 3,
     sectionLabel: "Questionnaire",
-    onSave: onJournalSave
+    userEmail: session.email,
+    onSave: function onSave() {}
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
@@ -3222,233 +3844,14 @@ function Section4(_ref15) {
     onClick: onComplete
   }, "D\xE9couvrir la M\xE9thode V.A.L.E.U.R\xA9 \u2192")), /*#__PURE__*/React.createElement(Copyright, null));
 }
-
-// ── SECTION 5 ────────────────────────────────────────────────────
-
-function FinalQuiz(_ref16) {
-  var onDone = _ref16.onDone;
-  var _useState31 = useState(0),
-    _useState32 = _slicedToArray(_useState31, 2),
-    current = _useState32[0],
-    setCurrent = _useState32[1];
-  var _useState33 = useState(null),
-    _useState34 = _slicedToArray(_useState33, 2),
-    selected = _useState34[0],
-    setSelected = _useState34[1];
-  var _useState35 = useState(false),
-    _useState36 = _slicedToArray(_useState35, 2),
-    revealed = _useState36[0],
-    setRevealed = _useState36[1];
-  var _useState37 = useState([]),
-    _useState38 = _slicedToArray(_useState37, 2),
-    results = _useState38[0],
-    setResults = _useState38[1];
-  var _useState39 = useState(false),
-    _useState40 = _slicedToArray(_useState39, 2),
-    done = _useState40[0],
-    setDone = _useState40[1];
-  var q = FINAL_QUIZ[current];
-  var score = results.filter(Boolean).length;
-  function handleSelect(i) {
-    if (revealed) return;
-    setSelected(i);
-    setRevealed(true);
-    var r = [].concat(_toConsumableArray(results), [i === q.ok]);
-    setResults(r);
-    if (current === FINAL_QUIZ.length - 1) {
-      var finalScore = r.filter(Boolean).length;
-      var scores = load(STORAGE_KEYS.quizScores) || {};
-      save(STORAGE_KEYS.quizScores, _objectSpread(_objectSpread({}, scores), {}, {
-        final: finalScore
-      }));
-    }
-  }
-  function next() {
-    if (current < FINAL_QUIZ.length - 1) {
-      setCurrent(current + 1);
-      setSelected(null);
-      setRevealed(false);
-    } else setDone(true);
-  }
-  if (done) {
-    var pct = Math.round(score / FINAL_QUIZ.length * 100);
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        textAlign: "center",
-        padding: "32px 24px"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: "64px",
-        marginBottom: "16px"
-      }
-    }, pct >= 80 ? "🏆" : pct >= 60 ? "🎯" : "💪"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        background: "linear-gradient(135deg,".concat(C.gold, "22,transparent)"),
-        border: "2px solid ".concat(C.gold),
-        borderRadius: "20px",
-        padding: "24px",
-        marginBottom: "24px"
-      }
-    }, /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.gold,
-        fontWeight: 800,
-        fontSize: "28px",
-        margin: "0 0 8px"
-      }
-    }, score, "/", FINAL_QUIZ.length), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.cream,
-        fontWeight: 700,
-        fontSize: "18px",
-        marginBottom: "12px"
-      }
-    }, pct >= 80 ? "Module 0 maîtrisé !" : pct >= 60 ? "Très bonne compréhension" : "Bonne base de départ !"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textMuted,
-        fontSize: "14px",
-        lineHeight: 1.7
-      }
-    }, "Score sauvegard\xE9 dans votre tableau de bord.")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        background: C.navyCard,
-        border: "1px solid ".concat(C.vert),
-        borderRadius: "16px",
-        padding: "20px",
-        marginBottom: "20px"
-      }
-    }, /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.vert,
-        fontWeight: 700,
-        fontSize: "16px",
-        marginBottom: "12px"
-      }
-    }, "\uD83C\uDF89 Module 0 \u2014 COMPRENDRE \u2014 Compl\xE9t\xE9 !"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        color: C.textLight,
-        fontSize: "14px",
-        lineHeight: 1.7
-      }
-    }, "Vous comprenez maintenant : l'origine de l'anxi\xE9t\xE9 \xB7 les 7 peurs universelles \xB7 comment naissent les masques \xB7 votre profil de d\xE9fenses \xB7 les 6 \xE9tapes de la m\xE9thode.")), onDone && /*#__PURE__*/React.createElement("button", {
-      onClick: onDone,
-      style: {
-        background: "none",
-        border: "1px solid ".concat(C.gold),
-        color: C.gold,
-        borderRadius: "8px",
-        padding: "10px 20px",
-        cursor: "pointer",
-        fontSize: "14px"
-      }
-    }, "Voir mon tableau de bord \u2192"), /*#__PURE__*/React.createElement(Copyright, null));
-  }
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: "4px",
-      marginBottom: "20px"
-    }
-  }, FINAL_QUIZ.map(function (_, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        flex: 1,
-        height: "4px",
-        borderRadius: "2px",
-        background: i < current ? C.gold : i === current ? "".concat(C.gold, "88") : C.navyBorder
-      }
-    });
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      marginBottom: "20px"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.gold,
-      fontWeight: 700,
-      fontSize: "13px"
-    }
-  }, "Question ", current + 1, "/", FINAL_QUIZ.length), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.vert,
-      fontSize: "13px"
-    }
-  }, results.filter(Boolean).length, " \u2713")), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.cream,
-      fontSize: "clamp(15px,4vw,18px)",
-      fontWeight: 700,
-      lineHeight: 1.5,
-      marginBottom: "20px"
-    }
-  }, q.q), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "8px",
-      marginBottom: "20px"
-    }
-  }, q.opts.map(function (opt, i) {
-    var bg = C.navyCard,
-      border = C.navyBorder,
-      col = C.textLight;
-    if (revealed) {
-      if (i === q.ok) {
-        bg = "#0d2010";
-        border = C.vert;
-        col = C.vertLight;
-      } else if (i === selected) {
-        bg = "#2d1515";
-        border = C.rouge;
-        col = C.rougeLight;
-      }
-    } else if (selected === i) {
-      border = C.gold;
-    }
-    return /*#__PURE__*/React.createElement("button", {
-      key: i,
-      onClick: function onClick() {
-        return handleSelect(i);
-      },
-      style: {
-        background: bg,
-        border: "2px solid ".concat(border),
-        borderRadius: "12px",
-        padding: "14px 18px",
-        color: col,
-        cursor: revealed ? "default" : "pointer",
-        textAlign: "left",
-        fontSize: "clamp(13px,3.5vw,15px)",
-        lineHeight: 1.5
-      }
-    }, i === q.ok && revealed ? "✓ " : i === selected && i !== q.ok && revealed ? "✗ " : "", opt);
-  })), revealed && /*#__PURE__*/React.createElement("button", {
-    onClick: next,
-    style: {
-      width: "100%",
-      background: "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
-      border: "none",
-      borderRadius: "12px",
-      padding: "14px",
-      color: "#000",
-      fontWeight: 700,
-      fontSize: "16px",
-      cursor: "pointer"
-    }
-  }, current < FINAL_QUIZ.length - 1 ? "Question suivante →" : "Voir mes résultats 🎉"));
-}
-function Section5(_ref17) {
-  var onComplete = _ref17.onComplete,
-    onJournalSave = _ref17.onJournalSave,
-    onGoHome = _ref17.onGoHome;
-  var _useState41 = useState(false),
-    _useState42 = _slicedToArray(_useState41, 2),
-    showQuiz = _useState42[0],
-    setShowQuiz = _useState42[1];
+function Section5(_ref20) {
+  var onComplete = _ref20.onComplete,
+    session = _ref20.session,
+    onGoHome = _ref20.onGoHome;
+  var _useState55 = useState(false),
+    _useState56 = _slicedToArray(_useState55, 2),
+    showQuiz = _useState56[0],
+    setShowQuiz = _useState56[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 16px",
@@ -3600,7 +4003,7 @@ function Section5(_ref17) {
       fontSize: "15px",
       marginBottom: "16px"
     }
-  }, "\u2728 Les cl\xE9s de votre lib\xE9ration"), ["Vos masques vous ont protégé — remerciez-les, sans leur obéir", "L'acceptation est 25 fois plus puissante que la résistance", "Votre système nerveux peut s'apaiser en quelques minutes", "Observer n'est pas juger — c'est le début de la liberté", "Chaque petit pas crée de nouveaux circuits neuronaux", "Vous n'êtes pas vos peurs — vous êtes celui/celle qui les observe", "La joie d'être soi est votre nature véritable"].map(function (k, i) {
+  }, "\u2728 Les cl\xE9s de votre lib\xE9ration"), ["Vos masques vous ont protégé — remerciez-les, sans leur obéir", "L'acceptation est 25 fois plus puissante que la résistance", "Votre système nerveux peut s'apaiser en quelques minutes", "Chaque petit pas crée de nouveaux circuits neuronaux", "Vous n'êtes pas vos peurs — vous êtes celui/celle qui les observe", "La joie d'être soi est votre nature véritable"].map(function (k, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
@@ -3627,7 +4030,8 @@ function Section5(_ref17) {
   })), /*#__PURE__*/React.createElement(JournalEntryWidget, {
     sectionIndex: 4,
     sectionLabel: "La M\xE9thode V.A.L.E.U.R\xA9",
-    onSave: onJournalSave
+    userEmail: session.email,
+    onSave: function onSave() {}
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: "32px",
@@ -3656,7 +4060,7 @@ function Section5(_ref17) {
       lineHeight: 1.7,
       marginBottom: "16px"
     }
-  }, "10 questions pour valider votre ma\xEEtrise du Module 0. Score sauvegard\xE9 dans votre tableau de bord."), !showQuiz && /*#__PURE__*/React.createElement("button", {
+  }, "10 questions pour valider votre ma\xEEtrise du Module 0."), !showQuiz && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setShowQuiz(true);
     },
@@ -3671,36 +4075,49 @@ function Section5(_ref17) {
       cursor: "pointer"
     }
   }, "Commencer le quiz \u2192")), showQuiz && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(FinalQuiz, {
-    onDone: onGoHome
+    userEmail: session.email,
+    onGoHome: onGoHome
   }))), /*#__PURE__*/React.createElement(Copyright, null));
 }
 
-// ── MODULE 0 WRAPPER ─────────────────────────────────────────────
-
-function Module0(_ref18) {
-  var _load;
-  var initialStep = _ref18.initialStep,
-    onSectionComplete = _ref18.onSectionComplete,
-    onJournalSave = _ref18.onJournalSave,
-    onGoHome = _ref18.onGoHome;
-  var _useState43 = useState(initialStep || 0),
-    _useState44 = _slicedToArray(_useState43, 2),
-    step = _useState44[0],
-    setStep = _useState44[1];
-  var _useState45 = useState(((_load = load(STORAGE_KEYS.progress)) === null || _load === void 0 ? void 0 : _load.completedSections) || []),
-    _useState46 = _slicedToArray(_useState45, 2),
-    completed = _useState46[0],
-    setCompleted = _useState46[1];
+// ── MODULE 0 WRAPPER ──────────────────────────────────────────────
+function Module0(_ref21) {
+  var session = _ref21.session,
+    onGoHome = _ref21.onGoHome,
+    onSectionComplete = _ref21.onSectionComplete;
+  var email = session.email;
+  var _useState57 = useState(function () {
+      return (loadUser(email, 'progress') || {
+        completedSections: []
+      }).completedSections || [];
+    }),
+    _useState58 = _slicedToArray(_useState57, 2),
+    completed = _useState58[0],
+    setCompleted = _useState58[1];
+  var _useState59 = useState(function () {
+      var _completedSections;
+      return Math.min(((_completedSections = (loadUser(email, 'progress') || {
+        completedSections: []
+      }).completedSections) === null || _completedSections === void 0 ? void 0 : _completedSections.length) || 0, 4);
+    }),
+    _useState60 = _slicedToArray(_useState59, 2),
+    step = _useState60[0],
+    setStep = _useState60[1];
   var topRef = useRef(null);
   function complete(i) {
-    var prev = load(STORAGE_KEYS.progress) || {};
-    var newCompleted = prev.completedSections ? _toConsumableArray(new Set([].concat(_toConsumableArray(prev.completedSections), [i]))) : [i];
-    var updated = _objectSpread(_objectSpread({}, prev), {}, {
+    var prog = loadUser(email, 'progress') || {};
+    var newCompleted = _toConsumableArray(new Set([].concat(_toConsumableArray(prog.completedSections || []), [i])));
+    var updated = _objectSpread(_objectSpread({}, prog), {}, {
       completedSections: newCompleted,
       lastVisit: new Date().toISOString(),
-      startDate: prev.startDate || new Date().toISOString()
+      startDate: prog.startDate || new Date().toISOString()
     });
-    save(STORAGE_KEYS.progress, updated);
+    saveUser(email, 'progress', updated);
+    updateRegistry(email, {
+      lastSeen: new Date().toISOString(),
+      progress: "".concat(newCompleted.length, "/5")
+    });
+    notifyProgress(email, session.name, SECTION_LABELS[i]);
     setCompleted(newCompleted);
     setStep(i + 1);
     if (onSectionComplete) onSectionComplete(newCompleted);
@@ -3718,384 +4135,80 @@ function Module0(_ref18) {
     onComplete: function onComplete() {
       return complete(0);
     },
-    onJournalSave: onJournalSave
+    session: session
   }), step === 1 && /*#__PURE__*/React.createElement(Section2, {
     onComplete: function onComplete() {
       return complete(1);
     },
-    onJournalSave: onJournalSave
+    session: session
   }), step === 2 && /*#__PURE__*/React.createElement(Section3, {
     onComplete: function onComplete() {
       return complete(2);
     },
-    onJournalSave: onJournalSave
+    session: session
   }), step === 3 && /*#__PURE__*/React.createElement(Section4, {
     onComplete: function onComplete() {
       return complete(3);
     },
-    onJournalSave: onJournalSave
+    session: session
   }), step === 4 && /*#__PURE__*/React.createElement(Section5, {
     onComplete: function onComplete() {
       return complete(4);
     },
-    onJournalSave: onJournalSave,
+    session: session,
     onGoHome: onGoHome
   }));
 }
 
-// ── ÉCRAN DE CONNEXION ───────────────────────────────────────────
-
-function LoginScreen(_ref19) {
-  var onLogin = _ref19.onLogin;
-  var _useState47 = useState(''),
-    _useState48 = _slicedToArray(_useState47, 2),
-    email = _useState48[0],
-    setEmail = _useState48[1];
-  var _useState49 = useState(''),
-    _useState50 = _slicedToArray(_useState49, 2),
-    password = _useState50[0],
-    setPassword = _useState50[1];
-  var _useState51 = useState(false),
-    _useState52 = _slicedToArray(_useState51, 2),
-    showPwd = _useState52[0],
-    setShowPwd = _useState52[1];
-  var _useState53 = useState(''),
-    _useState54 = _slicedToArray(_useState53, 2),
-    error = _useState54[0],
-    setError = _useState54[1];
-  var _useState55 = useState(false),
-    _useState56 = _slicedToArray(_useState55, 2),
-    loading = _useState56[0],
-    setLoading = _useState56[1];
-  function handleSubmit(e) {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    setTimeout(function () {
-      var user = AUTHORIZED_USERS.find(function (u) {
-        return u.email.toLowerCase() === email.trim().toLowerCase() && u.password === password;
-      });
-      if (user) {
-        var session = {
-          email: user.email,
-          name: user.name,
-          loginAt: new Date().toISOString()
-        };
-        save(STORAGE_KEYS.session, session);
-        // Pré-remplir le prénom dans le profil si pas encore fait
-        var existingProfile = load(STORAGE_KEYS.profile) || {};
-        if (!existingProfile.name) save(STORAGE_KEYS.profile, _objectSpread(_objectSpread({}, existingProfile), {}, {
-          name: user.name
-        }));
-        onLogin(session);
-      } else {
-        setError('Email ou mot de passe incorrect. Vérifiez vos identifiants ou contactez Céline Bourbon.');
-        setLoading(false);
-      }
-    }, 600);
-  }
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #0a0f1a 0%, #111827 50%, #0d1a0f 100%)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "20px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: "100%",
-      maxWidth: "420px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      marginBottom: "40px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "72px",
-      height: "72px",
-      borderRadius: "20px",
-      background: "linear-gradient(135deg, ".concat(C.gold, ", #a07830)"),
-      boxShadow: "0 8px 32px rgba(201,168,76,0.4)",
-      marginBottom: "20px"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: "32px",
-      fontWeight: 900,
-      color: "#000"
-    }
-  }, "V")), /*#__PURE__*/React.createElement("h1", {
-    style: {
-      fontFamily: "Georgia,serif",
-      fontSize: "26px",
-      color: C.cream,
-      lineHeight: 1.2,
-      marginBottom: "8px"
-    }
-  }, "M\xE9thode ", /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: C.gold
-    }
-  }, "V.A.L.E.U.R\xA9")), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "14px",
-      lineHeight: 1.6
-    }
-  }, "Espace membres \xB7 Acc\xE8s s\xE9curis\xE9")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: C.navyCard,
-      border: "1px solid ".concat(C.navyBorder),
-      borderRadius: "20px",
-      padding: "32px",
-      boxShadow: "0 20px 60px rgba(0,0,0,0.5)"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.cream,
-      fontWeight: 700,
-      fontSize: "18px",
-      marginBottom: "24px",
-      textAlign: "center"
-    }
-  }, "Connexion \xE0 votre espace"), /*#__PURE__*/React.createElement("form", {
-    onSubmit: handleSubmit
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: "16px"
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    style: {
-      color: C.textMuted,
-      fontSize: "12px",
-      letterSpacing: "1px",
-      textTransform: "uppercase",
-      display: "block",
-      marginBottom: "8px"
-    }
-  }, "Adresse email"), /*#__PURE__*/React.createElement("input", {
-    type: "email",
-    value: email,
-    onChange: function onChange(e) {
-      return setEmail(e.target.value);
-    },
-    placeholder: "votre@email.com",
-    required: true,
-    autoComplete: "email",
-    style: {
-      width: "100%",
-      background: C.navyMid,
-      border: "2px solid ".concat(error ? C.rouge : email ? C.gold + "44" : C.navyBorder),
-      borderRadius: "12px",
-      padding: "14px 16px",
-      color: C.cream,
-      fontSize: "15px",
-      outline: "none",
-      fontFamily: "inherit",
-      transition: "border 0.2s"
-    },
-    onFocus: function onFocus(e) {
-      return e.target.style.borderColor = C.gold;
-    },
-    onBlur: function onBlur(e) {
-      return e.target.style.borderColor = email ? C.gold + "44" : C.navyBorder;
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: "24px"
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    style: {
-      color: C.textMuted,
-      fontSize: "12px",
-      letterSpacing: "1px",
-      textTransform: "uppercase",
-      display: "block",
-      marginBottom: "8px"
-    }
-  }, "Mot de passe"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: "relative"
-    }
-  }, /*#__PURE__*/React.createElement("input", {
-    type: showPwd ? "text" : "password",
-    value: password,
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    },
-    placeholder: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
-    required: true,
-    autoComplete: "current-password",
-    style: {
-      width: "100%",
-      background: C.navyMid,
-      border: "2px solid ".concat(error ? C.rouge : password ? C.gold + "44" : C.navyBorder),
-      borderRadius: "12px",
-      padding: "14px 48px 14px 16px",
-      color: C.cream,
-      fontSize: "15px",
-      outline: "none",
-      fontFamily: "inherit",
-      transition: "border 0.2s"
-    },
-    onFocus: function onFocus(e) {
-      return e.target.style.borderColor = C.gold;
-    },
-    onBlur: function onBlur(e) {
-      return e.target.style.borderColor = password ? C.gold + "44" : C.navyBorder;
-    }
-  }), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: function onClick() {
-      return setShowPwd(!showPwd);
-    },
-    style: {
-      position: "absolute",
-      right: "14px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "none",
-      border: "none",
-      color: C.textMuted,
-      cursor: "pointer",
-      fontSize: "18px",
-      padding: "4px"
-    }
-  }, showPwd ? "🙈" : "👁️"))), error && /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#2d1515",
-      border: "1px solid ".concat(C.rouge),
-      borderRadius: "10px",
-      padding: "12px 16px",
-      marginBottom: "16px"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.rougeLight,
-      fontSize: "13px",
-      lineHeight: 1.6,
-      margin: 0
-    }
-  }, "\u26A0\uFE0F ", error)), /*#__PURE__*/React.createElement("button", {
-    type: "submit",
-    disabled: loading || !email || !password,
-    style: {
-      width: "100%",
-      background: loading || !email || !password ? "#333" : "linear-gradient(135deg,".concat(C.gold, ",#a07830)"),
-      color: loading || !email || !password ? "#666" : "#000",
-      border: "none",
-      borderRadius: "12px",
-      padding: "16px",
-      fontSize: "16px",
-      fontWeight: 800,
-      cursor: loading || !email || !password ? "not-allowed" : "pointer",
-      letterSpacing: "0.5px",
-      transition: "all 0.2s",
-      boxShadow: loading || !email || !password ? "none" : "0 4px 20px rgba(201,168,76,0.4)"
-    }
-  }, loading ? "Connexion en cours..." : "Se connecter →")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: "24px",
-      paddingTop: "20px",
-      borderTop: "1px solid ".concat(C.navyBorder),
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "13px",
-      lineHeight: 1.7
-    }
-  }, "Pas encore d'acc\xE8s ?", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-    href: "mailto:celine.bourbon@gmail.com",
-    style: {
-      color: C.gold,
-      textDecoration: "none",
-      fontWeight: 600
-    }
-  }, "celine.bourbon@gmail.com")))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: C.textMuted,
-      fontSize: "11px",
-      textAlign: "center",
-      marginTop: "20px",
-      lineHeight: 1.6
-    }
-  }, "\xA9 2025 M\xE9thode V.A.L.E.U.R\xA9 \u2014 C\xE9line Bourbon, Psychologue", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("em", null, "De la peur \xE0 la joie d'\xEAtre soi"), " \u2014 \xC9ditions L'Harmattan")));
-}
-
-// ── APP PRINCIPALE ────────────────────────────────────────────────
-
+// ── APP ───────────────────────────────────────────────────────────
 function App() {
-  var _useState57 = useState(function () {
-      return load(STORAGE_KEYS.session);
-    }),
-    _useState58 = _slicedToArray(_useState57, 2),
-    session = _useState58[0],
-    setSession = _useState58[1];
-  var _useState59 = useState('dashboard'),
-    _useState60 = _slicedToArray(_useState59, 2),
-    screen = _useState60[0],
-    setScreen = _useState60[1];
   var _useState61 = useState(function () {
-      return load(STORAGE_KEYS.progress) || {
-        completedSections: []
-      };
+      // Cherche une session active parmi tous les emails
+      var reg = loadRegistry();
+      var _iterator = _createForOfIteratorHelper(reg),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var u = _step.value;
+          var s = loadUser(u.email, 'session');
+          if (s && s.loginAt) {
+            // Session valide 7 jours
+            var age = (new Date() - new Date(s.loginAt)) / 1000 / 3600 / 24;
+            if (age < 7) return s;
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      return null;
     }),
     _useState62 = _slicedToArray(_useState61, 2),
-    progress = _useState62[0],
-    setProgress = _useState62[1];
-  var _useState63 = useState(function () {
-      return load(STORAGE_KEYS.journal) || [];
-    }),
+    session = _useState62[0],
+    setSession = _useState62[1];
+  var _useState63 = useState('dashboard'),
     _useState64 = _slicedToArray(_useState63, 2),
-    journal = _useState64[0],
-    setJournal = _useState64[1];
-  var _useState65 = useState(function () {
-      return load(STORAGE_KEYS.profile) || {};
-    }),
-    _useState66 = _slicedToArray(_useState65, 2),
-    profile = _useState66[0],
-    setProfile = _useState66[1];
-
-  // ── Si pas de session → écran de login ──
-  if (!session) {
-    return /*#__PURE__*/React.createElement(LoginScreen, {
-      onLogin: function onLogin(s) {
-        setSession(s);
-        setProfile(load(STORAGE_KEYS.profile) || {});
-      }
-    });
-  }
-  function saveProfile(p) {
-    save(STORAGE_KEYS.profile, p);
-    setProfile(p);
-  }
-  function refreshJournal() {
-    setJournal(load(STORAGE_KEYS.journal) || []);
-  }
-  function onSectionComplete(newCompleted) {
-    setProgress(function (p) {
-      return _objectSpread(_objectSpread({}, p), {}, {
-        completedSections: newCompleted
-      });
-    });
+    screen = _useState64[0],
+    setScreen = _useState64[1];
+  function handleLogin(s) {
+    setSession(s);
+    setScreen('dashboard');
   }
   function handleLogout() {
     if (window.confirm("Se déconnecter de votre espace V.A.L.E.U.R© ?")) {
-      save(STORAGE_KEYS.session, null);
+      if (session) saveUser(session.email, 'session', null);
       setSession(null);
       setScreen('dashboard');
     }
   }
-  var startStep = progress.completedSections ? Math.min(progress.completedSections.length, 4) : 0;
+  if (!session) return /*#__PURE__*/React.createElement(LoginScreen, {
+    onLogin: handleLogin
+  });
+  var isAdmin = session.email === ADMIN_EMAIL;
+  var completed = (loadUser(session.email, 'progress') || {
+    completedSections: []
+  }).completedSections || [];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.navy,
@@ -4104,7 +4217,8 @@ function App() {
   }, /*#__PURE__*/React.createElement(GlobalNav, {
     screen: screen,
     setScreen: setScreen,
-    completedSections: progress.completedSections,
+    completedSections: completed,
+    session: session,
     onLogout: handleLogout
   }), screen === 'dashboard' && /*#__PURE__*/React.createElement(Dashboard, {
     onStart: function onStart() {
@@ -4113,19 +4227,23 @@ function App() {
     onOpenJournal: function onOpenJournal() {
       return setScreen('journal');
     },
-    progress: progress,
-    journal: journal,
-    profile: profile,
-    onSaveProfile: saveProfile
+    session: session,
+    isAdmin: isAdmin,
+    onOpenAdmin: function onOpenAdmin() {
+      return setScreen('admin');
+    }
   }), screen === 'module0' && /*#__PURE__*/React.createElement(Module0, {
-    initialStep: startStep,
-    onSectionComplete: onSectionComplete,
-    onJournalSave: refreshJournal,
+    session: session,
     onGoHome: function onGoHome() {
       return setScreen('dashboard');
-    }
+    },
+    onSectionComplete: function onSectionComplete() {}
   }), screen === 'journal' && /*#__PURE__*/React.createElement(JournalPage, {
-    journal: journal,
+    session: session,
+    onBack: function onBack() {
+      return setScreen('dashboard');
+    }
+  }), screen === 'admin' && isAdmin && /*#__PURE__*/React.createElement(AdminDashboard, {
     onBack: function onBack() {
       return setScreen('dashboard');
     }
