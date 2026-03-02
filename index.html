@@ -83,11 +83,12 @@ function notifyModuleComplete(email,name,moduleLabel){sendEmailNotification(EMAI
 
 // ── PDF DOWNLOAD HELPER ───────────────────────────────────────────
 function downloadPDFGuide(filename,title,content){
-  var html='<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>'+title+'</title><style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;padding:20px;color:#1a1a2e;line-height:1.8;}h1{color:#5a67d8;font-size:24px;border-bottom:2px solid #c9a84c;padding-bottom:10px;margin-bottom:24px;}h2{color:#805ad5;font-size:18px;margin-top:28px;margin-bottom:10px;}h3{color:#3182ce;font-size:15px;margin-top:20px;}p,li{font-size:14px;margin-bottom:8px;}ul{padding-left:20px;}.box{background:#f7f3ee;border-left:4px solid #c9a84c;padding:14px 18px;margin:16px 0;border-radius:4px;}.footer{color:#888;font-size:11px;text-align:center;margin-top:40px;border-top:1px solid #ddd;padding-top:16px;}strong{color:#1a1a2e;}.tag{display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:10px;font-size:12px;margin:2px;}</style></head><body>'+content+'<div class="footer">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue &nbsp;|&nbsp; <em>De la peur à la joie d\'être soi</em> — Éditions L\'Harmattan &nbsp;|&nbsp; Tous droits réservés</div></body></html>';
+  var html='<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>'+title+'</title><style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;padding:20px;color:#1a1a2e;line-height:1.8;}h1{color:#5a67d8;font-size:24px;border-bottom:2px solid #c9a84c;padding-bottom:10px;margin-bottom:24px;}h2{color:#805ad5;font-size:18px;margin-top:28px;margin-bottom:10px;}h3{color:#3182ce;font-size:15px;margin-top:20px;}p,li{font-size:14px;margin-bottom:8px;}ul{padding-left:20px;}.box{background:#f7f3ee;border-left:4px solid #c9a84c;padding:14px 18px;margin:16px 0;border-radius:4px;}.footer{color:#888;font-size:11px;text-align:center;margin-top:40px;border-top:1px solid #ddd;padding-top:16px;}strong{color:#1a1a2e;}.tag{display:inline-block;background:#e2e8f0;padding:2px 8px;border-radius:10px;font-size:12px;margin:2px;}.print-btn{display:block;margin:20px auto;padding:10px 24px;background:#c9a84c;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-family:Georgia,serif;}@media print{.print-btn{display:none!important;}}</style></head><body><button class="print-btn" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>'+content+'<div class="footer">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue &nbsp;|&nbsp; <em>De la peur à la joie d\'être soi</em> — Éditions L\'Harmattan &nbsp;|&nbsp; Tous droits réservés. Reproduction interdite.</div></body></html>';
   var blob=new Blob([html],{type:'text/html;charset=utf-8'});
   var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download=filename+'.html';a.click();
-  setTimeout(function(){URL.revokeObjectURL(url)},1000);
+  var win=window.open(url,'_blank');
+  if(!win){var a=document.createElement('a');a.href=url;a.download=filename+'.html';a.click();}
+  setTimeout(function(){URL.revokeObjectURL(url)},10000);
 }
 
 // ── COULEURS ──────────────────────────────────────────────────────
@@ -246,7 +247,7 @@ function SectionCelebration(p){
 
 // ── ONBOARDING MODAL ──────────────────────────────────────────────
 var ONBOARDING_STEPS=[
-  {emoji:"👋",title:function(name){return "Bienvenue, "+name+" !"},subtitle:"Votre parcours commence ici",body:"Dans les prochaines minutes, vous allez découvrir pourquoi votre anxiété n'est pas votre ennemi — et quel masque la génère.",color:C.gold},
+  {emoji:"👋",title:function(name){return "Bienvenue, "+name+" !"},subtitle:"Votre parcours commence ici",body:"Dans les prochaines minutes, vous allez découvrir pourquoi votre anxiété n'est pas votre ennemie — et quel masque la génère.",color:C.gold},
   {emoji:"🎭",title:function(){return "Les 7 peurs qui empêchent d'être soi"},subtitle:"Le cœur de la méthode",body:"Chaque être humain porte 7 peurs fondamentales. Ces peurs créent des masques de protection qui, avec le temps, deviennent nos prisons.",color:C.violet},
   {emoji:"🗺️",title:function(){return "Un parcours balisé vers la liberté"},subtitle:"De la peur à la joie d'être soi",body:"Ce n'est pas une thérapie. C'est un chemin structuré, étape par étape, qui transforme la compréhension intellectuelle en liberté vécue.",color:C.vert},
   {emoji:"⏱️",title:function(){return "Ce Module 0 prend environ 45 min"},subtitle:"À votre rythme, sans pression",body:"Vous pouvez vous arrêter et reprendre à tout moment. Votre progression est sauvegardée automatiquement. Commençons.",color:C.bleu}
@@ -273,7 +274,7 @@ function OnboardingModal(p){
 
 // ── INSIGHT DU JOUR ───────────────────────────────────────────────
 var INSIGHTS=[
-  {emoji:"🌿",text:"\"L'anxiété n'est pas votre ennemi. C'est une peur qui cherche à vous protéger d'un danger... qui n'existe plus.\"",theme:"Anxiété",color:C.vert},
+  {emoji:"🌿",text:"\"L'anxiété n'est pas votre ennemie. C'est une peur qui cherche à vous protéger d'un danger... qui n'existe plus.\"",theme:"Anxiété",color:C.vert},
   {emoji:"🎭",text:"\"Vos masques ne vous mentent pas. Ils vous disent exactement quelle peur a besoin d'être accueillie.\"",theme:"Masques",color:C.violet},
   {emoji:"🪞",text:"\"La conscience observatrice est déjà là. Elle a toujours été là. Ce parcours vous apprend à y revenir.\"",theme:"Conscience",color:C.indigo},
   {emoji:"💫",text:"\"Ce n'est pas vous le problème. Ce sont des stratégies de survie devenues automatiques. Elles peuvent changer.\"",theme:"Libération",color:C.gold},
@@ -454,10 +455,11 @@ function ConscienceQuiz(p){
       var s=r.filter(Boolean).length;
       var sc=loadUser(p.userEmail,'quizScores')||{};
       saveUser(p.userEmail,'quizScores',_objectSpread(_objectSpread({},sc),{conscience:s}));
-      setTimeout(function(){setDone(true)},1500);
+      // Ne pas auto-avancer — laisser l'utilisateur voir la réponse
     }
   }
   function next(){if(current<CONSCIENCE_QUIZ.length-1){setCurrent(current+1);setSelected(null);setRevealed(false)}}
+  var isLast=current===CONSCIENCE_QUIZ.length-1;
   if(done){
     return React.createElement(Card,{style:{textAlign:"center",padding:"28px 20px"}},
       React.createElement("div",{style:{fontSize:"48px",marginBottom:"12px"}},"🪞"),
@@ -481,7 +483,8 @@ function ConscienceQuiz(p){
       })),
     revealed&&React.createElement("div",{style:{background:"#1a2520",border:"1px solid "+C.vert,borderRadius:"10px",padding:"14px",marginBottom:"16px"}},
       React.createElement("p",{style:{color:C.vertLight,fontSize:"13px",lineHeight:1.7,margin:0}},"💡 ",q.exp)),
-    revealed&&current<CONSCIENCE_QUIZ.length-1&&React.createElement("button",{onClick:next,style:{background:C.navyCard,border:"1px solid "+C.gold,color:C.gold,borderRadius:"8px",padding:"10px 20px",cursor:"pointer",fontSize:"14px"}},"Question suivante →"));
+    revealed&&!isLast&&React.createElement("button",{onClick:next,style:{background:C.navyCard,border:"1px solid "+C.gold,color:C.gold,borderRadius:"8px",padding:"10px 20px",cursor:"pointer",fontSize:"14px"}},"Question suivante →"),
+    revealed&&isLast&&React.createElement("button",{onClick:function(){setDone(true)},style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",color:"#000",border:"none",borderRadius:"8px",padding:"12px 24px",cursor:"pointer",fontSize:"14px",fontWeight:800,width:"100%",marginTop:"4px"}},"Voir mes résultats →"));
 }
 
 function FinalQuiz(p){
@@ -686,7 +689,7 @@ function Section1(p){
       +'<li>✓ La fusion n\'est pas un échec — la reconnaître est déjà un acte de conscience.</li>'
       +'<li>✓ Le simple fait de nommer ce qui est présent crée une distance salutaire.</li></ul>'
       +'<div class="box"><em>« Vous n\'êtes pas vos pensées. Vous êtes celle/celui qui les observe. »</em></div>';
-    downloadPDFGuide('Guide_Conscience_Observatrice_VALEUR',title,content);
+    downloadPDFGuide('Guide_Conscience_Observatrice_VALEUR','La Conscience Observatrice — Guide pratique — Méthode V.A.L.E.U.R©',content);
   }
 
   var praticaItems=[{
