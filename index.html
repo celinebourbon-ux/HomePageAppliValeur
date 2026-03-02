@@ -308,17 +308,65 @@ function FinalQuiz(p){
     }
   }
   function next(){if(current<FINAL_QUIZ.length-1){setCurrent(current+1);setSelected(null);setRevealed(false)}else setDone(true)}
+  function retry(){setCurrent(0);setSelected(null);setRevealed(false);setResults([]);setDone(false)}
   if(done){
     var pct=Math.round(score/FINAL_QUIZ.length*100);
+    var tier=pct>=80?"top":pct>=50?"mid":"low";
+    var tierData={
+      top:{
+        emoji:"🌟",
+        border:C.gold,
+        bg:"linear-gradient(135deg,"+C.gold+"22,transparent)",
+        scoreColor:C.gold,
+        title:"Excellent ! Module 0 parfaitement maîtrisé !",
+        boxBorder:C.vert,
+        boxBg:"#0d2010",
+        boxIcon:"🎉",
+        boxTitle:"Félicitations — votre compréhension est solide !",
+        boxText:"Vous avez assimilé les concepts fondamentaux de la Méthode V.A.L.E.U.R© : les 7 peurs, les masques de défense, la fenêtre de tolérance, et les 6 étapes. Vous êtes prêt·e à entrer dans le vif du sujet.",
+        btnLabel:"Démarrer le Module 1 — VOIR →"
+      },
+      mid:{
+        emoji:"💪",
+        border:C.orange,
+        bg:"linear-gradient(135deg,"+C.orange+"22,transparent)",
+        scoreColor:C.orange,
+        title:"Bon début — quelques notions à consolider",
+        boxBorder:C.orange,
+        boxBg:"#2d1a0a",
+        boxIcon:"📖",
+        boxTitle:"C'est tout à fait normal !",
+        boxText:"Ces notions sont nouvelles et demandent du temps pour s'intégrer. Pas d'inquiétude : relisez tranquillement les sections qui vous semblent encore floues, et repassez ce quiz quand vous vous sentez prêt·e. La compréhension vient avec la répétition.",
+        btnLabel:"Relire le Module 0 →"
+      },
+      low:{
+        emoji:"🌱",
+        border:C.bleu,
+        bg:"linear-gradient(135deg,"+C.bleu+"22,transparent)",
+        scoreColor:C.bleuLight,
+        title:"C'est un excellent point de départ !",
+        boxBorder:C.indigo,
+        boxBg:"#120d2d",
+        boxIcon:"💡",
+        boxTitle:"Ne vous découragez pas — c'est normal !",
+        boxText:"La Méthode V.A.L.E.U.R© introduit beaucoup de concepts nouveaux d'un coup. Votre cerveau a besoin de temps pour les intégrer — c'est exactement comme ça que fonctionne l'apprentissage. Reprenez le Module 0 tranquillement, section par section, en vous accordant le temps de vraiment vous approprier chaque notion. Vous verrez la différence à la prochaine tentative.",
+        btnLabel:"Reprendre le Module 0 depuis le début →"
+      }
+    };
+    var td=tierData[tier];
     return React.createElement("div",{style:{textAlign:"center",padding:"24px"}},
-      React.createElement("div",{style:{fontSize:"56px",marginBottom:"12px"}}),
-      React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.gold+"22,transparent)",border:"2px solid "+C.gold,borderRadius:"20px",padding:"24px",marginBottom:"20px"}},
-        React.createElement("p",{style:{color:C.gold,fontWeight:800,fontSize:"28px",margin:"0 0 8px"}},score,"/",FINAL_QUIZ.length),
-        React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"18px",marginBottom:"10px"}},pct>=80?"Module 0 maîtrisé !":pct>=60?"Très bonne compréhension !":"Bonne base de départ !")),
-      React.createElement("div",{style:{background:C.navyCard,border:"1px solid "+C.vert,borderRadius:"12px",padding:"16px",marginBottom:"16px"}},
-        React.createElement("p",{style:{color:C.vert,fontWeight:700,fontSize:"15px",marginBottom:"8px"}},"🎉 Module 0 — Complété !"),
-        React.createElement("p",{style:{color:C.textLight,fontSize:"14px",lineHeight:1.7}},"Vous comprenez maintenant l'origine de vos masques et les 6 étapes de la méthode.")),
-      p.onGoHome&&React.createElement("button",{onClick:p.onGoHome,style:{background:"none",border:"1px solid "+C.gold,color:C.gold,borderRadius:"8px",padding:"10px 20px",cursor:"pointer",fontSize:"14px"}},"Voir mon tableau de bord →"),
+      React.createElement("div",{style:{fontSize:"52px",marginBottom:"12px"}},td.emoji),
+      React.createElement("div",{style:{background:td.bg,border:"2px solid "+td.border,borderRadius:"20px",padding:"24px",marginBottom:"20px"}},
+        React.createElement("p",{style:{color:td.scoreColor,fontWeight:800,fontSize:"32px",margin:"0 0 8px"}},score,"/",FINAL_QUIZ.length),
+        React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"17px",marginBottom:"0"}},td.title)),
+      React.createElement("div",{style:{background:td.boxBg,border:"1px solid "+td.boxBorder,borderRadius:"12px",padding:"18px",marginBottom:"20px",textAlign:"left"}},
+        React.createElement("p",{style:{color:td.boxBorder,fontWeight:700,fontSize:"15px",marginBottom:"10px"}},td.boxIcon," ",td.boxTitle),
+        React.createElement("p",{style:{color:C.textLight,fontSize:"14px",lineHeight:1.8,margin:0}},td.boxText)),
+      tier!=="top"&&React.createElement("div",{style:{background:C.navyCard,border:"1px solid "+C.navyBorder,borderRadius:"10px",padding:"14px",marginBottom:"16px",textAlign:"left"}},
+        React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.7,margin:0}},"💬 ",React.createElement("strong",{style:{color:C.cream}},"Astuce :"), " Les quiz de conscience observatrice dans l'onglet ",React.createElement("em",null,"Intro"), " et les accordéons des onglets ",React.createElement("em",null,"Anxiété"), " et ",React.createElement("em",null,"Masques"), " résument l'essentiel. Une relecture de 15 minutes suffit souvent !")),
+      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},
+        tier!=="top"&&React.createElement("button",{onClick:p.onRetry||retry,style:{background:"none",border:"2px solid "+td.border,color:td.scoreColor,borderRadius:"10px",padding:"12px 20px",cursor:"pointer",fontWeight:700,fontSize:"14px"}},td.btnLabel),
+        p.onGoHome&&React.createElement("button",{onClick:p.onGoHome,style:{background:"none",border:"1px solid "+C.navyBorder,color:C.textMuted,borderRadius:"10px",padding:"10px 20px",cursor:"pointer",fontSize:"13px"}},"Voir mon tableau de bord →")),
       React.createElement(Copyright,null));
   }
   return React.createElement("div",null,
@@ -980,8 +1028,8 @@ function Section4(p){
       // BOUTON QUESTIONNAIRE
       React.createElement("a",{href:"https://questionnaire-valeur-psyh.netlify.app",target:"_blank",rel:"noopener noreferrer",style:{textDecoration:"none",display:"block"}},
         React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",color:"#000",borderRadius:"14px",padding:"18px 24px",textAlign:"center",cursor:"pointer",boxShadow:"0 6px 30px rgba(201,168,76,0.4)"}},
-          React.createElement("p",{style:{fontWeight:800,fontSize:"17px",margin:"0 0 4px"}},"→ Accéder à la cartographie"),
-          React.createElement("p",{style:{fontSize:"12px",margin:0,opacity:0.7}},"questionnaire-valeur-psyh.netlify.app · Code : VALEUR2025"))),
+          React.createElement("p",{style:{fontWeight:800,fontSize:"17px",margin:"0 0 4px"}},"Questionnaire V.A.L.E.U.R© – Les Sept Masques"),
+          React.createElement("p",{style:{fontSize:"12px",margin:0,opacity:0.7}},"→ Accéder à la cartographie · Code : VALEUR2025"))),
 
       React.createElement("p",{style:{color:C.textMuted,fontSize:"12px",marginTop:"12px",textAlign:"center",lineHeight:1.6}},"⚠️ Si le lien ne répond pas immédiatement, patientez 30 secondes et réessayez — le serveur se réveille automatiquement.")
     ),
