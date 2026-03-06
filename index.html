@@ -1250,6 +1250,666 @@ function Section4(p){
     React.createElement(Copyright,null));
 }
 
+// ============================================================
+// MODULE 1 — VOIR
+// © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
+// Tous droits réservés. Reproduction interdite.
+// ============================================================
+
+/* ============================================================
+   © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
+   MODULE 1 — VOIR · Additions au fichier index.html existant
+   Tous droits réservés. Reproduction interdite.
+   ============================================================
+   
+   INSTRUCTIONS D'INTÉGRATION :
+   
+   1. Insérez TOUT ce bloc juste AVANT la ligne :
+      "// ── MODULE 0 WRAPPER ──"
+   
+   2. Dans GlobalNav, remplacez la ligne contenant les 3 boutons de nav
+      par la version mise à jour indiquée à la fin de ce fichier.
+   
+   3. Dans Dashboard, trouvez le bloc "parcours complet" (la ligne avec
+      {num:1,title:"VOIR",...}) et remplacez-le par la version ci-dessous.
+   
+   4. Dans App, ajoutez le screen 'module1' comme indiqué.
+   ============================================================ */
+
+// ── DONNÉES MODULE 1 ──────────────────────────────────────────────
+
+var SECTION_LABELS_M1 = ["Le Cycle","Déclencheurs","Journal","Guide PDF"];
+
+var CYCLE_STEPS = [{
+  num:1, color:"#ed8936", emoji:"⚡", title:"DÉCLENCHEUR",
+  sub:"L'événement qui fait tout démarrer",
+  body:"Un stimulus externe (une critique, un email, un regard, un silence) ou interne (une pensée qui surgit, un souvenir, une sensation physique) vient heurter une zone sensible. Votre cerveau le capte en premier — bien avant votre conscience.",
+  exemples:[
+    "Externe : quelqu'un vous coupe la parole en réunion, un email de votre chef",
+    "Externe : un silence prolongé, une remarque en apparence anodine",
+    "Interne : la pensée « et si j'échouais ? » qui arrive sans prévenir",
+    "Interne : un souvenir douloureux qui ressurgit brusquement"
+  ],
+  important:"Vous ne contrôlez pas le déclencheur. Mais vous pouvez apprendre à le reconnaître — et c'est déjà tout."
+},{
+  num:2, color:"#d69e2e", emoji:"🔍", title:"SCAN AUTOMATIQUE",
+  sub:"Évaluation inconsciente en 0,2 secondes",
+  body:"Avant même que vous en ayez conscience, votre cerveau fait un balayage ultra-rapide. Il consulte votre mémoire émotionnelle et décide instantanément : menace ou opportunité ?",
+  exemples:[
+    "Il consulte votre mémoire : « Ai-je déjà vécu quelque chose de similaire ? »",
+    "Il consulte vos croyances : « Est-ce grave ou pas grave pour moi ? »",
+    "Il consulte votre fenêtre de tolérance : « Puis-je gérer ça en ce moment ? »"
+  ],
+  important:"Ce scan est entièrement inconscient. Il se produit bien avant que vous puissiez réfléchir. Ce n'est pas irrationnel — c'est humain."
+},{
+  num:3, color:"#e53e3e", emoji:"💥", title:"RÉACTION CORPORELLE",
+  sub:"Le corps réagit avant la tête",
+  body:"Si le scan dit « menace », votre système nerveux autonome s'active instantanément. Ce n'est pas un choix — c'est une réaction biologique automatique, héritée de 200 000 ans d'évolution. Votre corps prend les commandes.",
+  exemples:[
+    "Cœur qui s'accélère, gorge serrée, muscles qui se contractent",
+    "Vague de chaleur, nœud à l'estomac, souffle qui se raccourcit",
+    "Envie irrépressible de fuir, de contrôler, ou de disparaître mentalement"
+  ],
+  important:"Ce n'est pas vous qui réagissez — c'est votre système de survie. Ce n'est pas votre faute."
+},{
+  num:4, color:"#805ad5", emoji:"🎭", title:"MASQUE ACTIVÉ",
+  sub:"Le comportement défensif automatique",
+  body:"Pour gérer la réaction corporelle, votre masque de défense entre en scène. Construit dans l'enfance pour vous protéger, il agit à votre place — souvent en moins d'une seconde, sans que vous l'ayez décidé.",
+  exemples:[
+    "Vous dites oui alors que vous pensez non (Masque Vert — peur du rejet)",
+    "Vous reprenez tout en charge sans qu'on vous le demande (Masque Bleu)",
+    "Vous quittez mentalement la conversation (Masque Orange — peur de souffrir)"
+  ],
+  important:"VOIR, c'est s'arrêter ici — nommer ce masque avant d'agir depuis lui. C'est le premier acte de liberté."
+}];
+
+var MASK_TRIGGERS_DATA = [{
+  id:"rouge", color:"#e53e3e", light:"#feb2b2", bg:"#2d1515", emoji:"🔴",
+  name:"Masque Rouge",
+  peur:"Peur de la mort / de la maladie",
+  declencheurs:[
+    "Une sensation corporelle inhabituelle (même bénigne)",
+    "Lecture d'un article médical ou d'une actualité santé",
+    "Maladie ou hospitalisation d'un proche"
+  ],
+  reaction:"Surveiller son corps en permanence, consulter internet à tout moment, éviter certains lieux ou aliments",
+  prediction:"« Si je ne surveille pas chaque symptôme, je vais manquer quelque chose de grave — et il sera trop tard. »"
+},{
+  id:"orange", color:"#ed8936", light:"#fbd38d", bg:"#2d1a0a", emoji:"🟠",
+  name:"Masque Orange",
+  peur:"Peur de la douleur / de la souffrance",
+  declencheurs:[
+    "Un conflit émotionnel avec un proche",
+    "Un film ou récit particulièrement bouleversant",
+    "Une invitation à plus d'intimité ou de proximité émotionnelle"
+  ],
+  reaction:"Changer de sujet, rendre service, fuir la situation physiquement ou mentalement",
+  prediction:"« Si je laisse entrer cette émotion jusqu'au bout, elle va m'engloutir — et je ne m'en remetterai pas. »"
+},{
+  id:"jaune", color:"#d69e2e", light:"#faf089", bg:"#2d2200", emoji:"🟡",
+  name:"Masque Jaune",
+  peur:"Peur de l'inconnu / de l'incertitude",
+  declencheurs:[
+    "Un changement imprévu dans un planning ou un projet",
+    "Un délai non respecté ou une absence de réponse",
+    "Une décision à prendre sans toutes les informations"
+  ],
+  reaction:"Sur-planifier, poser des questions excessives, chercher à maîtriser chaque détail",
+  prediction:"« Si je ne contrôle pas tout ce qui pourrait arriver, quelque chose va forcément mal tourner. »"
+},{
+  id:"vert", color:"#38a169", light:"#9ae6b4", bg:"#0d2010", emoji:"🟢",
+  name:"Masque Vert",
+  peur:"Peur du rejet / de l'abandon",
+  declencheurs:[
+    "Un silence inhabituel de la part d'un proche",
+    "Un désaccord ou une critique, même légère",
+    "Quelqu'un qui semble distant ou préoccupé"
+  ],
+  reaction:"Dire oui, s'effacer, chercher à plaire ou à réparer à tout prix",
+  prediction:"« Si je m'affirme ou si je déçois l'autre, il va m'abandonner ou ne plus m'aimer. »"
+},{
+  id:"bleu", color:"#3182ce", light:"#bee3f8", bg:"#0d1a2d", emoji:"🔵",
+  name:"Masque Bleu",
+  peur:"Peur de l'impuissance",
+  declencheurs:[
+    "Quelqu'un qui vous propose de l'aide (vécu comme une menace)",
+    "Une erreur d'un proche dans un domaine que vous gérez",
+    "Une décision prise sans vous consulter"
+  ],
+  reaction:"Reprendre le contrôle, s'isoler avec le problème, refuser l'aide ou déléguer",
+  prediction:"« Si je montre que j'ai besoin d'aide, les autres verront que je ne suis pas à la hauteur. »"
+},{
+  id:"indigo", color:"#5a67d8", light:"#c3dafe", bg:"#120d2d", emoji:"🔷",
+  name:"Masque Indigo",
+  peur:"Peur de l'échec / de l'inadéquation",
+  declencheurs:[
+    "Une évaluation ou un feedback d'une personne que vous estimez",
+    "Une tâche nouvelle ou un projet qui vous dépasse",
+    "Une comparaison implicite avec quelqu'un perçu comme plus compétent"
+  ],
+  reaction:"Procrastiner, abandonner le projet, se noyer dans le perfectionnisme",
+  prediction:"« Si j'essaie et que j'échoue, cela confirmera définitivement que je ne suis pas assez bien. »"
+},{
+  id:"violet", color:"#805ad5", light:"#d6bcfa", bg:"#1a0d2d", emoji:"💜",
+  name:"Masque Violet",
+  peur:"Peur de perdre son identité",
+  declencheurs:[
+    "Un changement majeur de vie (séparation, retraite, déménagement)",
+    "La perte d'un rôle qui vous définissait (parent, responsable, expert)",
+    "Une invitation à évoluer ou à vous remettre en question"
+  ],
+  reaction:"S'accrocher aux anciens rôles, résister au changement même positif, saboter",
+  prediction:"« Si je change ou si je perds ce rôle, je vais perdre qui je suis — et il n'y aura plus rien à ma place. »"
+}];
+
+// Quiz du cycle — 1 question scenario immersif
+var M1_CYCLE_QUIZ = {
+  q:"Vous êtes en réunion. Votre collègue prend la parole sur votre sujet sans vous prévenir. Vous sentez une bouffée de chaleur — puis vous commencez aussitôt à tout réexpliquer à l'assemblée. À quelle étape du cycle êtes-vous intervenu·e ?",
+  opts:[
+    {t:"Étape 1 — Le déclencheur", ok:false, exp:"Le déclencheur, c'est l'action de votre collègue. Il s'est produit indépendamment de vous."},
+    {t:"Étape 2 — Le scan automatique", ok:false, exp:"Le scan s'est fait à votre insu, en 0,2 secondes, avant même la bouffée de chaleur."},
+    {t:"Étape 3 — La réaction corporelle", ok:false, exp:"La bouffée de chaleur, c'est bien la réaction corporelle — mais vous n'avez rien décidé là non plus."},
+    {t:"Étape 4 — Le masque activé ✓", ok:true, exp:"✓ Exact ! En reprenant la parole pour tout réexpliquer, vous avez agi depuis votre masque (Bleu ou Indigo). C'est précisément là que VOIR intervient : nommer ce masque avant d'agir depuis lui."}
+  ]
+};
+
+// ── M1 PROGRESS BAR ───────────────────────────────────────────────
+function M1ProgressBar(p){
+  return React.createElement("div",{style:{background:"#111827",borderBottom:"1px solid #2a3650",padding:"10px 16px"}},
+    React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"center",gap:"4px",maxWidth:"700px",margin:"0 auto"}},
+      SECTION_LABELS_M1.map(function(s,i){
+        var isActive=i===p.step;
+        var isDone=p.completed.includes(i);
+        return React.createElement("div",{key:i,style:{display:"flex",alignItems:"center",flex:1}},
+          React.createElement("button",{
+            onClick:function(){(isDone||isActive)&&p.setStep(i)},
+            style:{display:"flex",flexDirection:"column",alignItems:"center",gap:"3px",background:"none",border:"none",cursor:isDone||isActive?"pointer":"default",padding:"0",flex:1}},
+            React.createElement("div",{style:{
+              width:"28px",height:"28px",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",
+              background:isActive?"#e53e3e":isDone?"#3a1515":"#1a2235",
+              border:"2px solid "+(isActive?"#e53e3e":isDone?"#e53e3e88":"#2a3650"),
+              color:isActive?"#fff":isDone?"#feb2b2":"#94a3b8",
+              fontSize:"11px",fontWeight:700,flexShrink:0}},isDone?"✓":i+1),
+            React.createElement("span",{style:{fontSize:"9px",color:isActive?"#e53e3e":"#94a3b8",lineHeight:1.2,textAlign:"center"}},s)),
+          i<SECTION_LABELS_M1.length-1&&React.createElement("div",{style:{height:"2px",flex:1,background:isDone?"#e53e3e66":"#2a3650",margin:"0 2px",borderRadius:"2px"}}));
+      })));
+}
+
+// ── SECTION 1 — LE CYCLE INVISIBLE ───────────────────────────────
+function Section1_Voir(p){
+  var _u1=useState(null),_s1=_slicedToArray(_u1,2),openStep=_s1[0],setOpenStep=_s1[1];
+  var _u2=useState(null),_s2=_slicedToArray(_u2,2),quizAnswer=_s2[0],setQuizAnswer=_s2[1];
+
+  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
+    // HEADER MODULE
+    React.createElement("div",{style:{textAlign:"center",marginBottom:"28px"}},
+      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,#e53e3e22,transparent)",border:"1px solid #e53e3e",borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
+        React.createElement("span",{style:{color:"#e53e3e",fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 1")),
+      React.createElement("h1",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(22px,5vw,34px)",color:"#f7f3ee",lineHeight:1.2,marginBottom:"12px"}},
+        "Vous avez réagi avant même de savoir pourquoi.",React.createElement("br",null),
+        React.createElement("span",{style:{color:"#e53e3e"}},"Voici ce qui s'est passé.")),
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"clamp(14px,3.5vw,16px)",lineHeight:1.7,maxWidth:"560px",margin:"0 auto"}},
+        "VOIR, c'est la première étape de votre liberté. Pas agir différemment — juste ",
+        React.createElement("strong",{style:{color:"#e2e8f0"}},"nommer ce qui vient de se passer"),
+        ". C'est déjà transformer.")),
+    // ACCROCHE RECONNAISSANCE
+    React.createElement(Card,{style:{marginBottom:"24px",borderColor:"#e53e3e44"}},
+      React.createElement("p",{style:{color:"#e53e3e",fontWeight:800,fontSize:"15px",marginBottom:"14px"}},"Vous vous reconnaissez ?"),
+      [
+        {t:"Vous avez dit oui alors que tout votre corps criait non",s:"Et vous ne savez toujours pas pourquoi vous l'avez fait."},
+        {t:"Vous avez tout pris en charge — encore une fois",s:"Sans qu'on vous le demande. Comme si vous ne pouviez pas faire autrement."},
+        {t:"Vous avez agi sur le pilote automatique — et vous l'avez regretté",s:"Après coup : « Pourquoi j'ai encore réagi comme ça ? »"},
+        {t:"Vous êtes épuisé·e de tourner en boucle dans les mêmes schémas",s:"Vous savez que quelque chose se passe. Mais quoi, exactement ?"}
+      ].map(function(item,i){
+        return React.createElement("div",{key:i,style:{display:"flex",gap:"10px",padding:"10px",background:"#111827",borderRadius:"10px",marginBottom:"8px",alignItems:"flex-start"}},
+          React.createElement("span",{style:{color:"#e53e3e",fontWeight:700,flexShrink:0,marginTop:"2px"}},"›"),
+          React.createElement("div",null,
+            React.createElement("p",{style:{color:"#e2e8f0",fontSize:"14px",fontWeight:600,margin:"0 0 2px"}},item.t),
+            React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",margin:0,lineHeight:1.5}},item.s)));
+      }),
+      React.createElement("div",{style:{marginTop:"14px",background:"#2d1515",border:"2px solid #e53e3e",borderRadius:"12px",padding:"14px 18px",textAlign:"center"}},
+        React.createElement("p",{style:{color:"#feb2b2",fontWeight:800,fontSize:"14px",margin:0}},
+          "Ce n'est pas vous le problème. C'est un cycle automatique — et il a un nom."))),
+    // LE CYCLE EN 4 ÉTAPES INTERACTIF
+    React.createElement(PedaVignette,{emoji:"🔄",title:"Le Cycle Déclencheur → Masque : 4 étapes en moins d'une seconde",color:"#e53e3e"},
+      React.createElement("p",{style:{color:"#e2e8f0",fontSize:"14px",lineHeight:1.8,marginBottom:"16px"}},
+        "Chaque fois que vous « réagissez automatiquement », ce cycle complet s'est produit ",
+        React.createElement("strong",{style:{color:"#e53e3e"}},"avant même que vous en ayez conscience"),
+        ". Comprendre ces 4 étapes, c'est déjà reprendre les rênes."),
+      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"3px",marginBottom:"20px"}},
+        CYCLE_STEPS.map(function(step,i){
+          var isOpen=openStep===i;
+          return React.createElement("div",{key:i},
+            React.createElement("button",{
+              onClick:function(){setOpenStep(isOpen?null:i)},
+              style:{width:"100%",display:"flex",alignItems:"center",gap:"12px",background:isOpen?step.color+"22":"#1a2235",border:"2px solid "+(isOpen?step.color:"#2a3650"),borderRadius:isOpen?"12px 12px 0 0":"12px",padding:"14px 16px",cursor:"pointer",textAlign:"left",transition:"all 0.3s"}},
+              React.createElement("div",{style:{width:"36px",height:"36px",borderRadius:"50%",background:step.color,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:"16px"}},step.emoji),
+              React.createElement("div",{style:{flex:1}},
+                React.createElement("p",{style:{color:step.color,fontWeight:700,fontSize:"13px",margin:"0 0 1px",letterSpacing:"0.5px"}},step.num,". ",step.title),
+                React.createElement("p",{style:{color:"#94a3b8",fontSize:"12px",margin:0}},step.sub)),
+              React.createElement("span",{style:{color:step.color,fontSize:"18px",transform:isOpen?"rotate(45deg)":"none",transition:"transform 0.3s",flexShrink:0}},"+")
+            ),
+            isOpen&&React.createElement("div",{style:{background:step.color+"11",border:"2px solid "+step.color+"44",borderTop:"none",borderRadius:"0 0 12px 12px",padding:"16px 18px",animation:"fadeInUp 0.2s ease"}},
+              React.createElement("p",{style:{color:"#e2e8f0",fontSize:"14px",lineHeight:1.8,marginBottom:"12px"}},step.body),
+              step.exemples.map(function(ex,j){
+                return React.createElement("div",{key:j,style:{display:"flex",gap:"8px",alignItems:"flex-start",marginBottom:"6px"}},
+                  React.createElement("span",{style:{color:step.color,flexShrink:0,fontWeight:700,marginTop:"2px"}},"›"),
+                  React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",lineHeight:1.6,margin:0,fontStyle:"italic"}},ex));
+              }),
+              React.createElement("div",{style:{background:step.color+"22",border:"1px solid "+step.color+"44",borderRadius:"8px",padding:"10px 14px",marginTop:"10px"}},
+                React.createElement("p",{style:{color:step.color,fontWeight:700,fontSize:"13px",lineHeight:1.6,margin:0}},"💡 ",step.important))),
+            i<CYCLE_STEPS.length-1&&React.createElement("div",{style:{display:"flex",justifyContent:"center",padding:"2px 0"}},
+              React.createElement("span",{style:{color:"#94a3b8",fontSize:"16px"}},"↓")));
+        })),
+      // NOTE CLÉ
+      React.createElement("div",{style:{background:"linear-gradient(135deg,#e53e3e22,#805ad511)",border:"2px solid #e53e3e44",borderRadius:"12px",padding:"16px",textAlign:"center"}},
+        React.createElement("p",{style:{color:"#f7f3ee",fontWeight:700,fontSize:"15px",margin:"0 0 6px"}},"VOIR = s'arrêter à l'étape 4"),
+        React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",lineHeight:1.7,margin:0}},
+          "Pas supprimer la réaction — juste la nommer. Cette nomination crée un espace entre le stimulus et la réponse. ",
+          React.createElement("strong",{style:{color:"#c9a84c"}},"Cet espace, c'est votre liberté.")),
+        React.createElement("p",{style:{color:"#94a3b8",fontSize:"11px",marginTop:"8px",fontStyle:"italic"}},
+          "Source : ",React.createElement("em",null,"De la peur à la joie d'être soi")," — Céline Bourbon · Fondements : théorie polyvagale (Porges) & défusion cognitive (ACT / Beck)"))),
+    // QUIZ INTERACTIF
+    React.createElement("div",{style:{marginBottom:"28px"}},
+      React.createElement(Card,{style:{borderColor:"#e53e3e44"}},
+        React.createElement("p",{style:{color:"#feb2b2",fontWeight:800,fontSize:"15px",marginBottom:"16px"}},"🧠 Testez votre compréhension"),
+        React.createElement("p",{style:{color:"#e2e8f0",fontSize:"clamp(14px,3.5vw,15px)",lineHeight:1.7,marginBottom:"16px",fontWeight:600}},M1_CYCLE_QUIZ.q),
+        React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"8px",marginBottom:"16px"}},
+          M1_CYCLE_QUIZ.opts.map(function(opt,i){
+            var revealed=quizAnswer!==null;
+            var isSel=quizAnswer===i;
+            var bg="#1a2235",border="#2a3650",col="#e2e8f0";
+            if(revealed){if(opt.ok){bg="#0d2010";border="#38a169";col="#9ae6b4"}else if(isSel){bg="#2d1515";border="#e53e3e";col="#feb2b2"}}
+            else if(isSel){border="#c9a84c"}
+            return React.createElement("button",{key:i,
+              onClick:function(){if(!revealed)setQuizAnswer(i)},
+              style:{background:bg,border:"2px solid "+border,borderRadius:"10px",padding:"12px 16px",color:col,cursor:revealed?"default":"pointer",textAlign:"left",fontSize:"14px",lineHeight:1.5,transition:"all 0.2s"}},
+              opt.ok&&revealed?"✓ ":isSel&&!opt.ok&&revealed?"✗ ":"",opt.t);
+          })),
+        quizAnswer!==null&&React.createElement("div",{style:{background:M1_CYCLE_QUIZ.opts[quizAnswer].ok?"#0d2010":"#1a1525",border:"1px solid "+(M1_CYCLE_QUIZ.opts[quizAnswer].ok?"#38a169":"#5a67d8"),borderRadius:"10px",padding:"14px"}},
+          React.createElement("p",{style:{color:M1_CYCLE_QUIZ.opts[quizAnswer].ok?"#9ae6b4":"#c3dafe",fontSize:"13px",lineHeight:1.7,margin:0}},
+            "💡 ",M1_CYCLE_QUIZ.opts[quizAnswer].exp)))),
+    React.createElement("div",{style:{textAlign:"center",marginTop:"28px"}},
+      React.createElement("button",{
+        onClick:p.onComplete,
+        style:{background:"linear-gradient(135deg,#e53e3e,#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 36px",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(229,62,62,0.35)"}},
+        "Explorer mes déclencheurs →")),
+    React.createElement(Copyright,null));
+}
+
+// ── SECTION 2 — LES 7 MASQUES ET LEURS DÉCLENCHEURS ──────────────
+function Section2_Voir(p){
+  var _u1=useState(null),_s1=_slicedToArray(_u1,2),selectedMask=_s1[0],setSelectedMask=_s1[1];
+
+  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
+    React.createElement("div",{style:{textAlign:"center",marginBottom:"28px"}},
+      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,#e53e3e22,transparent)",border:"1px solid #e53e3e",borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
+        React.createElement("span",{style:{color:"#e53e3e",fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 2")),
+      React.createElement("h2",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(20px,5vw,30px)",color:"#f7f3ee",lineHeight:1.2,marginBottom:"10px"}},
+        "Les 7 masques — leurs déclencheurs typiques"),
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"14px",lineHeight:1.7,maxWidth:"560px",margin:"0 auto"}},
+      "Chaque masque a ses propres déclencheurs. Les identifier, c'est les voir venir — et gagner en liberté.")),
+    // INTRO PÉDAGOGIQUE
+    React.createElement(PedaVignette,{emoji:"🎯",title:"Pourquoi identifier VOS déclencheurs ?",color:"#ed8936"},
+      React.createElement("p",{style:{color:"#e2e8f0",fontSize:"14px",lineHeight:1.8,marginBottom:"14px"}},
+        "Un déclencheur n'est pas universel — il est ",
+        React.createElement("strong",{style:{color:"#c9a84c"}},"profondément personnel"),
+        ". Deux personnes dans la même situation vont activer des masques totalement différents. Votre travail : apprendre à reconnaître VOS déclencheurs spécifiques, ceux qui éveillent VOS masques."),
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"10px"}},
+        React.createElement("div",{style:{background:"#1a2235",border:"1px solid #ed893633",borderRadius:"10px",padding:"12px"}},
+          React.createElement("p",{style:{color:"#ed8936",fontWeight:700,fontSize:"13px",margin:"0 0 6px"}},"⚡ Déclencheurs externes"),
+          React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",lineHeight:1.5,margin:0}},"Quelqu'un, un événement, une situation, un environnement particulier.")),
+        React.createElement("div",{style:{background:"#1a2235",border:"1px solid #805ad533",borderRadius:"10px",padding:"12px"}},
+          React.createElement("p",{style:{color:"#d6bcfa",fontWeight:700,fontSize:"13px",margin:"0 0 6px"}},"🧠 Déclencheurs internes"),
+          React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",lineHeight:1.5,margin:0}},"Une pensée, un souvenir, une sensation physique, une image mentale qui surgit.")))),
+    // LES 7 MASQUES INTERACTIFS
+    React.createElement("div",{style:{marginBottom:"24px"}},
+      React.createElement("p",{style:{color:"#f7f3ee",fontWeight:700,fontSize:"15px",marginBottom:"6px",textAlign:"center"}},"Cliquez sur chaque masque pour révéler ses déclencheurs"),
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",marginBottom:"16px",textAlign:"center"}},"Notez mentalement ceux que vous reconnaissez dans votre vie"),
+      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"8px"}},
+        MASK_TRIGGERS_DATA.map(function(mask,i){
+          var isOpen=selectedMask===i;
+          return React.createElement("div",{key:i,style:{border:"2px solid "+(isOpen?mask.color:"#2a3650"),borderRadius:"16px",overflow:"hidden",transition:"border-color 0.3s"}},
+            React.createElement("button",{
+              onClick:function(){setSelectedMask(isOpen?null:i)},
+              style:{width:"100%",background:isOpen?mask.bg:"#1a2235",border:"none",cursor:"pointer",textAlign:"left",padding:"16px 18px",display:"flex",alignItems:"center",gap:"12px",transition:"background 0.3s"}},
+              React.createElement("div",{style:{width:"44px",height:"44px",borderRadius:"50%",background:mask.color+"22",border:"2px solid "+mask.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px",flexShrink:0}},mask.emoji),
+              React.createElement("div",{style:{flex:1}},
+                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"15px",margin:"0 0 2px"}},mask.name),
+                React.createElement("p",{style:{color:"#94a3b8",fontSize:"12px",margin:0}},mask.peur)),
+              React.createElement("span",{style:{color:mask.color,fontSize:"18px",transform:isOpen?"rotate(45deg)":"none",transition:"transform 0.3s",flexShrink:0}},"+")
+            ),
+            isOpen&&React.createElement("div",{style:{background:mask.bg,padding:"20px",borderTop:"1px solid "+mask.color+"44",animation:"fadeInUp 0.2s ease"}},
+              React.createElement("div",{style:{marginBottom:"14px"}},
+                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"12px",marginBottom:"8px",textTransform:"uppercase",letterSpacing:"1px"}},"⚡ Déclencheurs typiques"),
+                mask.declencheurs.map(function(d,j){
+                  return React.createElement("div",{key:j,style:{display:"flex",gap:"8px",alignItems:"flex-start",marginBottom:"6px"}},
+                    React.createElement("div",{style:{width:"6px",height:"6px",borderRadius:"50%",background:mask.color,flexShrink:0,marginTop:"7px"}}),
+                    React.createElement("p",{style:{color:"#e2e8f0",fontSize:"13px",lineHeight:1.6,margin:0}},d));
+                })),
+              React.createElement("div",{style:{background:"#1a2235",border:"1px solid "+mask.color+"33",borderRadius:"10px",padding:"12px",marginBottom:"12px"}},
+                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"12px",marginBottom:"6px",textTransform:"uppercase",letterSpacing:"1px"}},"🎭 Réaction automatique"),
+                React.createElement("p",{style:{color:"#e2e8f0",fontSize:"13px",lineHeight:1.6,margin:0}},mask.reaction)),
+              React.createElement("div",{style:{background:mask.color+"11",border:"1px solid "+mask.color+"44",borderRadius:"10px",padding:"12px"}},
+                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"12px",marginBottom:"6px",textTransform:"uppercase",letterSpacing:"1px"}},"💭 Prédiction catastrophe"),
+                React.createElement("p",{style:{color:mask.light,fontSize:"13px",lineHeight:1.7,margin:0,fontStyle:"italic"}},mask.prediction)),
+              React.createElement("p",{style:{color:"#94a3b8",fontSize:"11px",marginTop:"12px",textAlign:"right"}},
+                "Source : ",React.createElement("em",null,"De la peur à la joie d'être soi")," — Céline Bourbon, L'Harmattan")));
+        }))),
+    React.createElement("div",{style:{textAlign:"center",marginTop:"28px"}},
+      React.createElement("button",{
+        onClick:p.onComplete,
+        style:{background:"linear-gradient(135deg,#e53e3e,#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 36px",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(229,62,62,0.35)"}},
+        "Commencer le Journal du Masque →")),
+    React.createElement(Copyright,null));
+}
+
+// ── SECTION 3 — JOURNAL DU MASQUE (interactif) ───────────────────
+function Section3_Voir(p){
+  var _u1=useState([]),_s1=_slicedToArray(_u1,2),entries=_s1[0],setEntries=_s1[1];
+  var _u2=useState({situation:'',type:'externe',intensity:5,masque:'vert',reaction:'',peur:''}),
+      _s2=_slicedToArray(_u2,2),form=_s2[0],setForm=_s2[1];
+  var _u3=useState(false),_s3=_slicedToArray(_u3,2),showForm=_s3[0],setShowForm=_s3[1];
+  var _u4=useState(false),_s4=_slicedToArray(_u4,2),showThirdCelebration=_s4[0],setShowThirdCelebration=_s4[1];
+
+  // Masque colors inline pour éviter la dépendance aux variables C
+  var MC={rouge:"#e53e3e",orange:"#ed8936",jaune:"#d69e2e",vert:"#38a169",bleu:"#3182ce",indigo:"#5a67d8",violet:"#805ad5"};
+  var ME={rouge:"🔴",orange:"🟠",jaune:"🟡",vert:"🟢",bleu:"🔵",indigo:"🔷",violet:"💜"};
+
+  useEffect(function(){
+    var stored=loadUser(p.session.email,'journalMasque');
+    if(stored&&Array.isArray(stored))setEntries(stored);
+  },[]);
+
+  function setField(key,val){
+    setForm(function(prev){return _objectSpread(_objectSpread({},prev),_defineProperty({},key,val))});
+  }
+
+  function handleSave(){
+    if(!form.situation.trim()||!form.reaction.trim())return;
+    var newEntry=_objectSpread(_objectSpread({},form),{},{id:Date.now(),date:new Date().toISOString()});
+    var newEntries=_toConsumableArray(entries).concat([newEntry]);
+    setEntries(newEntries);
+    saveUser(p.session.email,'journalMasque',newEntries);
+    setForm({situation:'',type:'externe',intensity:5,masque:'vert',reaction:'',peur:''});
+    setShowForm(false);
+    // Célébration à la 3e entrée
+    if(newEntries.length===3)setShowThirdCelebration(true);
+  }
+
+  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
+    // Célébration 3e entrée
+    showThirdCelebration&&React.createElement("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.8)",zIndex:9000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px",animation:"fadeIn 0.3s ease"}},
+      React.createElement(Confetti,null),
+      React.createElement("div",{className:"animate-scaleIn",style:{background:"linear-gradient(135deg,#1a2235,#0d1117)",border:"2px solid #e53e3e",borderRadius:"24px",padding:"36px 28px",maxWidth:"400px",width:"100%",textAlign:"center",boxShadow:"0 24px 80px rgba(0,0,0,0.7)"}},
+        React.createElement("div",{style:{fontSize:"60px",marginBottom:"16px",animation:"float 2s ease-in-out infinite"}},"🔴"),
+        React.createElement("p",{style:{color:"#e53e3e",fontWeight:800,fontSize:"20px",marginBottom:"12px"}},"3 observations — vous maîtrisez l'outil !"),
+        React.createElement("p",{style:{color:"#94a3b8",fontSize:"14px",lineHeight:1.8,marginBottom:"20px"}},"Vous venez de cartographier 3 déclencheurs de masques. Cette conscience — c'est VOIR en action. C'est la compétence la plus précieuse de tout le parcours."),
+        React.createElement("button",{
+          onClick:function(){setShowThirdCelebration(false)},
+          style:{background:"linear-gradient(135deg,#e53e3e,#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 32px",fontSize:"15px",fontWeight:800,cursor:"pointer",width:"100%"}},
+          "Continuer →"))),
+    // HEADER
+    React.createElement("div",{style:{textAlign:"center",marginBottom:"24px"}},
+      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,#e53e3e22,transparent)",border:"1px solid #e53e3e",borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
+        React.createElement("span",{style:{color:"#e53e3e",fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 3")),
+      React.createElement("h2",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(20px,5vw,28px)",color:"#f7f3ee",lineHeight:1.2,marginBottom:"10px"}},"Journal du Masque"),
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"14px",lineHeight:1.7,maxWidth:"500px",margin:"0 auto"}},"L'exercice qui transforme la compréhension intellectuelle en conscience réelle. Une observation à la fois.")),
+    // EXPLICATION
+    React.createElement(PedaVignette,{emoji:"📓",title:"Comment utiliser le Journal du Masque ?",color:"#e53e3e"},
+      React.createElement("p",{style:{color:"#e2e8f0",fontSize:"14px",lineHeight:1.8,marginBottom:"12px"}},
+        "Dès que vous remarquez une réaction automatique — passée ou présente — notez-la ici en 5 étapes. L'objectif n'est pas de vous juger, mais de ",
+        React.createElement("strong",{style:{color:"#c9a84c"}},"cartographier vos patterns"),". Plus vous observez, plus les masques deviennent visibles avant d'agir."),
+      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"6px"}},
+        [
+          "Décrivez la situation concrète : qu'est-ce qui s'est passé ? (déclencheur)",
+          "Évaluez l'intensité émotionnelle de 0 à 10",
+          "Identifiez quel masque s'est activé (ou vous a semblé présent)",
+          "Nommez votre réaction automatique : qu'avez-vous fait ou voulu faire ?",
+          "Cherchez la peur sous-jacente : de quoi aviez-vous vraiment peur ?"
+        ].map(function(l,i){
+          return React.createElement("div",{key:i,style:{display:"flex",gap:"10px",alignItems:"flex-start"}},
+            React.createElement("div",{style:{width:"22px",height:"22px",borderRadius:"50%",background:"#e53e3e",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:"11px",fontWeight:700,flexShrink:0}},i+1),
+            React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",lineHeight:1.5,margin:0,paddingTop:"3px"}},l));
+        }))),
+    // COMPTEUR + BOUTON AJOUTER
+    React.createElement("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"16px",flexWrap:"wrap",gap:"10px"}},
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",margin:0}},
+        React.createElement("span",{style:{color:"#e53e3e",fontWeight:700,fontSize:"18px"}},entries.length),
+        " observation",entries.length!==1?"s":"",
+        entries.length>0?" enregistrée"+(entries.length>1?"s":""):"",
+        entries.length<3&&React.createElement("span",{style:{color:"#94a3b8"}}," · objectif : 3 minimum")),
+      React.createElement("button",{
+        onClick:function(){setShowForm(!showForm)},
+        style:{display:"flex",alignItems:"center",gap:"8px",background:"linear-gradient(135deg,#e53e3e,#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"10px 20px",cursor:"pointer",fontWeight:700,fontSize:"13px"}},
+        React.createElement("span",{style:{fontSize:"16px",lineHeight:1}},showForm?"−":"+"),
+        showForm?"Fermer":"Ajouter une observation")),
+    // FORMULAIRE
+    showForm&&React.createElement(Card,{style:{marginBottom:"20px",borderColor:"#e53e3e44",animation:"fadeInUp 0.3s ease"}},
+      React.createElement("p",{style:{color:"#e53e3e",fontWeight:800,fontSize:"15px",marginBottom:"16px"}},"🎭 Nouvelle observation"),
+      // Champ 1 — Situation
+      React.createElement("div",{style:{marginBottom:"14px"}},
+        React.createElement("label",{style:{color:"#94a3b8",fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},"1. La situation (déclencheur)"),
+        React.createElement("textarea",{value:form.situation,onChange:function(e){setField('situation',e.target.value)},
+          placeholder:"Qu'est-ce qui s'est passé ? Décrivez la situation concrètement...",rows:3,
+          style:{width:"100%",background:"#111827",border:"1px solid #2a3650",borderRadius:"10px",padding:"12px",color:"#e2e8f0",fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none"}}),
+        React.createElement("div",{style:{display:"flex",gap:"8px",marginTop:"8px"}},
+          ["externe","interne"].map(function(t){
+            var isSel=form.type===t;
+            var col=t==='externe'?"#ed8936":"#805ad5";
+            return React.createElement("button",{key:t,onClick:function(){setField('type',t)},
+              style:{flex:1,background:isSel?col+"22":"#111827",border:"2px solid "+(isSel?col:"#2a3650"),borderRadius:"8px",padding:"8px",cursor:"pointer",color:isSel?col:"#94a3b8",fontSize:"13px",fontWeight:isSel?700:400}},
+              t==='externe'?"⚡ Déclencheur externe":"🧠 Déclencheur interne");
+          }))),
+      // Champ 2 — Intensité
+      React.createElement("div",{style:{marginBottom:"14px"}},
+        React.createElement("label",{style:{color:"#94a3b8",fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},
+          "2. Intensité : ",React.createElement("span",{style:{color:"#e53e3e",fontWeight:700,fontSize:"14px"}},form.intensity,"/10")),
+        React.createElement("input",{type:"range",min:0,max:10,value:form.intensity,
+          onChange:function(e){setField('intensity',parseInt(e.target.value))},
+          style:{width:"100%",accentColor:"#e53e3e"}})),
+      // Champ 3 — Masque
+      React.createElement("div",{style:{marginBottom:"14px"}},
+        React.createElement("label",{style:{color:"#94a3b8",fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"8px"}},"3. Masque activé"),
+        React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:"6px"}},
+          Object.keys(MC).map(function(m){
+            var isSel=form.masque===m;
+            return React.createElement("button",{key:m,onClick:function(){setField('masque',m)},
+              style:{display:"flex",alignItems:"center",gap:"6px",background:isSel?MC[m]+"22":"#111827",border:"2px solid "+(isSel?MC[m]:"#2a3650"),borderRadius:"50px",padding:"6px 14px",cursor:"pointer",color:isSel?MC[m]:"#94a3b8",fontSize:"13px",fontWeight:isSel?700:400,transition:"all 0.2s"}},
+              ME[m]," ",m.charAt(0).toUpperCase()+m.slice(1));
+          }))),
+      // Champ 4 — Réaction
+      React.createElement("div",{style:{marginBottom:"14px"}},
+        React.createElement("label",{style:{color:"#94a3b8",fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},"4. Ma réaction automatique"),
+        React.createElement("textarea",{value:form.reaction,onChange:function(e){setField('reaction',e.target.value)},
+          placeholder:"Qu'est-ce que j'ai fait ou voulu faire automatiquement ?",rows:2,
+          style:{width:"100%",background:"#111827",border:"1px solid #2a3650",borderRadius:"10px",padding:"12px",color:"#e2e8f0",fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none"}})),
+      // Champ 5 — Peur
+      React.createElement("div",{style:{marginBottom:"20px"}},
+        React.createElement("label",{style:{color:"#94a3b8",fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},"5. La peur sous-jacente (optionnel — mais puissant)"),
+        React.createElement("textarea",{value:form.peur,onChange:function(e){setField('peur',e.target.value)},
+          placeholder:"De quoi avais-je vraiment peur, au fond ?",rows:2,
+          style:{width:"100%",background:"#111827",border:"1px solid #2a3650",borderRadius:"10px",padding:"12px",color:"#e2e8f0",fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none"}})),
+      React.createElement("button",{onClick:handleSave,disabled:!form.situation.trim()||!form.reaction.trim(),
+        style:{width:"100%",background:form.situation.trim()&&form.reaction.trim()?"linear-gradient(135deg,#e53e3e,#c03030)":"#333",color:form.situation.trim()&&form.reaction.trim()?"#fff":"#666",border:"none",borderRadius:"10px",padding:"14px",fontSize:"15px",fontWeight:800,cursor:form.situation.trim()&&form.reaction.trim()?"pointer":"not-allowed"}},
+        "💾 Enregistrer cette observation")),
+    // HISTORIQUE DES ENTRÉES
+    entries.length>0&&React.createElement("div",null,
+      React.createElement("p",{style:{color:"#f7f3ee",fontWeight:700,fontSize:"14px",marginBottom:"12px"}},"📋 Vos observations (",entries.length,")"),
+      _toConsumableArray(entries).reverse().map(function(entry){
+        var mc=MC[entry.masque]||"#e53e3e";
+        var me=ME[entry.masque]||"🎭";
+        return React.createElement("div",{key:entry.id,style:{background:"#1a2235",border:"1px solid "+mc+"44",borderRadius:"14px",padding:"16px",marginBottom:"10px"}},
+          React.createElement("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"10px",flexWrap:"wrap",gap:"8px"}},
+            React.createElement("span",{style:{background:mc+"22",color:mc,fontSize:"12px",padding:"3px 10px",borderRadius:"20px",fontWeight:600}},
+              me," Masque ",entry.masque.charAt(0).toUpperCase()+entry.masque.slice(1)),
+            React.createElement("div",{style:{display:"flex",gap:"8px",alignItems:"center"}},
+              React.createElement("span",{style:{background:"#e53e3e22",color:"#feb2b2",fontSize:"11px",padding:"2px 8px",borderRadius:"10px"}},"Intensité : ",entry.intensity,"/10"),
+              React.createElement("span",{style:{color:"#94a3b8",fontSize:"11px"}},"⚡ ",entry.type))),
+          [
+            {l:"Situation",v:entry.situation,c:"#f7f3ee"},
+            {l:"Réaction automatique",v:entry.reaction,c:"#e2e8f0"},
+            entry.peur?{l:"Peur sous-jacente",v:entry.peur,c:mc}:null
+          ].filter(Boolean).map(function(f,i){
+            return React.createElement("div",{key:i,style:{marginBottom:i<2?"8px":0}},
+              React.createElement("p",{style:{color:"#94a3b8",fontSize:"11px",margin:"0 0 2px",textTransform:"uppercase",letterSpacing:"1px"}},f.l),
+              React.createElement("p",{style:{color:f.c,fontSize:"13px",lineHeight:1.6,margin:0}},f.v));
+          }));
+      })),
+    React.createElement("div",{style:{textAlign:"center",marginTop:"28px"}},
+      React.createElement("button",{onClick:p.onComplete,
+        style:{background:"linear-gradient(135deg,#e53e3e,#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 36px",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(229,62,62,0.35)"}},
+        "Télécharger mon guide PDF →")),
+    React.createElement(Copyright,null));
+}
+
+// ── SECTION 4 — PDF + JOURNAL DE BORD + COMPLÉTION ───────────────
+function Section4_Voir(p){
+  var _u1=useState(false),_s1=_slicedToArray(_u1,2),downloaded=_s1[0],setDownloaded=_s1[1];
+  var _u2=useState(''),_s2=_slicedToArray(_u2,2),journalText=_s2[0],setJournalText=_s2[1];
+  var _u3=useState(false),_s3=_slicedToArray(_u3,2),journalSaved=_s3[0],setJournalSaved=_s3[1];
+
+  useEffect(function(){
+    var allEntries=loadUser(p.session.email,'journal')||[];
+    var existing=allEntries.find(function(e){return e.key==='module1_voir'});
+    if(existing){setJournalText(existing.text);setJournalSaved(true);}
+  },[]);
+
+  function saveJournal(){
+    if(!journalText.trim())return;
+    var allEntries=(loadUser(p.session.email,'journal')||[]).filter(function(e){return e.key!=='module1_voir'});
+    var newEntry={key:'module1_voir',sectionLabel:'Module 1 — VOIR',text:journalText.trim(),date:new Date().toISOString()};
+    saveUser(p.session.email,'journal',_toConsumableArray(allEntries).concat([newEntry]));
+    setJournalSaved(true);
+  }
+
+  function downloadM1Guide(){
+    var content='<h1>Identifier mon masque en 3 questions</h1>'
+      +'<p class="box"><em>Guide pratique — Module 1 — VOIR</em><br>Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue<br>Tous droits réservés. Reproduction interdite.</p>'
+      +'<h2>Le principe</h2>'
+      +'<p>Dès qu\'une situation vous affecte, posez-vous ces 3 questions. Elles interrompent le cycle automatique et activent votre conscience observatrice.</p>'
+      +'<div class="box"><strong>Le cycle invisible :</strong> Déclencheur → Scan automatique → Réaction corporelle → Masque activé<br>'
+      +'<strong>VOIR, c\'est s\'arrêter à l\'étape 4 et nommer ce qui vient de se passer.</strong></div>'
+      +'<h2>Question 1 — Quel est mon masque principal et quand s\'active-t-il ?</h2>'
+      +'<ul><li>Dans quelle situation êtes-vous « sorti·e de vous-même » ?</li>'
+      +'<li>Était-ce un déclencheur externe (quelqu\'un, un événement) ou interne (pensée, souvenir) ?</li>'
+      +'<li>Quel masque reconnaissez-vous ? 🔴 Rouge (corps) · 🟠 Orange (émotions) · 🟡 Jaune (contrôle) · 🟢 Vert (rejet) · 🔵 Bleu (impuissance) · 🔷 Indigo (échec) · 💜 Violet (identité)</li></ul>'
+      +'<h2>Question 2 — Quel comportement automatique lui est associé ?</h2>'
+      +'<ul><li>Qu\'avez-vous fait ou voulu faire immédiatement ?</li>'
+      +'<li>Est-ce un comportement que vous répétez dans des situations similaires ?</li>'
+      +'<li>Ce comportement vous a-t-il aidé à court terme ? Et à long terme ?</li></ul>'
+      +'<h2>Question 3 — Quelle prédiction catastrophe le sous-tend ?</h2>'
+      +'<ul><li>De quoi aviez-vous vraiment peur dans cette situation ?</li>'
+      +'<li>Quelle conviction inconsciente guidait votre réaction ? (« Si je ne fais pas X, alors Y va arriver »)</li>'
+      +'<li>Cette prédiction est-elle basée sur la réalité d\'aujourd\'hui — ou sur une blessure passée ?</li></ul>'
+      +'<h2>Exemple concret — Extrait de <em>De la peur à la joie d\'être soi</em></h2>'
+      +'<p>Lors d\'un dîner entre amis, vous racontez une anecdote qui vous tient à cœur. À la fin de votre récit, un silence s\'installe, plus long qu\'à l\'habitude.</p>'
+      +'<div class="box">'
+      +'<strong>Question 1 :</strong> Masque Vert (peur du rejet) s\'active sur le déclencheur « silence prolongé ».<br>'
+      +'<strong>Question 2 :</strong> Réaction automatique : minimiser l\'anecdote, s\'excuser, changer de sujet rapidement.<br>'
+      +'<strong>Question 3 :</strong> Prédiction : « Ce silence signifie qu\'ils ne m\'aiment pas / que j\'ai été ennuyeux·se. » — basée sur une blessure ancienne, pas sur la réalité du moment.'
+      +'</div>'
+      +'<h2>Ma fiche personnelle — À remplir</h2>'
+      +'<p><strong>Mon masque principal :</strong> _______________</p>'
+      +'<p><strong>Ses déclencheurs typiques :</strong><br>1. _______________<br>2. _______________<br>3. _______________</p>'
+      +'<p><strong>Ma réaction automatique :</strong> _______________</p>'
+      +'<p><strong>Ma prédiction catastrophe :</strong><br>« Si je ne fais pas _______________, alors _______________ »</p>'
+      +'<p><em>À garder avec soi pour les moments de déclenchement.</em></p>';
+    downloadPDFGuide('Guide_Module1_VOIR_VALEUR','Identifier mon masque en 3 questions — Module 1 VOIR — Méthode V.A.L.E.U.R©',content);
+    setDownloaded(true);
+  }
+
+  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
+    React.createElement("div",{style:{textAlign:"center",marginBottom:"24px"}},
+      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,#e53e3e22,transparent)",border:"1px solid #e53e3e",borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
+        React.createElement("span",{style:{color:"#e53e3e",fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 4")),
+      React.createElement("h2",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(20px,5vw,28px)",color:"#f7f3ee",lineHeight:1.2,marginBottom:"10px"}},"Votre guide pratique — VOIR"),
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"14px",lineHeight:1.7,maxWidth:"500px",margin:"0 auto"}},"Un outil à garder avec vous pour les moments de déclenchement.")),
+    // PDF
+    React.createElement("div",{style:{background:"linear-gradient(135deg,#1a2235,#111827)",border:"2px solid "+(downloaded?"#38a169":"#e53e3e"),borderRadius:"16px",padding:"24px",marginBottom:"24px",textAlign:"center"}},
+      React.createElement("div",{style:{fontSize:"48px",marginBottom:"16px"}},downloaded?"✅":"📄"),
+      React.createElement("p",{style:{color:downloaded?"#38a169":"#e53e3e",fontWeight:800,fontSize:"17px",marginBottom:"8px"}},downloaded?"Guide téléchargé !":"Télécharger le guide PDF"),
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",lineHeight:1.7,marginBottom:"16px"}},"Identifier mon masque en 3 questions · Format imprimable · Méthode V.A.L.E.U.R©"),
+      React.createElement("button",{onClick:downloadM1Guide,
+        style:{background:downloaded?"none":"linear-gradient(135deg,#e53e3e,#c03030)",color:downloaded?"#38a169":"#fff",border:downloaded?"2px solid #38a169":"none",borderRadius:"14px",padding:"16px 32px",fontWeight:800,fontSize:"16px",cursor:"pointer",width:"100%",boxShadow:downloaded?"none":"0 6px 30px rgba(229,62,62,0.4)"}},
+        downloaded?"✓ Guide enregistré — retrouvez-le dans vos téléchargements":"📄 Télécharger mon guide PDF →")),
+    // JOURNAL DE BORD
+    React.createElement("div",{style:{background:"linear-gradient(135deg,#1a2535,#111827)",border:"2px solid #c9a84c44",borderRadius:"16px",padding:"20px",marginBottom:"24px"}},
+      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"12px"}},
+        React.createElement("span",{style:{fontSize:"20px"}},"📓"),
+        React.createElement("div",null,
+          React.createElement("p",{style:{color:"#c9a84c",fontWeight:700,fontSize:"14px",margin:0}},"Journal de bord — Module 1 · VOIR"),
+          journalSaved&&React.createElement("p",{style:{color:"#38a169",fontSize:"12px",margin:0}},"✓ Entrée sauvegardée"))),
+      React.createElement("p",{style:{color:"#94a3b8",fontSize:"13px",lineHeight:1.7,marginBottom:"12px",fontStyle:"italic"}},
+        "✍️ Quelle situation récente reconnaissez-vous maintenant comme un déclencheur de masque ? Lequel s'est activé ? Qu'avez-vous fait automatiquement — et qu'auriez-vous voulu faire à la place ?"),
+      React.createElement("textarea",{value:journalText,onChange:function(e){setJournalText(e.target.value);setJournalSaved(false)},
+        placeholder:"Écrivez librement...",rows:4,
+        style:{width:"100%",background:"#1a2235",border:"1px solid #2a3650",borderRadius:"10px",padding:"12px",color:"#e2e8f0",fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none",marginBottom:"10px"}}),
+      React.createElement("button",{onClick:saveJournal,disabled:!journalText.trim(),
+        style:{background:journalText.trim()?"linear-gradient(135deg,#c9a84c,#a07830)":"#333",color:journalText.trim()?"#000":"#666",border:"none",borderRadius:"8px",padding:"10px 20px",cursor:journalText.trim()?"pointer":"not-allowed",fontWeight:700,fontSize:"14px"}},
+        "💾 Sauvegarder")),
+    // BOUTON COMPLÉTION
+    React.createElement("div",{style:{textAlign:"center"}},
+      React.createElement("button",{onClick:p.onComplete,
+        style:{background:"linear-gradient(135deg,#e53e3e,#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"16px 40px",fontSize:"17px",fontWeight:800,cursor:"pointer",boxShadow:"0 6px 30px rgba(229,62,62,0.4)",animation:"pulse 2s ease-in-out infinite"}},
+        "✓ Valider le Module 1 — VOIR 🔴")),
+    React.createElement(Copyright,null));
+}
+
+// ── MODULE 1 WRAPPER ──────────────────────────────────────────────
+function Module1(p){
+  var email=p.session.email;
+  var _u1=useState(function(){return(loadUser(email,'progressM1')||{completedSections:[]}).completedSections||[]}),
+      _s1=_slicedToArray(_u1,2),completed=_s1[0],setCompleted=_s1[1];
+  var _u2=useState(0),_s2=_slicedToArray(_u2,2),step=_s2[0],setStep=_s2[1];
+  var _u3=useState(null),_s3=_slicedToArray(_u3,2),celebrating=_s3[0],setCelebrating=_s3[1];
+  var topRef=useRef(null);
+  var M1_CELEBRATIONS=[
+    {emoji:"⚡",title:"Le cycle — vous le voyez !",msg:"Vous comprenez maintenant les 4 étapes automatiques qui précèdent chaque réaction. Cette compréhension est déjà une forme de liberté.",next:"Explorer vos déclencheurs",color:"#ed8936"},
+    {emoji:"🎭",title:"Vos déclencheurs cartographiés !",msg:"Vous savez maintenant ce qui active chacun de vos masques. C'est une connaissance rare et précieuse.",next:"Commencer le Journal du Masque",color:"#e53e3e"},
+    {emoji:"📓",title:"Journal du Masque activé !",msg:"Vous avez commencé à observer vos patterns en temps réel. C'est l'exercice le plus transformateur de tout le parcours.",next:"Télécharger votre guide PDF",color:"#805ad5"},
+    {emoji:"🔴",title:"Module 1 — VOIR complété !",msg:"Félicitations ! Vous avez la compétence VOIR. Dans le Module 2, vous allez apprendre à ACCUEILLIR l'émotion que votre masque dissimule.",next:"Aller au tableau de bord",color:"#e53e3e"}
+  ];
+  function complete(i){
+    var prog=loadUser(email,'progressM1')||{};
+    var newCompleted=_toConsumableArray(new Set(_toConsumableArray(prog.completedSections||[]).concat([i])));
+    saveUser(email,'progressM1',_objectSpread(_objectSpread({},prog),{},{completedSections:newCompleted,lastVisit:new Date().toISOString()}));
+    setCompleted(newCompleted);
+    if(i===3){notifyModuleComplete(email,p.session.name,"Module 1 — VOIR 🔴");}
+    setCelebrating(i);
+  }
+  function afterCelebration(){
+    var next=(celebrating||0)+1;
+    setCelebrating(null);
+    if(celebrating===3){p.onGoHome&&p.onGoHome();}
+    else{setStep(next);topRef.current&&topRef.current.scrollIntoView({behavior:"smooth"});}
+  }
+  var cel=M1_CELEBRATIONS[celebrating!==null?celebrating:0];
+  return React.createElement("div",{ref:topRef},
+    celebrating!==null&&React.createElement("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:9000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px",animation:"fadeIn 0.3s ease"}},
+      React.createElement(Confetti,null),
+      React.createElement("div",{className:"animate-scaleIn",style:{background:"linear-gradient(135deg,#1a2235,#0d1117)",border:"2px solid "+cel.color,borderRadius:"24px",padding:"36px 28px",maxWidth:"420px",width:"100%",textAlign:"center",boxShadow:"0 24px 80px rgba(0,0,0,0.7)"}},
+        React.createElement("div",{style:{fontSize:"64px",marginBottom:"16px",animation:"float 2s ease-in-out infinite"}},cel.emoji),
+        React.createElement("div",{style:{display:"inline-block",background:cel.color+"22",border:"1px solid "+cel.color+"44",borderRadius:"20px",padding:"4px 14px",marginBottom:"14px"}},
+          React.createElement("span",{style:{color:cel.color,fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase"}},"Section complétée ✓")),
+        React.createElement("h2",{style:{fontFamily:"Georgia,serif",color:"#f7f3ee",fontSize:"22px",lineHeight:1.3,marginBottom:"14px"}},cel.title),
+        React.createElement("p",{style:{color:"#94a3b8",fontSize:"14px",lineHeight:1.8,marginBottom:"24px"}},cel.msg),
+        React.createElement("div",{style:{background:cel.color+"11",border:"1px solid "+cel.color+"33",borderRadius:"12px",padding:"12px",marginBottom:"20px"}},
+          React.createElement("p",{style:{color:"#94a3b8",fontSize:"12px",margin:"0 0 4px",textTransform:"uppercase",letterSpacing:"1px"}},"Prochaine étape"),
+          React.createElement("p",{style:{color:cel.color,fontWeight:700,fontSize:"14px",margin:0}},"→ ",cel.next)),
+        React.createElement("button",{onClick:afterCelebration,
+          style:{background:"linear-gradient(135deg,"+cel.color+",#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 32px",fontSize:"16px",fontWeight:800,cursor:"pointer",width:"100%"}},
+          celebrating===3?"Aller au tableau de bord 🏠":"Continuer →"))),
+    React.createElement(M1ProgressBar,{step:step,setStep:setStep,completed:completed}),
+    React.createElement("div",{style:{background:"#111827",borderBottom:"1px solid #2a3650",padding:"6px 16px",textAlign:"center"}},
+      React.createElement("span",{style:{color:"#e53e3e",fontSize:"12px",fontWeight:700}},
+        "🔴 ~30 min · Module 1 — VOIR · ",SECTION_LABELS_M1[step]," · ",completed.length,"/4 sections complétées")),
+    step===0&&React.createElement(Section1_Voir,{onComplete:function(){complete(0)},session:p.session}),
+    step===1&&React.createElement(Section2_Voir,{onComplete:function(){complete(1)},session:p.session}),
+    step===2&&React.createElement(Section3_Voir,{onComplete:function(){complete(2)},session:p.session}),
+    step===3&&React.createElement(Section4_Voir,{onComplete:function(){complete(3)},session:p.session}));
+}
+
 // ── MODULE PROGRESS BAR ───────────────────────────────────────────
 function ModuleProgressBar(p){
   var steps=SECTION_LABELS;
@@ -1402,14 +2062,14 @@ function Dashboard(p){
       React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"15px",marginBottom:"12px"}},"🗺️ Le parcours complet"),
       React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"6px"}},
         [{num:0,title:"COMPRENDRE",sub:"Les 7 peurs · Les masques · Questionnaire",color:C.gold,dur:"~45 min",active:true,done:pct===100},
-         {num:1,title:"VOIR",sub:"Identifier le déclencheur & le masque actif",color:C.rouge,dur:"~30 min"},
+         {num:1,title:"VOIR",sub:"Identifier le déclencheur & le masque actif",color:C.rouge,dur:"~30 min",active:true,done:(loadUser(email,"progressM1")||{completedSections:[]}).completedSections.length===4,onClick:function(){if(p.onStartModule1)p.onStartModule1();}},
          {num:2,title:"ACCUEILLIR",sub:"Recevoir l'émotion sans résistance",color:C.orange,dur:"~30 min"},
          {num:3,title:"LOCALISER",sub:"Trouver la sensation dans le corps",color:C.jaune,dur:"~25 min"},
          {num:4,title:"EXPLORER",sub:"Comprendre la peur sous-jacente",color:C.vert,dur:"~30 min"},
          {num:5,title:"UNIFIER",sub:"Réconcilier les parties en conflit",color:C.bleu,dur:"~35 min"},
          {num:6,title:"RENFORCER",sub:"Ancrer la nouvelle posture",color:C.violet,dur:"~30 min"}
         ].map(function(m,i){
-          return React.createElement("div",{key:i,style:{display:"flex",alignItems:"center",gap:"12px",background:m.active?m.color+"11":C.navyCard,border:"1px solid "+(m.active?m.color+"44":C.navyBorder),borderRadius:"12px",padding:"12px 16px",opacity:m.active?1:0.55}},
+          return React.createElement("div",{key:i,onClick:function(){m.active&&m.onClick&&m.onClick();},style:{display:"flex",alignItems:"center",gap:"12px",background:m.active?m.color+"11":C.navyCard,border:"1px solid "+(m.active?m.color+"44":C.navyBorder),borderRadius:"12px",padding:"12px 16px",opacity:m.active?1:0.55,cursor:m.active?"pointer":"default"}},
             React.createElement("div",{style:{width:"36px",height:"36px",borderRadius:"50%",background:m.active?m.color:"#2a3650",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}},
               m.done?React.createElement("span",{style:{color:"#fff",fontSize:"14px"}},"✓"):
               m.active?React.createElement("span",{style:{color:"#fff",fontSize:"13px",fontWeight:700}},m.num):
@@ -1537,7 +2197,7 @@ function GlobalNav(p){
       React.createElement("button",{onClick:function(){p.setScreen('dashboard')},style:{background:"none",border:"none",cursor:"pointer"}},
         React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",width:"28px",height:"28px",borderRadius:"8px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"14px",fontWeight:900,color:"#000"}},"V")),
       React.createElement("div",{style:{display:"flex",gap:"4px"}},
-        [{id:'dashboard',icon:'🏠',label:'Accueil'},{id:'module0',icon:'📚',label:'Module 0'},{id:'journal',icon:'📓',label:'Journal'}].map(function(btn){
+        [{id:'dashboard',icon:'🏠',label:'Accueil'},{id:'module0',icon:'📚',label:'Mod. 0'},{id:'module1',icon:'🔴',label:'Mod. 1'},{id:'journal',icon:'📓',label:'Journal'}].map(function(btn){
           return React.createElement("button",{key:btn.id,onClick:function(){p.setScreen(btn.id)},style:{display:"flex",flexDirection:"column",alignItems:"center",gap:"2px",background:p.screen===btn.id?C.gold+"22":"none",border:p.screen===btn.id?"1px solid "+C.gold+"44":"1px solid transparent",borderRadius:"10px",padding:"6px 12px",cursor:"pointer"}},
             React.createElement("span",{style:{fontSize:"16px"}},btn.icon),
             React.createElement("span",{style:{fontSize:"10px",color:p.screen===btn.id?C.gold:C.textMuted,fontWeight:p.screen===btn.id?700:400}},btn.label));
@@ -1600,7 +2260,7 @@ function LoginScreen(p){
             React.createElement("button",{type:"submit",disabled:loading||!email||!password,style:{width:"100%",background:loading||!email||!password?"#333":"linear-gradient(135deg,"+C.gold+",#a07830)",color:loading||!email||!password?"#666":"#000",border:"none",borderRadius:"10px",padding:"14px",fontSize:"16px",fontWeight:800,cursor:loading||!email||!password?"not-allowed":"pointer"}},loading?"Connexion en cours...":"Accéder à mon espace →")),
           React.createElement("div",{style:{marginTop:"20px",paddingTop:"16px",borderTop:"1px solid "+C.navyBorder,textAlign:"center"}},
             React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.7}},"Pas encore d'accès ?",React.createElement("br",null),
-              React.createElement("a",{href:"mailto:celine.bourbon@gmail.com",style:{color:C.gold,textDecoration:"none",fontWeight:600}},"celine.bourbon@gmail.com")))),
+              React.createElement("span",{style:{color:C.gold,fontWeight:600}},"Contactez l'administrateur")))),
         step==='register'&&React.createElement(React.Fragment,null,
           React.createElement("div",{style:{textAlign:"center",marginBottom:"20px"}},
             React.createElement("div",{style:{fontSize:"40px",marginBottom:"10px"}},"🎉"),
@@ -1646,8 +2306,9 @@ function App(){
   return React.createElement("div",{style:{background:C.navy,minHeight:"100vh"}},
     showOnboarding&&React.createElement(OnboardingModal,{name:session.name,onDone:function(){setShowOnboarding(false)}}),
     React.createElement(GlobalNav,{screen:screen,setScreen:setScreen,completedSections:completed,session:session,onLogout:handleLogout}),
-    screen==='dashboard'&&React.createElement(Dashboard,{onStart:function(){setScreen('module0')},onOpenJournal:function(){setScreen('journal')},session:session,isAdmin:isAdmin,onOpenAdmin:function(){setScreen('admin')}}),
+    screen==='dashboard'&&React.createElement(Dashboard,{onStart:function(){setScreen('module0')},onStartModule1:function(){setScreen('module1')},onOpenJournal:function(){setScreen('journal')},session:session,isAdmin:isAdmin,onOpenAdmin:function(){setScreen('admin')}}),
     screen==='module0'&&React.createElement(Module0,{session:session,onGoHome:function(){setScreen('dashboard')},onSectionComplete:function(){}}),
+    screen==='module1'&&React.createElement(Module1,{session:session,onGoHome:function(){setScreen('dashboard')}}),
     screen==='journal'&&React.createElement(JournalPage,{session:session,onBack:function(){setScreen('dashboard')}}),
     screen==='admin'&&isAdmin&&React.createElement(AdminDashboard,{onBack:function(){setScreen('dashboard')}}),
     React.createElement("div",{style:{position:"fixed",bottom:"6px",right:"10px",opacity:0.2,pointerEvents:"none"}},
