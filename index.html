@@ -69,6 +69,43 @@ function syncUserDataToSupabase(email){var progress=loadUser(email,'progress');v
 async function hydrateFromSupabase(email){try{var result=await sb.from('user_data').select('*').eq('email',email).single();if(result.data){var d=result.data;if(d.progress)localStorage.setItem("valeur_"+email+"_progress",JSON.stringify(d.progress));if(d.journal)localStorage.setItem("valeur_"+email+"_journal",JSON.stringify(d.journal));if(d.quiz_scores)localStorage.setItem("valeur_"+email+"_quizScores",JSON.stringify(d.quiz_scores))}}catch(e){}}
 async function loadPatientsFromSupabase(){try{var result=await sb.from('patients').select('*').neq('email',ADMIN_EMAIL);return result.data||[]}catch(e){return[]}}
 
+// ── GLOBAL MODULE PROGRESS ───────────────────────────────────────
+var MODULES_COUNT=7; // 0 à 6
+function getModuleProgress(email){
+  var prog=loadUser(email,'progress')||{};
+  var mod0Done=(prog.completedSections||[]).length>=4;
+  var modsDone=prog.completedModules||[];
+  return{
+    mod0Done:mod0Done,
+    mod1Done:modsDone.includes(1),
+    mod2Done:modsDone.includes(2),
+    mod3Done:modsDone.includes(3),
+    mod4Done:modsDone.includes(4),
+    mod5Done:modsDone.includes(5),
+    mod6Done:modsDone.includes(6),
+    isUnlocked:function(n){
+      if(n===0)return true;
+      if(n===1)return mod0Done;
+      if(n===2)return modsDone.includes(1);
+      if(n===3)return modsDone.includes(2);
+      if(n===4)return modsDone.includes(3);
+      if(n===5)return modsDone.includes(4);
+      if(n===6)return modsDone.includes(5);
+      return false;
+    },
+    totalDone:(mod0Done?1:0)+modsDone.filter(function(n){return n>=1&&n<=6}).length
+  };
+}
+function markModuleDone(email,moduleNum){
+  var prog=loadUser(email,'progress')||{};
+  var current=prog.completedModules||[];
+  if(!current.includes(moduleNum)){
+    var updated=_toConsumableArray(current).concat([moduleNum]);
+    saveUser(email,'progress',_objectSpread(_objectSpread({},prog),{},{completedModules:updated}));
+    notifyModuleComplete(email,loadUser(email,'profile')&&loadUser(email,'profile').name||email,'Module '+moduleNum);
+  }
+}
+
 // ── STORAGE HELPERS ───────────────────────────────────────────────
 function loadUser(email,key){try{var v=localStorage.getItem("valeur_"+email+"_"+key);return v?JSON.parse(v):null}catch(_){return null}}
 function saveUser(email,key,val){try{localStorage.setItem("valeur_"+email+"_"+key,JSON.stringify(val));if(key==='progress'||key==='journal'||key==='quizScores'){syncUserDataToSupabase(email)}}catch(_){}}
@@ -1401,24 +1438,42 @@ function Dashboard(p){
     React.createElement("div",{style:{marginBottom:"20px"}},
       React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"15px",marginBottom:"12px"}},"🗺️ Le parcours complet"),
       React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"6px"}},
-        [{num:0,title:"COMPRENDRE",sub:"Les 7 peurs · Les masques · Questionnaire",color:C.gold,dur:"~45 min",active:true,done:pct===100},
-         {num:1,title:"VOIR",sub:"Identifier le déclencheur & le masque actif",color:C.rouge,dur:"~30 min"},
-         {num:2,title:"ACCUEILLIR",sub:"Recevoir l'émotion sans résistance",color:C.orange,dur:"~30 min"},
-         {num:3,title:"LOCALISER",sub:"Trouver la sensation dans le corps",color:C.jaune,dur:"~25 min"},
-         {num:4,title:"EXPLORER",sub:"Comprendre la peur sous-jacente",color:C.vert,dur:"~30 min"},
-         {num:5,title:"UNIFIER",sub:"Réconcilier les parties en conflit",color:C.bleu,dur:"~35 min"},
-         {num:6,title:"RENFORCER",sub:"Ancrer la nouvelle posture",color:C.violet,dur:"~30 min"}
-        ].map(function(m,i){
-          return React.createElement("div",{key:i,style:{display:"flex",alignItems:"center",gap:"12px",background:m.active?m.color+"11":C.navyCard,border:"1px solid "+(m.active?m.color+"44":C.navyBorder),borderRadius:"12px",padding:"12px 16px",opacity:m.active?1:0.55}},
-            React.createElement("div",{style:{width:"36px",height:"36px",borderRadius:"50%",background:m.active?m.color:"#2a3650",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}},
-              m.done?React.createElement("span",{style:{color:"#fff",fontSize:"14px"}},"✓"):
-              m.active?React.createElement("span",{style:{color:"#fff",fontSize:"13px",fontWeight:700}},m.num):
-              React.createElement("span",{style:{color:C.textMuted,fontSize:"13px"}},"🔒")),
-            React.createElement("div",{style:{flex:1}},
-              React.createElement("p",{style:{color:m.active?m.color:C.textMuted,fontWeight:700,fontSize:"13px",margin:0}},"Module ",m.num," — ",m.title),
-              React.createElement("p",{style:{color:C.textMuted,fontSize:"11px",margin:0}},m.sub)),
-            React.createElement("span",{style:{color:m.active?m.color:C.textMuted,fontSize:"11px",flexShrink:0}},m.active?m.dur:"Bientôt"));
-        }))),
+        (function(){
+          var gp=getModuleProgress(email);
+          return [
+            {num:0,title:"COMPRENDRE",sub:"Les 7 peurs · Les masques · Questionnaire",color:C.gold,dur:"~45 min",unlocked:true,done:pct===100,action:function(){p.onStart()}},
+            {num:1,title:"VOIR",sub:"Identifier le déclencheur & le masque actif",color:C.rouge,dur:"~30 min",unlocked:gp.isUnlocked(1),done:gp.mod1Done,action:function(){window.location.href="module1.html"}},
+            {num:2,title:"ACCUEILLIR",sub:"Recevoir l'émotion sans résistance",color:C.orange,dur:"~30 min",unlocked:gp.isUnlocked(2),done:gp.mod2Done,action:function(){window.location.href="module2.html"}},
+            {num:3,title:"LOCALISER",sub:"Trouver la sensation dans le corps",color:C.jaune,dur:"~25 min",unlocked:gp.isUnlocked(3),done:gp.mod3Done,action:function(){window.location.href="module3.html"}},
+            {num:4,title:"EXPLORER",sub:"Comprendre la peur sous-jacente",color:C.vert,dur:"~30 min",unlocked:gp.isUnlocked(4),done:gp.mod4Done,action:function(){window.location.href="module4.html"}},
+            {num:5,title:"UNIFIER",sub:"Réconcilier les parties en conflit",color:C.bleu,dur:"~35 min",unlocked:gp.isUnlocked(5),done:gp.mod5Done,action:function(){window.location.href="module5.html"}},
+            {num:6,title:"RENFORCER",sub:"Ancrer la nouvelle posture",color:C.violet,dur:"~30 min",unlocked:gp.isUnlocked(6),done:gp.mod6Done,action:function(){window.location.href="module6.html"}}
+          ].map(function(m,i){
+            return React.createElement("div",{key:i,
+              onClick:m.unlocked?m.action:undefined,
+              style:{display:"flex",alignItems:"center",gap:"12px",
+                background:m.unlocked?m.color+"11":C.navyCard,
+                border:"1px solid "+(m.done?m.color+"88":m.unlocked?m.color+"44":C.navyBorder),
+                borderRadius:"12px",padding:"12px 16px",
+                opacity:m.unlocked?1:0.42,
+                cursor:m.unlocked?"pointer":"default",
+                transition:"transform 0.15s"},
+              onMouseEnter:function(e){if(m.unlocked)e.currentTarget.style.transform="translateY(-1px)"},
+              onMouseLeave:function(e){e.currentTarget.style.transform="none"}},
+              React.createElement("div",{style:{width:"36px",height:"36px",borderRadius:"50%",background:m.done?"#1a3a1a":m.unlocked?m.color:"#2a3650",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}},
+                m.done?React.createElement("span",{style:{color:C.vert,fontSize:"16px"}},"✓"):
+                m.unlocked?React.createElement("span",{style:{color:"#fff",fontSize:"13px",fontWeight:700}},m.num):
+                React.createElement("span",{style:{fontSize:"14px"}},"🔒")),
+              React.createElement("div",{style:{flex:1}},
+                React.createElement("p",{style:{color:m.done?C.vert:m.unlocked?m.color:C.textMuted,fontWeight:700,fontSize:"13px",margin:"0 0 2px"}},"Module ",m.num," — ",m.title),
+                React.createElement("p",{style:{color:C.textMuted,fontSize:"11px",margin:0}},m.sub)),
+              React.createElement("div",{style:{textAlign:"right",flexShrink:0}},
+                m.done?React.createElement("span",{style:{color:C.vert,fontSize:"11px",display:"block",marginBottom:"2px"}},"Complété ✓"):
+                m.unlocked?React.createElement("span",{style:{background:m.color+"22",color:m.color,fontSize:"11px",padding:"2px 8px",borderRadius:"20px",fontWeight:700,display:"block",marginBottom:"2px"}},"→ Ouvrir"):
+                React.createElement("span",{style:{color:C.textMuted,fontSize:"10px",padding:"2px 8px",borderRadius:"20px",background:"#1a2235",display:"block",marginBottom:"2px"}},"🔒 Finir le précédent"),
+                React.createElement("span",{style:{color:C.textMuted,fontSize:"10px"}},m.dur)));
+          });
+        })())),
 
     React.createElement(Copyright,null));
 }
