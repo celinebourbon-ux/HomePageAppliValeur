@@ -2056,7 +2056,108 @@ function Dashboard(p){
               React.createElement("span",{style:{color:C.textMuted,fontSize:"11px"}},formatDate(entry.date))),
             React.createElement("p",{style:{color:C.textLight,fontSize:"13px",lineHeight:1.6,margin:0,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}},entry.text));
         }))),
+// ── GLOBAL PROGRESS BAR ───────────────────────────────────────────
+function GlobalProgressBar(p){
+  var email=p.email;
+  var m0Progress=(loadUser(email,'progress')||{completedSections:[]}).completedSections.length;
+  var m1Progress=(loadUser(email,'progressM1')||{completedSections:[]}).completedSections.length;
+  var m2Progress=(loadUser(email,'progressM2')||{completedSections:[]}).completedSections.length;
+  var m3Progress=(loadUser(email,'progressM3')||{completedSections:[]}).completedSections.length;
+  var m4Progress=(loadUser(email,'progressM4')||{completedSections:[]}).completedSections.length;
+  var m5Progress=(loadUser(email,'progressM5')||{completedSections:[]}).completedSections.length;
+  var m6Progress=(loadUser(email,'progressM6')||{completedSections:[]}).completedSections.length;
 
+  var MODULES=[
+    {label:"M0",emoji:"🟡",total:4,done:m0Progress,color:C.gold},
+    {label:"M1",emoji:"🔴",total:4,done:m1Progress,color:C.rouge},
+    {label:"M2",emoji:"🟠",total:4,done:m2Progress,color:C.orange},
+    {label:"M3",emoji:"🟡",total:4,done:m3Progress,color:C.jaune},
+    {label:"M4",emoji:"🟢",total:4,done:m4Progress,color:C.vert},
+    {label:"M5",emoji:"🔵",total:4,done:m5Progress,color:C.bleu},
+    {label:"M6",emoji:"💜",total:4,done:m6Progress,color:C.violet}
+  ];
+
+  var totalDone=MODULES.reduce(function(acc,m){return acc+m.done},0);
+  var totalSections=MODULES.reduce(function(acc,m){return acc+m.total},0);
+  var globalPct=Math.round(totalDone/totalSections*100);
+
+  return React.createElement("div",{style:{
+    background:C.navyCard,
+    border:"1px solid "+C.navyBorder,
+    borderRadius:"16px",
+    padding:"16px 20px",
+    marginBottom:"20px"
+  }},
+    // TITRE + POURCENTAGE GLOBAL
+    React.createElement("div",{style:{
+      display:"flex",alignItems:"center",
+      justifyContent:"space-between",marginBottom:"12px"
+    }},
+      React.createElement("p",{style:{
+        color:C.cream,fontWeight:700,
+        fontSize:"13px",margin:0
+      }},"📊 Progression globale"),
+      React.createElement("span",{style:{
+        color:C.gold,fontWeight:800,fontSize:"14px"
+      }},globalPct,"%")),
+
+    // BARRE GLOBALE
+    React.createElement("div",{style:{
+      height:"6px",background:C.navyBorder,
+      borderRadius:"3px",marginBottom:"16px",overflow:"hidden"
+    }},
+      React.createElement("div",{style:{
+        height:"100%",width:globalPct+"%",
+        background:"linear-gradient(90deg,"+C.gold+","+C.orange+")",
+        borderRadius:"3px",
+        transition:"width 0.5s ease"
+      }})),
+
+    // MODULES INDIVIDUELS
+    React.createElement("div",{style:{
+      display:"flex",gap:"4px",alignItems:"flex-end"
+    }},
+      MODULES.map(function(m,i){
+        var pct=Math.round(m.done/m.total*100);
+        var isDone=m.done===m.total;
+        return React.createElement("div",{key:i,style:{
+          flex:1,display:"flex",
+          flexDirection:"column",alignItems:"center",gap:"4px"
+        }},
+          // BARRE INDIVIDUELLE
+          React.createElement("div",{style:{
+            width:"100%",height:"40px",
+            background:C.navyBorder,
+            borderRadius:"4px",overflow:"hidden",
+            display:"flex",flexDirection:"column",
+            justifyContent:"flex-end"
+          }},
+            React.createElement("div",{style:{
+              width:"100%",height:pct+"%",
+              background:isDone
+                ?"linear-gradient(180deg,"+m.color+","+m.color+"99)"
+                :m.done>0
+                  ?"linear-gradient(180deg,"+m.color+"88,"+m.color+"44)"
+                  :"transparent",
+              transition:"height 0.5s ease"
+            }})
+          ),
+          // LABEL
+          React.createElement("span",{style:{
+            fontSize:"9px",
+            color:m.done>0?m.color:C.textMuted,
+            fontWeight:700,textAlign:"center"
+          }},m.label),
+          // TICK ou PROGRESS
+          React.createElement("span",{style:{
+            fontSize:"9px",
+            color:isDone?m.color:C.textMuted
+          }},isDone?"✓":m.done>0?m.done+"/"+m.total:"")
+        );
+      })
+    )
+  );
+}
     // PARCOURS COMPLET
     React.createElement("div",{style:{marginBottom:"20px"}},
       React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"15px",marginBottom:"12px"}},"🗺️ Le parcours complet"),
