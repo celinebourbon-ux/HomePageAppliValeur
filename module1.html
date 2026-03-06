@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Module 1 — VOIR · Méthode V.A.L.E.U.R©</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0f1a;font-family:'Segoe UI',system-ui,sans-serif;color:#e2e8f0;-webkit-font-smoothing:antialiased;}
+textarea,input,select{font-family:inherit;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#0a0f1a;}
+::-webkit-scrollbar-thumb{background:#e53e3e;border-radius:3px;}
+@media(max-width:480px){button{min-height:44px;}textarea,input{font-size:16px!important;}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.85)}to{opacity:1;transform:scale(1)}}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(120vh) rotate(720deg);opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.fade-up{animation:fadeInUp 0.5s ease both;}
+.scale-in{animation:scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+"use strict";
+/* ============================================================
+   © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
+   Module 1 — VOIR le déclencheur
+   Tous droits réservés. Toute reproduction interdite.
+   Basé sur "De la peur à la joie d'être soi" — L'Harmattan
+   ============================================================ */
+
+// ── REACT HOOKS ───────────────────────────────────────────────────
+var h = React.createElement;
+var useState = React.useState;
+var useEffect = React.useEffect;
+var useRef = React.useRef;
+
+// ── CONFIG ────────────────────────────────────────────────────────
+var SUPABASE_URL = "https://ecetwkusxzbqoztokgtk.supabase.co";
+var SUPABASE_KEY = "sb_publishable_OAESsD6hq6D38azq6Pjxuw_28frwX6M";
+var EMAILJS_SERVICE = "Questionnaire VALEUR";
+var EMAILJS_TEMPLATE = "template_inscription";
+var EMAILJS_PUBLIC_KEY = "Qamyb35cCRJ5Pulqs";
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── COULEURS ──────────────────────────────────────────────────────
+var C = {
+  navy:"#0a0f1a", navyMid:"#111827", navyCard:"#1a2235", navyBorder:"#2a3650",
+  rouge:"#e53e3e", rougeLight:"#feb2b2", orange:"#ed8936", orangeLight:"#fbd38d",
+  jaune:"#d69e2e", jauneLight:"#faf089", vert:"#38a169", vertLight:"#9ae6b4",
+  bleu:"#3182ce", bleuLight:"#bee3f8", indigo:"#5a67d8", indigoLight:"#c3dafe",
+  violet:"#805ad5", violetLight:"#d6bcfa", gold:"#c9a84c", cream:"#f7f3ee",
+  textLight:"#e2e8f0", textMuted:"#94a3b8"
+};
+
+// ── STORAGE ───────────────────────────────────────────────────────
+function loadUser(email, key) {
+  try { var v = localStorage.getItem("valeur_" + email + "_" + key); return v ? JSON.parse(v) : null; }
+  catch(e) { return null; }
+}
+function saveUser(email, key, val) {
+  try { localStorage.setItem("valeur_" + email + "_" + key, JSON.stringify(val)); }
+  catch(e) {}
+}
+function syncProgress(email) {
+  var prog = loadUser(email, "progress");
+  var journal = loadUser(email, "journal");
+  sb.from("user_data").upsert({email:email, progress:prog||{}, journal:journal||[], updated_at:new Date().toISOString()})
+    .then(function(){}).catch(function(){});
+}
+function saveSync(email, key, val) {
+  saveUser(email, key, val);
+  if (key === "progress" || key === "journal") syncProgress(email);
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────
+function getSession() {
+  try {
+    var keys = Object.keys(localStorage).filter(function(k){ return k.endsWith("_session"); });
+    for (var i = 0; i < keys.length; i++) {
+      var s = JSON.parse(localStorage.getItem(keys[i]));
+      if (s && s.loginAt) {
+        var age = (new Date() - new Date(s.loginAt)) / 1000 / 3600 / 24;
+        if (age < 7) return s;
+      }
+    }
+  } catch(e) {}
+  return null;
+}
+function isModule1Unlocked(email) {
+  var prog = loadUser(email, "progress") || {};
+  return (prog.completedSections || []).length >= 4;
+}
+function markModule1Done(email, name) {
+  var prog = loadUser(email, "progress") || {};
+  var mods = prog.completedModules || [];
+  if (mods.indexOf(1) === -1) {
+    mods = mods.concat([1]);
+    saveSync(email, "progress", Object.assign({}, prog, {
+      completedModules: mods,
+      module1Complete: true,
+      module1CompletedAt: new Date().toISOString()
+    }));
+    if (typeof emailjs !== "undefined") {
+      emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+        to_email: "celine.bourbon@gmail.com",
+        patient_email: email,
+        patient_name: name || email,
+        date: new Date().toLocaleDateString("fr-FR"),
+        heure: new Date().toLocaleTimeString("fr-FR"),
+        app_notification: "MODULE 1 COMPLETE\nEmail: " + email + "\nDate: " + new Date().toLocaleDateString("fr-FR")
+      }, EMAILJS_PUBLIC_KEY).catch(function(){});
+    }
+  }
+}
+
+// ── PDF ───────────────────────────────────────────────────────────
+function openPDF(filename, title, bodyHtml) {
+  var html = '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>' + title + '</title>'
+    + '<style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;padding:20px;color:#1a1a2e;line-height:1.8;}'
+    + 'h1{color:#e53e3e;font-size:24px;border-bottom:2px solid #c9a84c;padding-bottom:10px;margin-bottom:24px;}'
+    + 'h2{color:#805ad5;font-size:18px;margin-top:28px;margin-bottom:10px;}'
+    + 'p,li{font-size:14px;margin-bottom:8px;}ul{padding-left:20px;}'
+    + '.box{background:#f7f3ee;border-left:4px solid #c9a84c;padding:14px 18px;margin:16px 0;border-radius:4px;}'
+    + '.footer{color:#888;font-size:11px;text-align:center;margin-top:40px;border-top:1px solid #ddd;padding-top:16px;}'
+    + '.btn{display:block;margin:20px auto;padding:10px 24px;background:#e53e3e;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;}'
+    + '@media print{.btn{display:none!important;}}</style></head><body>'
+    + '<button class="btn" onclick="window.print()">Imprimer / Enregistrer en PDF</button>'
+    + bodyHtml
+    + '<div class="footer">&copy; 2025 Méthode V.A.L.E.U.R&copy; &mdash; Céline Bourbon, Psychologue &mdash; De la peur à la joie d\'être soi &mdash; L\'Harmattan</div>'
+    + '</body></html>';
+  var blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  var url = URL.createObjectURL(blob);
+  var win = window.open(url, "_blank");
+  if (!win) { var a = document.createElement("a"); a.href = url; a.download = filename + ".html"; a.click(); }
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 10000);
+}
+
+// ── DONNÉES ───────────────────────────────────────────────────────
+var MASQUES = [
+  { id:"rouge", emoji:"🔴", color:C.rouge, light:C.rougeLight, bg:"#2d1515", nom:"Masque Rouge",
+    peur:"Peur de la mort / maladie",
+    declencheurs:["Symptôme physique inattendu","Lecture d'un article médical","Bruit du corps remarqué","Rendez-vous médical annoncé","Quelqu'un autour de soi tombe malade"] },
+  { id:"orange", emoji:"🟠", color:C.orange, light:C.orangeLight, bg:"#2d1a0a", nom:"Masque Orange",
+    peur:"Peur de la souffrance",
+    declencheurs:["Conflit émotionnel annoncé","Film ou récit triste","Quelqu'un pleure devant soi","Demande d'intimité émotionnelle","Annonce d'une mauvaise nouvelle"] },
+  { id:"jaune", emoji:"🟡", color:C.jaune, light:C.jauneLight, bg:"#2d2200", nom:"Masque Jaune",
+    peur:"Peur de l'inconnu",
+    declencheurs:["Changement de plan imprévu","Situation ambiguë sans réponse","Attente d'une décision","Voyage ou événement non préparé","Question sans réponse immédiate"] },
+  { id:"vert", emoji:"🟢", color:C.vert, light:C.vertLight, bg:"#0d2010", nom:"Masque Vert",
+    peur:"Peur du rejet / abandon",
+    declencheurs:["Message sans réponse","Ton légèrement froid de quelqu'un","Annulation d'un plan","Regard perçu comme désapprobateur","Quelqu'un ne dit pas bonjour"] },
+  { id:"bleu", emoji:"🔵", color:C.bleu, light:C.bleuLight, bg:"#0d1a2d", nom:"Masque Bleu",
+    peur:"Peur de l'impuissance",
+    declencheurs:["Demande d'aide refusée","Décision prise sans vous","Délégation d'une tâche importante","Critique de votre façon de faire","Résultat hors de votre contrôle"] },
+  { id:"indigo", emoji:"🔷", color:C.indigo, light:C.indigoLight, bg:"#120d2d", nom:"Masque Indigo",
+    peur:"Peur de l'échec",
+    declencheurs:["Feedback négatif ou critique","Comparaison avec quelqu'un de meilleur","Début d'un projet important","Deadline approchante","Question à laquelle vous ne savez pas répondre"] },
+  { id:"violet", emoji:"💜", color:C.violet, light:C.violetLight, bg:"#1a0d2d", nom:"Masque Violet",
+    peur:"Peur de perdre son identité",
+    declencheurs:["Changement de rôle ou de statut","Fin d'une relation importante","Transition professionnelle","Remise en question d'une croyance centrale","Quelqu'un qui ne vous reconnaît pas dans votre rôle"] }
+];
+
+var QUIZ_QUESTIONS = [
+  { q:"Lors d'un déclencheur, la première étape de VOIR consiste à :",
+    opts:["Ressentir l'émotion pleinement","Identifier la situation ou le contexte précis","Calmer son système nerveux","Analyser ses pensées en profondeur"],
+    ok:1, exp:"VOIR = décrire les faits bruts de la situation. Qui, quoi, où, quand. Avant toute interprétation ou analyse." },
+  { q:"Lequel de ces éléments est un déclencheur EXTERNE ?",
+    opts:["La pensée que je vais échouer","Un souvenir d'enfance douloureux","Un message laissé sans réponse","La tension que je sens dans mes épaules"],
+    ok:2, exp:"Un déclencheur externe est un événement observable dans le monde réel : un message, un comportement, une situation concrète." },
+  { q:"La 'carte du déclencheur' dans VOIR contient :",
+    opts:["Les émotions du passé","La situation + le masque identifié + l'intensité","La solution au problème","Les valeurs profondes à renforcer"],
+    ok:1, exp:"La carte du déclencheur capture l'instant de l'activation du masque : situation précise, masque identifié et intensité ressentie." },
+  { q:"Quel est l'objectif principal de l'étape VOIR ?",
+    opts:["Supprimer la réaction automatique","Juger si votre réaction était appropriée","Prendre conscience que le masque s'est activé, sans le combattre","Trouver immédiatement une solution"],
+    ok:2, exp:"VOIR crée une distance entre vous et la réaction automatique. Cette prise de conscience suffit à réduire l'emprise du masque. On observe, on ne combat pas." },
+  { q:"Lequel de ces énoncés est une OBSERVATION (et non une interprétation) ?",
+    opts:["Il ne m'aime plus","Je ne suis pas assez bien","Cette personne n'a pas répondu à mon message","Je vais encore échouer"],
+    ok:2, exp:"Une observation décrit un fait observable et vérifiable. 'La personne n'a pas répondu' est un fait. 'Il ne m'aime plus' est une interprétation du masque." }
+];
+
+var SECTION_LABELS = ["Introduction", "Déclencheurs", "Pratique", "Quiz"];
+
+// ── COMPOSANTS DE BASE ────────────────────────────────────────────
+function Copyright() {
+  return h("p", { style:{ color:C.textMuted, fontSize:"10px", textAlign:"center", marginTop:"16px", lineHeight:1.6 } },
+    "© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés",
+    h("br",null),
+    "Contenu protégé · Reproduction interdite · ",
+    h("em",null,"De la peur à la joie d'être soi"),
+    ", Éditions L'Harmattan"
+  );
+}
+
+function Btn(props) {
+  var bg = props.variant === "outline"
+    ? "none"
+    : "linear-gradient(135deg," + (props.color || C.gold) + ",#a07830)";
+  var col = props.variant === "outline" ? (props.color || C.gold) : "#000";
+  return h("button", {
+    onClick: props.onClick,
+    style: Object.assign({
+      background: bg,
+      color: col,
+      border: props.variant === "outline" ? "2px solid " + (props.color || C.gold) : "none",
+      borderRadius: "50px",
+      padding: "13px 28px",
+      fontSize: "15px",
+      fontWeight: 700,
+      cursor: "pointer",
+      width: props.full ? "100%" : "auto"
+    }, props.style || {})
+  }, props.children);
+}
+
+function Card(props) {
+  return h("div", {
+    style: Object.assign({
+      background: C.navyCard,
+      border: "1px solid " + (props.borderColor || C.navyBorder),
+      borderRadius: "16px",
+      padding: "20px"
+    }, props.style || {})
+  }, props.children);
+}
+
+function Vignette(props) {
+  var col = props.color || C.gold;
+  return h("div", { style:{ background:col+"11", border:"2px solid "+col+"33", borderRadius:"16px", padding:"20px", marginBottom:"16px" } },
+    h("div", { style:{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"12px" } },
+      h("span", { style:{ fontSize:"22px" } }, props.emoji),
+      h("p", { style:{ color:col, fontWeight:800, fontSize:"15px", margin:0 } }, props.title)
+    ),
+    props.children
+  );
+}
+
+function Accordion(props) {
+  var state = useState(null);
+  var open = state[0];
+  var setOpen = state[1];
+  return h("div", { style:{ display:"flex", flexDirection:"column", gap:"8px" } },
+    props.items.map(function(item, i) {
+      var isOpen = open === i;
+      return h("div", { key:i, style:{ border:"1px solid "+(isOpen?C.gold:C.navyBorder), borderRadius:"12px", overflow:"hidden" } },
+        h("button", {
+          onClick: function(){ setOpen(isOpen ? null : i); },
+          style:{ width:"100%", display:"flex", justifyContent:"space-between", alignItems:"center",
+            padding:"14px 18px", background:isOpen?"#1e2235":C.navyCard, border:"none", cursor:"pointer", textAlign:"left" }
+        },
+          h("span", { style:{ color:C.cream, fontSize:"14px", fontWeight:600 } }, item.title),
+          h("span", { style:{ color:C.gold, fontSize:"20px", transform:isOpen?"rotate(45deg)":"none", transition:"transform 0.3s", display:"inline-block" } }, "+")
+        ),
+        isOpen && h("div", { style:{ background:C.navyMid, padding:"18px", borderTop:"1px solid "+C.navyBorder } }, item.content)
+      );
+    })
+  );
+}
+
+function ProgressBar(props) {
+  var labels = SECTION_LABELS;
+  return h("div", { style:{ background:C.navyMid, borderBottom:"1px solid "+C.navyBorder, padding:"10px 16px" } },
+    h("div", { style:{ display:"flex", alignItems:"center", justifyContent:"center", gap:"4px", maxWidth:"700px", margin:"0 auto" } },
+      labels.map(function(label, i) {
+        var done = props.completed.indexOf(i) !== -1;
+        var active = props.step === i;
+        return h("div", { key:i, style:{ display:"flex", alignItems:"center", flex:1 } },
+          h("button", {
+            onClick: function(){ if (done || active) props.setStep(i); },
+            style:{ display:"flex", flexDirection:"column", alignItems:"center", gap:"3px",
+              background:"none", border:"none", cursor:(done||active)?"pointer":"default", padding:"0", flex:1 }
+          },
+            h("div", { style:{
+              width:"28px", height:"28px", borderRadius:"50%",
+              background: active ? C.rouge : done ? "#1a3a1a" : C.navyCard,
+              border: "2px solid " + (active ? C.rouge : done ? C.vert : C.navyBorder),
+              color: active ? "#fff" : done ? C.vert : C.textMuted,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              fontSize:"11px", fontWeight:700, flexShrink:0
+            } }, done ? "✓" : i+1),
+            h("span", { style:{ fontSize:"9px", color:active?C.rouge:C.textMuted, lineHeight:1.2, textAlign:"center" } }, label)
+          ),
+          i < labels.length - 1 && h("div", { style:{
+            height:"2px", flex:1, background:done?C.vert:C.navyBorder, margin:"0 2px", borderRadius:"2px"
+          }})
+        );
+      })
+    )
+  );
+}
+
+function JournalBox(props) {
+  var key = "m1_section_" + props.sectionIndex;
+  var all = loadUser(props.email, "journal") || [];
+  var existing = null;
+  for (var i = 0; i < all.length; i++) { if (all[i].key === key) { existing = all[i]; break; } }
+  var ts = useState(existing ? existing.text : "");
+  var text = ts[0]; var setText = ts[1];
+  var ss = useState(!!existing);
+  var saved = ss[0]; var setSaved = ss[1];
+  var es = useState(!existing);
+  var editing = es[0]; var setEditing = es[1];
+  var prompts = [
+    "Reconnaissez-vous un déclencheur récent dans votre vie ? Décrivez la situation en faits bruts.",
+    "Quels déclencheurs (externes ou internes) activent le plus souvent votre masque dominant ?",
+    "Remplissez votre première carte du déclencheur : situation, masque, intensité.",
+    "Qu'avez-vous retenu de ce module ? Qu'est-ce qui vous a surpris ?"
+  ];
+  function doSave() {
+    if (!text.trim()) return;
+    var entries = (loadUser(props.email, "journal") || []).filter(function(e){ return e.key !== key; });
+    var entry = { key:key, text:text.trim(), date:new Date().toISOString(), sectionLabel: SECTION_LABELS[props.sectionIndex] };
+    saveSync(props.email, "journal", entries.concat([entry]));
+    setSaved(true); setEditing(false);
+    if (props.onSave) props.onSave();
+  }
+  return h("div", { style:{ background:"linear-gradient(135deg,#1a2535,#111827)", border:"2px solid "+C.gold+"44", borderRadius:"16px", padding:"20px", marginTop:"24px" } },
+    h("div", { style:{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"12px" } },
+      h("span", { style:{ fontSize:"20px" } }, "📓"),
+      h("div", { style:{ flex:1 } },
+        h("p", { style:{ color:C.gold, fontWeight:700, fontSize:"14px", margin:0 } }, "Journal de bord — ", SECTION_LABELS[props.sectionIndex]),
+        saved && !editing && h("p", { style:{ color:C.vert, fontSize:"12px", margin:0 } }, "✓ Entrée sauvegardée")
+      ),
+      saved && !editing && h("button", {
+        onClick: function(){ setEditing(true); },
+        style:{ background:"none", border:"1px solid "+C.navyBorder, color:C.textMuted, borderRadius:"8px", padding:"4px 12px", cursor:"pointer", fontSize:"12px" }
+      }, "Modifier")
+    ),
+    h("p", { style:{ color:C.textMuted, fontSize:"13px", lineHeight:1.7, marginBottom:"12px", fontStyle:"italic" } }, "✍️ ", prompts[props.sectionIndex] || "Qu'avez-vous retenu ?"),
+    editing
+      ? h("div", null,
+          h("textarea", {
+            value: text,
+            onChange: function(e){ setText(e.target.value); },
+            placeholder: "Écrivez librement...",
+            rows: 4,
+            style:{ width:"100%", background:C.navyCard, border:"1px solid "+C.navyBorder, borderRadius:"10px",
+              padding:"12px", color:C.textLight, fontSize:"14px", lineHeight:1.7, resize:"vertical",
+              fontFamily:"inherit", outline:"none" }
+          }),
+          h("div", { style:{ display:"flex", gap:"10px", marginTop:"10px" } },
+            h("button", {
+              onClick: doSave,
+              disabled: !text.trim(),
+              style:{ background:text.trim()?"linear-gradient(135deg,"+C.gold+",#a07830)":"#333",
+                color:text.trim()?"#000":"#666", border:"none", borderRadius:"8px",
+                padding:"10px 20px", cursor:text.trim()?"pointer":"not-allowed", fontWeight:700, fontSize:"14px" }
+            }, "Sauvegarder"),
+            saved && h("button", {
+              onClick: function(){ setText(existing ? existing.text : ""); setEditing(false); },
+              style:{ background:"none", border:"1px solid "+C.navyBorder, color:C.textMuted,
+                borderRadius:"8px", padding:"10px 16px", cursor:"pointer", fontSize:"14px" }
+            }, "Annuler")
+          )
+        )
+      : h("div", { style:{ background:C.navyCard, borderRadius:"10px", padding:"14px" } },
+          h("p", { style:{ color:C.textLight, fontSize:"14px", lineHeight:1.8, margin:0, whiteSpace:"pre-wrap" } }, text)
+        )
+  );
+}
+
+function Confetti() {
+  var colors = [C.gold, C.vert, C.violet, C.rouge, C.bleu, "#fff"];
+  var pieces = [];
+  for (var i = 0; i < 50; i++) {
+    var left = Math.random() * 100;
+    var delay = Math.random() * 2;
+    var dur = 2 + Math.random() * 2;
+    var size = 6 + Math.random() * 8;
+    var col = colors[Math.floor(Math.random() * colors.length)];
+    pieces.push(h("div", { key:i, style:{
+      position:"fixed", left:left+"%", top:"-20px", width:size+"px", height:size+"px",
+      background:col, borderRadius:Math.random()>0.5?"50%":"2px",
+      animation:"confettiFall "+dur+"s "+delay+"s ease-in both",
+      zIndex:10000, pointerEvents:"none"
+    }}));
+  }
+  return h("div", { style:{ position:"fixed", inset:0, pointerEvents:"none", zIndex:9999 } }, pieces);
+}
+
+// ── SECTION 1 — INTRODUCTION ──────────────────────────────────────
+function S1_Intro(props) {
+  var qs = useState(false);
+  var showQuiz = qs[0]; var setShowQuiz = qs[1];
+
+  var filmSteps = [
+    { n:"01", t:"La situation (le fait brut)", d:"Qui, quoi, où, quand. Sans interprétation.", c:C.rouge },
+    { n:"02", t:"Le signal intérieur", d:"Quelque chose a changé en vous. Une tension, un retrait, une accélération.", c:C.orange },
+    { n:"03", t:"La réaction automatique", d:"Ce que vous avez fait ou ressenti sans y réfléchir.", c:C.jaune },
+    { n:"04", t:"Le masque identifié", d:"Quel masque s'est activé ? C'est la clé.", c:C.vert }
+  ];
+
+  var stepsValeur = [
+    { l:"V", t:"VOIR le déclencheur", d:"Identifier la situation précise qui a activé le masque.", c:C.rouge },
+    { l:"A", t:"ACCUEILLIR l'émotion", d:"Recevoir l'émotion sans fuir ni combattre.", c:C.orange },
+    { l:"L", t:"LOCALISER dans le corps", d:"Trouver où le masque se manifeste physiquement.", c:C.jaune },
+    { l:"E", t:"EXPLORER le conflit", d:"Comprendre la peur et la valeur en tension.", c:C.vert },
+    { l:"U", t:"UNIFIER les polarités", d:"Intégrer la part blessée et choisir sa valeur.", c:C.bleu },
+    { l:"R", t:"RENFORCER par l'action", d:"Ancrer le nouveau choix dans un geste concret.", c:C.violet }
+  ];
+
+  return h("div", { style:{ padding:"28px 16px", maxWidth:"720px", margin:"0 auto" } },
+
+    h("div", { style:{ textAlign:"center", marginBottom:"32px" } },
+      h("div", { style:{ display:"inline-block", background:"linear-gradient(135deg,"+C.rouge+"22,transparent)",
+        border:"1px solid "+C.rouge, borderRadius:"20px", padding:"6px 18px", marginBottom:"16px" } },
+        h("span", { style:{ color:C.rouge, fontSize:"12px", letterSpacing:"2px", fontWeight:700 } }, "MODULE 1 — VOIR")
+      ),
+      h("h1", { style:{ fontFamily:"Georgia,serif", fontSize:"clamp(22px,5vw,36px)", color:C.cream, lineHeight:1.2, marginBottom:"12px" } },
+        "Voir ses masques ",
+        h("span", { style:{ color:C.rouge } }, "en action")
+      ),
+      h("p", { style:{ color:C.textMuted, fontSize:"clamp(14px,3.5vw,16px)", lineHeight:1.7, maxWidth:"560px", margin:"0 auto" } },
+        "Vous avez compris le fonctionnement des masques. Maintenant, vous allez apprendre à les identifier en temps réel — dans votre vie quotidienne."
+      )
+    ),
+
+    h(Vignette, { emoji:"👁️", title:"Qu'est-ce que VOIR ?", color:C.rouge },
+      h("p", { style:{ color:C.textLight, fontSize:"14px", lineHeight:1.8, marginBottom:"14px" } },
+        "VOIR est la première étape de la méthode V.A.L.E.U.R©. Elle consiste à ",
+        h("strong", { style:{ color:C.rouge } }, "identifier avec précision"),
+        " la situation ou le contexte qui a activé un masque défensif."
+      ),
+      h("div", { style:{ background:"#0d0f1a", border:"1px solid "+C.rouge+"44", borderRadius:"12px", padding:"16px", marginBottom:"14px", textAlign:"center" } },
+        h("p", { style:{ color:C.cream, fontSize:"15px", fontStyle:"italic", lineHeight:1.8, margin:0 } },
+          "Au commencement, vous appliquerez cette étape après coup : le soir, en revivant mentalement une situation où le masque s'est activé. Avec l'entraînement, la conscience s'éveillera plus tôt."
+        ),
+        h("p", { style:{ color:C.textMuted, fontSize:"12px", margin:"8px 0 0" } },
+          "— Céline Bourbon, ", h("em",null,"De la peur à la joie d'être soi"), " — L'Harmattan"
+        )
+      ),
+      h("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"10px" } },
+        h("div", { style:{ background:"#2d1515", border:"1px solid "+C.rouge, borderRadius:"10px", padding:"14px", textAlign:"center" } },
+          h("p", { style:{ color:C.rouge, fontWeight:800, fontSize:"12px", marginBottom:"10px", textTransform:"uppercase", letterSpacing:"1px" } }, "Avant VOIR"),
+          ["Réaction automatique","Masque au volant","Boucle sans fin","Incompréhension"].map(function(l, i) {
+            return h("p", { key:i, style:{ color:C.rougeLight, fontSize:"12px", margin:"2px 0", lineHeight:1.4 } }, l);
+          })
+        ),
+        h("div", { style:{ background:"#0d2010", border:"1px solid "+C.vert, borderRadius:"10px", padding:"14px", textAlign:"center" } },
+          h("p", { style:{ color:C.vert, fontWeight:800, fontSize:"12px", marginBottom:"10px", textTransform:"uppercase", letterSpacing:"1px" } }, "Avec VOIR"),
+          ["Distance avec la réaction","Conscience du déclencheur","Un espace de liberté","Je comprends ce qui s'est passé"].map(function(l, i) {
+            return h("p", { key:i, style:{ color:C.vertLight, fontSize:"12px", margin:"2px 0", lineHeight:1.4 } }, l);
+          })
+        )
+      )
+    ),
+
+    h(Vignette, { emoji:"🎬", title:"La métaphore du film au ralenti", color:C.indigo },
+      h("p", { style:{ color:C.textLight, fontSize:"14px", lineHeight:1.8, marginBottom:"14px" } },
+        "Imaginez que vous puissiez appuyer sur Pause juste après une réaction automatique. Puis revoir la scène au ralenti — image par image."
+      ),
+      h("div", { style:{ display:"flex", flexDirection:"column", gap:"8px" } },
+        filmSteps.map(function(step, i) {
+          return h("div", { key:i, style:{ display:"flex", gap:"12px", alignItems:"flex-start",
+            background:C.navyCard, borderRadius:"10px", padding:"12px", border:"1px solid "+step.c+"33" } },
+            h("div", { style:{ width:"28px", height:"28px", borderRadius:"50%", background:step.c,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              color:"#fff", fontSize:"11px", fontWeight:800, flexShrink:0 } }, step.n),
+            h("div", null,
+              h("p", { style:{ color:step.c, fontWeight:700, fontSize:"13px", margin:"0 0 3px" } }, step.t),
+              h("p", { style:{ color:C.textMuted, fontSize:"12px", lineHeight:1.5, margin:0 } }, step.d)
+            )
+          );
+        })
+      )
+    ),
+
+    h(Vignette, { emoji:"🗺️", title:"VOIR dans la méthode V.A.L.E.U.R©", color:C.gold },
+      h("p", { style:{ color:C.textLight, fontSize:"14px", lineHeight:1.8, marginBottom:"14px" } },
+        "VOIR est la porte d'entrée de toute la méthode. Sans cette étape, les 5 suivantes n'ont pas de fondation."
+      ),
+      h("div", { style:{ display:"flex", flexDirection:"column", gap:"8px" } },
+        stepsValeur.map(function(step, i) {
+          var isFirst = i === 0;
+          return h("div", { key:i, style:{ display:"flex", gap:"12px", alignItems:"flex-start",
+            background: isFirst ? step.c+"22" : C.navyCard,
+            borderRadius:"10px", padding:"12px",
+            border:"1px solid "+(isFirst ? step.c+"66" : step.c+"22"),
+            opacity: isFirst ? 1 : 0.6 } },
+            h("div", { style:{ width:"32px", height:"32px", borderRadius:"50%", background:step.c,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              color:"#fff", fontWeight:900, fontSize:"14px", flexShrink:0 } }, step.l),
+            h("div", null,
+              h("p", { style:{ color:step.c, fontWeight:700, fontSize:"14px", margin:"0 0 3px" } }, step.t),
+              h("p", { style:{ color:C.textMuted, fontSize:"12px", lineHeight:1.5, margin:0 } }, step.d)
+            ),
+            isFirst && h("span", { style:{ background:C.rouge+"22", color:C.rouge, fontSize:"11px",
+              padding:"2px 8px", borderRadius:"20px", fontWeight:700, flexShrink:0, marginLeft:"auto" } }, "Vous êtes ici")
+          );
+        })
+      )
+    ),
+
+    h(JournalBox, { email:props.email, sectionIndex:0 }),
+
+    h("div", { style:{ textAlign:"center", marginTop:"28px" } },
+      h(Btn, { onClick:props.onComplete, color:C.rouge, full:true }, "Découvrir les déclencheurs →")
+    ),
+    h(Copyright, null)
+  );
+}
+
+// ── SECTION 2 — DÉCLENCHEURS ──────────────────────────────────────
+function S2_Declencheurs(props) {
+  var os = useState(null);
+  var openMask = os[0]; var setOpenMask = os[1];
+
+  function downloadGuide() {
+    var body = "<h1>Guide VOIR — Les déclencheurs</h1>"
+      + "<p class='box'>Module 1 · Méthode V.A.L.E.U.R© · Céline Bourbon, Psychologue</p>"
+      + "<h2>Déclencheurs externes vs internes</h2>"
+      + "<p><strong>Externe :</strong> une situation, un événement, une personne ou un comportement observable.</p>"
+      + "<p><strong>Interne :</strong> une pensée qui s'impose, un souvenir, une image mentale.</p>"
+      + "<h2>Les 7 masques et leurs déclencheurs typiques</h2>"
+      + MASQUES.map(function(m) {
+          return "<h3>" + m.emoji + " " + m.nom + " — " + m.peur + "</h3><ul>"
+            + m.declencheurs.map(function(d){ return "<li>" + d + "</li>"; }).join("")
+            + "</ul>";
+        }).join("")
+      + "<h2>Comment identifier un déclencheur ?</h2>"
+      + "<ul><li>Décrivez la situation en faits bruts (qui, quoi, où, quand)</li>"
+      + "<li>Identifiez le masque activé parmi les 7</li>"
+      + "<li>Notez l'intensité de 1 à 10</li>"
+      + "<li>Repérez le signal physique dans votre corps</li></ul>";
+    openPDF("Guide_Voir_Declencheurs_VALEUR", "Guide VOIR — Méthode V.A.L.E.U.R©", body);
+  }
+
+  return h("div", { style:{ padding:"28px 16px", maxWidth:"720px", margin:"0 auto" } },
+
+    h("div", { style:{ textAlign:"center", marginBottom:"28px" } },
+      h("h2", { style:{ fontFamily:"Georgia,serif", fontSize:"clamp(22px,5vw,30px)", color:C.cream, lineHeight:1.2, marginBottom:"10px" } },
+        "Reconnaître vos déclencheurs"
+      ),
+      h("p", { style:{ color:C.textMuted, fontSize:"14px", lineHeight:1.7, maxWidth:"560px", margin:"0 auto" } },
+        "Un déclencheur est le signal qui active votre masque. Apprendre à l'identifier, c'est déjà reprendre le pouvoir."
+      )
+    ),
+
+    h(Vignette, { emoji:"⚡", title:"Externes vs Internes", color:C.orange },
+      h("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"10px" } },
+        h("div", { style:{ background:C.navyCard, border:"1px solid "+C.bleu, borderRadius:"12px", padding:"16px" } },
+          h("p", { style:{ color:C.bleuLight, fontWeight:700, fontSize:"13px", marginBottom:"10px" } }, "Externes"),
+          h("p", { style:{ color:C.textMuted, fontSize:"12px", lineHeight:1.6, marginBottom:"10px" } },
+            "Observables dans le monde réel"
+          ),
+          ["Un message sans réponse", "Une remarque de collègue", "Un changement de plan", "Un regard perçu comme froid"].map(function(l, i) {
+            return h("p", { key:i, style:{ color:C.bleuLight, fontSize:"12px", margin:"3px 0" } }, "• ", l);
+          })
+        ),
+        h("div", { style:{ background:C.navyCard, border:"1px solid "+C.violet, borderRadius:"12px", padding:"16px" } },
+          h("p", { style:{ color:C.violetLight, fontWeight:700, fontSize:"13px", marginBottom:"10px" } }, "Internes"),
+          h("p", { style:{ color:C.textMuted, fontSize:"12px", lineHeight:1.6, marginBottom:"10px" } },
+            "Pensées, souvenirs, images mentales"
+          ),
+          ["\"Et si j'échouais ?\"", "Un souvenir d'humiliation", "\"Il ne m'aime plus\"", "L'image d'une catastrophe à venir"].map(function(l, i) {
+            return h("p", { key:i, style:{ color:C.violetLight, fontSize:"12px", margin:"3px 0" } }, "• ", l);
+          })
+        )
+      ),
+      h("div", { style:{ background:"#1a2520", border:"1px solid "+C.vert, borderRadius:"10px", padding:"12px", marginTop:"12px" } },
+        h("p", { style:{ color:C.vertLight, fontSize:"13px", lineHeight:1.7, margin:0 } },
+          "Dans les deux cas, l'objectif est le même : identifier la situation précise, sans interprétation, avant que le masque ne prenne toute la place."
+        )
+      )
+    ),
+
+    h("div", { style:{ marginBottom:"28px" } },
+      h("p", { style:{ color:C.gold, fontWeight:700, fontSize:"16px", marginBottom:"6px", textAlign:"center" } },
+        "Les 7 masques et leurs déclencheurs typiques"
+      ),
+      h("p", { style:{ color:C.textMuted, fontSize:"13px", marginBottom:"16px", textAlign:"center" } },
+        "Cliquez sur votre masque pour voir ses déclencheurs"
+      ),
+      h("div", { style:{ display:"flex", flexDirection:"column", gap:"8px" } },
+        MASQUES.map(function(mask, i) {
+          var isOpen = openMask === i;
+          return h("div", { key:i, style:{ border:"2px solid "+(isOpen?mask.color:C.navyBorder), borderRadius:"14px", overflow:"hidden", transition:"border-color 0.3s" } },
+            h("button", {
+              onClick: function(){ setOpenMask(isOpen ? null : i); },
+              style:{ width:"100%", background:isOpen?mask.bg:C.navyCard, border:"none", cursor:"pointer",
+                textAlign:"left", padding:"14px 18px", display:"flex", alignItems:"center", gap:"12px" }
+            },
+              h("span", { style:{ fontSize:"22px", flexShrink:0 } }, mask.emoji),
+              h("div", { style:{ flex:1 } },
+                h("p", { style:{ color:isOpen?mask.color:C.cream, fontWeight:700, fontSize:"14px", margin:"0 0 2px" } }, mask.nom),
+                h("p", { style:{ color:C.textMuted, fontSize:"12px", margin:0 } }, mask.peur)
+              ),
+              h("span", { style:{ color:mask.color, fontSize:"18px", transform:isOpen?"rotate(45deg)":"none",
+                transition:"transform 0.3s", flexShrink:0 } }, "+")
+            ),
+            isOpen && h("div", { style:{ background:mask.bg, padding:"18px", borderTop:"1px solid "+mask.color+"44" } },
+              h("p", { style:{ color:mask.light, fontWeight:700, fontSize:"13px", marginBottom:"12px" } },
+                "Déclencheurs typiques — ", mask.nom
+              ),
+              h("div", { style:{ display:"flex", flexDirection:"column", gap:"8px" } },
+                mask.declencheurs.map(function(d, j) {
+                  return h("div", { key:j, style:{ display:"flex", gap:"10px", alignItems:"flex-start",
+                    background:C.navyMid+"88", borderRadius:"8px", padding:"10px" } },
+                    h("span", { style:{ color:mask.color, fontWeight:700, flexShrink:0 } }, "›"),
+                    h("p", { style:{ color:C.textLight, fontSize:"13px", lineHeight:1.5, margin:0 } }, d)
+                  );
+                })
+              ),
+              h("div", { style:{ background:mask.color+"11", border:"1px solid "+mask.color+"44",
+                borderRadius:"10px", padding:"12px", marginTop:"12px" } },
+                h("p", { style:{ color:mask.light, fontSize:"13px", lineHeight:1.7, margin:0, fontStyle:"italic" } },
+                  "Reconnaissez-vous l'un de ces moments dans votre semaine ?"
+                )
+              )
+            )
+          );
+        })
+      )
+    ),
+
+    h("button", {
+      onClick: downloadGuide,
+      style:{ display:"flex", alignItems:"center", gap:"10px", background:"linear-gradient(135deg,#1a2235,#0d1117)",
+        border:"1px solid "+C.gold+"44", borderRadius:"12px", padding:"14px 20px", cursor:"pointer",
+        width:"100%", marginBottom:"20px" }
+    },
+      h("span", { style:{ fontSize:"24px" } }, "📄"),
+      h("div", { style:{ textAlign:"left" } },
+        h("p", { style:{ color:C.gold, fontWeight:700, fontSize:"14px", margin:0 } }, "Télécharger le guide — Déclencheurs"),
+        h("p", { style:{ color:C.textMuted, fontSize:"12px", margin:0 } }, "7 masques · déclencheurs typiques · format imprimable")
+      )
+    ),
+
+    h(JournalBox, { email:props.email, sectionIndex:1 }),
+
+    h("div", { style:{ textAlign:"center", marginTop:"28px" } },
+      h(Btn, { onClick:props.onComplete, color:C.rouge, full:true }, "Passer à la pratique →")
+    ),
+    h(Copyright, null)
+  );
+}
+
+// ── SECTION 3 — PRATIQUE ──────────────────────────────────────────
+function S3_Pratique(props) {
+  var cs = useState({ situation:"", masque:"", intensite:5, signal:"" });
+  var carte = cs[0]; var setCarte = cs[1];
+  var ss = useState(false);
+  var saved = ss[0]; var setSaved = ss[1];
+  var cartes = loadUser(props.email, "cartes_voir") || [];
+
+  function saveCarte() {
+    if (!carte.situation.trim() || !carte.masque) return;
+    var entry = Object.assign({}, carte, { id:Date.now(), date:new Date().toISOString() });
+    var updated = cartes.concat([entry]).slice(-20);
+    saveUser(props.email, "cartes_voir", updated);
+    setSaved(true);
+    setTimeout(function(){ setSaved(false); setCarte({ situation:"", masque:"", intensite:5, signal:"" }); }, 2000);
+  }
+
+  var exercices = [
+    { title:"🔍 La Revue du soir (5 min)", content:h("div", null,
+        h("p", { style:{ color:C.textLight, fontSize:"14px", lineHeight:1.8, marginBottom:"10px" } },
+          "Chaque soir, consacrez 5 minutes à relire votre journée comme un film."
+        ),
+        ["Asseyez-vous confortablement. Respirez 3 fois lentement.",
+         "Parcourez mentalement votre journée, de bout en bout.",
+         "Repérez un moment où vous avez senti une réaction automatique.",
+         "Posez-vous : Quelle était la situation précise ? Quel masque était activé ?",
+         "Notez-le dans votre carte du déclencheur ci-dessous."
+        ].map(function(step, i) {
+          return h("div", { key:i, style:{ display:"flex", gap:"10px", marginBottom:"8px", alignItems:"flex-start" } },
+            h("div", { style:{ width:"22px", height:"22px", borderRadius:"50%", background:C.vert, display:"flex",
+              alignItems:"center", justifyContent:"center", color:"#fff", fontSize:"11px", fontWeight:700, flexShrink:0 } }, i+1),
+            h("p", { style:{ color:C.textMuted, fontSize:"13px", lineHeight:1.6, margin:0 } }, step)
+          );
+        })
+      )
+    },
+    { title:"⚡ Le Flash VOIR (30 secondes)", content:h("div", null,
+        h("p", { style:{ color:C.textLight, fontSize:"14px", lineHeight:1.8, marginBottom:"10px" } },
+          "À utiliser en temps réel, dès que vous sentez une réaction."
+        ),
+        ["Pause. Respirez.", "Qu'est-ce qui vient de se passer, exactement ?",
+         "Quel masque vient de s'activer ?", "De 1 à 10, quelle est l'intensité ?"
+        ].map(function(step, i) {
+          return h("p", { key:i, style:{ color:C.orangeLight, fontSize:"13px", margin:"4px 0" } }, (i+1)+". ", step);
+        })
+      )
+    },
+    { title:"📖 Le Journal des déclencheurs (hebdo)", content:h("div", null,
+        h("p", { style:{ color:C.textLight, fontSize:"14px", lineHeight:1.8, marginBottom:"10px" } },
+          "Chaque semaine, relisez vos cartes et cherchez des patterns."
+        ),
+        ["Quel masque revient le plus souvent ?",
+         "Quels contextes de vie l'activent le plus ?",
+         "Y a-t-il des personnes ou des situations récurrentes ?",
+         "Quelle prise de conscience cette semaine ?"
+        ].map(function(q, i) {
+          return h("p", { key:i, style:{ color:C.indigoLight, fontSize:"13px", margin:"4px 0" } }, "→ ", q);
+        })
+      )
+    }
+  ];
+
+  return h("div", { style:{ padding:"28px 16px", maxWidth:"720px", margin:"0 auto" } },
+
+    h("div", { style:{ textAlign:"center", marginBottom:"28px" } },
+      h("h2", { style:{ fontFamily:"Georgia,serif", fontSize:"clamp(22px,5vw,30px)", color:C.cream, lineHeight:1.2, marginBottom:"10px" } },
+        "Mise en pratique"
+      ),
+      h("p", { style:{ color:C.textMuted, fontSize:"14px", lineHeight:1.7, maxWidth:"560px", margin:"0 auto" } },
+        "La compréhension seule ne change rien. La pratique quotidienne, si."
+      )
+    ),
+
+    h("div", { style:{ marginBottom:"28px" } },
+      h("p", { style:{ color:C.gold, fontWeight:700, fontSize:"16px", marginBottom:"12px" } }, "3 exercices pratiques"),
+      h(Accordion, { items:exercices })
+    ),
+
+    h(Card, { borderColor:C.rouge+"44", style:{ marginBottom:"28px" } },
+      h("div", { style:{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"16px" } },
+        h("span", { style:{ fontSize:"24px" } }, "🃏"),
+        h("div", null,
+          h("p", { style:{ color:C.rouge, fontWeight:700, fontSize:"16px", margin:0 } }, "Ma Carte du Déclencheur"),
+          h("p", { style:{ color:C.textMuted, fontSize:"12px", margin:0 } }, "Complétez une situation réelle de votre semaine")
+        )
+      ),
+
+      h("div", { style:{ display:"flex", flexDirection:"column", gap:"14px" } },
+
+        h("div", null,
+          h("label", { style:{ color:C.textMuted, fontSize:"12px", textTransform:"uppercase", letterSpacing:"1px", display:"block", marginBottom:"6px" } },
+            "1. La situation (faits bruts, sans interprétation)"
+          ),
+          h("textarea", {
+            value: carte.situation,
+            onChange: function(e){ setCarte(Object.assign({}, carte, { situation:e.target.value })); },
+            placeholder: "Ex : Lundi matin, mon collègue n'a pas dit bonjour en arrivant.",
+            rows: 3,
+            style:{ width:"100%", background:C.navyMid, border:"1px solid "+C.navyBorder,
+              borderRadius:"10px", padding:"12px", color:C.textLight, fontSize:"14px",
+              lineHeight:1.7, resize:"vertical", fontFamily:"inherit", outline:"none" }
+          })
+        ),
+
+        h("div", null,
+          h("label", { style:{ color:C.textMuted, fontSize:"12px", textTransform:"uppercase", letterSpacing:"1px", display:"block", marginBottom:"6px" } },
+            "2. Le masque activé"
+          ),
+          h("div", { style:{ display:"flex", flexWrap:"wrap", gap:"8px" } },
+            MASQUES.map(function(m) {
+              var selected = carte.masque === m.id;
+              return h("button", {
+                key: m.id,
+                onClick: function(){ setCarte(Object.assign({}, carte, { masque:m.id })); },
+                style:{ background:selected?m.color+"33":C.navyCard,
+                  border:"2px solid "+(selected?m.color:C.navyBorder),
+                  borderRadius:"8px", padding:"8px 12px", cursor:"pointer",
+                  color:selected?m.color:C.textMuted, fontSize:"12px", fontWeight:selected?700:400 }
+              }, m.emoji, " ", m.nom.replace("Masque ",""));
+            })
+          )
+        ),
+
+        h("div", null,
+          h("label", { style:{ color:C.textMuted, fontSize:"12px", textTransform:"uppercase", letterSpacing:"1px", display:"block", marginBottom:"6px" } },
+            "3. Intensité ressentie : ", carte.intensite, " / 10"
+          ),
+          h("input", {
+            type: "range", min:"1", max:"10", value:carte.intensite,
+            onChange: function(e){ setCarte(Object.assign({}, carte, { intensite:parseInt(e.target.value) })); },
+            style:{ width:"100%", accentColor:C.rouge }
+          })
+        ),
+
+        h("div", null,
+          h("label", { style:{ color:C.textMuted, fontSize:"12px", textTransform:"uppercase", letterSpacing:"1px", display:"block", marginBottom:"6px" } },
+            "4. Le signal dans le corps (optionnel)"
+          ),
+          h("input", {
+            type: "text",
+            value: carte.signal,
+            onChange: function(e){ setCarte(Object.assign({}, carte, { signal:e.target.value })); },
+            placeholder: "Ex : gorge serrée, ventre noué, épaules tendues...",
+            style:{ width:"100%", background:C.navyMid, border:"1px solid "+C.navyBorder,
+              borderRadius:"10px", padding:"12px", color:C.textLight, fontSize:"14px",
+              fontFamily:"inherit", outline:"none" }
+          })
+        ),
+
+        h("button", {
+          onClick: saveCarte,
+          disabled: !carte.situation.trim() || !carte.masque,
+          style:{ background:carte.situation.trim()&&carte.masque?"linear-gradient(135deg,"+C.rouge+",#c0392b)":"#333",
+            color:carte.situation.trim()&&carte.masque?"#fff":"#666",
+            border:"none", borderRadius:"10px", padding:"14px", cursor:carte.situation.trim()&&carte.masque?"pointer":"not-allowed",
+            fontWeight:700, fontSize:"15px", width:"100%" }
+        }, saved ? "✓ Carte sauvegardée !" : "Sauvegarder ma carte")
+      )
+    ),
+
+    cartes.length > 0 && h("div", { style:{ marginBottom:"24px" } },
+      h("p", { style:{ color:C.cream, fontWeight:700, fontSize:"14px", marginBottom:"10px" } },
+        "Mes cartes récentes (", cartes.length, ")"
+      ),
+      h("div", { style:{ display:"flex", flexDirection:"column", gap:"8px" } },
+        cartes.slice(-3).reverse().map(function(c, i) {
+          var mask = null;
+          for (var j = 0; j < MASQUES.length; j++) { if (MASQUES[j].id === c.masque) { mask = MASQUES[j]; break; } }
+          return h("div", { key:i, style:{ background:C.navyCard,
+            border:"1px solid "+(mask?mask.color+"44":C.navyBorder), borderRadius:"12px", padding:"14px" } },
+            h("div", { style:{ display:"flex", gap:"10px", marginBottom:"6px" } },
+              mask && h("span", { style:{ fontSize:"18px" } }, mask.emoji),
+              h("p", { style:{ color:mask?mask.color:C.cream, fontWeight:700, fontSize:"13px", margin:0 } },
+                mask ? mask.nom : "Masque inconnu"
+              ),
+              h("span", { style:{ color:C.rouge, fontSize:"12px", marginLeft:"auto" } }, c.intensite, "/10")
+            ),
+            h("p", { style:{ color:C.textMuted, fontSize:"12px", lineHeight:1.5, margin:0 } }, c.situation)
+          );
+        })
+      )
+    ),
+
+    h(JournalBox, { email:props.email, sectionIndex:2 }),
+
+    h("div", { style:{ textAlign:"center", marginTop:"28px" } },
+      h(Btn, { onClick:props.onComplete, color:C.rouge, full:true }, "Valider mes connaissances →")
+    ),
+    h(Copyright, null)
+  );
+}
+
+// ── SECTION 4 — QUIZ ──────────────────────────────────────────────
+function S4_Quiz(props) {
+  var cs = useState(0);
+  var current = cs[0]; var setCurrent = cs[1];
+  var ss = useState(null);
+  var selected = ss[0]; var setSelected = ss[1];
+  var rs = useState(false);
+  var revealed = rs[0]; var setRevealed = rs[1];
+  var res = useState([]);
+  var results = res[0]; var setResults = res[1];
+  var ds = useState(false);
+  var done = ds[0]; var setDone = ds[1];
+
+  var q = QUIZ_QUESTIONS[current];
+  var score = results.filter(Boolean).length;
+
+  function select(i) {
+    if (revealed) return;
+    setSelected(i);
+    setRevealed(true);
+    var newResults = results.concat([i === q.ok]);
+    setResults(newResults);
+    if (current === QUIZ_QUESTIONS.length - 1) {
+      var finalScore = newResults.filter(Boolean).length;
+      var scores = loadUser(props.email, "quizScores") || {};
+      scores.module1 = finalScore;
+      saveUser(props.email, "quizScores", scores);
+    }
+  }
+
+  function next() {
+    if (current < QUIZ_QUESTIONS.length - 1) {
+      setCurrent(current + 1);
+      setSelected(null);
+      setRevealed(false);
+    } else {
+      setDone(true);
+    }
+  }
+
+  if (done) {
+    var pct = Math.round(score / QUIZ_QUESTIONS.length * 100);
+    var great = pct >= 80;
+    return h("div", { style:{ padding:"28px 16px", maxWidth:"720px", margin:"0 auto", textAlign:"center" } },
+      h("div", { style:{ fontSize:"56px", marginBottom:"14px" } }, great ? "🏆" : "💪"),
+      h("div", { style:{ background:"linear-gradient(135deg,"+(great?C.gold:C.orange)+"22,transparent)",
+        border:"2px solid "+(great?C.gold:C.orange), borderRadius:"20px", padding:"28px", marginBottom:"20px" } },
+        h("p", { style:{ color:great?C.gold:C.orange, fontWeight:800, fontSize:"36px", margin:"0 0 8px" } },
+          score, "/", QUIZ_QUESTIONS.length
+        ),
+        h("p", { style:{ color:C.cream, fontWeight:700, fontSize:"18px", margin:0 } },
+          great ? "Excellent ! Module 1 maîtrisé !" : "Bon début — continuez à vous exercer"
+        )
+      ),
+      h("div", { style:{ background:"#0d2010", border:"1px solid "+C.vert, borderRadius:"12px",
+        padding:"18px", marginBottom:"24px", textAlign:"left" } },
+        h("p", { style:{ color:C.vertLight, fontSize:"14px", lineHeight:1.8, margin:0 } },
+          great
+            ? "Vous avez compris l'essentiel de l'étape VOIR. Vous êtes maintenant prêt à identifier vos déclencheurs dans la vie réelle. La prochaine étape : ACCUEILLIR."
+            : "Pas d'inquiétude — la pratique viendra avec le temps. Continuez à utiliser la carte du déclencheur chaque jour. La compréhension s'approfondit avec l'expérience."
+        )
+      ),
+      h("button", {
+        onClick: function(){ props.onComplete(); },
+        style:{ background:"linear-gradient(135deg,"+C.gold+",#a07830)", color:"#000", border:"none",
+          borderRadius:"50px", padding:"16px 36px", fontSize:"16px", fontWeight:800,
+          cursor:"pointer", width:"100%", marginBottom:"12px" }
+      }, "Terminer le Module 1 ✓"),
+      h(Copyright, null)
+    );
+  }
+
+  return h("div", { style:{ padding:"28px 16px", maxWidth:"720px", margin:"0 auto" } },
+
+    h("div", { style:{ textAlign:"center", marginBottom:"24px" } },
+      h("h2", { style:{ fontFamily:"Georgia,serif", fontSize:"clamp(22px,5vw,28px)", color:C.cream, marginBottom:"8px" } },
+        "Quiz — Module 1 VOIR"
+      ),
+      h("p", { style:{ color:C.textMuted, fontSize:"14px" } },
+        "5 questions pour valider votre compréhension"
+      )
+    ),
+
+    h("div", { style:{ display:"flex", gap:"4px", marginBottom:"20px" } },
+      QUIZ_QUESTIONS.map(function(_, i) {
+        return h("div", { key:i, style:{ flex:1, height:"4px", borderRadius:"2px",
+          background: i < current ? C.rouge : i === current ? C.rouge+"88" : C.navyBorder } });
+      })
+    ),
+
+    h("div", { style:{ display:"flex", justifyContent:"space-between", marginBottom:"20px" } },
+      h("span", { style:{ color:C.rouge, fontWeight:700, fontSize:"13px" } }, "Question ", current+1, "/", QUIZ_QUESTIONS.length),
+      h("span", { style:{ color:C.vert, fontSize:"13px" } }, score, " ✓")
+    ),
+
+    h("p", { style:{ color:C.cream, fontSize:"clamp(15px,4vw,18px)", fontWeight:700, lineHeight:1.5, marginBottom:"20px" } },
+      q.q
+    ),
+
+    h("div", { style:{ display:"flex", flexDirection:"column", gap:"8px", marginBottom:"20px" } },
+      q.opts.map(function(opt, i) {
+        var bg = C.navyCard, border = C.navyBorder, col = C.textLight;
+        if (revealed) {
+          if (i === q.ok) { bg = "#0d2010"; border = C.vert; col = C.vertLight; }
+          else if (i === selected) { bg = "#2d1515"; border = C.rouge; col = C.rougeLight; }
+        } else if (selected === i) {
+          border = C.rouge;
+        }
+        return h("button", {
+          key: i,
+          onClick: function(){ select(i); },
+          style:{ background:bg, border:"2px solid "+border, borderRadius:"12px",
+            padding:"14px 18px", color:col, cursor:revealed?"default":"pointer",
+            textAlign:"left", fontSize:"clamp(13px,3.5vw,15px)", lineHeight:1.5 }
+        },
+          i === q.ok && revealed ? "✓ " : i === selected && i !== q.ok && revealed ? "✗ " : "",
+          opt
+        );
+      })
+    ),
+
+    revealed && h("div", { style:{ background:"#1a2520", border:"1px solid "+C.vert,
+      borderRadius:"10px", padding:"14px", marginBottom:"16px" } },
+      h("p", { style:{ color:C.vertLight, fontSize:"13px", lineHeight:1.7, margin:0 } }, "💡 ", q.exp)
+    ),
+
+    revealed && h("button", {
+      onClick: next,
+      style:{ width:"100%", background:"linear-gradient(135deg,"+C.rouge+",#c0392b)",
+        border:"none", borderRadius:"12px", padding:"14px", color:"#fff",
+        fontWeight:700, fontSize:"16px", cursor:"pointer" }
+    }, current < QUIZ_QUESTIONS.length - 1 ? "Question suivante →" : "Voir mes résultats 🎉"),
+
+    h(Copyright, null)
+  );
+}
+
+// ── MODULE 1 WRAPPER ──────────────────────────────────────────────
+function Module1(props) {
+  var m1prog = loadUser(props.email, "m1_progress") || { completedSections:[] };
+  var cs = useState(m1prog.completedSections || []);
+  var completed = cs[0]; var setCompleted = cs[1];
+  var stStep = useState(Math.min(completed.length, 3));
+  var step = stStep[0]; var setStep = stStep[1];
+  var confState = useState(false);
+  var showConf = confState[0]; var setShowConf = confState[1];
+  var topRef = useRef(null);
+
+  var session = getSession();
+  var name = session ? session.name : "";
+
+  function complete(i) {
+    var newCompleted = completed.indexOf(i) === -1 ? completed.concat([i]) : completed;
+    var newProg = Object.assign({}, m1prog, {
+      completedSections: newCompleted,
+      lastVisit: new Date().toISOString()
+    });
+    saveSync(props.email, "m1_progress", newProg);
+    setCompleted(newCompleted);
+    if (i === 3) {
+      markModule1Done(props.email, name);
+      setShowConf(true);
+    } else {
+      setStep(i + 1);
+      if (topRef.current) topRef.current.scrollIntoView({ behavior:"smooth" });
+    }
+  }
+
+  return h("div", { ref:topRef },
+
+    showConf && h("div", { style:{ position:"fixed", inset:0, background:"rgba(0,0,0,0.8)", zIndex:9000,
+      display:"flex", alignItems:"center", justifyContent:"center", padding:"20px" } },
+      h(Confetti, null),
+      h("div", { className:"scale-in", style:{ background:"linear-gradient(135deg,#1a2235,#0d1117)",
+        border:"2px solid "+C.gold, borderRadius:"24px", padding:"36px 28px",
+        maxWidth:"400px", width:"100%", textAlign:"center" } },
+        h("div", { style:{ fontSize:"64px", marginBottom:"16px", animation:"float 2s ease-in-out infinite" } }, "👁️"),
+        h("div", { style:{ background:C.gold+"22", border:"1px solid "+C.gold+"44",
+          borderRadius:"20px", padding:"4px 14px", display:"inline-block", marginBottom:"14px" } },
+          h("span", { style:{ color:C.gold, fontSize:"11px", fontWeight:700, letterSpacing:"2px", textTransform:"uppercase" } },
+            "Module 1 complété ✓"
+          )
+        ),
+        h("h2", { style:{ fontFamily:"Georgia,serif", color:C.cream, fontSize:"22px", lineHeight:1.3, marginBottom:"14px" } },
+          "Vous voyez maintenant vos masques en action"
+        ),
+        h("p", { style:{ color:C.textMuted, fontSize:"14px", lineHeight:1.8, marginBottom:"24px" } },
+          "Chaque déclencheur identifié est un pas de plus vers votre nature authentique."
+        ),
+        h("button", {
+          onClick: function(){ window.location.href = "index.html"; },
+          style:{ background:"linear-gradient(135deg,"+C.gold+",#a07830)", color:"#000", border:"none",
+            borderRadius:"50px", padding:"14px 32px", fontSize:"16px", fontWeight:800, cursor:"pointer", width:"100%" }
+        }, "Retour au tableau de bord →")
+      )
+    ),
+
+    h(ProgressBar, { step:step, setStep:setStep, completed:completed }),
+
+    h("div", { style:{ background:C.navyMid, borderBottom:"1px solid "+C.navyBorder, padding:"6px 16px", textAlign:"center" } },
+      h("span", { style:{ color:C.rouge, fontSize:"12px", fontWeight:700 } },
+        "Module 1 — VOIR · ", SECTION_LABELS[step], " · ", completed.length, "/4 sections"
+      )
+    ),
+
+    step === 0 && h(S1_Intro, { email:props.email, onComplete:function(){ complete(0); } }),
+    step === 1 && h(S2_Declencheurs, { email:props.email, onComplete:function(){ complete(1); } }),
+    step === 2 && h(S3_Pratique, { email:props.email, onComplete:function(){ complete(2); } }),
+    step === 3 && h(S4_Quiz, { email:props.email, onComplete:function(){ complete(3); } })
+  );
+}
+
+// ── NAVBAR ────────────────────────────────────────────────────────
+function NavBar(props) {
+  var prog = loadUser(props.email, "m1_progress") || {};
+  var pct = Math.round(((prog.completedSections || []).length) / 4 * 100);
+  return h("div", { style:{ position:"sticky", top:0, zIndex:100, background:C.navy, borderBottom:"1px solid "+C.navyBorder } },
+    h("div", { style:{ display:"flex", alignItems:"center", justifyContent:"space-between",
+      padding:"10px 16px", maxWidth:"800px", margin:"0 auto" } },
+      h("button", {
+        onClick: function(){ window.location.href = "index.html"; },
+        style:{ background:"none", border:"none", cursor:"pointer", display:"flex", alignItems:"center", gap:"8px" }
+      },
+        h("div", { style:{ background:"linear-gradient(135deg,"+C.gold+",#a07830)", width:"28px", height:"28px",
+          borderRadius:"8px", display:"flex", alignItems:"center", justifyContent:"center",
+          fontSize:"14px", fontWeight:900, color:"#000" } }, "V"),
+        h("span", { style:{ color:C.textMuted, fontSize:"12px" } }, "← Dashboard")
+      ),
+      h("div", { style:{ background:"linear-gradient(135deg,"+C.rouge+"22,transparent)",
+        border:"1px solid "+C.rouge+"44", borderRadius:"20px", padding:"4px 14px" } },
+        h("span", { style:{ color:C.rouge, fontSize:"12px", fontWeight:700, letterSpacing:"1px" } }, "MODULE 1 · VOIR")
+      ),
+      h("div", { style:{ width:"36px", height:"36px", borderRadius:"50%", background:C.navyCard,
+        border:"2px solid "+(pct===100?C.vert:pct>0?C.rouge:C.navyBorder),
+        display:"flex", alignItems:"center", justifyContent:"center" } },
+        h("span", { style:{ color:pct===100?C.vert:pct>0?C.rouge:C.textMuted, fontSize:"10px", fontWeight:700 } }, pct, "%")
+      )
+    )
+  );
+}
+
+// ── ACCESS DENIED ─────────────────────────────────────────────────
+function AccessDenied() {
+  return h("div", { style:{ minHeight:"100vh", background:C.navy, display:"flex", alignItems:"center", justifyContent:"center", padding:"20px" } },
+    h("div", { style:{ textAlign:"center", maxWidth:"420px" } },
+      h("div", { style:{ fontSize:"64px", marginBottom:"16px" } }, "🔒"),
+      h("h2", { style:{ fontFamily:"Georgia,serif", color:C.cream, fontSize:"22px", marginBottom:"12px" } },
+        "Module 1 non encore accessible"
+      ),
+      h("p", { style:{ color:C.textMuted, fontSize:"14px", lineHeight:1.7, marginBottom:"24px" } },
+        "Pour accéder au Module 1, vous devez d'abord terminer le Module 0 (4 sections sur 4)."
+      ),
+      h("button", {
+        onClick: function(){ window.location.href = "index.html"; },
+        style:{ background:"linear-gradient(135deg,"+C.gold+",#a07830)", color:"#000", border:"none",
+          borderRadius:"50px", padding:"14px 32px", fontSize:"15px", fontWeight:700, cursor:"pointer" }
+      }, "Retourner au Module 0 →"),
+      h(Copyright, null)
+    )
+  );
+}
+
+// ── APP ───────────────────────────────────────────────────────────
+function App() {
+  var session = getSession();
+  if (!session) {
+    window.location.href = "index.html";
+    return null;
+  }
+  if (!isModule1Unlocked(session.email)) {
+    return h(AccessDenied, null);
+  }
+  return h("div", { style:{ background:C.navy, minHeight:"100vh" } },
+    h(NavBar, { email:session.email }),
+    h(Module1, { email:session.email }),
+    h("div", { style:{ position:"fixed", bottom:"6px", right:"10px", opacity:0.2, pointerEvents:"none" } },
+      h("p", { style:{ color:C.textMuted, fontSize:"9px", margin:0 } }, "© V.A.L.E.U.R© · M1 · C. Bourbon")
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App, null));
+</script>
+</body>
+</html>
