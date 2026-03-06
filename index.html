@@ -1881,7 +1881,7 @@ function Module1(p){
   function afterCelebration(){
     var next=(celebrating||0)+1;
     setCelebrating(null);
-    if(celebrating===3){p.onGoHome&&p.onGoHome();}
+    if(celebrating===3){window.location.href='module2.html';}
     else{setStep(next);topRef.current&&topRef.current.scrollIntoView({behavior:"smooth"});}
   }
   var cel=M1_CELEBRATIONS[celebrating!==null?celebrating:0];
@@ -2063,11 +2063,21 @@ function Dashboard(p){
       React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"6px"}},
         [{num:0,title:"COMPRENDRE",sub:"Les 7 peurs · Les masques · Questionnaire",color:C.gold,dur:"~45 min",active:true,done:pct===100},
          {num:1,title:"VOIR",sub:"Identifier le déclencheur & le masque actif",color:C.rouge,dur:"~30 min",active:true,done:(loadUser(email,"progressM1")||{completedSections:[]}).completedSections.length===4,onClick:function(){if(p.onStartModule1)p.onStartModule1();}},
-         {num:2,title:"ACCUEILLIR",sub:"Recevoir l'émotion sans résistance",color:C.orange,dur:"~30 min"},
-         {num:3,title:"LOCALISER",sub:"Trouver la sensation dans le corps",color:C.jaune,dur:"~25 min"},
-         {num:4,title:"EXPLORER",sub:"Comprendre la peur sous-jacente",color:C.vert,dur:"~30 min"},
-         {num:5,title:"UNIFIER",sub:"Réconcilier les parties en conflit",color:C.bleu,dur:"~35 min"},
-         {num:6,title:"RENFORCER",sub:"Ancrer la nouvelle posture",color:C.violet,dur:"~30 min"}
+        {num:2,title:"ACCUEILLIR",sub:"Recevoir l'émotion sans résistance",color:C.orange,dur:"~30 min",
+  active:(loadUser(email,"progressM1")||{completedSections:[]}).completedSections.length===4,
+  onClick:function(){window.location.href='module2.html';}},
+{num:3,title:"LOCALISER",sub:"Trouver la sensation dans le corps",color:C.jaune,dur:"~25 min",
+  active:(loadUser(email,"progressM2")||{completedSections:[]}).completedSections.length===4,
+  onClick:function(){window.location.href='module3.html';}},
+{num:4,title:"EXPLORER",sub:"Comprendre la peur sous-jacente",color:C.vert,dur:"~30 min",
+  active:(loadUser(email,"progressM3")||{completedSections:[]}).completedSections.length===4,
+  onClick:function(){window.location.href='module4.html';}},
+{num:5,title:"UNIFIER",sub:"Réconcilier les parties en conflit",color:C.bleu,dur:"~35 min",
+  active:(loadUser(email,"progressM4")||{completedSections:[]}).completedSections.length===4,
+  onClick:function(){window.location.href='module5.html';}},
+{num:6,title:"RENFORCER",sub:"Ancrer la nouvelle posture",color:C.violet,dur:"~30 min",
+  active:(loadUser(email,"progressM5")||{completedSections:[]}).completedSections.length===4,
+  onClick:function(){window.location.href='module6.html';}}
         ].map(function(m,i){
           return React.createElement("div",{key:i,onClick:function(){m.active&&m.onClick&&m.onClick();},style:{display:"flex",alignItems:"center",gap:"12px",background:m.active?m.color+"11":C.navyCard,border:"1px solid "+(m.active?m.color+"44":C.navyBorder),borderRadius:"12px",padding:"12px 16px",opacity:m.active?1:0.55,cursor:m.active?"pointer":"default"}},
             React.createElement("div",{style:{width:"36px",height:"36px",borderRadius:"50%",background:m.active?m.color:"#2a3650",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}},
