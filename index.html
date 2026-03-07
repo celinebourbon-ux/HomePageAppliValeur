@@ -24,7 +24,9 @@ input:-webkit-autofill{-webkit-box-shadow:0 0 0 30px #111827 inset!important;-we
 .animate-fadeInUp{animation:fadeInUp 0.5s ease both}
 .animate-scaleIn{animation:scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both}
 </style>
-</head><body><div id="root"></div>
+<script src="valeur-config.js"></script>
+</head><body>
+<div id="valeur-progress-bar"></div><div id="root"></div>
 <script>"use strict";
 /* ============================================================
    © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
@@ -1860,5 +1862,6 @@ function App(){
       React.createElement("p",{style:{color:C.textMuted,fontSize:"9px",margin:0}},"© V.A.L.E.U.R© — C. Bourbon")));
 }
 
+VALEUR_PROGRESS.render('module0');
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
 </script></body></html>
