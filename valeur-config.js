@@ -1,15 +1,12 @@
 /* ══════════════════════════════════════════════════════════════
-   VALEUR-CONFIG.JS — Fichier de configuration partagé
-   © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
-   
-   ⚠️  CE FICHIER EST INCLUS DANS TOUS LES MODULES.
-   Modifiez-le ici une seule fois — tout se met à jour partout.
+   VALEUR-CONFIG.JS v3 — Auto-init avec MutationObserver
+   © 2025 Methode V.A.L.E.U.R© — Celine Bourbon, Psychologue
+   NE RIEN MODIFIER DANS LES MODULES — ce fichier gere tout.
    ══════════════════════════════════════════════════════════════ */
 
-/* ── URLS ─────────────────────────────────────────────────────── */
-const VALEUR_BASE = 'https://celinebourbon-ux.github.io/HomePageAppliValeur/';
+var VALEUR_BASE = 'https://celinebourbon-ux.github.io/HomePageAppliValeur/';
 
-const MODULE_URLS = {
+var MODULE_URLS = {
   home:    VALEUR_BASE,
   module0: VALEUR_BASE + 'index.html',
   module1: VALEUR_BASE + 'module1.html',
@@ -17,154 +14,170 @@ const MODULE_URLS = {
   module3: VALEUR_BASE + 'module3.html',
   module4: VALEUR_BASE + 'module4.html',
   module5: VALEUR_BASE + 'module5.html',
-  module6: VALEUR_BASE + 'module6.html',
+  module6: VALEUR_BASE + 'module6.html'
 };
 
-/* ── DÉFINITION DES MODULES ───────────────────────────────────── */
-const MODULES_DEF = [
-  { key:'module1', letter:'V', name:'VOIR',       emoji:'👁',  color:'#e53e3e', lsKey:'valeur_module1_complete' },
-  { key:'module2', letter:'A', name:'ACCUEILLIR', emoji:'🫁',  color:'#ed8936', lsKey:'valeur_module2_complete' },
-  { key:'module3', letter:'L', name:'LOCALISER',  emoji:'📍',  color:'#d69e2e', lsKey:'valeur_module3_complete' },
-  { key:'module4', letter:'E', name:'EXPLORER',   emoji:'🔍',  color:'#38a169', lsKey:'valeur_module4_complete' },
-  { key:'module5', letter:'U', name:'UNIFIER',    emoji:'🤝',  color:'#3182ce', lsKey:'valeur_module5_complete' },
-  { key:'module6', letter:'R', name:'RENFORCER',  emoji:'💪',  color:'#805ad5', lsKey:'valeur_module6_complete' },
+var MODULES_DEF = [
+  { key:'module1', letter:'V', name:'VOIR',       color:'#e53e3e', lsKey:'valeur_module1_complete' },
+  { key:'module2', letter:'A', name:'ACCUEILLIR', color:'#ed8936', lsKey:'valeur_module2_complete' },
+  { key:'module3', letter:'L', name:'LOCALISER',  color:'#d69e2e', lsKey:'valeur_module3_complete' },
+  { key:'module4', letter:'E', name:'EXPLORER',   color:'#38a169', lsKey:'valeur_module4_complete' },
+  { key:'module5', letter:'U', name:'UNIFIER',    color:'#3182ce', lsKey:'valeur_module5_complete' },
+  { key:'module6', letter:'R', name:'RENFORCER',  color:'#805ad5', lsKey:'valeur_module6_complete' }
 ];
 
-/* ── PROGRESSION ──────────────────────────────────────────────── */
-const VALEUR_PROGRESS = {
+var VALEUR_PROGRESS = {
 
-  // Lit localStorage et retourne le % global
-  getPercent() {
-    const done = MODULES_DEF.filter(m => {
-      try { return !!localStorage.getItem(m.lsKey); } catch(e) { return false; }
-    }).length;
+  getPercent: function() {
+    var done = 0;
+    MODULES_DEF.forEach(function(m) {
+      try { if (localStorage.getItem(m.lsKey)) done++; } catch(e) {}
+    });
     return Math.round((done / MODULES_DEF.length) * 100);
   },
 
-  // Marque un module comme complété
-  complete(moduleKey) {
-    const mod = MODULES_DEF.find(m => m.key === moduleKey);
-    if (!mod) return;
-    try { localStorage.setItem(mod.lsKey, 'true'); } catch(e) {}
+  complete: function(moduleKey) {
+    MODULES_DEF.forEach(function(m) {
+      if (m.key === moduleKey) {
+        try { localStorage.setItem(m.lsKey, 'true'); } catch(e) {}
+      }
+    });
+    VALEUR_PROGRESS.renderBar();
   },
 
-  // Vérifie si un module est complété
-  isDone(moduleKey) {
-    const mod = MODULES_DEF.find(m => m.key === moduleKey);
-    if (!mod) return false;
-    try { return !!localStorage.getItem(mod.lsKey); } catch(e) { return false; }
+  isDone: function(moduleKey) {
+    var result = false;
+    MODULES_DEF.forEach(function(m) {
+      if (m.key === moduleKey) {
+        try { result = !!localStorage.getItem(m.lsKey); } catch(e) {}
+      }
+    });
+    return result;
   },
 
-  // Dessine la barre de progression dans #valeur-progress-bar
-  // currentModule = 'module4' par exemple
-  render(currentModule) {
-    const bar = document.getElementById('valeur-progress-bar');
-    if (!bar) return;
-
-    const pct = this.getPercent();
-
-    bar.innerHTML = `
-      <button class="vpb-home" onclick="window.location.href=MODULE_URLS.home" title="Accueil">⌂</button>
-      <div class="vpb-steps">
-        ${MODULES_DEF.map(m => {
-          const isDone = this.isDone(m.key);
-          const isCurrent = m.key === currentModule;
-          const isUnlocked = isDone || isCurrent || this._isUnlocked(m.key);
-          let cls = 'vpb-step';
-          if (isDone) cls += ' done';
-          else if (isCurrent) cls += ' active';
-          const click = isDone && !isCurrent ? `onclick="window.location.href=MODULE_URLS.${m.key}"` : '';
-          const cursor = isDone && !isCurrent ? 'pointer' : 'default';
-          return `<div class="${cls}" title="${m.letter} · ${m.name}" style="cursor:${cursor}" ${click}>
-            <span class="vpb-letter">${m.letter}</span>
-          </div>`;
-        }).join('')}
-      </div>
-      <span class="vpb-pct">${pct}%</span>
-    `;
+  getCurrentModule: function() {
+    var path = window.location.pathname;
+    if (path.indexOf('module6') !== -1) return 'module6';
+    if (path.indexOf('module5') !== -1) return 'module5';
+    if (path.indexOf('module4') !== -1) return 'module4';
+    if (path.indexOf('module3') !== -1) return 'module3';
+    if (path.indexOf('module2') !== -1) return 'module2';
+    if (path.indexOf('module1') !== -1) return 'module1';
+    return 'module0';
   },
 
-  // Un module est débloqué si le précédent est fait
-  _isUnlocked(moduleKey) {
-    const idx = MODULES_DEF.findIndex(m => m.key === moduleKey);
-    if (idx <= 0) return true;
-    return this.isDone(MODULES_DEF[idx - 1].key);
-  }
+  renderBar: function() {
+    var currentModule = this.getCurrentModule();
+    var bar = document.getElementById('valeur-progress-bar');
+
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'valeur-progress-bar';
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
+
+    var self = this;
+    var pct = this.getPercent();
+    var stepsHTML = '';
+
+    MODULES_DEF.forEach(function(m) {
+      var isDone = self.isDone(m.key);
+      var isCurrent = m.key === currentModule;
+      var cls = 'vpb-step';
+      if (isDone) cls += ' done';
+      else if (isCurrent) cls += ' active';
+      var click = (isDone && !isCurrent) ? ' onclick="window.location.href=MODULE_URLS.' + m.key + '"' : '';
+      var cursor = (isDone && !isCurrent) ? 'pointer' : 'default';
+      stepsHTML += '<div class="' + cls + '" style="cursor:' + cursor + '"' + click + '>';
+      stepsHTML += '<span class="vpb-letter">' + m.letter + '</span></div>';
+    });
+
+    bar.innerHTML =
+      '<button class="vpb-home" onclick="window.location.href=MODULE_URLS.home" title="Accueil">&#8962;</button>' +
+      '<div class="vpb-steps">' + stepsHTML + '</div>' +
+      '<span class="vpb-pct">' + pct + '%</span>';
+  },
+
+  /* Alias pour compatibilite avec les modules existants */
+  render: function(moduleKey) { this.renderBar(); }
 };
 
-/* ── CSS DE LA BARRE (injecté automatiquement) ────────────────── */
-(function injectProgressCSS() {
+/* ── CSS ──────────────────────────────────────────────────────── */
+(function() {
   if (document.getElementById('valeur-progress-css')) return;
-  const style = document.createElement('style');
+  var style = document.createElement('style');
   style.id = 'valeur-progress-css';
-  style.textContent = `
-    #valeur-progress-bar {
-      position: fixed; top:0; left:0; right:0; z-index:100;
-      background: #0d1526;
-      border-bottom: 1px solid #1e2f4a;
-      padding: 10px 16px;
-      display: flex; align-items: center; gap: 12px;
-      font-family: 'Jost', sans-serif;
-    }
-    .vpb-home {
-      background:none; border:none; cursor:pointer;
-      color:#6b82a8; font-size:18px; padding:4px;
-      transition: color 0.2s; line-height:1;
-    }
-    .vpb-home:hover { color:#f2ede6; }
-    .vpb-steps { display:flex; gap:6px; flex:1; align-items:center; }
-    .vpb-step {
-      flex:1; height:28px; border-radius:6px;
-      background: #1e2f4a;
-      display:flex; align-items:center; justify-content:center;
-      transition: all 0.4s ease;
-      position: relative; overflow: hidden;
-    }
-    .vpb-step.done {
-      background: linear-gradient(135deg, #c9a84c, #f0d080);
-      box-shadow: 0 2px 8px rgba(201,168,76,0.3);
-    }
-    .vpb-step.active {
-      background: linear-gradient(135deg, #1e2f4a, #2a3f60);
-      border: 1px solid #c9a84c;
-      animation: vpb-pulse 2s ease-in-out infinite;
-    }
-    @keyframes vpb-pulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
-      50% { box-shadow: 0 0 0 4px rgba(201,168,76,0); }
-    }
-    .vpb-letter {
-      font-size: 11px; font-weight: 800; letter-spacing: 1px;
-      color: #f2ede6;
-    }
-    .vpb-step.done .vpb-letter { color: #070d1a; }
-    .vpb-pct {
-      font-size: 12px; font-weight: 700; color: #c9a84c;
-      white-space: nowrap; min-width: 32px; text-align:right;
-    }
-    @media (max-width: 400px) {
-      .vpb-letter { font-size: 9px; }
-      .vpb-step { height: 22px; }
-    }
-  `;
+  style.textContent =
+    '#valeur-progress-bar{position:fixed;top:0;left:0;right:0;z-index:9999;' +
+    'background:#0d1526;border-bottom:1px solid #1e2f4a;' +
+    'padding:10px 16px;display:flex;align-items:center;gap:12px;' +
+    "font-family:'Jost',sans-serif;}" +
+    '.vpb-home{background:none;border:none;cursor:pointer;' +
+    'color:#6b82a8;font-size:18px;padding:4px;transition:color 0.2s;line-height:1;}' +
+    '.vpb-home:hover{color:#f2ede6;}' +
+    '.vpb-steps{display:flex;gap:6px;flex:1;align-items:center;}' +
+    '.vpb-step{flex:1;height:28px;border-radius:6px;background:#1e2f4a;' +
+    'display:flex;align-items:center;justify-content:center;transition:all 0.4s ease;}' +
+    '.vpb-step.done{background:linear-gradient(135deg,#c9a84c,#f0d080);' +
+    'box-shadow:0 2px 8px rgba(201,168,76,0.3);}' +
+    '.vpb-step.active{background:linear-gradient(135deg,#1e2f4a,#2a3f60);' +
+    'border:1px solid #c9a84c;animation:vpb-pulse 2s ease-in-out infinite;}' +
+    '@keyframes vpb-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.4);}' +
+    '50%{box-shadow:0 0 0 4px rgba(201,168,76,0);}}' +
+    '.vpb-letter{font-size:11px;font-weight:800;letter-spacing:1px;color:#f2ede6;}' +
+    '.vpb-step.done .vpb-letter{color:#070d1a;}' +
+    '.vpb-pct{font-size:12px;font-weight:700;color:#c9a84c;' +
+    'white-space:nowrap;min-width:32px;text-align:right;}' +
+    '@media(max-width:400px){.vpb-letter{font-size:9px;}.vpb-step{height:22px;}}';
   document.head.appendChild(style);
 })();
 
-/* ── COMMENT UTILISER CE FICHIER ──────────────────────────────────
+/* ── LANCEMENT AUTOMATIQUE — MutationObserver ─────────────────────
+   Attend que React finisse de construire le DOM puis injecte la barre.
+   Fonctionne meme si render() n'est pas appele dans le module.      */
+(function() {
+  var rendered = false;
 
-Dans chaque module HTML, ajoutez dans <head> :
-  <script src="valeur-config.js"></script>
+  function tryRender() {
+    if (rendered) return;
+    /* Attend que #root soit peuple par React */
+    var root = document.getElementById('root');
+    if (root && root.children.length > 0) {
+      rendered = true;
+      VALEUR_PROGRESS.renderBar();
+      return;
+    }
+    /* Si pas de #root (page simple sans React) */
+    if (!root && document.body) {
+      rendered = true;
+      VALEUR_PROGRESS.renderBar();
+    }
+  }
 
-Dans le <body>, placez ce div là où vous voulez la barre :
-  <div id="valeur-progress-bar"></div>
+  /* Observer qui surveille les changements dans le body */
+  function startObserver() {
+    tryRender();
+    if (rendered) return;
 
-Dans votre JS d'init, appelez :
-  VALEUR_PROGRESS.render('module4');   ← remplacez par le bon numéro
+    var observer = new MutationObserver(function() {
+      tryRender();
+      if (rendered) observer.disconnect();
+    });
 
-Pour valider un module et débloquer le suivant :
-  VALEUR_PROGRESS.complete('module4');
+    observer.observe(document.body, { childList: true, subtree: true });
 
-Pour naviguer vers un module :
-  window.location.href = MODULE_URLS.module5;
+    /* Filet de securite : apres 3 secondes max */
+    setTimeout(function() {
+      if (!rendered) {
+        rendered = true;
+        VALEUR_PROGRESS.renderBar();
+      }
+    }, 3000);
+  }
 
-─────────────────────────────────────────────────────────────────── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startObserver);
+  } else {
+    startObserver();
+  }
+})();
