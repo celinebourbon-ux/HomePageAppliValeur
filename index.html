@@ -224,7 +224,7 @@ var SECTION_CELEBRATIONS=[
   {emoji:"🌟",title:"Introduction explorée !",msg:"Vous avez rencontré votre nature authentique et découvert la conscience observatrice. C'est le fondement de tout ce qui suit.",next:"Découvrir l'origine de l'anxiété",color:C.gold},
   {emoji:"🧠",title:"L'anxiété n'a plus de secrets pour vous !",msg:"Vous comprenez maintenant pourquoi votre cerveau déclenche l'alarme — et que ce n'est pas votre faute. La formule D=e×r² va changer votre rapport à la souffrance.",next:"Explorer vos masques de défense",color:C.vert},
   {emoji:"🎭",title:"Vos masques révélés !",msg:"Vous savez maintenant identifier les 7 stratégies de défense qui vous éloignent de qui vous êtes vraiment. C'est une prise de conscience rare et précieuse.",next:"Cartographier vos défenses",color:C.violet},
-  {emoji:"🗺️",title:"Module 0 entièrement complété !",msg:"Félicitations — vous avez posé les fondations de votre transformation. Vous êtes prêt·e à entrer dans la méthode V.A.L.E.U.R© elle-même.",next:"Voir mon tableau de bord",color:C.gold}
+  {emoji:"🗺️",title:"Module 0 entièrement complété !",msg:"Félicitations — vous avez posé les fondations de votre transformation. Vous êtes prêt·e à entrer dans la méthode V.A.L.E.U.R© elle-même.",next:"✓ Terminer et débloquer le Module 1 — VOIR",color:C.gold}
 ];
 function SectionCelebration(p){
   var _u1=useState(false),_s1=_slicedToArray(_u1,2),showConfetti=_s1[0],setShowConfetti=_s1[1];
@@ -242,7 +242,7 @@ function SectionCelebration(p){
         React.createElement("div",{style:{background:data.color+"11",border:"1px solid "+data.color+"33",borderRadius:"12px",padding:"12px",marginBottom:"20px"}},
           React.createElement("p",{style:{color:C.textMuted,fontSize:"12px",margin:"0 0 4px",textTransform:"uppercase",letterSpacing:"1px"}},"Prochaine étape"),
           React.createElement("p",{style:{color:data.color,fontWeight:700,fontSize:"14px",margin:0}},"→ ",data.next)),
-        React.createElement("button",{onClick:p.onContinue,style:{background:"linear-gradient(135deg,"+data.color+",#a07830)",color:"#000",border:"none",borderRadius:"50px",padding:"14px 32px",fontSize:"16px",fontWeight:800,cursor:"pointer",width:"100%"}},p.sectionIndex===3?"Voir mon tableau de bord 🏠":"Continuer →"))));
+        React.createElement("button",{onClick:p.onContinue,style:{background:"linear-gradient(135deg,"+data.color+",#a07830)",color:"#000",border:"none",borderRadius:"50px",padding:"14px 32px",fontSize:"16px",fontWeight:800,cursor:"pointer",width:"100%",boxShadow:p.sectionIndex===3?"0 0 24px "+data.color+"66":"none"}},p.sectionIndex===3?"✓ Terminer le Module 0 — Débloquer VOIR 🔴":"Continuer →"))));
 }
 
 // ── ONBOARDING MODAL ──────────────────────────────────────────────
@@ -1285,10 +1285,16 @@ function Module0(p){
     setCelebrating(i);
     if(p.onSectionComplete)p.onSectionComplete(newCompleted);
   }
+  function finishModule0(){
+    var prog=loadUser(email,'progress')||{};
+    saveUser(email,'progress',_objectSpread(_objectSpread({},prog),{},{module0_done:true,module0_done_at:new Date().toISOString()}));
+    if(p.onModule0Done)p.onModule0Done();
+    else if(p.onGoHome)p.onGoHome();
+  }
   function afterCelebration(){
     var nextStep=celebrating+1;
     setCelebrating(null);
-    if(nextStep>3){p.onGoHome&&p.onGoHome();return;}
+    if(nextStep>3){finishModule0();return;}
     setStep(nextStep);
     topRef.current&&topRef.current.scrollIntoView({behavior:"smooth"});
   }
@@ -1322,6 +1328,7 @@ function Dashboard(p){
   var scores=loadUser(email,'quizScores')||{};
   var completed=progress.completedSections||[];
   var pct=Math.round(completed.length/4*100);
+  var _m0p2=loadUser(email,"progress")||{};var m0Done=_m0p2.module0_done||(pct===100);
   var _m1p=loadUser(email,"progressM1")||{};var m1Done=!!_m1p.module1_done;
   var _m2p=loadUser(email,"module2Progress")||{};var m2Done=!!_m2p.completed;
   var recentEntries=_toConsumableArray(journal||[]).sort(function(a,b){return new Date(b.date)-new Date(a.date)}).slice(0,3);
@@ -1404,11 +1411,11 @@ function Dashboard(p){
       React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"15px",marginBottom:"12px"}},"🗺️ Mon parcours V.A.L.E.U.R©"),
       React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"8px"}},
         [{num:0,title:"COMPRENDRE",sub:"Les 7 peurs · Les masques · Questionnaire",color:C.gold,emoji:"📚",dur:"~45 min",
-          unlocked:true,done:pct===100,
+          unlocked:true,done:m0Done,
           onClick:function(){p.onStart()}},
          {num:1,title:"VOIR",sub:"Identifier le déclencheur & le masque actif",color:C.rouge,emoji:"🔴",dur:"~30 min",
-          unlocked:pct===100,done:m1Done,
-          onClick:function(){if(pct===100)window.location.href="module1.html"}},
+          unlocked:m0Done,done:m1Done,
+          onClick:function(){if(m0Done)window.location.href="module1.html"}},
          {num:2,title:"ACCUEILLIR",sub:"Recevoir l'émotion sans résistance",color:C.orange,emoji:"🟠",dur:"~30 min",
           unlocked:m1Done,done:m2Done,
           onClick:function(){if(m1Done)window.location.href="module2.html"}},
@@ -1556,14 +1563,17 @@ function GlobalNav(p){
   var email=p.session?p.session.email:null;
   var completed=p.completedSections||[];
   var m0pct=Math.round(completed.length/4*100);
+  var m0Done=m0pct===100;
+  // Also check explicit module0_done flag (set by finishModule0 button)
+  if(email){try{var _m0p=loadUser(email,'progress')||{};if(_m0p.module0_done)m0Done=true;}catch(_){}}
   var m1Done=false,m2Done=false;
   if(email){try{var _m1=loadUser(email,'progressM1')||{};m1Done=!!_m1.module1_done;var _m2=loadUser(email,'module2Progress')||{};m2Done=!!_m2.completed}catch(_){}}
   var totalDone=(m0pct===100?1:0)+(m1Done?1:0)+(m2Done?1:0);
   var totalPct=Math.round(totalDone/7*100);
   var activeStep=p.screen==='module0'?0:-1;
   var STEPS=[
-    {num:0,letter:"C",label:"Comprendre",color:C.gold,    unlocked:true,        done:m0pct===100,onClick:function(){p.setScreen('module0')}},
-    {num:1,letter:"V",label:"VOIR",      color:C.rouge,   unlocked:m0pct===100, done:m1Done,     onClick:function(){if(m0pct===100)window.location.href='module1.html'}},
+    {num:0,letter:"C",label:"Comprendre",color:C.gold,    unlocked:true,        done:m0Done,onClick:function(){p.setScreen('module0')}},
+    {num:1,letter:"V",label:"VOIR",      color:C.rouge,   unlocked:m0Done, done:m1Done,     onClick:function(){if(m0Done)window.location.href='module1.html'}},
     {num:2,letter:"A",label:"Accueillir",color:C.orange,  unlocked:m1Done,      done:m2Done,     onClick:function(){if(m1Done)window.location.href='module2.html'}},
     {num:3,letter:"L",label:"Localiser", color:"#e8d44d", unlocked:false,       done:false,      onClick:null},
     {num:4,letter:"E",label:"Explorer",  color:C.vert,    unlocked:false,       done:false,      onClick:null},
@@ -1786,12 +1796,16 @@ function App(){
   }
   if(!session)return React.createElement(LoginScreen,{onLogin:handleLogin});
   var isAdmin=session.email===ADMIN_EMAIL;
-  var completed=(loadUser(session.email,'progress')||{completedSections:[]}).completedSections||[];
+  // Reactive completed — re-read from localStorage whenever screen changes
+  var _uc=useState(function(){return(loadUser(session.email,'progress')||{completedSections:[]}).completedSections||[]}),_sca=_slicedToArray(_uc,2),completedState=_sca[0],setCompletedState=_sca[1];
+  function refreshCompleted(){setCompletedState((loadUser(session.email,'progress')||{completedSections:[]}).completedSections||[]);}
+  function goHome(){refreshCompleted();setScreen('dashboard');}
+  var completed=completedState;
   return React.createElement("div",{style:{background:C.navy,minHeight:"100vh"}},
     showOnboarding&&React.createElement(OnboardingModal,{name:session.name,onDone:function(){setShowOnboarding(false)}}),
-    React.createElement(GlobalNav,{screen:screen,setScreen:setScreen,completedSections:completed,session:session,onLogout:handleLogout}),
+    React.createElement(GlobalNav,{screen:screen,setScreen:function(s){refreshCompleted();setScreen(s)},completedSections:completed,session:session,onLogout:handleLogout}),
     screen==='dashboard'&&React.createElement(Dashboard,{onStart:function(){setScreen('module0')},onOpenJournal:function(){setScreen('journal')},session:session,isAdmin:isAdmin,onOpenAdmin:function(){setScreen('admin')}}),
-    screen==='module0'&&React.createElement(Module0,{session:session,onGoHome:function(){setScreen('dashboard')},onSectionComplete:function(){}}),
+    screen==='module0'&&React.createElement(Module0,{session:session,onGoHome:goHome,onModule0Done:goHome,onSectionComplete:function(){refreshCompleted()}}),
     screen==='journal'&&React.createElement(JournalPage,{session:session,onBack:function(){setScreen('dashboard')}}),
     screen==='admin'&&isAdmin&&React.createElement(AdminDashboard,{onBack:function(){setScreen('dashboard')}}),
     React.createElement("div",{style:{position:"fixed",bottom:"6px",right:"10px",opacity:0.2,pointerEvents:"none"}},
