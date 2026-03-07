@@ -1095,9 +1095,20 @@ function getSession() {
 
 function isModule1Done(email) {
   try {
-    const prog = JSON.parse(localStorage.getItem('valeur_' + email + '_module1Progress') || 'null');
-    return prog && prog.completed === true;
-  } catch(e) { return false; }
+    // Clé principale utilisée par module1.html : progressM1
+    const prog = JSON.parse(localStorage.getItem('valeur_' + email + '_progressM1') || 'null');
+    if (prog && (prog.done === true || prog.completed === true)) return true;
+  } catch(e) {}
+  try {
+    // Clé globale posée par VALEUR_PROGRESS.complete('module1')
+    if (localStorage.getItem('valeur_module1_complete')) return true;
+  } catch(e) {}
+  try {
+    // Clé alternative module1Progress (si d'autres versions l'ont écrite)
+    const prog2 = JSON.parse(localStorage.getItem('valeur_' + email + '_module1Progress') || 'null');
+    if (prog2 && prog2.completed === true) return true;
+  } catch(e) {}
+  return false;
 }
 
 function checkAccess() {
