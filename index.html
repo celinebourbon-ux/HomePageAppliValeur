@@ -2,6 +2,8 @@
 <html lang="fr"><head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Méthode V.A.L.E.U.R© — Espace membres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -23,6 +25,9 @@ input:-webkit-autofill{-webkit-box-shadow:0 0 0 30px #111827 inset!important;-we
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .animate-fadeInUp{animation:fadeInUp 0.5s ease both}
 .animate-scaleIn{animation:scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both}
+@keyframes shimmer{from{background-position:-200% center}to{background-position:200% center}}
+@keyframes goldGlow{0%,100%{box-shadow:0 0 12px #c9a84c66,0 0 24px #c9a84c33}50%{box-shadow:0 0 24px #c9a84caa,0 0 48px #c9a84c66}}
+@keyframes stepPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 #valeur-footer-copyright{position:fixed;bottom:0;left:0;right:0;background:rgba(10,15,26,0.95);border-top:1px solid #1e2f4a;padding:4px 16px;text-align:center;font-size:10px;color:#64748b;z-index:200;pointer-events:none;letter-spacing:0.3px;}
 </style>
 <script src="valeur-config.js"></script>
@@ -42,6 +47,11 @@ document.addEventListener('selectstart',function(e){e.preventDefault();});
 document.addEventListener('copy',function(e){e.preventDefault();});
 document.addEventListener('cut',function(e){e.preventDefault();});
 document.addEventListener('dragstart',function(e){e.preventDefault();});
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&['s','a','u','p','c'].includes(e.key.toLowerCase()))e.preventDefault();
+  if(e.key==='F12')e.preventDefault();
+  if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase()))e.preventDefault();
+});
 
 function _typeof(o){return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(o){return typeof o}:function(o){return o&&"function"==typeof Symbol&&o.constructor===Symbol&&o!==Symbol.prototype?"symbol":typeof o},_typeof(o)}
 function _slicedToArray(r,e){return _arrayWithHoles(r)||_iterableToArrayLimit(r,e)||_unsupportedIterableToArray(r,e)||_nonIterableRest()}
@@ -1623,7 +1633,11 @@ function GlobalNav(p){
   }catch(_){}}
   var totalDone=(m0pct===100?1:0)+(m1Done?1:0)+(m2Done?1:0)+(m3Done?1:0)+(m4Done?1:0)+(m5Done?1:0)+(m6Done?1:0);
   var totalPct=Math.round(totalDone/7*100);
-  var activeStep=p.screen==='module0'?0:-1;
+  // activeStep : le module actuellement ouvert (ou le prochain à faire)
+  var activeStep=p.screen==='module0'?0:
+    p.screen==='dashboard'?(
+      !m0Done?0:!m1Done?1:!m2Done?2:!m3Done?3:!m4Done?4:!m5Done?5:!m6Done?6:-1
+    ):-1;
   var STEPS=[
     {num:0,letter:"C",label:"Comprendre",color:C.gold,    unlocked:true,        done:m0Done,onClick:function(){p.setScreen('module0')}},
     {num:1,letter:"V",label:"VOIR",      color:C.rouge,   unlocked:m0Done, done:m1Done,     onClick:function(){if(m0Done)window.location.href='module1.html'}},
@@ -1715,42 +1729,53 @@ function GlobalNav(p){
                 transition:"transform 0.2s",
                 minWidth:0,flex:1}},
 
-              // Pastille colorée
+              // Pastille colorée — premium (shimmer sur done, glow sur actif)
               React.createElement("div",{style:{
-                width:"32px",height:"32px",borderRadius:"50%",
-                flexShrink:0,
+                width:isActive?"38px":"32px",height:isActive?"38px":"32px",
+                borderRadius:"50%",flexShrink:0,
+                position:"relative",overflow:"hidden",
                 background:s.done
-                  ?"linear-gradient(135deg,"+s.color+","+s.color+"cc)"
-                  :s.unlocked
-                    ?"linear-gradient(135deg,"+s.color+"28,"+s.color+"14)"
-                    :"#0a1020",
-                border:"2.5px solid "+(s.done?s.color:s.unlocked?s.color+"55":"#161f33"),
+                  ?s.color
+                  :isActive
+                    ?"linear-gradient(135deg,"+s.color+"30,"+s.color+"18)"
+                    :s.unlocked
+                      ?"linear-gradient(135deg,"+s.color+"22,"+s.color+"10)"
+                      :"#0a1020",
+                border:"2.5px solid "+(s.done?s.color:isActive?"#c9a84c":s.unlocked?s.color+"55":"#161f33"),
                 display:"flex",alignItems:"center",justifyContent:"center",
-                boxShadow:s.done?"0 0 16px "+s.color+"66,0 2px 8px rgba(0,0,0,0.4)":
+                boxShadow:s.done?"0 0 18px "+s.color+"66,0 2px 8px rgba(0,0,0,.4)":
+                          isActive?"0 0 20px #c9a84c88,0 0 40px #c9a84c33":
                           s.unlocked?"0 0 8px "+s.color+"22":"none",
-                transition:"all 0.35s ease"}},
+                animation:s.done?"shimmer 2.5s linear infinite":isActive?"goldGlow 2.5s ease-in-out infinite":"none",
+                backgroundSize:"200% auto",
+                transition:"all 0.4s cubic-bezier(.34,1.56,.64,1)"}},
+
+                /* Shimmer overlay pseudo-like via inner div */
+                s.done&&React.createElement("div",{style:{
+                  position:"absolute",inset:0,borderRadius:"50%",
+                  background:"linear-gradient(90deg,transparent 0%,rgba(255,215,0,.45) 50%,transparent 100%)",
+                  backgroundSize:"200% 100%",animation:"shimmer 2.5s linear infinite",
+                  pointerEvents:"none"}}),
 
                 s.done
-                  ?React.createElement("span",{style:{color:"#fff",fontSize:"14px",fontWeight:900}},"✓")
+                  ?React.createElement("span",{style:{color:"#fff",fontSize:"14px",fontWeight:900,position:"relative",zIndex:1}},"✓")
                   :s.unlocked
                     ?React.createElement("span",{style:{
-                        color:s.color,fontSize:"12px",fontWeight:900,
-                        fontFamily:"Georgia,serif",
-                        textShadow:"0 0 8px "+s.color+"88"}},s.letter)
+                        color:isActive?"#c9a84c":s.color,
+                        fontSize:"12px",fontWeight:900,
+                        fontFamily:'"Cormorant Garamond",Georgia,serif',
+                        textShadow:"0 0 8px "+(isActive?"#c9a84c":s.color)+"88"}},s.letter)
                     :React.createElement("span",{style:{color:"#1e2d40",fontSize:"11px"}},"●")),
 
-              // Label
+              // Label — Cormorant Garamond
               React.createElement("span",{style:{
-                fontSize:"7.5px",
-                color:s.done?s.color:s.unlocked?s.color+"aa":"#1e2d40",
-                fontWeight:s.done||s.unlocked?700:400,
-                letterSpacing:"0.3px",
-                lineHeight:1.1,
-                textAlign:"center",
-                maxWidth:"40px",
-                overflow:"hidden",
-                textOverflow:"ellipsis",
-                whiteSpace:"nowrap",
+                fontSize:isActive?"8.5px":"7.5px",
+                fontFamily:'"Cormorant Garamond",Georgia,serif',
+                color:s.done?s.color:isActive?"#c9a84c":s.unlocked?s.color+"aa":"#1e2d40",
+                fontWeight:s.done||s.unlocked||isActive?700:400,
+                letterSpacing:"0.3px",lineHeight:1.1,
+                textAlign:"center",maxWidth:"42px",
+                overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",
                 transition:"color 0.3s"}},
                 s.done?"✦"+s.label:s.label));
           })))));

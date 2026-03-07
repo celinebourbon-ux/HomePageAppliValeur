@@ -96,6 +96,7 @@ function markModule1Done(session){
   var prog=loadUser(session.email,'progressM1')||{};
   var updated=_objectSpread(_objectSpread({},prog),{},{done:true,doneAt:new Date().toISOString()});
   saveUser(session.email,'progressM1',updated);
+  VALEUR_PROGRESS.complete('module1');
   // Sync Supabase
   sb.from('user_data').upsert({
     email:session.email,
@@ -111,7 +112,7 @@ function markModule1Done(session){
       patient_name:session.name||session.email,
       date:new Date().toLocaleDateString('fr-FR'),
       heure:new Date().toLocaleTimeString('fr-FR'),
-      VALEUR_PROGRESS.complete('module1');🔴 MODULE 1 VOIR COMPLÉTÉ\nPrénom : "+(session.name||session.email)+"\nEmail : "+session.email+"\nDate : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n→ Le Module 2 — ACCUEILLIR est maintenant déverrouillé."
+      app_notification:"🔴 MODULE 1 VOIR COMPLÉTÉ\nPrénom : "+(session.name||session.email)+"\nEmail : "+session.email+"\nDate : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n→ Le Module 2 — ACCUEILLIR est maintenant déverrouillé."
     },EMAILJS_PUBLIC_KEY).catch(function(){});
   }
 }
