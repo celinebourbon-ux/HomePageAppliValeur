@@ -563,7 +563,7 @@ function FinalQuiz(p){
         React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.7,margin:0}},"💬 ",React.createElement("strong",{style:{color:C.cream}},"Astuce :"), " Les quiz de conscience observatrice dans l'onglet ",React.createElement("em",null,"Intro"), " et les accordéons des onglets ",React.createElement("em",null,"Anxiété"), " et ",React.createElement("em",null,"Masques"), " résument l'essentiel. Une relecture de 15 minutes suffit souvent !")),
       React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},
         tier!=="top"&&React.createElement("button",{onClick:p.onRetry||retry,style:{background:"none",border:"2px solid "+td.border,color:td.scoreColor,borderRadius:"10px",padding:"12px 20px",cursor:"pointer",fontWeight:700,fontSize:"14px"}},td.btnLabel),
-        p.onGoHome&&React.createElement("button",{onClick:p.onGoHome,style:{background:"none",border:"1px solid "+C.navyBorder,color:C.textMuted,borderRadius:"10px",padding:"10px 20px",cursor:"pointer",fontSize:"13px"}},"Voir mon tableau de bord →")),
+        p.onGoHome&&React.createElement("button",{onClick:p.onGoHome,style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",color:"#000",border:"none",borderRadius:"50px",padding:"14px 32px",cursor:"pointer",fontSize:"15px",fontWeight:800,boxShadow:"0 0 24px "+C.gold+"55",marginTop:"8px"}},"✓ Terminer le Module 0 — Débloquer VOIR 🔴")),
       React.createElement(Copyright,null));
   }
   return React.createElement("div",null,
@@ -1306,7 +1306,7 @@ function Module0(p){
     step===0&&React.createElement(Section1,{onComplete:function(){complete(0)},session:p.session}),
     step===1&&React.createElement(Section2,{onComplete:function(){complete(1)},session:p.session}),
     step===2&&React.createElement(Section3,{onComplete:function(){complete(2)},session:p.session}),
-    step===3&&React.createElement(Section4,{onComplete:function(){complete(3)},session:p.session,onGoHome:p.onGoHome}));
+    step===3&&React.createElement(Section4,{onComplete:function(){complete(3)},session:p.session,onGoHome:finishModule0}));
 }
 
 // ── PROGRESS RING ─────────────────────────────────────────────────
