@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 — LOCALISER | Méthode V.A.L.E.U.R©</title>
+<style>
+/* © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés */
+:root{--jaune:#d69e2e;--jaune-dark:#b7791f;--jaune-light:#faf089;--jaune-mid:#f6e05e;--jaune-bg:#2d2200;--navy:#0a0f1a;--navy-card:#1a2235;--navy-mid:#111827;--navy-border:#2a3650;--gold:#c9a84c;--green:#38a169;--green-light:#9ae6b4;--rouge:#e53e3e;--rouge-light:#feb2b2;--orange:#ED8936;--violet:#805ad5;--bleu:#3182ce;--cream:#f7f3ee;--text-muted:#94a3b8;--text-light:#e2e8f0;--radius:16px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--navy);color:var(--text-light);line-height:1.7;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none;}
+textarea,input{font-family:inherit;user-select:text;-webkit-user-select:text;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--navy);}::-webkit-scrollbar-thumb{background:var(--jaune);border-radius:3px;}
+@media(max-width:480px){button{min-height:44px;}textarea,input{font-size:16px!important;}}
+.access-screen{display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px;flex-direction:column;gap:20px;text-align:center;}
+.access-screen.show{display:flex;}
+.access-card{background:var(--navy-card);border:2px solid var(--jaune);border-radius:24px;padding:36px 28px;max-width:420px;width:100%;}
+.module-header{background:linear-gradient(135deg,var(--jaune-bg) 0%,#1a1500 50%,var(--navy) 100%);border-bottom:2px solid var(--jaune);padding:0;}
+.header-inner{max-width:860px;margin:0 auto;padding:28px 20px 20px;}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);border:1px solid var(--navy-border);color:var(--text-muted);padding:8px 16px;border-radius:50px;cursor:pointer;font-size:13px;text-decoration:none;transition:all .2s;}
+.back-btn:hover{border-color:var(--jaune);color:var(--jaune);}
+.module-badge{display:inline-flex;align-items:center;gap:8px;background:var(--jaune);color:#000;padding:6px 18px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.header-content{text-align:center;padding-bottom:8px;}
+.header-content h1{font-family:Georgia,serif;font-size:clamp(26px,5vw,40px);color:var(--cream);line-height:1.2;margin-bottom:10px;}
+.header-content h1 span{color:var(--jaune);}
+.header-content p{color:var(--text-muted);font-size:clamp(14px,3vw,16px);max-width:560px;margin:0 auto 18px;}
+.header-meta{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.header-meta span{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);}
+.header-meta span strong{color:var(--jaune);}
+.progress-bar{background:var(--navy-mid);border-bottom:1px solid var(--navy-border);padding:14px 20px;position:sticky;top:0;z-index:100;}
+.progress-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:6px;}
+.p-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;cursor:pointer;border:none;background:none;padding:0;}
+.p-circle{width:32px;height:32px;border-radius:50%;background:var(--navy-border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-muted);transition:all .3s;}
+.p-circle.active{background:var(--jaune);color:#000;box-shadow:0 0 0 4px rgba(214,158,46,.25);}
+.p-circle.done{background:var(--green);color:#fff;}
+.p-label{font-size:10px;color:var(--text-muted);font-weight:500;}
+.p-label.active{color:var(--jaune);font-weight:700;}
+.p-line{height:3px;background:var(--navy-border);flex:1;border-radius:2px;margin-bottom:18px;transition:background .3s;}
+.p-line.done{background:var(--green);}
+.section{display:none;max-width:860px;margin:0 auto;padding:36px 20px 60px;animation:fadeUp .4s ease;}
+.section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes confettiFall{from{transform:translateY(-10px) rotate(0);opacity:1}to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@keyframes scaleIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(214,158,46,.4)}70%{box-shadow:0 0 0 12px rgba(214,158,46,0)}}
+.section-title{font-family:Georgia,serif;font-size:clamp(22px,4vw,30px);font-weight:700;color:var(--cream);margin-bottom:6px;}
+.section-subtitle{color:var(--text-muted);font-size:14px;margin-bottom:28px;}
+.accroche{background:linear-gradient(135deg,var(--jaune-bg),#1a1500);border-left:4px solid var(--jaune);padding:20px 24px;border-radius:0 var(--radius) var(--radius) 0;font-size:17px;font-style:italic;font-weight:600;color:var(--jaune-mid);margin-bottom:28px;line-height:1.6;}
+.card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.card h3{font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--cream);}
+.highlight-box{background:linear-gradient(135deg,var(--jaune-bg),#1a1500);border:2px solid var(--jaune);border-radius:var(--radius);padding:24px;margin:20px 0;}
+.highlight-box h3{color:var(--jaune);font-size:15px;font-weight:700;margin-bottom:12px;}
+.strat-grid{display:flex;flex-direction:column;gap:8px;margin:16px 0;}
+.strat-item{display:flex;gap:12px;align-items:flex-start;background:var(--navy-mid);border:1px solid var(--navy-border);border-radius:10px;padding:12px 16px;}
+.strat-emoji{font-size:20px;flex-shrink:0;margin-top:2px;}
+.strat-title{font-size:14px;font-weight:700;color:var(--cream);margin:0 0 2px;}
+.strat-desc{font-size:13px;color:var(--text-muted);margin:0;line-height:1.5;}
+.accordion{display:flex;flex-direction:column;gap:8px;margin:16px 0;}
+.acc-item{background:var(--navy-mid);border:1px solid var(--navy-border);border-radius:12px;overflow:hidden;}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;color:var(--cream);font-weight:600;font-size:14px;transition:background .2s;}
+.acc-header:hover{background:rgba(214,158,46,.08);}
+.acc-arrow{color:var(--jaune);font-size:12px;transition:transform .3s;}
+.acc-item.open .acc-arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:16px 18px;border-top:1px solid var(--navy-border);}
+.acc-item.open .acc-body{display:block;}
+.acc-body p{color:var(--text-muted);font-size:14px;line-height:1.8;margin-bottom:8px;}
+.acc-body p:last-child{margin-bottom:0;}
+.body-scan-container{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;margin:16px 0;}
+.body-zone{transition:all .3s;cursor:pointer;}
+.body-zone:hover{filter:brightness(1.5);}
+.zone-info-box{background:var(--navy-mid);border:2px solid var(--jaune);border-radius:14px;padding:18px;animation:fadeUp .3s ease;}
+.zone-info-box h4{color:var(--jaune);font-size:15px;font-weight:700;margin-bottom:8px;}
+.sensation-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+.sensation-card{border-radius:12px;padding:16px;text-align:center;}
+.sensation-card .s-emoji{font-size:28px;margin-bottom:8px;}
+.sensation-card .s-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+.sensation-card .s-desc{font-size:12px;line-height:1.5;}
+.breath-wrap{text-align:center;padding:24px 16px;}
+.breath-ring{width:140px;height:140px;border-radius:50%;border:4px solid var(--jaune);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;transition:all .8s ease;background:rgba(214,158,46,.05);}
+.breath-ring.inhale{transform:scale(1.15);box-shadow:0 0 40px rgba(214,158,46,.35);}
+.breath-ring.hold{box-shadow:0 0 20px rgba(201,168,76,.2);}
+.breath-ring.exhale{transform:scale(.92);border-color:var(--green);box-shadow:0 0 30px rgba(56,161,105,.2);}
+.emo-btn{padding:10px 18px;border-radius:50px;border:2px solid var(--navy-border);background:var(--navy-mid);color:var(--text-muted);cursor:pointer;font-size:14px;font-weight:600;transition:all .2s;}
+.emo-btn.selected{border-color:var(--jaune);background:rgba(214,158,46,.15);color:var(--jaune);}
+.ex-step{display:none;animation:fadeUp .4s ease;}
+.ex-step.active{display:block;}
+.quiz-q{color:var(--cream);font-size:16px;font-weight:700;line-height:1.5;margin-bottom:16px;}
+.quiz-opt{display:block;width:100%;padding:14px 18px;background:var(--navy-mid);border:2px solid var(--navy-border);border-radius:12px;cursor:pointer;color:var(--text-light);font-size:14px;text-align:left;transition:all .2s;margin-bottom:8px;}
+.quiz-opt:hover:not([disabled]){border-color:var(--jaune);background:rgba(214,158,46,.08);}
+.quiz-opt.correct{border-color:var(--green)!important;background:rgba(56,161,105,.1);color:var(--green-light);}
+.quiz-opt.wrong{border-color:var(--rouge)!important;background:rgba(229,62,62,.1);color:var(--rouge-light);}
+.journal-label{font-size:13px;font-weight:700;color:var(--jaune);margin-bottom:8px;display:block;}
+.journal-ta{width:100%;background:var(--navy-mid);border:2px solid var(--navy-border);border-radius:12px;padding:14px;color:var(--text-light);font-size:15px;line-height:1.8;resize:vertical;min-height:100px;outline:none;transition:border-color .2s;}
+.journal-ta:focus{border-color:var(--jaune);}
+.j-save-btn{margin-top:10px;padding:10px 22px;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;border:none;border-radius:50px;cursor:pointer;font-size:14px;font-weight:700;transition:all .2s;}
+.j-save-btn:hover{opacity:.9;transform:translateY(-1px);}
+.j-saved{color:var(--green);font-size:13px;margin-top:6px;display:none;}
+.nav-btns{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;}
+.btn-prev{padding:12px 24px;background:none;border:2px solid var(--navy-border);color:var(--text-muted);border-radius:50px;cursor:pointer;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;}
+.btn-prev:hover{border-color:var(--jaune);color:var(--jaune);}
+.btn-next{padding:14px 32px;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;border:none;border-radius:50px;cursor:pointer;font-size:15px;font-weight:800;flex:1;max-width:360px;transition:all .2s;box-shadow:0 4px 20px rgba(214,158,46,.3);}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(214,158,46,.45);}
+.terminer-block{background:linear-gradient(135deg,#1a1a00,#0f1200);border:2px solid rgba(214,158,46,.5);border-radius:20px;padding:28px 24px;text-align:center;margin-top:32px;display:none;}
+.terminer-btn{display:block;width:100%;max-width:440px;margin:14px auto 0;padding:18px 40px;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;border:none;border-radius:50px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 6px 30px rgba(214,158,46,.4);letter-spacing:.5px;transition:all .2s;animation:pulse 2s infinite;}
+.terminer-btn:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(214,158,46,.55);}
+.confetti-piece{position:fixed;top:-10px;border-radius:3px;animation:confettiFall linear both;pointer-events:none;}
+.celebration-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9000;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
+.celebration-overlay.show{display:flex;}
+.celebration-card{background:linear-gradient(135deg,#1a1a00,#0f1200);border:2px solid var(--jaune);border-radius:24px;padding:36px 28px;max-width:460px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7);animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1);}
+.copyright{text-align:center;padding:20px;color:var(--text-muted);font-size:10px;line-height:1.8;letter-spacing:.5px;border-top:1px solid var(--navy-border);margin-top:16px;}
+@media(max-width:600px){.sensation-grid{grid-template-columns:1fr;}.body-scan-container{flex-direction:column;align-items:center;}}
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+'use strict';
+/* © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés */
+
+const SUPABASE_URL='https://ecetwkusxzbqoztokgtk.supabase.co';
+const SUPABASE_KEY='sb_publishable_OAESsD6hq6D38azq6Pjxuw_28frwX6M';
+const EMAILJS_SERVICE='Questionnaire VALEUR';
+const EMAILJS_TEMPLATE='template_inscription';
+const EMAILJS_PUBLIC_KEY='Qamyb35cCRJ5Pulqs';
+const ADMIN_EMAIL='celine.bourbon@gmail.com';
+const APP_URL='https://celinebourbon-ux.github.io/HomePageAppliValeur/';
+
+let sb; try{sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
+
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&['c','a','s','p','u'].includes(e.key.toLowerCase()))e.preventDefault();
+  if(e.key==='F12')e.preventDefault();
+});
+
+// SESSION
+function getSession(){
+  try{
+    const reg=JSON.parse(localStorage.getItem('valeur_registry')||'[]');
+    for(const u of reg){
+      const s=JSON.parse(localStorage.getItem('valeur_'+u.email+'_session')||'null');
+      if(s&&s.loginAt&&(Date.now()-new Date(s.loginAt))/86400000<7)return s;
+    }
+  }catch(e){}
+  return null;
+}
+
+function isModule2Done(email){
+  try{
+    const p=JSON.parse(localStorage.getItem('valeur_'+email+'_module2Progress')||'{}');
+    return p.completed===true;
+  }catch(e){return false;}
+}
+
+function checkAccess(){
+  const session=getSession();
+  if(!session){window.location.href=APP_URL;return;}
+  if(!isModule2Done(session.email)){
+    document.getElementById('screen-loading').classList.remove('show');
+    document.getElementById('screen-denied').classList.add('show');
+    return;
+  }
+  document.getElementById('screen-loading').classList.remove('show');
+  document.getElementById('app-content').style.display='block';
+  loadJournals();
+  updateProgress();
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(checkAccess,400));
+
+// PROGRESS
+let currentSection=1;
+const SECTION_LABELS=['Corps & Témoin','Body Scan','Dictionnaire','Pratique'];
+const completedSections=new Set();
+
+function updateProgress(){
+  for(let i=1;i<=4;i++){
+    const c=document.getElementById('circle-'+i);
+    const l=document.getElementById('label-'+i);
+    const ln=document.getElementById('line-'+i);
+    if(!c)continue;
+    c.className='p-circle'+(i===currentSection?' active':completedSections.has(i)?' done':'');
+    if(l)l.className='p-label'+(i===currentSection?' active':'');
+    if(ln&&i<4)ln.className='p-line'+(completedSections.has(i)?' done':'');
+  }
+}
+
+function showSection(n){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('section-'+n);
+  if(el){el.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+  currentSection=n;
+  updateProgress();
+}
+
+function nextSection(from){
+  completedSections.add(from);
+  saveJournalIfNeeded(from);
+  if(from<4)showSection(from+1);
+  if(from===3){
+    document.getElementById('quiz-main').style.display='block';
+    renderQuiz();
+  }
+  updateProgress();
+}
+
+function jumpSection(n){
+  if(n<=currentSection||completedSections.has(n-1)||n===1)showSection(n);
+}
+
+// JOURNAL
+function loadJournals(){
+  const session=getSession();if(!session)return;
+  const entries=JSON.parse(localStorage.getItem('valeur_'+session.email+'_journal')||'[]');
+  for(let i=1;i<=4;i++){
+    const e=entries.find(x=>x.key==='module3_section_'+i);
+    const ta=document.getElementById('journal-'+i);
+    if(ta&&e)ta.value=e.text;
+  }
+}
+
+function saveJournal(n){
+  const session=getSession();if(!session)return;
+  const ta=document.getElementById('journal-'+n);
+  if(!ta||!ta.value.trim())return;
+  const key='module3_section_'+n;
+  const entries=JSON.parse(localStorage.getItem('valeur_'+session.email+'_journal')||'[]').filter(e=>e.key!==key);
+  entries.push({key,sectionLabel:'Module 3 — '+SECTION_LABELS[n-1],text:ta.value.trim(),date:new Date().toISOString()});
+  localStorage.setItem('valeur_'+session.email+'_journal',JSON.stringify(entries));
+  if(sb)sb.from('user_data').upsert({email:session.email,journal:entries,updated_at:new Date().toISOString()}).catch(()=>{});
+  const saved=document.getElementById('saved-'+n);
+  if(saved){saved.style.display='block';setTimeout(()=>saved.style.display='none',2000);}
+}
+
+function saveJournalIfNeeded(n){
+  const ta=document.getElementById('journal-'+n);
+  if(ta&&ta.value.trim())saveJournal(n);
+}
+
+// ACCORDION
+function toggleAcc(header){
+  const item=header.parentElement;
+  const was=item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(i=>i.classList.remove('open'));
+  if(!was)item.classList.add('open');
+}
+
+// BODY SCAN WIDGET
+const ZONES={
+  crane:{name:'Tête & Crâne',masques:'🔴 Rouge · 🟡 Jaune',desc:'Zone de surmenage mental et d\'hypervigilance. Maux de tête de tension, bourdonnements. Le Masque Rouge scrute les signaux corporels en permanence. Le Masque Jaune planifie en boucle.',question:'Y a-t-il une pression, un serrement, une agitation dans votre tête en ce moment ?'},
+  gorge:{name:'Gorge',masques:'🟠 Orange · 🟢 Vert',desc:'Les mots retenus, les larmes bloquées, les "non" qu\'on n\'a pas osé dire. Les émotions que le corps refuse de laisser sortir. Zone centrale du Masque Orange (évitement émotionnel) et Vert (peur d\'être rejeté si on s\'exprime).',question:'Y a-t-il quelque chose que vous avez envie de dire mais que vous retenez ?'},
+  poitrine:{name:'Poitrine & Cœur',masques:'🔴 Rouge · 🟠 Orange · 🟢 Vert',desc:'Le siège des émotions profondes : peur, chagrin, amour bloqué. Oppression, serrement, cœur qui s\'emballe. Zone des trois masques les plus émotionnels de la méthode.',question:'Sentez-vous un poids, un serrement, ou au contraire un vide dans la poitrine ?'},
+  epaules:{name:'Épaules',masques:'🟠 Orange · 🟡 Jaune · 🔷 Indigo',desc:'Le poids des responsabilités assumées seul·e. Le besoin de contrôle du Masque Jaune, la peur du jugement du Masque Indigo. Tensions chroniques ici = masques actifs depuis longtemps.',question:'Portez-vous quelque chose de lourd sur les épaules en ce moment ?'},
+  ventre:{name:'Ventre & Estomac',masques:'🟡 Jaune · 🟢 Vert · 🔷 Indigo',desc:'L\'intuition corporelle, mais aussi l\'anxiété d\'anticipation. Nœud à l\'estomac = Masque Jaune (peur de l\'inconnu). Poids dans le ventre = Masque Vert (peur du rejet). Boule = Masque Indigo (peur d\'échouer).',question:'Y a-t-il un nœud, une boule, ou un vide dans votre ventre ?'},
+  bras:{name:'Bras & Mains',masques:'🟡 Jaune · 🔵 Bleu',desc:'La retenue et le contrôle. Poings serrés = Masque Bleu (impuissance, colère retenue). Mains moites = Masque Jaune (anxiété de performance). Mains qui cherchent le téléphone = agitation du Masque Jaune.',question:'Vos mains sont-elles crispées, moites, ou cherchent-elles quelque chose à faire ?'},
+  dos:{name:'Bas du Dos',masques:'🔵 Bleu · 💜 Violet',desc:'Le siège du soutien non reçu et de l\'impuissance chronique. Douleurs lombaires persistantes souvent liées aux Masques Bleu et Violet — les deux masques de la perte de contrôle profonde.',question:'Y a-t-il une tension ou une lourdeur dans le bas de votre dos ?'},
+  jambes:{name:'Jambes & Pieds',masques:'💜 Violet',desc:'L\'enracinement et la fuite. Sensation de jambes molles = Masque Violet (désorientation, peur de perdre son identité). Difficulté à "rester présent·e". Envie chronique de s\'échapper.',question:'Avez-vous les pieds sur terre en ce moment, ou une envie de vous échapper ?'}
+};
+
+function selectZone(id){
+  document.querySelectorAll('.body-zone').forEach(z=>{z.setAttribute('fill','rgba(214,158,46,0.08)');z.setAttribute('stroke','rgba(214,158,46,0.35)');});
+  const el=document.getElementById('zone-'+id);
+  if(el){el.setAttribute('fill','rgba(214,158,46,0.4)');el.setAttribute('stroke','#d69e2e');}
+  const d=ZONES[id];if(!d)return;
+  document.getElementById('zone-info').innerHTML=`<div class="zone-info-box"><h4>🧭 ${d.name}</h4><p style="color:#c9a84c;font-size:12px;font-weight:700;margin-bottom:8px;">${d.masques}</p><p style="color:var(--text-muted);font-size:13px;line-height:1.7;margin-bottom:10px;">${d.desc}</p><div style="background:rgba(214,158,46,0.1);border:1px solid rgba(214,158,46,0.3);border-radius:10px;padding:12px;"><p style="color:var(--jaune-mid);font-style:italic;margin:0;">"${d.question}"</p></div></div>`;
+}
+
+// BREATHING
+let breathRunning=false,breathInterval=null;
+const PHASES=[{label:'Inspirez',sub:'Je sens mon corps',dur:4,cls:'inhale'},{label:'Retenez',sub:'Je reste avec la sensation',dur:4,cls:'hold'},{label:'Expirez',sub:'Je laisse circuler',dur:6,cls:'exhale'}];
+
+function startBreathing(){
+  if(breathRunning){stopBreathing();return;}
+  breathRunning=true;
+  document.getElementById('breath-btn').textContent='Arrêter';
+  let pi=0,count=0;
+  const ring=document.getElementById('breath-ring'),lbl=document.getElementById('breath-lbl'),sub=document.getElementById('breath-sub'),tmr=document.getElementById('breath-tmr');
+  function run(){
+    const ph=PHASES[pi];
+    ring.className='breath-ring '+ph.cls;lbl.textContent=ph.label;sub.textContent=ph.sub;count=ph.dur;tmr.textContent=count;
+    breathInterval=setInterval(()=>{count--;tmr.textContent=count;if(count<=0){clearInterval(breathInterval);pi=(pi+1)%3;if(breathRunning)run();}},1000);
+  }
+  run();
+}
+function stopBreathing(){
+  breathRunning=false;clearInterval(breathInterval);
+  const ring=document.getElementById('breath-ring');if(ring)ring.className='breath-ring';
+  const btn=document.getElementById('breath-btn');if(btn)btn.textContent='Commencer';
+  const tmr=document.getElementById('breath-tmr');if(tmr)tmr.textContent='';
+  const lbl=document.getElementById('breath-lbl');if(lbl)lbl.textContent='Prêt·e ?';
+  const sub=document.getElementById('breath-sub');if(sub)sub.textContent='Cliquez pour commencer';
+}
+
+// LOCALISER EXERCISE
+let chosenEmotion='',chosenZoneEx='',scanTimer=null;
+const EMO_MAP={
+  'anxiété':{masque:'🟡 Masque Jaune',zone:'épaules, estomac, mâchoires',q:'Où est-ce que mon besoin de contrôle habite dans mon corps ?'},
+  'colère':{masque:'🔵 Masque Bleu',zone:'mâchoires, poings, nuque',q:'Où est-ce que je résiste à lâcher le contrôle ?'},
+  'tristesse':{masque:'🟠 Masque Orange',zone:'gorge, poitrine, épaules',q:'Où est-ce que je retiens ce qui veut s\'exprimer ?'},
+  'culpabilité':{masque:'🔷 Masque Indigo',zone:'épaules, estomac, nuque',q:'Où est-ce que la peur du jugement se loge en moi ?'},
+  'honte':{masque:'💜 Masque Violet',zone:'corps entier, respiration',q:'Où est-ce que je ressens la peur de ne plus savoir qui je suis ?'}
+};
+const EX_ZONES=['crane','gorge','poitrine','epaules','ventre','bras','dos','jambes'];
+
+function chooseEmo(emo,btn){
+  chosenEmotion=emo;
+  document.querySelectorAll('.emo-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function exGoStep(n){
+  document.querySelectorAll('.ex-step').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('ex-step-'+n);if(el)el.classList.add('active');
+  if(n===2&&chosenEmotion){document.getElementById('ex-emo-lbl').textContent=chosenEmotion;startScanAnim();}
+  if(n===4)showExResult();
+}
+
+function startScanAnim(){
+  let idx=0;clearInterval(scanTimer);
+  EX_ZONES.forEach(id=>{const el=document.getElementById('exz-'+id);if(el)el.setAttribute('fill','rgba(214,158,46,0.08)');});
+  scanTimer=setInterval(()=>{
+    EX_ZONES.forEach(id=>{const el=document.getElementById('exz-'+id);if(el)el.setAttribute('fill','rgba(214,158,46,0.08)');});
+    const el=document.getElementById('exz-'+EX_ZONES[idx]);if(el)el.setAttribute('fill','rgba(214,158,46,0.5)');
+    idx=(idx+1)%EX_ZONES.length;
+  },700);
+  setTimeout(()=>clearInterval(scanTimer),30000);
+}
+
+function selectZoneEx(id){
+  clearInterval(scanTimer);
+  EX_ZONES.forEach(z=>{const el=document.getElementById('exz-'+z);if(el)el.setAttribute('fill','rgba(214,158,46,0.08)');});
+  const el=document.getElementById('exz-'+id);if(el)el.setAttribute('fill','rgba(214,158,46,0.5)');
+  chosenZoneEx=ZONES[id]?ZONES[id].name:id;
+  document.getElementById('ex-zone-lbl').textContent=chosenZoneEx;
+  setTimeout(()=>exGoStep(3),600);
+}
+
+function showExResult(){
+  const data=EMO_MAP[chosenEmotion]||{masque:'Non identifié',zone:'—',q:'—'};
+  const d1=(document.getElementById('ex-d1')||{value:''}).value;
+  const d2=(document.getElementById('ex-d2')||{value:''}).value;
+  const d3=(document.getElementById('ex-d3')||{value:''}).value;
+  document.getElementById('ex-result').innerHTML=`
+    <div style="background:linear-gradient(135deg,var(--jaune-bg),#1a1500);border:2px solid var(--jaune);border-radius:16px;padding:20px;margin-bottom:14px;">
+      <p style="color:var(--jaune);font-weight:700;font-size:15px;margin-bottom:10px;">🧭 Votre carte corporelle du moment</p>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:4px;">Émotion : <strong style="color:var(--cream);text-transform:capitalize;">${chosenEmotion}</strong></p>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:4px;">Zone : <strong style="color:var(--cream);">${chosenZoneEx}</strong></p>
+      ${d1?`<p style="color:var(--text-muted);font-size:13px;">Sensation : <em style="color:var(--jaune-mid);">${d1}</em></p>`:''}
+    </div>
+    <div style="background:rgba(214,158,46,0.08);border:1px solid rgba(214,158,46,0.3);border-radius:12px;padding:16px;">
+      <p style="color:var(--jaune);font-weight:700;margin-bottom:8px;">${data.masque} identifié</p>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:10px;">Zone typique : <strong style="color:var(--cream);">${data.zone}</strong></p>
+      <p style="color:var(--jaune-mid);font-style:italic;font-size:14px;">"${data.q}"</p>
+      <p style="color:var(--text-muted);font-size:12px;margin-top:12px;">→ Dans le Module 4 — EXPLORER, vous comprendrez <strong>ce que ce masque protège</strong> et la peur qu'il tente d'éviter.</p>
+    </div>`;
+  const session=getSession();
+  if(session){
+    const key='module3_exercice';
+    const text=`Émotion: ${chosenEmotion} | Zone: ${chosenZoneEx} | Sensation: ${d1} | Couleur/texture: ${d2} | Durée: ${d3}`;
+    const entries=JSON.parse(localStorage.getItem('valeur_'+session.email+'_journal')||'[]').filter(e=>e.key!==key);
+    entries.push({key,sectionLabel:'Module 3 — Exercice LOCALISER',text,date:new Date().toISOString()});
+    localStorage.setItem('valeur_'+session.email+'_journal',JSON.stringify(entries));
+  }
+}
+
+// QUIZ
+const QUIZ=[
+  {q:"Pourquoi localiser l'émotion dans le corps est-il essentiel ?",opts:["Pour pouvoir l'ignorer plus facilement","Car le corps ne peut pas mentir ni rationaliser","Pour éviter d'en parler à un thérapeute","Car la tête réagit avant le corps"],ok:1},
+  {q:"Le masque Vert (peur du rejet) se manifeste principalement dans...",opts:["Les mâchoires, poings et nuque","Les épaules et les mains moites","La gorge, la poitrine et le ventre","Le dos et les jambes"],ok:2},
+  {q:"Une sensation d'engourdissement ou d'absence corporelle signifie...",opts:["Que tout va bien, le corps est détendu","Une hypoactivation, effondrement du système nerveux","Un signe de bonne gestion émotionnelle","Que l'émotion a complètement disparu"],ok:1},
+  {q:"Le body scan V.A.L.E.U.R© se pratique...",opts:["Du bas vers le haut, en analysant chaque sensation","En se concentrant uniquement sur les zones douloureuses","Du haut vers le bas, zone par zone, sans analyser","Uniquement allongé dans le silence absolu"],ok:2},
+  {q:"Quel masque produit une sensation de vertige et de déconnexion de soi ?",opts:["Masque Rouge","Masque Bleu","Masque Jaune","Masque Violet"],ok:3},
+  {q:"Après avoir LOCALISÉ, la prochaine étape V.A.L.E.U.R© est...",opts:["Retourner au Module 2 — ACCUEILLIR","EXPLORER — comprendre la peur sous-jacente au masque","Refaire le questionnaire des 7 masques","RENFORCER — ancrer de nouveaux comportements"],ok:1}
+];
+let qIdx=0,qResults=[],qRevealed=false;
+
+function renderQuiz(){
+  const q=QUIZ[qIdx];
+  const prog=document.getElementById('q-prog');if(prog)prog.style.width=((qIdx/QUIZ.length)*100)+'%';
+  const sc=document.getElementById('q-score');if(sc)sc.textContent=qResults.filter(Boolean).length+' ✓';
+  const qel=document.getElementById('q-text');if(qel)qel.textContent=q.q;
+  const opts=document.getElementById('q-opts');
+  if(opts)opts.innerHTML=q.opts.map((o,i)=>`<button class="quiz-opt" onclick="quizPick(${i})">${o}</button>`).join('');
+  qRevealed=false;
+  const nb=document.getElementById('q-next');if(nb)nb.style.display='none';
+}
+
+function quizPick(i){
+  if(qRevealed)return;qRevealed=true;
+  const correct=i===QUIZ[qIdx].ok;
+  qResults.push(correct);
+  document.querySelectorAll('.quiz-opt').forEach((b,idx)=>{
+    b.disabled=true;
+    if(idx===QUIZ[qIdx].ok)b.classList.add('correct');
+    else if(idx===i&&!correct)b.classList.add('wrong');
+  });
+  const nb=document.getElementById('q-next');
+  if(nb){nb.style.display='block';nb.textContent=qIdx<QUIZ.length-1?'Question suivante →':'Voir mes résultats →';}
+}
+
+function quizNext(){
+  if(qIdx<QUIZ.length-1){qIdx++;renderQuiz();}else{showQuizResult();}
+}
+
+function showQuizResult(){
+  const score=qResults.filter(Boolean).length;
+  const pct=Math.round(score/QUIZ.length*100);
+  const tier=pct===100?'perfect':pct>=67?'good':'retry';
+  const T={
+    perfect:{e:'🧭',c:'var(--jaune)',t:'Parfait ! Vous maîtrisez LOCALISER !',m:'Vous savez lire votre corps avec précision. C\'est une compétence rare — et transformatrice. Le Module 4 vous attend.'},
+    good:{e:'💪',c:'var(--orange)',t:'Très bien — quelques nuances à approfondir',m:'Vous avez assimilé l\'essentiel. Prenez le temps de relire le dictionnaire corps/masques avant de passer à EXPLORER.'},
+    retry:{e:'🌱',c:'var(--bleu)',t:'À consolider — relisez le dictionnaire',m:'Les correspondances corps/masques demandent de la pratique. Relisez la Section 3 et recommencez le quiz — vous verrez votre progression !'}
+  }[tier];
+  const rb=document.getElementById('q-result');
+  if(rb){
+    rb.style.display='block';
+    rb.innerHTML=`<div style="text-align:center;padding:16px 0;"><div style="font-size:52px;margin-bottom:12px;">${T.e}</div><div style="background:rgba(214,158,46,0.12);border:2px solid ${T.c};border-radius:14px;padding:18px;margin-bottom:14px;"><p style="color:${T.c};font-size:26px;font-weight:800;margin:0 0 6px;">${score}/${QUIZ.length}</p><p style="color:var(--cream);font-size:15px;font-weight:700;">${T.t}</p></div><p style="color:var(--text-muted);font-size:14px;line-height:1.8;margin-bottom:16px;">${T.m}</p>${tier==='retry'?'<button onclick="retryQuiz()" style="padding:10px 24px;background:none;border:2px solid var(--jaune);color:var(--jaune);border-radius:50px;cursor:pointer;font-size:14px;font-weight:700;margin-bottom:12px;">Recommencer le quiz</button><br>':''}</div>`;
+  }
+  document.getElementById('quiz-main').style.display='none';
+  document.getElementById('terminer-block').style.display='block';
+}
+
+function retryQuiz(){
+  qIdx=0;qResults=[];
+  document.getElementById('q-result').style.display='none';
+  document.getElementById('quiz-main').style.display='block';
+  renderQuiz();
+}
+
+// MODULE COMPLETION
+function markModule3Done(){
+  const session=getSession();if(!session)return;
+  const email=session.email,name=session.name||email,now=new Date().toISOString();
+  try{localStorage.setItem('valeur_'+email+'_module3Progress',JSON.stringify({completed:true,completedAt:now}));}catch(e){}
+  if(sb)sb.from('user_data').upsert({email,module3_done:true,module3_completed_at:now,updated_at:now}).catch(()=>{});
+  if(typeof emailjs!=='undefined'){
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    emailjs.send(EMAILJS_SERVICE,EMAILJS_TEMPLATE,{
+      to_email:ADMIN_EMAIL,patient_email:email,patient_name:name,
+      date:new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),
+      heure:new Date().toLocaleTimeString('fr-FR'),
+      app_notification:`🟡 MODULE 3 COMPLÉTÉ\nPrénom  : ${name}\nEmail   : ${email}\nModule  : Module 3 — LOCALISER\nDate    : ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}\n\n→ Module 4 déverrouillé`
+    }).catch(()=>{});
+  }
+  launchConfetti();
+  document.getElementById('celebration-overlay').classList.add('show');
+}
+
+function launchConfetti(){
+  const cols=['#d69e2e','#c9a84c','#faf089','#38a169','#805ad5','#f6e05e','#9ae6b4'];
+  for(let i=0;i<70;i++){
+    const el=document.createElement('div');el.className='confetti-piece';
+    const sz=6+Math.random()*8;
+    el.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*2}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),5000);
+  }
+}
+</script>
+
+<!-- LOADING -->
+<div class="access-screen show" id="screen-loading">
+  <div style="text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px;">🌀</div>
+    <p style="color:var(--text-muted);font-size:15px;">Vérification de votre session…</p>
+  </div>
+</div>
+
+<!-- DENIED -->
+<div class="access-screen" id="screen-denied">
+  <div class="access-card">
+    <div style="font-size:52px;margin-bottom:14px;">🔒</div>
+    <h2 style="font-family:Georgia,serif;color:var(--cream);font-size:22px;margin-bottom:10px;">Module non encore déverrouillé</h2>
+    <p style="color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:20px;">Vous devez d'abord compléter le <strong style="color:var(--jaune);">Module 2 — ACCUEILLIR</strong> pour accéder à ce module.</p>
+    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" style="display:block;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;text-decoration:none;border-radius:10px;padding:14px 20px;font-weight:700;text-align:center;">← Retour au tableau de bord</a>
+  </div>
+</div>
+
+<!-- CELEBRATION -->
+<div class="celebration-overlay" id="celebration-overlay">
+  <div class="celebration-card">
+    <div style="font-size:72px;margin-bottom:16px;animation:float 2s ease-in-out infinite;">🧭</div>
+    <div style="display:inline-block;background:rgba(56,161,105,0.2);border:1px solid rgba(56,161,105,0.5);border-radius:20px;padding:5px 16px;margin-bottom:14px;">
+      <span style="color:var(--green-light);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Module 4 déverrouillé — EXPLORER 🟢</span>
+    </div>
+    <h2 style="font-family:Georgia,serif;color:var(--cream);font-size:22px;line-height:1.3;margin-bottom:14px;">Vous savez maintenant où vivent vos masques dans votre corps.</h2>
+    <p style="color:var(--text-muted);font-size:14px;line-height:1.8;margin-bottom:24px;">C'est une carte unique — la vôtre. Le Module 4 vous guide pour comprendre ce que chaque masque protège réellement.</p>
+    <div style="background:rgba(214,158,46,0.08);border:1px solid rgba(214,158,46,0.25);border-radius:12px;padding:14px;margin-bottom:20px;">
+      <p style="color:var(--jaune);font-weight:700;font-size:13px;margin:0 0 4px;">Prochaine étape</p>
+      <p style="color:var(--text-muted);font-size:13px;margin:0;">Module 4 — EXPLORER · Comprendre la peur sous-jacente</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <a href="module4.html" style="display:block;background:linear-gradient(135deg,var(--green),#276749);color:#fff;text-decoration:none;border-radius:50px;padding:14px 28px;font-size:15px;font-weight:800;text-align:center;box-shadow:0 4px 20px rgba(56,161,105,0.4);">→ Commencer le Module 4 — EXPLORER</a>
+      <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" style="display:block;background:none;border:2px solid var(--jaune);color:var(--jaune);text-decoration:none;border-radius:50px;padding:12px 28px;font-size:14px;font-weight:700;text-align:center;">→ Retour au tableau de bord</a>
+    </div>
+    <p class="copyright" style="margin-top:20px;">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue · Tous droits réservés</p>
+  </div>
+</div>
+
+<!-- APP CONTENT -->
+<div id="app-content" style="display:none;">
+
+<header class="module-header">
+  <div class="header-inner">
+    <div class="header-top">
+      <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" class="back-btn">← Tableau de bord</a>
+      <div class="module-badge">🟡 Module 3</div>
+    </div>
+    <div class="header-content">
+      <h1>L — <span>LOCALISER</span></h1>
+      <p>Descendre dans votre corps pour trouver précisément où vivent vos masques.</p>
+      <div class="header-meta">
+        <span>⏱ <strong>~37 min</strong></span>
+        <span>📂 <strong>4 sections</strong></span>
+        <span>🧭 <strong>Body Scan + Quiz</strong></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="progress-bar">
+  <div class="progress-inner">
+    <button class="p-step" onclick="jumpSection(1)"><div class="p-circle active" id="circle-1">1</div><div class="p-label active" id="label-1">Corps</div></button>
+    <div class="p-line" id="line-1"></div>
+    <button class="p-step" onclick="jumpSection(2)"><div class="p-circle" id="circle-2">2</div><div class="p-label" id="label-2">Body Scan</div></button>
+    <div class="p-line" id="line-2"></div>
+    <button class="p-step" onclick="jumpSection(3)"><div class="p-circle" id="circle-3">3</div><div class="p-label" id="label-3">Dictionnaire</div></button>
+    <div class="p-line" id="line-3"></div>
+    <button class="p-step" onclick="jumpSection(4)"><div class="p-circle" id="circle-4">4</div><div class="p-label" id="label-4">Pratique</div></button>
+  </div>
+</div>
+
+<!-- ======= SECTION 1 ======= -->
+<div class="section active" id="section-1">
+  <h2 class="section-title">🫁 Le Corps comme Témoin</h2>
+  <p class="section-subtitle">Section 1 sur 4 · ~10 min</p>
+
+  <div class="accroche">"Vous avez une douleur dans la poitrine depuis des mois. Les médecins ne trouvent rien. Et si votre corps essayait de vous dire quelque chose que votre mental refuse d'entendre ?"</div>
+
+  <div class="card" style="border-color:rgba(214,158,46,0.4);">
+    <h3>🧬 Pourquoi le corps ?</h3>
+    <div class="strat-grid">
+      <div class="strat-item"><span class="strat-emoji">⚡</span><div><p class="strat-title">Le corps réagit AVANT le mental</p><p class="strat-desc">La neuroception de Porges l'a démontré : votre système nerveux évalue la sécurité d'une situation avant même que votre conscience s'en rende compte. Le corps est le premier à savoir.</p></div></div>
+      <div class="strat-item"><span class="strat-emoji">🚫</span><div><p class="strat-title">Le corps ne peut pas mentir</p><p class="strat-desc">Le mental rationalise, justifie, minimise. Pas le corps. Quand il serre la gorge ou contracte l'estomac — c'est un signal pur, sans filtre intellectuel.</p></div></div>
+      <div class="strat-item"><span class="strat-emoji">🗄️</span><div><p class="strat-title">Les émotions refoulées s'y logent</p><p class="strat-desc">Une émotion non traversée ne disparaît pas. Elle se dépose dans le corps — sous forme de tension chronique, de douleur diffuse, de fatigue inexpliquée.</p></div></div>
+      <div class="strat-item"><span class="strat-emoji">📖</span><div><p class="strat-title">Source : "De la peur à la joie d'être soi"</p><p class="strat-desc">Céline Bourbon, Éditions L'Harmattan — La méthode V.A.L.E.U.R© intègre ces fondements pour rendre la transformation accessible à tous.</p></div></div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>⚖️ Les 2 niveaux intérieurs</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;">
+      <div style="background:rgba(229,62,62,0.1);border:2px solid var(--rouge);border-radius:12px;padding:16px;">
+        <p style="color:var(--rouge-light);font-weight:700;font-size:13px;margin-bottom:8px;">NIVEAU 1 — CORPOREL & ÉMOTIONNEL</p>
+        <p style="color:var(--text-muted);font-size:13px;line-height:1.7;margin:0;">Automatique · Instinctif · Ressenti · Inconscient<br><br>C'est le pilote automatique. Il réagit avant que vous ayez le temps de réfléchir.</p>
+      </div>
+      <div style="background:rgba(214,158,46,0.1);border:2px solid var(--jaune);border-radius:12px;padding:16px;">
+        <p style="color:var(--jaune-mid);font-weight:700;font-size:13px;margin-bottom:8px;">NIVEAU 2 — CONSCIENT</p>
+        <p style="color:var(--text-muted);font-size:13px;line-height:1.7;margin:0;">Logique · Clarté · Calme · Curiosité · Compassion<br><br>C'est la conscience observatrice. Elle comprend — mais toujours après le corps.</p>
+      </div>
+    </div>
+    <div style="background:rgba(214,158,46,0.08);border:1px solid rgba(214,158,46,0.3);border-radius:10px;padding:14px;margin-top:14px;">
+      <p style="color:var(--jaune-mid);font-size:14px;font-weight:600;margin:0;">💡 Le corps réagit d'abord (pilotage automatique), PUIS la tête comprend. Pas l'inverse. C'est pourquoi LOCALISER précède toujours EXPLORER.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔌 Reconnaissez-vous la déconnexion corps-esprit ?</h3>
+    <p style="color:var(--text-muted);font-size:14px;line-height:1.8;margin-bottom:14px;font-style:italic;">"Vous vivez dans votre tête depuis tellement longtemps que votre corps est devenu un étranger."</p>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>🔍 Signes de déconnexion</span><span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <p>• Ne pas sentir la faim ou la fatigue avant d'être à bout</p>
+          <p>• Tensions chroniques sans cause médicale identifiée</p>
+          <p>• Ne pas savoir "comment vous vous sentez" quand on vous le demande</p>
+          <p>• Découvrir que vous retenez votre respiration sans vous en rendre compte</p>
+          <p>• Mâchoires serrées, épaules contractées en permanence</p>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>✅ Ce n'est pas une pathologie</span><span class="acc-arrow">▼</span></div>
+        <div class="acc-body">
+          <p>C'est simplement le résultat d'années de <strong>masques de défense</strong> actifs.</p>
+          <p>Quand le corps représente un danger potentiel (trop d'émotions = trop de douleur), le mental apprend à le court-circuiter. Ce qui a été appris peut être désappris.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🗺️ Carte des zones corporelles par masque</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+      <div style="background:rgba(229,62,62,0.08);border:1px solid rgba(229,62,62,0.3);border-radius:10px;padding:12px;"><p style="color:var(--rouge-light);font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:4px;">🔴 Rouge — Peur de la mort/maladie</p><p style="color:var(--text-muted);font-size:13px;margin:0;">Cœur rapide · Poitrine · Estomac · Froid dans les membres</p></div>
+      <div style="background:rgba(237,137,54,0.08);border:1px solid rgba(237,137,54,0.3);border-radius:10px;padding:12px;"><p style="color:#fbd38d;font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:4px;">🟠 Orange — Peur de la douleur</p><p style="color:var(--text-muted);font-size:13px;margin:0;">Gorge nouée · Mots bloqués · Oppression poitrine · Épaules fermées</p></div>
+      <div style="background:rgba(214,158,46,0.08);border:1px solid rgba(214,158,46,0.3);border-radius:10px;padding:12px;"><p style="color:var(--jaune-mid);font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:4px;">🟡 Jaune — Peur de l'inconnu</p><p style="color:var(--text-muted);font-size:13px;margin:0;">Mâchoires serrées · Épaules hautes · Nœud estomac · Mains sur le téléphone</p></div>
+      <div style="background:rgba(56,161,105,0.08);border:1px solid rgba(56,161,105,0.3);border-radius:10px;padding:12px;"><p style="color:var(--green-light);font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:4px;">🟢 Vert — Peur du rejet</p><p style="color:var(--text-muted);font-size:13px;margin:0;">Gorge nouée · Poitrine contractée · Poids dans le ventre</p></div>
+      <div style="background:rgba(49,130,206,0.08);border:1px solid rgba(49,130,206,0.3);border-radius:10px;padding:12px;"><p style="color:#90cdf4;font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:4px;">🔵 Bleu — Peur de l'impuissance</p><p style="color:var(--text-muted);font-size:13px;margin:0;">Mâchoires serrées · Poings fermés · Nuque/épaules · Chaleur visage</p></div>
+      <div style="background:rgba(128,90,213,0.08);border:1px solid rgba(128,90,213,0.3);border-radius:10px;padding:12px;"><p style="color:#d6bcfa;font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:4px;">🔷 Indigo — Peur de l'échec</p><p style="color:var(--text-muted);font-size:13px;margin:0;">Épaules voûtées · Boule estomac · Tension nuque · Mains moites</p></div>
+      <div style="background:rgba(159,122,234,0.08);border:1px solid rgba(159,122,234,0.3);border-radius:10px;padding:12px;"><p style="color:#e9d8fd;font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:4px;">💜 Violet — Peur de perdre son identité</p><p style="color:var(--text-muted);font-size:13px;margin:0;">Vertige · Tension corps entier · Respiration irrégulière · Déconnexion</p></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(214,158,46,0.3);">
+    <h3>📓 Journal — Section 1</h3>
+    <label class="journal-label">Dans votre corps, où habitent vos tensions ? Listez les zones récurrentes et les moments où elles apparaissent.</label>
+    <textarea class="journal-ta" id="journal-1" placeholder="Exemple : tension épaule droite tous les lundis matin, nœud à l'estomac avant d'envoyer un email difficile..."></textarea>
+    <button class="j-save-btn" onclick="saveJournal(1)">💾 Sauvegarder</button>
+    <p id="saved-1" class="j-saved">✓ Sauvegardé</p>
+  </div>
+
+  <div class="nav-btns">
+    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" class="btn-prev">← Tableau de bord</a>
+    <button class="btn-next" onclick="nextSection(1)">Découvrir le Body Scan →</button>
+  </div>
+  <div class="copyright">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés<br>Contenu protégé · Reproduction interdite · <em>De la peur à la joie d'être soi</em>, Éditions L'Harmattan</div>
+</div>
+
+<!-- ======= SECTION 2 ======= -->
+<div class="section" id="section-2">
+  <h2 class="section-title">🧘 Le Body Scan V.A.L.E.U.R©</h2>
+  <p class="section-subtitle">Section 2 sur 4 · ~10 min</p>
+
+  <div class="accroche">"Un body scan, c'est simplement poser votre attention sur votre corps comme vous poseriez une main bienveillante."</div>
+
+  <div class="card" style="border-color:rgba(214,158,46,0.4);">
+    <h3>🎯 Démystifier le body scan</h3>
+    <div class="strat-grid">
+      <div class="strat-item"><span class="strat-emoji">✅</span><div><p class="strat-title">Pas de la méditation avancée</p><p class="strat-desc">Vous n'avez pas besoin de vider votre mental. Le body scan V.A.L.E.U.R© est une écoute dirigée — pas une pratique spirituelle.</p></div></div>
+      <div class="strat-item"><span class="strat-emoji">✅</span><div><p class="strat-title">Pas besoin du silence absolu</p><p class="strat-desc">Assis, debout, dans les transports. 2 minutes suffisent au début. C'est une compétence qui se développe.</p></div></div>
+      <div class="strat-item"><span class="strat-emoji">✅</span><div><p class="strat-title">Juste diriger son attention</p><p class="strat-desc">Du sommet du crâne aux pieds, zone par zone. Observer sans analyser. Nommer ce qui est là — sans le juger, sans vouloir le changer.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Le protocole Body Scan V.A.L.E.U.R© — 4 étapes</h3>
+    <div class="accordion">
+      <div class="acc-item open"><div class="acc-header" onclick="toggleAcc(this)"><span>Étape 1 — PAUSE & ANCRAGE</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p>• Posez vos pieds à plat sur le sol</p><p>• Prenez 3 respirations conscientes et lentes</p><p>• Question d'entrée : <em style="color:var(--jaune-mid);">"Comment mon corps se sent-il en ce moment ?"</em></p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span>Étape 2 — SCAN DESCENDANT</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p>Du sommet du crâne aux pieds, zone par zone :<br>Tête → Front → Yeux → Mâchoires → Gorge → Épaules → Poitrine → Bras → Mains → Ventre → Bas du dos → Hanches → Jambes → Pieds</p><p>Pour chaque zone : <em>"Y a-t-il une tension ? Une douleur ? Un vide ? Une chaleur ?"</em></p><p style="color:var(--jaune-mid);font-weight:600;">Ne pas analyser — juste observer et nommer.</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span>Étape 3 — LOCALISATION PRÉCISE</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p>• Identifiez LA zone qui attire le plus votre attention</p><p>• Décrivez-la : <em>"C'est où exactement ? Quelle taille ? Quelle texture ? Quelle couleur si elle en avait une ?"</em></p><p>• Posez physiquement votre main sur cette zone — ce geste d'ancrage envoie un signal de sécurité à votre système nerveux.</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span>Étape 4 — DIALOGUE CORPOREL</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p>• <em>"Si cette sensation pouvait parler, que dirait-elle ?"</em></p><p>• <em>"Depuis quand est-elle là ?"</em></p><p>• <em>"Quel masque elle porte ?"</em></p><p style="color:var(--jaune-mid);font-weight:600;">C'est le pont vers EXPLORER.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🧍 Silhouette corporelle interactive</h3>
+    <p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;">Cliquez sur une zone pour découvrir ce qu'elle révèle sur vos masques.</p>
+    <div class="body-scan-container">
+      <div style="flex-shrink:0;">
+        <svg width="140" height="300" viewBox="0 0 140 300" xmlns="http://www.w3.org/2000/svg">
+          <ellipse id="zone-crane" class="body-zone" cx="70" cy="28" rx="22" ry="24" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('crane')"/>
+          <rect id="zone-gorge" class="body-zone" x="58" y="52" width="24" height="20" rx="6" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('gorge')"/>
+          <ellipse id="zone-epaules" class="body-zone" cx="70" cy="82" rx="38" ry="14" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('epaules')"/>
+          <rect id="zone-poitrine" class="body-zone" x="42" y="96" width="56" height="44" rx="10" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('poitrine')"/>
+          <rect id="zone-bras" class="body-zone" x="16" y="96" width="22" height="68" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('bras')"/>
+          <rect class="body-zone" x="102" y="96" width="22" height="68" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('bras')"/>
+          <rect id="zone-ventre" class="body-zone" x="42" y="140" width="56" height="46" rx="10" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('ventre')"/>
+          <rect id="zone-dos" class="body-zone" x="46" y="186" width="48" height="30" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('dos')"/>
+          <rect id="zone-jambes" class="body-zone" x="42" y="218" width="22" height="64" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('jambes')"/>
+          <rect class="body-zone" x="76" y="218" width="22" height="64" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" onclick="selectZone('jambes')"/>
+          <text x="70" y="31" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Tête</text>
+          <text x="70" y="65" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Gorge</text>
+          <text x="70" y="84" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Épaules</text>
+          <text x="70" y="121" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Poitrine</text>
+          <text x="27" y="134" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Bras</text>
+          <text x="113" y="134" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Bras</text>
+          <text x="70" y="166" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Ventre</text>
+          <text x="70" y="204" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Dos</text>
+          <text x="53" y="258" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Jambe G</text>
+          <text x="87" y="258" text-anchor="middle" fill="rgba(214,158,46,0.6)" font-size="7" pointer-events="none">Jambe D</text>
+        </svg>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div id="zone-info">
+          <div style="background:var(--navy-mid);border:2px dashed rgba(214,158,46,0.3);border-radius:14px;padding:20px;text-align:center;">
+            <div style="font-size:32px;margin-bottom:8px;">👆</div>
+            <p style="color:var(--text-muted);font-size:14px;">Cliquez sur une zone de la silhouette pour découvrir ce qu'elle révèle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔍 Les 4 types de sensations à identifier</h3>
+    <div class="sensation-grid">
+      <div class="sensation-card" style="background:rgba(229,62,62,0.1);border:2px solid rgba(229,62,62,0.4);"><div class="s-emoji">🔒</div><div class="s-title" style="color:var(--rouge-light);">TENSION / CONTRACTION</div><div class="s-desc" style="color:var(--text-muted);">Serrement · Raideur · Dureté<br>Le corps se ferme pour se protéger.</div></div>
+      <div class="sensation-card" style="background:rgba(128,90,213,0.1);border:2px solid rgba(128,90,213,0.4);"><div class="s-emoji">🕳️</div><div class="s-title" style="color:#d6bcfa;">VIDE / LOURDEUR</div><div class="s-desc" style="color:var(--text-muted);">Creux · Effondrement · Poids<br>L'énergie s'est retirée de cette zone.</div></div>
+      <div class="sensation-card" style="background:rgba(237,137,54,0.1);border:2px solid rgba(237,137,54,0.4);"><div class="s-emoji">🔥</div><div class="s-title" style="color:#fbd38d;">CHALEUR / INFLAMMATION</div><div class="s-desc" style="color:var(--text-muted);">Brûlure · Rougeur · Pression<br>Souvent lié à la colère ou l'urgence.</div></div>
+      <div class="sensation-card" style="background:rgba(49,130,206,0.1);border:2px solid rgba(49,130,206,0.4);"><div class="s-emoji">❄️</div><div class="s-title" style="color:#90cdf4;">ENGOURDISSEMENT / ABSENCE</div><div class="s-desc" style="color:var(--text-muted);">Froid · Déconnexion · Paralysie<br>Le système nerveux s'est mis en veille.</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(214,158,46,0.3);">
+    <h3>📓 Journal — Section 2</h3>
+    <label class="journal-label">Faites le body scan maintenant — 3 minutes. Quelle zone vous répond le plus fort ? Décrivez la sensation avec le plus de précision possible.</label>
+    <textarea class="journal-ta" id="journal-2" placeholder="Zone identifiée, type de sensation, intensité sur 10, ce qu'elle dirait si elle pouvait parler..."></textarea>
+    <button class="j-save-btn" onclick="saveJournal(2)">💾 Sauvegarder</button>
+    <p id="saved-2" class="j-saved">✓ Sauvegardé</p>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="showSection(1)">← Retour</button>
+    <button class="btn-next" onclick="nextSection(2)">Le Dictionnaire Corps-Masques →</button>
+  </div>
+  <div class="copyright">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés<br>Contenu protégé · Reproduction interdite · <em>De la peur à la joie d'être soi</em>, Éditions L'Harmattan</div>
+</div>
+
+<!-- ======= SECTION 3 ======= -->
+<div class="section" id="section-3">
+  <h2 class="section-title">📖 Le Dictionnaire Corps-Masques</h2>
+  <p class="section-subtitle">Section 3 sur 4 · ~10 min</p>
+
+  <div class="accroche">"Votre corps a développé un langage avec vos masques. Ce dictionnaire va vous aider à le déchiffrer."</div>
+
+  <div class="card" style="border-color:rgba(214,158,46,0.4);">
+    <h3>🎭 Les 7 masques — signature corporelle exacte</h3>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)" style="border-left:4px solid var(--rouge);"><span>🔴 Masque Rouge — Peur de la mort/maladie</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p><strong style="color:var(--rouge-light);">Zone :</strong> poitrine, estomac, membres</p><p><strong style="color:var(--rouge-light);">Sensation :</strong> <em>"Le cœur bat rapidement, respiration courte et superficielle, tension dans la poitrine et l'estomac. Une sensation de froid parcourt les membres."</em></p><p><strong style="color:var(--rouge-light);">Question :</strong> "Où est-ce que je ressens la peur de perdre le contrôle de mon corps ?"</p><p><strong>Vie quotidienne :</strong> Vérifier plusieurs fois que tout va bien · Scruter les sensations physiques · Éviter certains aliments par peur de réaction</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)" style="border-left:4px solid var(--orange);"><span>🟠 Masque Orange — Peur de la douleur/souffrance</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p><strong style="color:#fbd38d;">Zone :</strong> gorge, poitrine, épaules</p><p><strong style="color:#fbd38d;">Sensation :</strong> <em>"Tension dans la gorge, comme si les mots et les larmes étaient bloqués. Oppression dans la poitrine. Les épaules se soulèvent légèrement, dans un geste de fermeture."</em></p><p><strong style="color:#fbd38d;">Question :</strong> "Où est-ce que je retiens l'émotion qui veut s'exprimer ?"</p><p><strong>Vie quotidienne :</strong> Changer de sujet quand la conversation devient émotionnelle · "Gérer" au lieu de ressentir · Éviter les films qui font pleurer</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)" style="border-left:4px solid var(--jaune);"><span>🟡 Masque Jaune — Peur de l'inconnu/incertitude</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p><strong style="color:var(--jaune-mid);">Zone :</strong> mâchoires, épaules, estomac, mains</p><p><strong style="color:var(--jaune-mid);">Sensation :</strong> <em>"Les mâchoires sont serrées, les épaules tendues vers le haut. Nœud dans l'estomac. Les mains cherchent inconsciemment le téléphone pour 'vérifier quelque chose'."</em></p><p><strong style="color:var(--jaune-mid);">Question :</strong> "Où est-ce que mon besoin de contrôle s'est installé dans mon corps ?"</p><p><strong>Vie quotidienne :</strong> Planifier à l'excès · Mal tolérer les imprévus · Vérifier les prévisions météo avant chaque sortie</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)" style="border-left:4px solid var(--green);"><span>🟢 Masque Vert — Peur du rejet/abandon</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p><strong style="color:var(--green-light);">Zone :</strong> gorge, poitrine, ventre</p><p><strong style="color:var(--green-light);">Sensation :</strong> <em>"La gorge est nouée, la poitrine contractée, un poids s'installe dans le ventre."</em></p><p><strong style="color:var(--green-light);">Question :</strong> "Où est-ce que je ressens la peur de ne pas être aimé·e ?"</p><p><strong>Vie quotidienne :</strong> Relire plusieurs fois un message avant de l'envoyer · Avoir du mal à dire non · Surinvestir dans les relations</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)" style="border-left:4px solid var(--bleu);"><span>🔵 Masque Bleu — Peur de l'impuissance</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p><strong style="color:#90cdf4;">Zone :</strong> mâchoires, poings, nuque, épaules, visage</p><p><strong style="color:#90cdf4;">Sensation :</strong> <em>"Les mâchoires sont serrées, les poings fermés. Tension dans la nuque et les épaules. Chaleur dans le visage, signe de la colère qui bouillonne."</em></p><p><strong style="color:#90cdf4;">Question :</strong> "Où est-ce que je ressens la résistance à lâcher le contrôle ?"</p><p><strong>Vie quotidienne :</strong> Vouloir toujours avoir le dernier mot · Difficulté à déléguer · Se sentir "bloqué" quand on ne peut pas agir</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)" style="border-left:4px solid #667eea;"><span>🔷 Masque Indigo — Peur de l'échec/inadéquation</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p><strong style="color:#d6bcfa;">Zone :</strong> épaules, estomac, nuque, mains, yeux</p><p><strong style="color:#d6bcfa;">Sensation :</strong> <em>"Les épaules sont voûtées, comme si vous portiez un poids. Boule dans l'estomac, tension dans la nuque. Les mains sont moites, le regard fixé sur l'écran dans une posture de repli."</em></p><p><strong style="color:#d6bcfa;">Question :</strong> "Où est-ce que la peur du jugement se loge dans mon corps ?"</p><p><strong>Vie quotidienne :</strong> Procrastiner par peur de mal faire · Comparer ses résultats · Se souvenir de chaque erreur pendant des années</p></div></div>
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)" style="border-left:4px solid var(--violet);"><span>💜 Masque Violet — Peur de perdre son identité</span><span class="acc-arrow">▼</span></div><div class="acc-body"><p><strong style="color:#e9d8fd;">Zone :</strong> corps entier, respiration, équilibre</p><p><strong style="color:#e9d8fd;">Sensation :</strong> <em>"Sensation de vertige, comme si le sol se dérobait sous les pieds. Tension dans tout le corps, rigidité défensive. Respiration irrégulière, saccadée. Impression d'être déconnecté de soi-même."</em></p><p><strong style="color:#e9d8fd;">Question :</strong> "Où est-ce que je ressens la peur de ne plus savoir qui je suis ?"</p><p><strong>Vie quotidienne :</strong> Changer de comportement selon la personne en face · Incapacité à définir ses valeurs · Sentiment chronique de "jouer un rôle"</p></div></div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>🎯 Body scan ciblé — Exemple guidé Masque Vert</h3>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span>Voir le protocole étape par étape</span><span class="acc-arrow">▼</span></div><div class="acc-body">
+        <p><strong>Étape 1 — Identifier le masque actif :</strong> "Je sens que je veux plaire, que j'ai peur de décevoir quelqu'un."</p>
+        <p><strong>Étape 2 — Scanner la zone Vert (gorge/poitrine/ventre) :</strong> Fermez les yeux. Posez une main sur la gorge, l'autre sur le ventre. Respirez. "Où est-ce que ça se resserre ?"</p>
+        <p><strong>Étape 3 — Nommer la sensation précise :</strong> "Gorge : 7/10, comme un nœud. Ventre : 5/10, poids léger. Poitrine : 4/10, légère compression."</p>
+        <p style="color:var(--green-light);font-weight:600;">Vous venez de LOCALISER votre masque Vert. Vous êtes prêt·e pour EXPLORER.</p>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(214,158,46,0.3);">
+    <h3>📓 Journal — Section 3</h3>
+    <label class="journal-label">Regardez votre masque dominant. Reconnaissez-vous sa signature corporelle ? Donnez un exemple précis d'une situation récente.</label>
+    <textarea class="journal-ta" id="journal-3" placeholder="Masque identifié, situation récente, sensations corporelles observées, intensité sur 10..."></textarea>
+    <button class="j-save-btn" onclick="saveJournal(3)">💾 Sauvegarder</button>
+    <p id="saved-3" class="j-saved">✓ Sauvegardé</p>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="showSection(2)">← Retour</button>
+    <button class="btn-next" onclick="nextSection(3)">Pratique & Quiz →</button>
+  </div>
+  <div class="copyright">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés<br>Contenu protégé · Reproduction interdite · <em>De la peur à la joie d'être soi</em>, Éditions L'Harmattan</div>
+</div>
+
+<!-- ======= SECTION 4 ======= -->
+<div class="section" id="section-4">
+  <h2 class="section-title">🎯 Pratique & Quiz Final</h2>
+  <p class="section-subtitle">Section 4 sur 4 · ~7 min</p>
+
+  <!-- EXERCICE LOCALISER -->
+  <div class="card" style="border-color:rgba(214,158,46,0.4);">
+    <h3>⚡ Exercice LOCALISER — Maintenant</h3>
+
+    <div class="ex-step active" id="ex-step-1">
+      <p style="color:var(--jaune);font-weight:700;margin-bottom:12px;">Étape 1 — Quelle émotion est présente en vous en ce moment ?</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+        <button class="emo-btn" onclick="chooseEmo('anxiété',this)">😰 Anxiété</button>
+        <button class="emo-btn" onclick="chooseEmo('colère',this)">😠 Colère</button>
+        <button class="emo-btn" onclick="chooseEmo('tristesse',this)">😢 Tristesse</button>
+        <button class="emo-btn" onclick="chooseEmo('culpabilité',this)">😔 Culpabilité</button>
+        <button class="emo-btn" onclick="chooseEmo('honte',this)">😶 Honte</button>
+      </div>
+      <button class="btn-next" style="max-width:260px;" onclick="if(chosenEmotion){exGoStep(2)}else{alert('Choisissez une émotion d\'abord');}">Scanner mon corps →</button>
+    </div>
+
+    <div class="ex-step" id="ex-step-2">
+      <p style="color:var(--jaune);font-weight:700;margin-bottom:6px;">Étape 2 — Scan pour : <span id="ex-emo-lbl" style="text-transform:capitalize;"></span></p>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;">La silhouette s'illumine zone par zone. Cliquez sur LA zone où vous sentez quelque chose.</p>
+      <div style="text-align:center;">
+        <svg width="120" height="260" viewBox="0 0 140 300" xmlns="http://www.w3.org/2000/svg">
+          <ellipse id="exz-crane" cx="70" cy="28" rx="22" ry="24" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('crane')" style="transition:all .4s;"/>
+          <rect id="exz-gorge" x="58" y="52" width="24" height="20" rx="6" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('gorge')" style="transition:all .4s;"/>
+          <ellipse id="exz-epaules" cx="70" cy="82" rx="38" ry="14" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('epaules')" style="transition:all .4s;"/>
+          <rect id="exz-poitrine" x="42" y="96" width="56" height="44" rx="10" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('poitrine')" style="transition:all .4s;"/>
+          <rect id="exz-bras" x="16" y="96" width="22" height="68" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('bras')" style="transition:all .4s;"/>
+          <rect x="102" y="96" width="22" height="68" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('bras')" style="transition:all .4s;"/>
+          <rect id="exz-ventre" x="42" y="140" width="56" height="46" rx="10" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('ventre')" style="transition:all .4s;"/>
+          <rect id="exz-dos" x="46" y="186" width="48" height="30" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('dos')" style="transition:all .4s;"/>
+          <rect id="exz-jambes" x="42" y="218" width="22" height="64" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('jambes')" style="transition:all .4s;"/>
+          <rect x="76" y="218" width="22" height="64" rx="8" fill="rgba(214,158,46,0.08)" stroke="rgba(214,158,46,0.35)" stroke-width="2" cursor="pointer" onclick="selectZoneEx('jambes')" style="transition:all .4s;"/>
+        </svg>
+        <p style="color:var(--text-muted);font-size:12px;margin-top:6px;">Cliquez sur votre zone</p>
+      </div>
+    </div>
+
+    <div class="ex-step" id="ex-step-3">
+      <p style="color:var(--jaune);font-weight:700;margin-bottom:6px;">Étape 3 — Décrivez la sensation dans : <span id="ex-zone-lbl"></span></p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;">
+        <div><label style="color:var(--text-muted);font-size:13px;display:block;margin-bottom:6px;">Décrivez la sensation en 3 mots</label><textarea id="ex-d1" class="journal-ta" rows="2" placeholder="Ex : serrée, brûlante, lourde..."></textarea></div>
+        <div><label style="color:var(--text-muted);font-size:13px;display:block;margin-bottom:6px;">Cette sensation a une couleur ? Une texture ?</label><textarea id="ex-d2" class="journal-ta" rows="2" placeholder="Ex : rouge vif, comme du béton..."></textarea></div>
+        <div><label style="color:var(--text-muted);font-size:13px;display:block;margin-bottom:6px;">Depuis quand est-elle là ?</label><textarea id="ex-d3" class="journal-ta" rows="2" placeholder="Ex : depuis cette conversation de ce matin..."></textarea></div>
+      </div>
+      <button class="btn-next" style="max-width:260px;" onclick="exGoStep(4)">Voir mon résultat →</button>
+    </div>
+
+    <div class="ex-step" id="ex-step-4">
+      <p style="color:var(--jaune);font-weight:700;margin-bottom:12px;">Étape 4 — Votre carte corporelle</p>
+      <div id="ex-result"></div>
+    </div>
+  </div>
+
+  <!-- RESPIRATION -->
+  <div class="card">
+    <h3>🌬️ Respiration d'ancrage corporel 4-4-6</h3>
+    <p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;">Inspirez 4s · Retenez 4s · Expirez 6s — pour rester présent·e avec ce que vous venez de localiser.</p>
+    <div class="breath-wrap">
+      <div class="breath-ring" id="breath-ring">
+        <p id="breath-lbl" style="font-size:16px;font-weight:700;color:var(--cream);">Prêt·e ?</p>
+        <p id="breath-tmr" style="font-size:36px;font-weight:800;color:var(--jaune);"></p>
+        <p id="breath-sub" style="font-size:12px;color:var(--text-muted);">Cliquez pour commencer</p>
+      </div>
+      <button id="breath-btn" onclick="startBreathing()" style="padding:12px 32px;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;border:none;border-radius:50px;cursor:pointer;font-size:15px;font-weight:700;">Commencer</button>
+    </div>
+  </div>
+
+  <!-- JOURNAL -->
+  <div class="card" style="border-color:rgba(214,158,46,0.3);">
+    <h3>📓 Journal — Section 4</h3>
+    <label class="journal-label">Votre corps vous a parlé aujourd'hui. Qu'avez-vous entendu ? Quelle découverte vous a le plus surpris·e ?</label>
+    <textarea class="journal-ta" id="journal-4" placeholder="Ce que j'ai découvert, ce qui m'a surpris, ce que je veux explorer dans le Module 4..."></textarea>
+    <button class="j-save-btn" onclick="saveJournal(4)">💾 Sauvegarder</button>
+    <p id="saved-4" class="j-saved">✓ Sauvegardé</p>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="card" style="border-color:rgba(214,158,46,0.4);">
+    <h3>🧠 Quiz final — 6 questions</h3>
+
+    <div id="quiz-main" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span style="color:var(--text-muted);font-size:13px;" id="q-score">0 ✓</span>
+        <span style="color:var(--text-muted);font-size:13px;">Module 3 — LOCALISER</span>
+      </div>
+      <div style="height:4px;background:var(--navy-border);border-radius:2px;margin-bottom:20px;"><div id="q-prog" style="height:100%;background:var(--jaune);border-radius:2px;transition:width .4s;width:0;"></div></div>
+      <p class="quiz-q" id="q-text"></p>
+      <div id="q-opts"></div>
+      <button id="q-next" onclick="quizNext()" style="display:none;padding:12px 28px;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;border:none;border-radius:50px;cursor:pointer;font-size:14px;font-weight:700;margin-top:4px;">Question suivante →</button>
+    </div>
+
+    <div id="q-result" style="display:none;"></div>
+
+    <div style="background:rgba(214,158,46,0.08);border:1px solid rgba(214,158,46,0.3);border-radius:12px;padding:16px;margin-top:16px;" id="quiz-start-block">
+      <p style="color:var(--cream);font-weight:700;margin-bottom:8px;">Prêt·e pour le quiz ?</p>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;">6 questions pour valider vos acquis du Module 3 — LOCALISER.</p>
+      <button onclick="document.getElementById('quiz-start-block').style.display='none';document.getElementById('quiz-main').style.display='block';renderQuiz();" style="padding:12px 28px;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;border:none;border-radius:50px;cursor:pointer;font-size:14px;font-weight:700;">Commencer le quiz →</button>
+    </div>
+  </div>
+
+  <!-- TERMINER -->
+  <div class="terminer-block" id="terminer-block">
+    <div style="font-size:48px;margin-bottom:12px;animation:float 2s ease-in-out infinite;">🧭</div>
+    <p style="color:var(--jaune);font-weight:700;font-size:18px;margin-bottom:8px;">Module 3 terminé !</p>
+    <p style="color:var(--text-muted);font-size:14px;line-height:1.8;margin-bottom:4px;">Vous savez maintenant lire votre corps. C'est une compétence que vous gardez pour toute la vie.</p>
+    <button class="terminer-btn" onclick="markModule3Done()">✓ Terminer le Module 3 — Débloquer EXPLORER 🟢</button>
+  </div>
+
+  <div class="nav-btns" style="margin-top:24px;">
+    <button class="btn-prev" onclick="showSection(3)">← Retour</button>
+    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" class="btn-prev">Tableau de bord</a>
+  </div>
+  <div class="copyright">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés<br>Contenu protégé · Reproduction interdite · <em>De la peur à la joie d'être soi</em>, Éditions L'Harmattan</div>
+</div>
+
+</div><!-- /app-content -->
+</body>
+</html>
