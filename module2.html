@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
-<script src="valeur-config.js"></script><head>
+<head
+<script src="valeur-config.js"></script>>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Module 2 — ACCUEILLIR | Méthode V.A.L.E.U.R©</title>
@@ -32,7 +33,7 @@
   --radius: 16px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body<div id="valeur-progress-bar"></div>{font-family:'Segoe UI',system-ui,sans-serif;background:var(--navy);color:var(--text-light);line-height:1.7;-webkit-font-smoothing:antialiased;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--navy);color:var(--text-light);line-height:1.7;-webkit-font-smoothing:antialiased;}
 textarea,input{font-family:inherit;}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--navy);}
@@ -295,6 +296,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 </style>
 </head>
 <body>
+<div id="valeur-progress-bar"></div>
 
 <!-- ============================================================
      ÉCRAN CHARGEMENT
@@ -1010,7 +1012,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
       <div class="quiz-score" id="quiz-score">0/6</div>
       <div style="font-size:22px;font-weight:700;color:var(--cream);margin-bottom:8px;" id="quiz-title">Résultats</div>
       <div style="color:var(--text-muted);font-size:15px;line-height:1.7;margin-bottom:24px;" id="quiz-message"></div>
-      <button class="btn-next" onclick="showCelebration()">✓ Terminer le Module 2 — Débloquer LOCALISER 🟡</button>
+      <button class="btn-next" onclick="VALEUR_PROGRESS.complete('module2'); showCelebration()">✓ Terminer le Module 2 — Débloquer LOCALISER 🟡</button>
     </div>
   </div>
 
@@ -1460,6 +1462,9 @@ D = Souffrance · e = Émotion · r² = Résistance au carré<br>
 <div class="step"><div class="num">3</div><p><strong>Écouter le besoin</strong> — "Quelle émotion ? Quel déclencheur ? Quel besoin non satisfait ?"</p></div>
 <div class="step"><div class="num">4</div><p><strong>Agir avec justesse</strong> — Une réponse consciente au besoin, pas une réaction automatique du masque.</p></div>
 <div class="footer">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue · <em>De la peur à la joie d'être soi</em> — Éditions L'Harmattan · Tous droits réservés. Reproduction interdite.</div>
+<script>
+VALEUR_PROGRESS.render('module0');
+</script>
 </body></html>`;
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
