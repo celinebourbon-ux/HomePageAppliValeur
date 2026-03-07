@@ -1247,6 +1247,33 @@ function Section4(p){
         !showFinalQuiz&&React.createElement("button",{onClick:function(){setShowFinalQuiz(true)},style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",color:"#000",border:"none",borderRadius:"50px",padding:"14px 36px",fontSize:"16px",fontWeight:800,cursor:"pointer"}},"Commencer le quiz final →")),
       showFinalQuiz&&React.createElement(Card,null,React.createElement(FinalQuiz,{userEmail:p.session.email,onGoHome:p.onGoHome}))),
 
+    // ── BOUTON TERMINER LE MODULE ─────────────────────────────────
+    React.createElement("div",{style:{
+      marginTop:"32px",marginBottom:"16px",
+      background:"linear-gradient(135deg,#0f1e10,#0a1410)",
+      border:"2px solid "+C.vert+"55",
+      borderRadius:"20px",padding:"28px 24px",textAlign:"center"}},
+      React.createElement("div",{style:{fontSize:"48px",marginBottom:"12px"}},"🎯"),
+      React.createElement("p",{style:{
+        fontFamily:"Georgia,serif",color:C.cream,
+        fontSize:"20px",fontWeight:700,
+        lineHeight:1.3,marginBottom:"8px"}},
+        "Vous avez terminé le Module 0"),
+      React.createElement("p",{style:{
+        color:C.textMuted,fontSize:"14px",
+        lineHeight:1.7,marginBottom:"24px",maxWidth:"420px",margin:"0 auto 24px"}},
+        "Vous avez exploré les fondations de la Méthode V.A.L.E.U.R© — les 7 peurs, les masques, le questionnaire. Cliquez pour valider et débloquer l'étape suivante."),
+      React.createElement("button",{
+        onClick:p.onComplete,
+        style:{
+          background:"linear-gradient(135deg,"+C.rouge+",#8b1a1a)",
+          color:"#fff",border:"none",borderRadius:"50px",
+          padding:"16px 40px",fontSize:"16px",fontWeight:800,
+          cursor:"pointer",width:"100%",maxWidth:"420px",
+          boxShadow:"0 6px 30px "+C.rouge+"44",
+          letterSpacing:"0.5px"}},
+        "✓ Terminer le Module 0 — Débloquer VOIR 🔴")),
+
     React.createElement(Copyright,null));
 }
 
@@ -1280,7 +1307,11 @@ function Module0(p){
     var updated=_objectSpread(_objectSpread({},prog),{},{completedSections:newCompleted,lastVisit:new Date().toISOString(),startDate:prog.startDate||new Date().toISOString()});
     saveUser(email,'progress',updated);
     updateRegistry(email,{lastSeen:new Date().toISOString(),progress:newCompleted.length+"/4"});
-    if(newCompleted.length===4){notifyModuleComplete(email,p.session.name,"Module 0 — COMPRENDRE")}
+    if(newCompleted.length===4){
+      notifyModuleComplete(email,p.session.name,"Module 0 — COMPRENDRE");
+      // Also save module0_done flag immediately as safety net
+      saveUser(email,'progress',_objectSpread(_objectSpread({},updated),{},{module0_done:true,module0_done_at:new Date().toISOString()}));
+    }
     setCompleted(newCompleted);
     setCelebrating(i);
     if(p.onSectionComplete)p.onSectionComplete(newCompleted);
@@ -1721,7 +1752,7 @@ function LoginScreen(p){
         if(existing){var _s={email:cleanEmail,name:existing.name||email,isAdmin:false,loginAt:new Date().toISOString()};saveUser(cleanEmail,'session',_s);addToRegistry(cleanEmail,existing.name,new Date().toISOString());hydrateFromSupabase(cleanEmail).then(function(){p.onLogin(_s,false)});return}
         setStep('register');setLoading(false);return;
       }
-      setError("Mot de passe incorrect. Contactez Céline Bourbon si vous n'avez pas encore vos accès.");setLoading(false);
+      setError("Mot de passe incorrect. Contactez l'administrateur si vous n'avez pas encore vos accès.");setLoading(false);
     },600);
   }
   function handleRegister(e){
@@ -1754,7 +1785,7 @@ function LoginScreen(p){
             React.createElement("button",{type:"submit",disabled:loading||!email||!password,style:{width:"100%",background:loading||!email||!password?"#333":"linear-gradient(135deg,"+C.gold+",#a07830)",color:loading||!email||!password?"#666":"#000",border:"none",borderRadius:"10px",padding:"14px",fontSize:"16px",fontWeight:800,cursor:loading||!email||!password?"not-allowed":"pointer"}},loading?"Connexion en cours...":"Accéder à mon espace →")),
           React.createElement("div",{style:{marginTop:"20px",paddingTop:"16px",borderTop:"1px solid "+C.navyBorder,textAlign:"center"}},
             React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.7}},"Pas encore d'accès ?",React.createElement("br",null),
-              React.createElement("a",{href:"mailto:celine.bourbon@gmail.com",style:{color:C.gold,textDecoration:"none",fontWeight:600}},"celine.bourbon@gmail.com")))),
+              React.createElement("span",{style:{color:C.gold,fontWeight:600}},"Contactez l'administrateur")))),
         step==='register'&&React.createElement(React.Fragment,null,
           React.createElement("div",{style:{textAlign:"center",marginBottom:"20px"}},
             React.createElement("div",{style:{fontSize:"40px",marginBottom:"10px"}},"🎉"),
