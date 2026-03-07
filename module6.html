@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Module 6 — RENFORCER · Méthode V.A.L.E.U.R©</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0f1a;font-family:'Segoe UI',system-ui,sans-serif;color:#e2e8f0;-webkit-font-smoothing:antialiased;-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+</style>
+<script src="valeur-config.js"></script>
+</head>
+<body>
+<div id="valeur-progress-bar"></div>
+<div id="root"></div>
+<script>"use strict";
+document.addEventListener('contextmenu',function(e){e.preventDefault();});
+document.addEventListener('selectstart',function(e){e.preventDefault();});
+document.addEventListener('copy',function(e){e.preventDefault();});
+document.addEventListener('dragstart',function(e){e.preventDefault();});
+
+var VALEUR_BASE_URL='https://celinebourbon-ux.github.io/HomePageAppliValeur/';
+var root=document.getElementById('root');
+root.innerHTML='<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;padding-top:70px;">'
+  +'<div style="max-width:480px;width:100%;text-align:center;">'
+  +'<div style="display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#805ad5,#5a3d99);box-shadow:0 8px 32px rgba(128,90,213,0.4);margin-bottom:24px;">'
+  +'<span style="font-size:36px;font-weight:900;color:#fff;">R</span></div>'
+  +'<div style="background:#1a2235;border:2px solid #805ad544;border-radius:24px;padding:36px 28px;">'
+  +'<div style="display:inline-block;background:#805ad522;border:1px solid #805ad544;border-radius:20px;padding:4px 16px;margin-bottom:16px;">'
+  +'<span style="color:#805ad5;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Module 6 — R</span></div>'
+  +'<h1 style="font-family:Georgia,serif;font-size:28px;color:#f7f3ee;margin-bottom:12px;">RENFORCER</h1>'
+  +'<p style="color:#805ad5;font-size:15px;font-weight:600;margin-bottom:20px;">Ancrer la nouvelle posture</p>'
+  +'<div style="background:#805ad511;border:1px solid #805ad533;border-radius:12px;padding:20px;margin-bottom:24px;">'
+  +'<p style="font-size:32px;margin-bottom:12px;animation:pulse 2s ease infinite;">💜</p>'
+  +'<p style="color:#94a3b8;font-size:14px;line-height:1.7;">Ce module sera disponible prochainement.<br/>Terminez les modules précédents pour le déverrouiller.</p></div>'
+  +'<a href="./index.html" style="display:block;background:linear-gradient(135deg,#c9a84c,#a07830);color:#000;border:none;border-radius:50px;padding:14px 32px;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;">← Retour à l\'espace membres</a>'
+  +'<p style="color:#475569;font-size:11px;margin-top:20px;line-height:1.6;">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue<br/><em>De la peur à la joie d\'être soi</em> — Éditions L\'Harmattan</p>'
+  +'</div></div></div>';
+
+if(typeof VALEUR_PROGRESS!=='undefined'){VALEUR_PROGRESS.renderBar();}
+</script>
+</body>
+</html>
