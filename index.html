@@ -80,8 +80,8 @@ function updateRegistry(email,fields){var reg=loadRegistry();var updated=reg.map
 
 // ── EMAIL ─────────────────────────────────────────────────────────
 function sendEmailNotification(templateId,params){if(typeof emailjs==='undefined')return;emailjs.send(EMAILJS_SERVICE,templateId,params,EMAILJS_PUBLIC_KEY).catch(function(){})}
-function notifyInscription(email,name){sendEmailNotification(EMAILJS_TEMPLATE_INSCRIPTION,{to_email:"celine.bourbon@gmail.com",patient_email:email,patient_name:name||email,date:new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),heure:new Date().toLocaleTimeString('fr-FR'),app_notification:"🎉 NOUVELLE INSCRIPTION\nPrénom : "+(name||email)+"\nEmail  : "+email+"\nDate   : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n\n→ homepagevaleur.netlify.app"})}
-function notifyModuleComplete(email,name,moduleLabel){sendEmailNotification(EMAILJS_TEMPLATE_INSCRIPTION,{to_email:"celine.bourbon@gmail.com",patient_email:email,patient_name:name||email,date:new Date().toLocaleDateString('fr-FR'),heure:new Date().toLocaleTimeString('fr-FR'),app_notification:"🎓 MODULE COMPLÉTÉ\nPrénom  : "+(name||email)+"\nEmail   : "+email+"\nModule  : "+(moduleLabel||"Module 0 — COMPRENDRE")+"\nDate    : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n\n→ homepagevaleur.netlify.app"})}
+function notifyInscription(email,name){sendEmailNotification(EMAILJS_TEMPLATE_INSCRIPTION,{to_email:"celine.bourbon@gmail.com",patient_email:email,patient_name:name||email,date:new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),heure:new Date().toLocaleTimeString('fr-FR'),app_notification:"🎉 NOUVELLE INSCRIPTION\nPrénom : "+(name||email)+"\nEmail  : "+email+"\nDate   : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n\n→ celinebourbon-ux.github.io/HomePageAppliValeur"})}
+function notifyModuleComplete(email,name,moduleLabel){sendEmailNotification(EMAILJS_TEMPLATE_INSCRIPTION,{to_email:"celine.bourbon@gmail.com",patient_email:email,patient_name:name||email,date:new Date().toLocaleDateString('fr-FR'),heure:new Date().toLocaleTimeString('fr-FR'),app_notification:"🎓 MODULE COMPLÉTÉ\nPrénom  : "+(name||email)+"\nEmail   : "+email+"\nModule  : "+(moduleLabel||"Module 0 — COMPRENDRE")+"\nDate    : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n\n→ celinebourbon-ux.github.io/HomePageAppliValeur"})}
 
 // ── PDF DOWNLOAD HELPER ───────────────────────────────────────────
 function downloadPDFGuide(filename,title,content){
@@ -1225,7 +1225,7 @@ function Section4(p){
             React.createElement("p",{style:{color:C.vertLight,fontSize:"13px",lineHeight:1.5,margin:0}},l))}))),
 
       // BOUTON QUESTIONNAIRE
-      React.createElement("a",{href:"https://questionnaire-valeur-psyh.netlify.app",target:"_blank",rel:"noopener noreferrer",style:{textDecoration:"none",display:"block"}},
+      React.createElement("a",{href:"https://celinebourbon-ux.github.io/Questionnaire-Valeur-V4",target:"_blank",rel:"noopener noreferrer",style:{textDecoration:"none",display:"block"}},
         React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",color:"#000",borderRadius:"14px",padding:"18px 24px",textAlign:"center",cursor:"pointer",boxShadow:"0 6px 30px rgba(201,168,76,0.4)"}},
           React.createElement("p",{style:{fontWeight:800,fontSize:"17px",margin:"0 0 4px"}},"Questionnaire V.A.L.E.U.R© – Les Sept Masques"),
           React.createElement("p",{style:{fontSize:"12px",margin:0,opacity:0.7}},"→ Accéder à la cartographie · Code : VALEUR2025"))),
