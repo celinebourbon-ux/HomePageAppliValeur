@@ -1362,6 +1362,10 @@ function Dashboard(p){
   var _m0p2=loadUser(email,"progress")||{};var m0Done=_m0p2.module0_done||(pct===100);
   var _m1p=loadUser(email,"progressM1")||{};var m1Done=!!_m1p.module1_done;
   var _m2p=loadUser(email,"module2Progress")||{};var m2Done=!!_m2p.completed;
+  var _m3p=loadUser(email,"module3Progress")||{};var m3Done=!!_m3p.completed;
+  var _m4p=loadUser(email,"module4Progress")||{};var m4Done=!!_m4p.completed;
+  var _m5p=loadUser(email,"module5Progress")||{};var m5Done=!!_m5p.completed;
+  var _m6p=loadUser(email,"module6Progress")||{};var m6Done=!!_m6p.completed;
   var recentEntries=_toConsumableArray(journal||[]).sort(function(a,b){return new Date(b.date)-new Date(a.date)}).slice(0,3);
   var today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   var isNew=completed.length===0&&!progress.startDate;
@@ -1450,10 +1454,10 @@ function Dashboard(p){
          {num:2,title:"ACCUEILLIR",sub:"Recevoir l'émotion sans résistance",color:C.orange,emoji:"🟠",dur:"~30 min",
           unlocked:m1Done,done:m2Done,
           onClick:function(){if(m1Done)window.location.href="module2.html"}},
-         {num:3,title:"LOCALISER",sub:"Trouver la sensation dans le corps",color:C.jaune,emoji:"🟡",dur:"~25 min",unlocked:false,done:false,onClick:null},
-         {num:4,title:"EXPLORER",sub:"Comprendre la peur sous-jacente",color:C.vert,emoji:"🟢",dur:"~30 min",unlocked:false,done:false,onClick:null},
-         {num:5,title:"UNIFIER",sub:"Réconcilier les parties en conflit",color:C.bleu,emoji:"🔵",dur:"~35 min",unlocked:false,done:false,onClick:null},
-         {num:6,title:"RENFORCER",sub:"Ancrer la nouvelle posture",color:C.violet,emoji:"💜",dur:"~30 min",unlocked:false,done:false,onClick:null}
+         {num:3,title:"LOCALISER",sub:"Trouver la sensation dans le corps",color:C.jaune,emoji:"🟡",dur:"~37 min",unlocked:m2Done,done:m3Done,onClick:function(){if(m2Done)window.location.href="module3.html"}},
+         {num:4,title:"EXPLORER",sub:"Comprendre la peur sous-jacente",color:C.vert,emoji:"🟢",dur:"~30 min",unlocked:m3Done,done:m4Done,onClick:function(){if(m3Done)window.location.href="module4.html"}},
+         {num:5,title:"UNIFIER",sub:"Réconcilier les parties en conflit",color:C.bleu,emoji:"🔵",dur:"~35 min",unlocked:m4Done,done:m5Done,onClick:function(){if(m4Done)window.location.href="module5.html"}},
+         {num:6,title:"RENFORCER",sub:"Ancrer la nouvelle posture",color:C.violet,emoji:"💜",dur:"~30 min",unlocked:m5Done,done:m6Done,onClick:function(){if(m5Done)window.location.href="module6.html"}}
         ].map(function(m,i){
           return React.createElement("div",{key:i,
             onClick:m.unlocked&&m.onClick?m.onClick:undefined,
@@ -1597,19 +1601,26 @@ function GlobalNav(p){
   var m0Done=m0pct===100;
   // Also check explicit module0_done flag (set by finishModule0 button)
   if(email){try{var _m0p=loadUser(email,'progress')||{};if(_m0p.module0_done)m0Done=true;}catch(_){}}
-  var m1Done=false,m2Done=false;
-  if(email){try{var _m1=loadUser(email,'progressM1')||{};m1Done=!!_m1.module1_done;var _m2=loadUser(email,'module2Progress')||{};m2Done=!!_m2.completed}catch(_){}}
-  var totalDone=(m0pct===100?1:0)+(m1Done?1:0)+(m2Done?1:0);
+  var m1Done=false,m2Done=false,m3Done=false,m4Done=false,m5Done=false,m6Done=false;
+  if(email){try{
+    var _mn1=loadUser(email,'progressM1')||{};m1Done=!!_mn1.module1_done;
+    var _mn2=loadUser(email,'module2Progress')||{};m2Done=!!_mn2.completed;
+    var _mn3=loadUser(email,'module3Progress')||{};m3Done=!!_mn3.completed;
+    var _mn4=loadUser(email,'module4Progress')||{};m4Done=!!_mn4.completed;
+    var _mn5=loadUser(email,'module5Progress')||{};m5Done=!!_mn5.completed;
+    var _mn6=loadUser(email,'module6Progress')||{};m6Done=!!_mn6.completed;
+  }catch(_){}}
+  var totalDone=(m0pct===100?1:0)+(m1Done?1:0)+(m2Done?1:0)+(m3Done?1:0)+(m4Done?1:0)+(m5Done?1:0)+(m6Done?1:0);
   var totalPct=Math.round(totalDone/7*100);
   var activeStep=p.screen==='module0'?0:-1;
   var STEPS=[
     {num:0,letter:"C",label:"Comprendre",color:C.gold,    unlocked:true,        done:m0Done,onClick:function(){p.setScreen('module0')}},
     {num:1,letter:"V",label:"VOIR",      color:C.rouge,   unlocked:m0Done, done:m1Done,     onClick:function(){if(m0Done)window.location.href='module1.html'}},
     {num:2,letter:"A",label:"Accueillir",color:C.orange,  unlocked:m1Done,      done:m2Done,     onClick:function(){if(m1Done)window.location.href='module2.html'}},
-    {num:3,letter:"L",label:"Localiser", color:"#e8d44d", unlocked:false,       done:false,      onClick:null},
-    {num:4,letter:"E",label:"Explorer",  color:C.vert,    unlocked:false,       done:false,      onClick:null},
-    {num:5,letter:"U",label:"Unifier",   color:C.bleu,    unlocked:false,       done:false,      onClick:null},
-    {num:6,letter:"R",label:"Renforcer", color:C.violet,  unlocked:false,       done:false,      onClick:null}
+    {num:3,letter:"L",label:"Localiser", color:"#d69e2e", unlocked:m2Done, done:m3Done, onClick:function(){if(m2Done)window.location.href='module3.html'}},
+    {num:4,letter:"E",label:"Explorer",  color:C.vert,    unlocked:m3Done, done:m4Done, onClick:function(){if(m3Done)window.location.href='module4.html'}},
+    {num:5,letter:"U",label:"Unifier",   color:C.bleu,    unlocked:m4Done, done:m5Done, onClick:function(){if(m4Done)window.location.href='module5.html'}},
+    {num:6,letter:"R",label:"Renforcer", color:C.violet,  unlocked:m5Done, done:m6Done, onClick:function(){if(m5Done)window.location.href='module6.html'}}
   ];
   return React.createElement("div",{style:{position:"sticky",top:0,zIndex:100,
     background:"linear-gradient(180deg,#080d18 0%,"+C.navy+" 100%)",
