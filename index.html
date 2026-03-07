@@ -1560,59 +1560,138 @@ function GlobalNav(p){
   if(email){try{var _m1=loadUser(email,'progressM1')||{};m1Done=!!_m1.module1_done;var _m2=loadUser(email,'module2Progress')||{};m2Done=!!_m2.completed}catch(_){}}
   var totalDone=(m0pct===100?1:0)+(m1Done?1:0)+(m2Done?1:0);
   var totalPct=Math.round(totalDone/7*100);
+  var activeStep=p.screen==='module0'?0:-1;
   var STEPS=[
-    {num:0,color:C.gold,unlocked:true,done:m0pct===100},
-    {num:1,color:C.rouge,unlocked:m0pct===100,done:m1Done},
-    {num:2,color:C.orange,unlocked:m1Done,done:m2Done},
-    {num:3,color:C.jaune,unlocked:false,done:false},
-    {num:4,color:C.vert,unlocked:false,done:false},
-    {num:5,color:C.bleu,unlocked:false,done:false},
-    {num:6,color:C.violet,unlocked:false,done:false}
+    {num:0,letter:"C",label:"Comprendre",color:C.gold,    unlocked:true,        done:m0pct===100,onClick:function(){p.setScreen('module0')}},
+    {num:1,letter:"V",label:"VOIR",      color:C.rouge,   unlocked:m0pct===100, done:m1Done,     onClick:function(){if(m0pct===100)window.location.href='module1.html'}},
+    {num:2,letter:"A",label:"Accueillir",color:C.orange,  unlocked:m1Done,      done:m2Done,     onClick:function(){if(m1Done)window.location.href='module2.html'}},
+    {num:3,letter:"L",label:"Localiser", color:"#e8d44d", unlocked:false,       done:false,      onClick:null},
+    {num:4,letter:"E",label:"Explorer",  color:C.vert,    unlocked:false,       done:false,      onClick:null},
+    {num:5,letter:"U",label:"Unifier",   color:C.bleu,    unlocked:false,       done:false,      onClick:null},
+    {num:6,letter:"R",label:"Renforcer", color:C.violet,  unlocked:false,       done:false,      onClick:null}
   ];
-  var dotRow=[];
-  STEPS.forEach(function(s,i){
-    dotRow.push(React.createElement("div",{key:"dot"+i,
-      title:s.done?"Module "+s.num+" ✓":s.unlocked?"Module "+s.num+" — Disponible":"Complétez le module précédent",
-      style:{width:"20px",height:"20px",borderRadius:"50%",flexShrink:0,
-        background:s.done?s.color:s.unlocked?s.color+"33":"#1a2540",
-        border:"2px solid "+(s.done?s.color:s.unlocked?s.color+"77":"#253050"),
-        display:"flex",alignItems:"center",justifyContent:"center"}},
-      React.createElement("span",{style:{fontSize:"9px",fontWeight:700,color:s.done?"#fff":s.unlocked?s.color:"#3a4a65"}},s.done?"✓":s.num)));
-    if(i<STEPS.length-1)dotRow.push(React.createElement("div",{key:"line"+i,style:{flex:1,height:"2px",background:s.done?s.color+"44":"#1a2540",maxWidth:"12px"}}));
-  });
-  var navTabs=[
-    {id:'dashboard',icon:'🏠',label:'Accueil',unlocked:true},
-    {id:'module0',icon:'📚',label:'M0·Comprendre',unlocked:true},
-    {id:'module1ext',icon:'🔴',label:'M1·VOIR',unlocked:m0pct===100,external:true,href:'module1.html'},
-    {id:'module2ext',icon:'🟠',label:'M2·Accueillir',unlocked:m1Done,external:true,href:'module2.html'},
-    {id:'journal',icon:'📓',label:'Journal',unlocked:true}
-  ];
-  return React.createElement("div",{style:{position:"sticky",top:0,zIndex:100,background:C.navy,borderBottom:"1px solid "+C.navyBorder}},
-    React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 14px",maxWidth:"800px",margin:"0 auto"}},
-      React.createElement("button",{onClick:function(){p.setScreen('dashboard')},style:{background:"none",border:"none",cursor:"pointer",padding:0}},
-        React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",width:"28px",height:"28px",borderRadius:"8px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"14px",fontWeight:900,color:"#000"}},"V")),
-      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"2px",flex:1,justifyContent:"center",padding:"0 8px"}},dotRow),
-      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"6px"}},
-        React.createElement("div",{style:{background:C.gold+"22",border:"1px solid "+C.gold+"44",borderRadius:"20px",padding:"3px 8px"}},
-          React.createElement("span",{style:{color:C.gold,fontSize:"11px",fontWeight:700}},totalPct,"%")),
-        React.createElement("button",{onClick:p.onLogout,title:"Se déconnecter",style:{background:"none",border:"1px solid "+C.navyBorder,color:C.textMuted,borderRadius:"8px",padding:"5px 8px",cursor:"pointer",fontSize:"11px"}},"⎋"))),
-    React.createElement("div",{style:{display:"flex",borderTop:"1px solid "+C.navyBorder+"55",maxWidth:"800px",margin:"0 auto"}},
-      navTabs.map(function(btn){
-        var isActive=!btn.external&&p.screen===btn.id;
-        var isLocked=!btn.unlocked;
-        return React.createElement("button",{key:btn.id,
-          onClick:function(){if(isLocked)return;if(btn.external){window.location.href=btn.href}else{p.setScreen(btn.id)}},
-          title:isLocked?"Complétez le module précédent":btn.label,
-          style:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:"1px",
-            background:isActive?C.gold+"11":"none",border:"none",
-            borderTop:isActive?"2px solid "+C.gold:"2px solid transparent",
-            padding:"6px 2px",cursor:isLocked?"not-allowed":"pointer",
-            opacity:isLocked?0.38:1,transition:"all 0.2s"}},
-          React.createElement("span",{style:{fontSize:"13px"}},isLocked?"🔒":btn.icon),
-          React.createElement("span",{style:{fontSize:"8px",color:isActive?C.gold:C.textMuted,fontWeight:isActive?700:400,letterSpacing:"0.3px",lineHeight:1.2,textAlign:"center"}},btn.label));
-      })));
-}
+  return React.createElement("div",{style:{position:"sticky",top:0,zIndex:100,
+    background:"linear-gradient(180deg,#080d18 0%,"+C.navy+" 100%)",
+    borderBottom:"1px solid "+C.navyBorder,
+    boxShadow:"0 4px 28px rgba(0,0,0,0.5)"}},
 
+    React.createElement("div",{style:{maxWidth:"800px",margin:"0 auto"}},
+
+      // ── Ligne 1 : logo + statut + logout ───────────────────────────
+      React.createElement("div",{style:{display:"flex",alignItems:"center",
+        gap:"10px",padding:"8px 14px 4px"}},
+
+        React.createElement("button",{onClick:function(){p.setScreen('dashboard')},
+          style:{background:"none",border:"none",cursor:"pointer",padding:0,flexShrink:0}},
+          React.createElement("div",{style:{
+            background:"linear-gradient(135deg,"+C.gold+",#8a6820)",
+            width:"30px",height:"30px",borderRadius:"9px",
+            display:"flex",alignItems:"center",justifyContent:"center",
+            fontSize:"15px",fontWeight:900,color:"#000",
+            boxShadow:"0 2px 10px "+C.gold+"55"}},"V")),
+
+        React.createElement("div",{style:{flex:1}},
+          React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"8px"}},
+            React.createElement("span",{style:{
+              fontFamily:"Georgia,serif",color:C.cream,
+              fontSize:"11px",fontWeight:600,letterSpacing:"0.4px"}},
+              totalDone===0?"Démarrez votre transformation":
+              totalDone===7?"✨ Parcours V.A.L.E.U.R© complété !":
+              "Étape "+(totalDone+1)+" / 7 — continuez !"),
+            totalDone>0&&React.createElement("div",{style:{
+              background:"linear-gradient(135deg,"+C.gold+"33,"+C.gold+"11)",
+              border:"1px solid "+C.gold+"44",
+              borderRadius:"20px",padding:"1px 8px"}},
+              React.createElement("span",{style:{
+                color:C.gold,fontSize:"10px",fontWeight:800}},totalPct+"%")))),
+
+        React.createElement("button",{onClick:p.onLogout,title:"Se déconnecter",
+          style:{background:"none",border:"1px solid "+C.navyBorder+"88",
+            color:C.textMuted,borderRadius:"7px",padding:"4px 8px",
+            cursor:"pointer",fontSize:"10px",flexShrink:0}},"⎋")),
+
+      // ── Ligne 2 : Barre des 7 étapes colorées ─────────────────────
+      React.createElement("div",{style:{padding:"4px 12px 10px",position:"relative"}},
+
+        // Rail de fond
+        React.createElement("div",{style:{
+          position:"absolute",top:"22px",left:"24px",right:"24px",
+          height:"3px",background:"#0e1628",borderRadius:"2px",zIndex:0}}),
+
+        // Rail coloré rempli
+        totalDone>0&&React.createElement("div",{style:{
+          position:"absolute",top:"22px",left:"24px",
+          height:"3px",
+          width:"calc("+(Math.min(totalDone,6)/6*100)+"% - 0px)",
+          background:"linear-gradient(90deg,"+C.gold+" 0%,"+C.rouge+" 20%,"+C.orange+" 40%,#e8d44d 55%,"+C.vert+" 68%,"+C.bleu+" 82%,"+C.violet+" 100%)",
+          borderRadius:"2px",zIndex:1,
+          transition:"width 1s cubic-bezier(0.4,0,0.2,1)"}}),
+
+        // Les 7 pastilles
+        React.createElement("div",{style:{
+          display:"flex",alignItems:"flex-start",
+          justifyContent:"space-between",position:"relative",zIndex:2}},
+
+          STEPS.map(function(s,i){
+            var isActive=activeStep===i;
+            var canClick=s.unlocked&&s.onClick;
+            return React.createElement("div",{key:i,
+              onClick:canClick?s.onClick:function(){
+                if(!s.unlocked){
+                  var prev=STEPS[i-1];
+                  // Show brief tooltip hint via title
+                }
+              },
+              title:s.done?s.label+" — Terminé ✓":
+                     s.unlocked?"→ "+s.label:
+                     "🔒 Terminez «"+STEPS[i-1].label+"» pour accéder à "+s.label,
+              style:{
+                display:"flex",flexDirection:"column",
+                alignItems:"center",gap:"4px",
+                cursor:canClick?"pointer":"default",
+                transition:"transform 0.2s",
+                minWidth:0,flex:1}},
+
+              // Pastille colorée
+              React.createElement("div",{style:{
+                width:"32px",height:"32px",borderRadius:"50%",
+                flexShrink:0,
+                background:s.done
+                  ?"linear-gradient(135deg,"+s.color+","+s.color+"cc)"
+                  :s.unlocked
+                    ?"linear-gradient(135deg,"+s.color+"28,"+s.color+"14)"
+                    :"#0a1020",
+                border:"2.5px solid "+(s.done?s.color:s.unlocked?s.color+"55":"#161f33"),
+                display:"flex",alignItems:"center",justifyContent:"center",
+                boxShadow:s.done?"0 0 16px "+s.color+"66,0 2px 8px rgba(0,0,0,0.4)":
+                          s.unlocked?"0 0 8px "+s.color+"22":"none",
+                transition:"all 0.35s ease"}},
+
+                s.done
+                  ?React.createElement("span",{style:{color:"#fff",fontSize:"14px",fontWeight:900}},"✓")
+                  :s.unlocked
+                    ?React.createElement("span",{style:{
+                        color:s.color,fontSize:"12px",fontWeight:900,
+                        fontFamily:"Georgia,serif",
+                        textShadow:"0 0 8px "+s.color+"88"}},s.letter)
+                    :React.createElement("span",{style:{color:"#1e2d40",fontSize:"11px"}},"●")),
+
+              // Label
+              React.createElement("span",{style:{
+                fontSize:"7.5px",
+                color:s.done?s.color:s.unlocked?s.color+"aa":"#1e2d40",
+                fontWeight:s.done||s.unlocked?700:400,
+                letterSpacing:"0.3px",
+                lineHeight:1.1,
+                textAlign:"center",
+                maxWidth:"40px",
+                overflow:"hidden",
+                textOverflow:"ellipsis",
+                whiteSpace:"nowrap",
+                transition:"color 0.3s"}},
+                s.done?"✦"+s.label:s.label));
+          })))));
+}
 // ── LOGIN ─────────────────────────────────────────────────────────
 function LoginScreen(p){
   var _u1=useState(''),_s1=_slicedToArray(_u1,2),email=_s1[0],setEmail=_s1[1];
