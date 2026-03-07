@@ -713,12 +713,12 @@ body.mask-violet { --mask-color: #805ad5; --mask-bg: rgba(128,90,213,0.12); }
 
 <!-- ══ PROGRESS BAR ══════════════════════════════ -->
 <div class="progress-bar-wrap">
-  <button class="btn-home" onclick="window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/'" title="Retour à l'accueil">⌂</button>
+  <button class="btn-home" onclick="window.location.href=MODULE_URLS.home" title="Retour à l'accueil">⌂</button>
   <div class="progress-steps">
-    <div class="ps done" title="Module 1 — VOIR"></div>
-    <div class="ps done" title="Module 2 — ACCUEILLIR"></div>
-    <div class="ps done" title="Module 3 — LOCALISER"></div>
-    <div class="ps active" title="Module 4 — EXPLORER"></div>
+    <div class="ps" id="ps1" title="Module 1 — VOIR" style="cursor:pointer" onclick="window.location.href=MODULE_URLS.module1"></div>
+    <div class="ps" id="ps2" title="Module 2 — ACCUEILLIR" style="cursor:pointer" onclick="window.location.href=MODULE_URLS.module2"></div>
+    <div class="ps" id="ps3" title="Module 3 — LOCALISER" style="cursor:pointer" onclick="window.location.href=MODULE_URLS.module3"></div>
+    <div class="ps active" id="ps4" title="Module 4 — EXPLORER (en cours)"></div>
     <div class="ps" id="ps5" title="Module 5 — UNIFIER"></div>
     <div class="ps" id="ps6" title="Module 6 — RENFORCER"></div>
   </div>
@@ -1180,7 +1180,7 @@ body.mask-violet { --mask-color: #805ad5; --mask-bg: rgba(128,90,213,0.12); }
       <button class="btn-primary" onclick="goToModule5()">
         → Commencer UNIFIER
       </button>
-      <button class="btn-secondary" onclick="window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/'">
+      <button class="btn-secondary" onclick="window.location.href=MODULE_URLS.home">
         ⌂ Retour à l'accueil
       </button>
     </div>
@@ -1210,6 +1210,20 @@ document.addEventListener('keydown', e => {
   if (e.key==='F12' || (e.ctrlKey&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase()))) e.preventDefault();
 });
 document.addEventListener('copy', e => { e.preventDefault(); });
+
+/* ══════════════════════════════════════════════════
+   CONFIG — URLS DES MODULES
+   ⚠️ Mettez à jour ces URLs dès que vous déployez
+   ══════════════════════════════════════════════════ */
+const MODULE_URLS = {
+  home:    'https://celinebourbon-ux.github.io/HomePageAppliValeur/',
+  module1: 'https://celinebourbon-ux.github.io/HomePageAppliValeur/module1.html',
+  module2: 'https://celinebourbon-ux.github.io/HomePageAppliValeur/module2.html',
+  module3: 'https://celinebourbon-ux.github.io/HomePageAppliValeur/module3.html',
+  module4: 'https://celinebourbon-ux.github.io/HomePageAppliValeur/module4.html',
+  module5: 'https://celinebourbon-ux.github.io/HomePageAppliValeur/module5.html',
+  module6: 'https://celinebourbon-ux.github.io/HomePageAppliValeur/module6.html',
+};
 
 /* ══════════════════════════════════════════════════
    MASQUES DATA
@@ -1291,6 +1305,14 @@ function init() {
 
   // Enable btn-p3-next since map is pre-populated, and generate phrase
   updateConflictPhrase();
+
+  // Update progress bar from localStorage
+  try {
+    if (localStorage.getItem('valeur_module1_complete')) { const d=document.getElementById('ps1'); if(d){d.classList.remove('active');d.classList.add('done');} }
+    if (localStorage.getItem('valeur_module2_complete')) { const d=document.getElementById('ps2'); if(d){d.classList.remove('active');d.classList.add('done');} }
+    if (localStorage.getItem('valeur_module3_complete')) { const d=document.getElementById('ps3'); if(d){d.classList.remove('active');d.classList.add('done');} }
+    if (localStorage.getItem('valeur_module5_unlocked')) { const d=document.getElementById('ps5'); if(d) d.classList.add('active'); }
+  } catch(e){}
 
   // Start canvas animation
   startDuelCanvas();
@@ -1642,9 +1664,11 @@ function launchConfetti() {
    GO TO MODULE 5
    ══════════════════════════════════════════════════ */
 function goToModule5() {
-  // Navigate to module 5 — update URL when available
-  const m5url = localStorage.getItem('valeur_module5_url') || 'https://celinebourbon-ux.github.io/HomePageAppliValeur/';
-  window.location.href = m5url;
+  window.location.href = MODULE_URLS.module5;
+}
+
+function goToHome() {
+  window.location.href = MODULE_URLS.home;
 }
 
 /* ══════════════════════════════════════════════════
