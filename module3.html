@@ -112,8 +112,10 @@ textarea,input{font-family:inherit;user-select:text;-webkit-user-select:text;}
 .copyright{text-align:center;padding:20px;color:var(--text-muted);font-size:10px;line-height:1.8;letter-spacing:.5px;border-top:1px solid var(--navy-border);margin-top:16px;}
 @media(max-width:600px){.sensation-grid{grid-template-columns:1fr;}.body-scan-container{flex-direction:column;align-items:center;}}
 </style>
+<script src="valeur-config.js"></script>
 </head>
 <body>
+<div id="valeur-progress-bar"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -492,7 +494,7 @@ function launchConfetti(){
       <p style="color:var(--text-muted);font-size:13px;margin:0;">Module 4 — EXPLORER · Comprendre la peur sous-jacente</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <a href="module4.html" style="display:block;background:linear-gradient(135deg,var(--green),#276749);color:#fff;text-decoration:none;border-radius:50px;padding:14px 28px;font-size:15px;font-weight:800;text-align:center;box-shadow:0 4px 20px rgba(56,161,105,0.4);">→ Commencer le Module 4 — EXPLORER</a>
+      <a href="module4.html" onclick="VALEUR_PROGRESS.complete('module3')" style="display:block;background:linear-gradient(135deg,var(--green),#276749);color:#fff;text-decoration:none;border-radius:50px;padding:14px 28px;font-size:15px;font-weight:800;text-align:center;box-shadow:0 4px 20px rgba(56,161,105,0.4);">→ Commencer le Module 4 — EXPLORER</a>
       <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" style="display:block;background:none;border:2px solid var(--jaune);color:var(--jaune);text-decoration:none;border-radius:50px;padding:12px 28px;font-size:14px;font-weight:700;text-align:center;">→ Retour au tableau de bord</a>
     </div>
     <p class="copyright" style="margin-top:20px;">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue · Tous droits réservés</p>
@@ -875,5 +877,8 @@ function launchConfetti(){
 </div>
 
 </div><!-- /app-content -->
+<script>
+VALEUR_PROGRESS.render('module3');
+</script>
 </body>
 </html>
