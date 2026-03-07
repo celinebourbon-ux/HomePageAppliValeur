@@ -708,6 +708,7 @@ body.mask-violet { --mask-color: #805ad5; --mask-bg: rgba(128,90,213,0.12); }
   .duel-orb { width:64px; height:64px; font-size:26px; }
 }
 </style>
+<script src="valeur-config.js"></script>
 </head>
 <body class="mask-vert">
 
@@ -1077,7 +1078,7 @@ body.mask-violet { --mask-color: #805ad5; --mask-bg: rgba(128,90,213,0.12); }
 
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px;">
       <button class="btn-primary" id="btn-p3-next" onclick="goToPhase(4)" disabled>Finaliser mon exploration →</button>
-      <button class="btn-secondary" onclick="goToPhase(2)">← Retour</button>
+      <button class="btn-secondary" onclick="VALEUR_PROGRESS.complete('module4'); goToPhase(4)">← Retour</button>
     </div>
   </div>
 </div>
@@ -1681,6 +1682,9 @@ document.addEventListener('input', function(e) {
   if (['dial-q1','dial-q3'].includes(e.target.id)) checkValidations();
   if (['jb-conflit','jb-valeur','jb-ressenti','jb-message'].includes(e.target.id)) checkValidations();
 });
+</script>
+<script>
+VALEUR_PROGRESS.render('module4');
 </script>
 </body>
 </html>
