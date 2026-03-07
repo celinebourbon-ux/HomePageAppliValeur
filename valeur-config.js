@@ -204,6 +204,9 @@ var VALEUR_PROGRESS = {
       stepsHTML += '</div>';
     }
 
+    /* Décale le body uniquement quand la barre est vraiment rendue */
+    document.body.style.paddingTop = '62px';
+
     bar.innerHTML =
       '<div id="vpb-inner">' +
         '<a id="vpb-home-btn" href="' + VALEUR_BASE + '" title="Tableau de bord V.A.L.E.U.R©">&#8962;</a>' +
@@ -235,8 +238,7 @@ var VALEUR_PROGRESS = {
     'body{animation:vpb-fadein .35s ease both;}',
     '@keyframes vpb-fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}',
 
-    /* Décalage pour la barre fixe (sauf index.html) */
-    'body{padding-top:62px!important;}',
+    /* padding-top appliqué dynamiquement par renderBar() — pas ici */
 
     /* Barre externe */
     '#valeur-progress-bar{position:fixed;top:0;left:0;right:0;z-index:9999;',
