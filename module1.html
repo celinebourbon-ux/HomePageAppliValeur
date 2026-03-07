@@ -96,6 +96,7 @@ function markModule1Done(session){
   var prog=loadUser(session.email,'progressM1')||{};
   var updated=_objectSpread(_objectSpread({},prog),{},{done:true,doneAt:new Date().toISOString()});
   saveUser(session.email,'progressM1',updated);
+  VALEUR_PROGRESS.complete('module1');
   // Sync Supabase
   sb.from('user_data').upsert({
     email:session.email,
@@ -111,7 +112,7 @@ function markModule1Done(session){
       patient_name:session.name||session.email,
       date:new Date().toLocaleDateString('fr-FR'),
       heure:new Date().toLocaleTimeString('fr-FR'),
-      VALEUR_PROGRESS.complete('module1');🔴 MODULE 1 VOIR COMPLÉTÉ\nPrénom : "+(session.name||session.email)+"\nEmail : "+session.email+"\nDate : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n→ Le Module 2 — ACCUEILLIR est maintenant déverrouillé."
+      app_notification:"🔴 MODULE 1 VOIR COMPLÉTÉ\nPrénom : "+(session.name||session.email)+"\nEmail : "+session.email+"\nDate : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n→ Le Module 2 — ACCUEILLIR est maintenant déverrouillé."
     },EMAILJS_PUBLIC_KEY).catch(function(){});
   }
 }
@@ -334,7 +335,7 @@ function M1ProgressBar(p){
 /* ── GLOBAL NAV M1 ── */
 function TopNav(p){
   var m0done=p.session?getModule0Progress(p.session.email)>=4:false;
-  return React.createElement("div",{style:{position:"sticky",top:0,zIndex:100,background:C.navy,borderBottom:"1px solid "+C.navyBorder}},
+  return React.createElement("div",{style:{position:"sticky",top:"62px",zIndex:100,background:C.navy,borderBottom:"1px solid "+C.navyBorder}},
     React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 16px",maxWidth:"800px",margin:"0 auto"}},
       React.createElement("a",{href:"https://celinebourbon-ux.github.io/HomePageAppliValeur/",style:{textDecoration:"none"}},
         React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",width:"28px",height:"28px",borderRadius:"8px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"14px",fontWeight:900,color:"#000"}},"V")),
