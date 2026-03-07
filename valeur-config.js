@@ -205,18 +205,72 @@ var VALEUR_PROGRESS = {
     }
 
     /* Décale le body uniquement quand la barre est vraiment rendue */
-    document.body.style.paddingTop = '62px';
+    document.body.style.paddingTop = '86px'; /* 62px barre + 24px breadcrumb */
 
     bar.innerHTML =
       '<div id="vpb-inner">' +
         '<a id="vpb-home-btn" href="' + VALEUR_BASE + '" title="Tableau de bord V.A.L.E.U.R©">&#8962;</a>' +
+        '<button id="vpb-burger" onclick="VALEUR_PROGRESS._openMenu()" title="Navigation">' +
+          '<span></span><span></span><span></span>' +
+        '</button>' +
         '<div id="vpb-steps">' + stepsHTML + '</div>' +
         '<span id="vpb-pct">' + pct + '%</span>' +
       '</div>';
+
+    /* ── BREADCRUMB ── */
+    var bc = document.getElementById('vpb-breadcrumb');
+    if (!bc) { bc = document.createElement('div'); bc.id = 'vpb-breadcrumb'; document.body.insertBefore(bc, document.body.firstChild.nextSibling || document.body.firstChild); }
+    var stepNames = ['Comprendre','Voir','Accueillir','Localiser','Explorer','Unifier','Renforcer'];
+    var bcHTML = '<a href="' + VALEUR_BASE + '">Accueil</a>';
+    if (cur > 0) bcHTML += '<span class="vpb-bc-sep">›</span><span class="vpb-bc-cur">Module ' + cur + ' — ' + stepNames[cur] + '</span>';
+    bc.innerHTML = bcHTML;
   },
 
   /* Alias pour compatibilité avec les modules existants */
-  render: function(moduleKey) { this.renderBar(); }
+  render: function(moduleKey) { this.renderBar(); },
+
+  /* Ouvre le menu hamburger */
+  _openMenu: function() {
+    var ov = document.getElementById('vpb-overlay');
+    if (ov) { ov.classList.add('vpb-open'); return; }
+    var done = this.getDoneStates();
+    var cur  = this.getCurrentStep();
+    var labels = ['C — Comprendre','V — Voir','A — Accueillir','L — Localiser','E — Explorer','U — Unifier','R — Renforcer'];
+    var urls   = [MODULE_URLS.module0,MODULE_URLS.module1,MODULE_URLS.module2,MODULE_URLS.module3,MODULE_URLS.module4,MODULE_URLS.module5,MODULE_URLS.module6];
+    var colors = ['#4A90D9','#E74C3C','#E67E22','#F1C40F','#2ECC71','#8E44AD','#D4AF37'];
+    var itemsHTML = '';
+    for (var i = 0; i < STEPS_ALL.length; i++) {
+      var isDone   = done[i];
+      var isActive = (i === cur);
+      var unlocked = (i === 0) || done[i - 1];
+      var cls  = isDone ? 'vpb-menu-item vpb-mi-done' : isActive ? 'vpb-menu-item vpb-mi-active' : !unlocked ? 'vpb-menu-item vpb-mi-locked' : 'vpb-menu-item';
+      var icon = isDone ? '✓' : !unlocked ? '🔒' : STEPS_ALL[i].letter;
+      var status = isDone ? 'Complété ✓' : isActive ? 'En cours →' : !unlocked ? 'Verrouillé 🔒' : 'Disponible';
+      var tag = (unlocked && !isActive) || isDone ? 'a' : 'div';
+      var href = (tag === 'a') ? ' href="' + urls[i] + '"' : '';
+      itemsHTML += '<' + tag + href + ' class="' + cls + '">' +
+        '<div class="vpb-mi-circle" style="background:' + colors[i] + '22;border-color:' + colors[i] + '66;color:' + colors[i] + ';">' + icon + '</div>' +
+        '<div class="vpb-mi-info">' +
+          '<div class="vpb-mi-name">' + labels[i] + '</div>' +
+          '<div class="vpb-mi-status">' + status + '</div>' +
+        '</div>' +
+        '</' + tag + '>';
+    }
+    ov = document.createElement('div');
+    ov.id = 'vpb-overlay';
+    ov.innerHTML =
+      '<div id="vpb-overlay-head">' +
+        '<span id="vpb-overlay-title">V.A.L.E.U.R©</span>' +
+        '<button id="vpb-overlay-close" onclick="VALEUR_PROGRESS._closeMenu()">✕</button>' +
+      '</div>' + itemsHTML;
+    document.body.appendChild(ov);
+    ov.classList.add('vpb-open');
+  },
+
+  _closeMenu: function() {
+    var ov = document.getElementById('vpb-overlay');
+    if (ov) ov.classList.remove('vpb-open');
+  }
 };
 
 /* ── CSS PREMIUM ───────────────────────────────────────────────── */
@@ -323,6 +377,76 @@ var VALEUR_PROGRESS = {
     'padding:3px 16px;text-align:center;font-size:9px;color:#3a4e66;',
     'z-index:8800;pointer-events:none;letter-spacing:.3px;}',
 
+    /* ── BREADCRUMB ─────────────────────────────────────── */
+    '#vpb-breadcrumb{position:fixed;top:62px;left:0;right:0;z-index:9998;',
+    'background:#080d17;border-bottom:1px solid #141e30;',
+    'padding:4px 16px;font-size:10px;color:#3a5070;letter-spacing:.3px;',
+    'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+    '#vpb-breadcrumb a{color:#3a5070;text-decoration:none;transition:color .2s;}',
+    '#vpb-breadcrumb a:hover{color:#D4AF37;}',
+    '#vpb-breadcrumb .vpb-bc-sep{margin:0 5px;opacity:.4;}',
+    '#vpb-breadcrumb .vpb-bc-cur{color:#6a8aaa;}',
+
+    /* ── HAMBURGER BUTTON ───────────────────────────────── */
+    '#vpb-burger{display:none;flex-direction:column;justify-content:center;gap:4px;',
+    'background:none;border:none;cursor:pointer;padding:6px;flex-shrink:0;',
+    'width:34px;height:34px;border-radius:6px;transition:background .2s;}',
+    '#vpb-burger:hover{background:rgba(212,175,55,.12);}',
+    '#vpb-burger span{display:block;height:2px;background:#5a7090;border-radius:1px;transition:all .25s;}',
+    '#vpb-burger:hover span{background:#D4AF37;}',
+
+    /* ── MENU OVERLAY ───────────────────────────────────── */
+    '#vpb-overlay{position:fixed;inset:0;z-index:99999;background:rgba(5,8,16,.95);',
+    'backdrop-filter:blur(8px);display:none;flex-direction:column;',
+    'padding:24px 20px;overflow-y:auto;}',
+    '#vpb-overlay.vpb-open{display:flex;}',
+    '#vpb-overlay-head{display:flex;justify-content:space-between;align-items:center;',
+    'margin-bottom:24px;}',
+    '#vpb-overlay-title{font-family:"Cormorant Garamond",Georgia,serif;',
+    'font-size:20px;font-weight:700;color:#D4AF37;letter-spacing:1px;}',
+    '#vpb-overlay-close{background:none;border:1px solid #1e2d40;color:#94a3b8;',
+    'font-size:22px;line-height:1;cursor:pointer;border-radius:50%;',
+    'width:36px;height:36px;display:flex;align-items:center;justify-content:center;',
+    'transition:all .2s;}',
+    '#vpb-overlay-close:hover{border-color:#D4AF37;color:#D4AF37;}',
+    '.vpb-menu-item{display:flex;align-items:center;gap:14px;padding:14px 18px;',
+    'border-radius:14px;margin-bottom:8px;border:1px solid #1a2640;',
+    'text-decoration:none;transition:all .25s;cursor:pointer;}',
+    '.vpb-menu-item.vpb-mi-done{border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.04);}',
+    '.vpb-menu-item.vpb-mi-active{border-color:rgba(212,175,55,.4);background:rgba(212,175,55,.06);',
+    'box-shadow:0 0 16px rgba(212,175,55,.12);}',
+    '.vpb-menu-item.vpb-mi-locked{opacity:.45;cursor:default;}',
+    '.vpb-menu-item:not(.vpb-mi-locked):hover{transform:translateX(4px);',
+    'border-color:rgba(212,175,55,.3);}',
+    '.vpb-mi-circle{width:40px;height:40px;border-radius:50%;display:flex;',
+    'align-items:center;justify-content:center;font-size:14px;font-weight:800;',
+    'flex-shrink:0;border:2px solid;}',
+    '.vpb-mi-info{flex:1;}',
+    '.vpb-mi-name{font-family:"Cormorant Garamond",Georgia,serif;font-size:15px;',
+    'font-weight:700;color:#e2e8f0;margin-bottom:2px;}',
+    '.vpb-mi-status{font-size:11px;color:#64748b;}',
+    '.vpb-mi-done .vpb-mi-status{color:#34d399;}',
+    '.vpb-mi-active .vpb-mi-status{color:#D4AF37;}',
+
+    /* ── MICRO-INTERACTIONS GLOBALES ────────────────────── */
+    /* Hover élévation + lueur dorée sur tous les boutons */
+    'button:not(#vpb-scroll-top):not(#vpb-burger):not(#vpb-overlay-close){',
+    'transition:transform .18s,box-shadow .18s,border-color .18s;}',
+    'button:not(#vpb-scroll-top):not(#vpb-burger):not(#vpb-overlay-close):hover{',
+    'transform:translateY(-2px);',
+    'box-shadow:0 4px 18px rgba(212,175,55,.18)!important;}',
+    /* Cards hover */
+    '.card,.highlight-box,.formula-box,.peda,.access-card{transition:box-shadow .25s,transform .25s!important;}',
+    '.card:hover,.highlight-box:hover,.peda:hover{',
+    'box-shadow:0 8px 32px rgba(212,175,55,.12)!important;',
+    'transform:translateY(-2px)!important;}',
+    /* Curseur pointer partout où c'est interactif */
+    'a,button,[onclick]{cursor:pointer;}',
+
+    /* ── SCROLL SMOOTH + MARGIN ANCRES ─────────────────── */
+    'html{scroll-behavior:smooth;}',
+    '[id]{scroll-margin-top:80px;}',
+
     /* ── RESPONSIVE ────────────────────────────────────── */
     '@media(max-width:520px){',
     '.vpb-label{display:none;}',
@@ -330,14 +454,26 @@ var VALEUR_PROGRESS = {
     '.vpb-active{width:30px!important;height:30px!important;}',
     '.vpb-letter,.vpb-icon{font-size:11px;}',
     '#vpb-pct{font-size:10px;}',
+    '#vpb-burger{display:flex;}',
+    '#vpb-steps{display:none;}',
+    '#vpb-pct{display:none;}',
     '}'
 
   ].join('');
   document.head.appendChild(s);
 })();
 
-/* ── SCROLL TO TOP ─────────────────────────────────────────────── */
+/* ── SCROLL TO TOP + sessionStorage ───────────────────────────── */
 (function() {
+  /* Restaure la position si l'utilisateur revient en arrière */
+  try {
+    var savedKey = 'vpb_scroll_' + window.location.pathname;
+    var savedY   = parseInt(sessionStorage.getItem(savedKey) || '0', 10);
+    if (savedY > 0) {
+      window.addEventListener('load', function() { window.scrollTo(0, savedY); }, { once: true });
+    }
+  } catch(e) {}
+
   function addScrollTop() {
     if (document.getElementById('vpb-scroll-top')) return;
     var btn = document.createElement('button');
@@ -347,9 +483,16 @@ var VALEUR_PROGRESS = {
     btn.setAttribute('aria-label', 'Retour en haut');
     btn.onclick = function() { window.scrollTo({ top: 0, behavior: 'smooth' }); };
     document.body.appendChild(btn);
+
+    var scrollTimer;
     window.addEventListener('scroll', function() {
       if (window.scrollY > 300) btn.classList.add('vpb-visible');
       else btn.classList.remove('vpb-visible');
+      /* Sauvegarde la position dans sessionStorage */
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function() {
+        try { sessionStorage.setItem('vpb_scroll_' + window.location.pathname, window.scrollY); } catch(e) {}
+      }, 300);
     }, { passive: true });
   }
   if (document.readyState === 'loading') {
@@ -357,8 +500,10 @@ var VALEUR_PROGRESS = {
   } else {
     addScrollTop();
   }
-  /* Scroll to top on page load */
-  window.scrollTo(0, 0);
+  /* Scroll to top on fresh page load (pas de retour arrière) */
+  if (!sessionStorage.getItem('vpb_scroll_' + window.location.pathname)) {
+    window.scrollTo(0, 0);
+  }
 })();
 
 /* ── FOOTER COPYRIGHT ──────────────────────────────────────────── */
