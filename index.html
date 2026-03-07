@@ -1360,7 +1360,7 @@ function Dashboard(p){
   var completed=progress.completedSections||[];
   var pct=Math.round(completed.length/4*100);
   var _m0p2=loadUser(email,"progress")||{};var m0Done=_m0p2.module0_done||(pct===100);
-  var _m1p=loadUser(email,"progressM1")||{};var m1Done=!!_m1p.module1_done;
+  var _m1p=loadUser(email,"progressM1")||{};var m1Done=!!_m1p.module1_done||!!_m1p.done;
   var _m2p=loadUser(email,"module2Progress")||{};var m2Done=!!_m2p.completed;
   var _m3p=loadUser(email,"module3Progress")||{};var m3Done=!!_m3p.completed;
   var _m4p=loadUser(email,"module4Progress")||{};var m4Done=!!_m4p.completed;
@@ -1603,7 +1603,7 @@ function GlobalNav(p){
   if(email){try{var _m0p=loadUser(email,'progress')||{};if(_m0p.module0_done)m0Done=true;}catch(_){}}
   var m1Done=false,m2Done=false,m3Done=false,m4Done=false,m5Done=false,m6Done=false;
   if(email){try{
-    var _mn1=loadUser(email,'progressM1')||{};m1Done=!!_mn1.module1_done;
+    var _mn1=loadUser(email,'progressM1')||{};m1Done=!!_mn1.module1_done||!!_mn1.done;
     var _mn2=loadUser(email,'module2Progress')||{};m2Done=!!_mn2.completed;
     var _mn3=loadUser(email,'module3Progress')||{};m3Done=!!_mn3.completed;
     var _mn4=loadUser(email,'module4Progress')||{};m4Done=!!_mn4.completed;
@@ -1839,14 +1839,20 @@ function App(){
   if(!session)return React.createElement(LoginScreen,{onLogin:handleLogin});
   var isAdmin=session.email===ADMIN_EMAIL;
   // Reactive completed — re-read from localStorage whenever screen changes
-  var _uc=useState(function(){return(loadUser(session.email,'progress')||{completedSections:[]}).completedSections||[]}),_sca=_slicedToArray(_uc,2),completedState=_sca[0],setCompletedState=_sca[1];
-  function refreshCompleted(){setCompletedState((loadUser(session.email,'progress')||{completedSections:[]}).completedSections||[]);}
+  var _uc=useState(function(){return(loadUser(session.email,'progress')||{completedSections:[]}).completedSections||[]})
+  var _ut=useState(0),_sta=_slicedToArray(_ut,2),refreshTick=_sta[0],setRefreshTick=_sta[1];
+  var _sca=_slicedToArray(_uc,2),completedState=_sca[0],setCompletedState=_sca[1];
+  function refreshCompleted(){
+    setCompletedState((loadUser(session.email,'progress')||{completedSections:[]}).completedSections||[]);
+    // Force re-render du dashboard en incrémentant un compteur
+    setRefreshTick(function(n){return n+1;});
+  }
   function goHome(){refreshCompleted();setScreen('dashboard');}
   var completed=completedState;
   return React.createElement("div",{style:{background:C.navy,minHeight:"100vh"}},
     showOnboarding&&React.createElement(OnboardingModal,{name:session.name,onDone:function(){setShowOnboarding(false)}}),
     React.createElement(GlobalNav,{screen:screen,setScreen:function(s){refreshCompleted();setScreen(s)},completedSections:completed,session:session,onLogout:handleLogout}),
-    screen==='dashboard'&&React.createElement(Dashboard,{onStart:function(){setScreen('module0')},onOpenJournal:function(){setScreen('journal')},session:session,isAdmin:isAdmin,onOpenAdmin:function(){setScreen('admin')}}),
+    screen==='dashboard'&&React.createElement(Dashboard,{onStart:function(){setScreen('module0')},onOpenJournal:function(){setScreen('journal')},refreshTick:refreshTick,session:session,isAdmin:isAdmin,onOpenAdmin:function(){setScreen('admin')}}),
     screen==='module0'&&React.createElement(Module0,{session:session,onGoHome:goHome,onModule0Done:goHome,onSectionComplete:function(){refreshCompleted()}}),
     screen==='journal'&&React.createElement(JournalPage,{session:session,onBack:function(){setScreen('dashboard')}}),
     screen==='admin'&&isAdmin&&React.createElement(AdminDashboard,{onBack:function(){setScreen('dashboard')}}),
