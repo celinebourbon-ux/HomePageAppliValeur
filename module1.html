@@ -111,7 +111,7 @@ function markModule1Done(session){
       patient_name:session.name||session.email,
       date:new Date().toLocaleDateString('fr-FR'),
       heure:new Date().toLocaleTimeString('fr-FR'),
-      app_notification:"🔴 MODULE 1 VOIR COMPLÉTÉ\nPrénom : "+(session.name||session.email)+"\nEmail : "+session.email+"\nDate : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n→ Le Module 2 — ACCUEILLIR est maintenant déverrouillé."
+      VALEUR_PROGRESS.complete('module1');🔴 MODULE 1 VOIR COMPLÉTÉ\nPrénom : "+(session.name||session.email)+"\nEmail : "+session.email+"\nDate : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n→ Le Module 2 — ACCUEILLIR est maintenant déverrouillé."
     },EMAILJS_PUBLIC_KEY).catch(function(){});
   }
 }
@@ -895,7 +895,7 @@ function App(){
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
-   VALEUR_PROGRESS.render('module1');
+   VALEUR_PROGRESS.render('module0');
 </script>
 </body>
 </html>
