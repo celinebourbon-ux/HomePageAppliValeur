@@ -711,6 +711,7 @@ body.mask-violet { --mask-color: #805ad5; --mask-bg: rgba(128,90,213,0.12); }
 /* ── SCROLL REVEAL ── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
+#btn-validate:not(:disabled){opacity:1!important;}
 .reveal.delay-1{transition-delay:.1s;}
 .reveal.delay-2{transition-delay:.2s;}
 
@@ -1392,6 +1393,7 @@ function goToPhase(n) {
     window.scrollTo({top:0, behavior:'smooth'});
   }
   currentPhase = n;
+  if (n === 4) { setTimeout(checkValidations, 50); }
 
   // Update progress
   const pct = [0, 20, 40, 60, 80, 100][n] || 0;
@@ -1568,7 +1570,11 @@ function checkValidations() {
   const jb3 = (document.getElementById('jb-ressenti')?.value||'').trim();
   const jb4 = (document.getElementById('jb-message')?.value||'').trim();
   const vbtn = document.getElementById('btn-validate');
-  if (vbtn) vbtn.disabled = !(jb1.length > 5 && jb2.length > 2 && jb3.length > 5 && jb4.length > 5);
+  if (vbtn) {
+    const ok = (jb1.length > 5 && jb2.length > 2 && jb3.length > 5 && jb4.length > 5);
+    vbtn.disabled = !ok;
+    if (ok) { vbtn.classList.remove('reveal'); vbtn.classList.add('visible'); }
+  }
 }
 
 /* ══════════════════════════════════════════════════
