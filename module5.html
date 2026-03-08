@@ -376,7 +376,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
         <textarea class="journal-input" id="jt1" rows="4" placeholder="Ex : Il cherche à m'éviter la souffrance du rejet. À garder les gens près de moi…" oninput="autoSave('jt1');checkQ1()"></textarea>
         <p style="font-size:11px;color:var(--text-muted);margin-top:6px;">✓ Auto-sauvegardé</p>
       </div>
-      <button class="btn-primary" id="q1-next" onclick="goQ(2)" disabled>→ Question suivante</button>
+      <button class="btn-primary" id="q1-next" onclick="goQ(2)" >→ Question suivante</button>
     </div>
 
     <!-- Q2 -->
@@ -459,7 +459,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <button class="btn-primary" id="q3-next" onclick="goPhase(3)" disabled>→ Construire mon alliance intérieure</button>
+        <button class="btn-primary" id="q3-next" onclick="goPhase(3)" >→ Construire mon alliance intérieure</button>
         <button class="btn-secondary" onclick="goQ(2)">← Retour</button>
       </div>
     </div>
@@ -510,7 +510,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
     <button class="btn-copy-alliance" id="copy-btn" onclick="copyAlliance()" disabled>📋 Copier mon alliance (seule zone autorisée)</button>
     <p id="copy-confirm" style="text-align:center;font-size:12px;color:var(--gold);margin-top:6px;display:none;">✓ Copié dans votre presse-papiers !</p>
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
-      <button class="btn-gold" id="seal-btn" onclick="sealAlliance()" disabled>⚡ Sceller mon alliance intérieure</button>
+      <button class="btn-gold" id="seal-btn" onclick="sealAlliance()" >⚡ Sceller mon alliance intérieure</button>
       <button class="btn-primary" onclick="goPhase(4)" style="margin-top:4px;">→ Continuer vers la Boussole</button>
       <button class="btn-secondary" onclick="goPhase(2)">← Retour aux questions</button>
     </div>
@@ -618,7 +618,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
       <textarea class="journal-input" id="jf3" rows="4" placeholder="Ex : Je te remercie de m'avoir protégé·e. Tu peux te reposer maintenant…"></textarea>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
-      <button class="btn-gold" id="btn-validate" onclick="validateModule5()" disabled>
+      <button class="btn-gold" id="btn-validate" onclick="validateModule5()" >
         ✓ Valider le Module 5 — UNIFIER 🔵
       </button>
       <button class="btn-secondary" onclick="goPhase(4)">← Retour à la boussole</button>
