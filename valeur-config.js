@@ -317,12 +317,6 @@ var VALEUR_PROGRESS = {
     '#vpb-scroll-top:hover{transform:translateY(-3px)!important;',
     'box-shadow:0 6px 22px rgba(201,168,76,.7);}',
 
-    /* ── FOOTER COPYRIGHT ──────────────────────────────── */
-    '#vpb-footer{position:fixed;bottom:0;left:0;right:0;',
-    'background:rgba(10,15,26,.97);border-top:1px solid #1a2640;',
-    'padding:3px 16px;text-align:center;font-size:9px;color:#3a4e66;',
-    'z-index:8800;pointer-events:none;letter-spacing:.3px;}',
-
     /* ── RESPONSIVE ────────────────────────────────────── */
     '@media(max-width:520px){',
     '.vpb-label{display:none;}',
@@ -361,21 +355,7 @@ var VALEUR_PROGRESS = {
   window.scrollTo(0, 0);
 })();
 
-/* ── FOOTER COPYRIGHT ──────────────────────────────────────────── */
-(function() {
-  function addFooter() {
-    if (document.getElementById('vpb-footer') || VALEUR_PROGRESS.isHomePage()) return;
-    var f = document.createElement('div');
-    f.id = 'vpb-footer';
-    f.innerHTML = '© Céline Bourbon &mdash; Méthode V.A.L.E.U.R© &mdash; Tous droits réservés &middot; Reproduction interdite &middot; <em>De la peur à la joie d\'être soi</em> &mdash; Éd. L\'Harmattan';
-    document.body.appendChild(f);
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', addFooter);
-  } else {
-    addFooter();
-  }
-})();
+/* Footer géré directement dans chaque module — pas d'injection globale */
 
 /* ── PROTECTION ANTI-COPIE (universelle) ──────────────────────── */
 (function() {

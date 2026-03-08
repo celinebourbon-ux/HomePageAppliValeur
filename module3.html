@@ -111,6 +111,11 @@ textarea,input{font-family:inherit;user-select:text;-webkit-user-select:text;}
 .celebration-card{background:linear-gradient(135deg,#1a1a00,#0f1200);border:2px solid var(--jaune);border-radius:24px;padding:36px 28px;max-width:460px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7);animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1);}
 .copyright{text-align:center;padding:20px;color:var(--text-muted);font-size:10px;line-height:1.8;letter-spacing:.5px;border-top:1px solid var(--navy-border);margin-top:16px;}
 @media(max-width:600px){.sensation-grid{grid-template-columns:1fr;}.body-scan-container{flex-direction:column;align-items:center;}}
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal.delay-1{transition-delay:.1s;}
+.reveal.delay-2{transition-delay:.2s;}
 </style>
 <script src="valeur-config.js"></script>
 </head>
@@ -153,8 +158,12 @@ function getSession(){
 
 function isModule2Done(email){
   try{
-    const p=JSON.parse(localStorage.getItem('valeur_'+email+'_module2Progress')||'{}');
-    return p.completed===true;
+    // Clé sauvegardée par module2.html
+    const p=JSON.parse(localStorage.getItem('valeur_'+email+'_module2Progress')||'null');
+    if(p&&p.completed===true)return true;
+    // Clé globale VALEUR_PROGRESS
+    if(localStorage.getItem('valeur_module2_complete'))return true;
+    return false;
   }catch(e){return false;}
 }
 
@@ -452,14 +461,30 @@ function markModule3Done(){
 }
 
 function launchConfetti(){
-  const cols=['#d69e2e','#c9a84c','#faf089','#38a169','#805ad5','#f6e05e','#9ae6b4'];
-  for(let i=0;i<70;i++){
-    const el=document.createElement('div');el.className='confetti-piece';
-    const sz=6+Math.random()*8;
-    el.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*2}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
-    document.body.appendChild(el);setTimeout(()=>el.remove(),5000);
+  const cols=['#d69e2e','#c9a84c','#faf089','#38a169','#805ad5','#f6e05e','#9ae6b4','#fff','#e53e3e'];
+  for(let i=0;i<90;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');el.className='confetti-piece';
+      const sz=5+Math.random()*10;
+      el.style.cssText=`left:${Math.random()*100}vw;top:-10px;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${2.5+Math.random()*2}s;animation-delay:${Math.random()*0.3}s;border-radius:${Math.random()>.5?'50%':'3px'};animation-name:confettiFall;animation-timing-function:linear;animation-fill-mode:both;transform:rotate(${Math.random()*360}deg);`;
+      document.body.appendChild(el);setTimeout(()=>el.remove(),5500);
+    },i*25);
   }
 }
+
+function initScrollReveal(){
+  const targets=document.querySelectorAll('.card,.highlight-box,.formula-box,.peda,.accroche,.strat-item,.body-scan-container,.acc-item,.sensation-item,.quiz-q,.terminer-block');
+  targets.forEach((el,i)=>{
+    el.classList.add('reveal');
+    if(i%3===1)el.classList.add('delay-1');
+    if(i%3===2)el.classList.add('delay-2');
+  });
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:0.08});
+  targets.forEach(el=>obs.observe(el));
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(initScrollReveal,500));
 </script>
 
 <!-- LOADING -->
