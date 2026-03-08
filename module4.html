@@ -540,7 +540,7 @@ body {
 }
 .btn-primary:hover::before { left:100%; }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-.btn-primary:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+.btn-primary { opacity:0.4; cursor:not-allowed; transform:none; }
 .btn-secondary {
   width:100%; background:none;
   border: 1px solid var(--navy-border); color: var(--text-muted);
@@ -1311,6 +1311,7 @@ function init() {
     if (localStorage.getItem('valeur_module2_complete')) { const d=document.getElementById('ps2'); if(d){d.classList.remove('active');d.classList.add('done');} }
     if (localStorage.getItem('valeur_module3_complete')) { const d=document.getElementById('ps3'); if(d){d.classList.remove('active');d.classList.add('done');} }
     if (localStorage.getItem('valeur_module5_unlocked')) { const d=document.getElementById('ps5'); if(d) d.classList.add('active'); }
+     VALEUR_PROGRESS.complete('module4');
   } catch(e){}
 
   // Start canvas animation
