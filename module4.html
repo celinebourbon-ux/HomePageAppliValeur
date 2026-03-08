@@ -1384,7 +1384,7 @@ function goToPhase(n) {
   const target = document.getElementById(phases[n]);
   if (target) {
     target.classList.add('active');
-    window.scrollTo({top:0, behavior:'smooth'});
+    window.scrollTo({top:0, behavior: n === 5 ? 'instant' : 'smooth'});
   }
   currentPhase = n;
 

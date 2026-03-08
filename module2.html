@@ -278,7 +278,7 @@ textarea,input{font-family:inherit;}
 @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 .celebration-title{font-family:Georgia,serif;font-size:26px;font-weight:700;color:var(--cream);margin-bottom:10px;}
 .celebration-msg{color:var(--text-muted);font-size:15px;line-height:1.7;margin-bottom:24px;}
-.confetti-piece{position:fixed;top:-10px;border-radius:3px;animation:confettiFall linear both;pointer-events:none;}
+.confetti-piece{position:fixed;top:-10px;border-radius:3px;animation:confettiFall linear both;pointer-events:none;z-index:9001;}
 @keyframes confettiFall{from{transform:translateY(-10px) rotate(0);opacity:1}to{transform:translateY(110vh) rotate(720deg);opacity:0}}
 
 /* ===== COPYRIGHT ===== */
@@ -1394,6 +1394,7 @@ function showCelebration() {
   if (!completedSections.includes(4)) completedSections.push(4);
   updateProgress();
   markModule2Done();
+  window.scrollTo({top: 0, behavior: 'instant'});
   document.getElementById('celebration').classList.add('show');
   launchConfetti();
 }

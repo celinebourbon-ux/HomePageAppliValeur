@@ -105,7 +105,7 @@ textarea,input{font-family:inherit;user-select:text;-webkit-user-select:text;}
 .terminer-block{background:linear-gradient(135deg,#1a1a00,#0f1200);border:2px solid rgba(214,158,46,.5);border-radius:20px;padding:28px 24px;text-align:center;margin-top:32px;display:none;}
 .terminer-btn{display:block;width:100%;max-width:440px;margin:14px auto 0;padding:18px 40px;background:linear-gradient(135deg,var(--jaune),var(--jaune-dark));color:#000;border:none;border-radius:50px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 6px 30px rgba(214,158,46,.4);letter-spacing:.5px;transition:all .2s;animation:pulse 2s infinite;}
 .terminer-btn:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(214,158,46,.55);}
-.confetti-piece{position:fixed;top:-10px;border-radius:3px;animation:confettiFall linear both;pointer-events:none;}
+.confetti-piece{position:fixed;top:-10px;border-radius:3px;animation:confettiFall linear both;pointer-events:none;z-index:9001;}
 .celebration-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9000;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
 .celebration-overlay.show{display:flex;}
 .celebration-card{background:linear-gradient(135deg,#1a1a00,#0f1200);border:2px solid var(--jaune);border-radius:24px;padding:36px 28px;max-width:460px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7);animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1);}
@@ -447,6 +447,7 @@ function markModule3Done(){
       app_notification:`🟡 MODULE 3 COMPLÉTÉ\nPrénom  : ${name}\nEmail   : ${email}\nModule  : Module 3 — LOCALISER\nDate    : ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}\n\n→ Module 4 déverrouillé`
     }).catch(()=>{});
   }
+  window.scrollTo({top: 0, behavior: 'instant'});
   launchConfetti();
   document.getElementById('celebration-overlay').classList.add('show');
 }
