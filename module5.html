@@ -1,737 +1,1139 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Module 5 · U · UNIFIER — Méthode V.A.L.E.U.R©</title>
 <script src="valeur-config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5 — UNIFIER · Méthode V.A.L.E.U.R©</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0d1117;--navy-card:#161b22;--navy-border:#21262d;--gold:#c9a84c;--gold-light:#e8c97a;--cream:#f5f0e8;--text-muted:#8b949e;--mask-color:#805ad5;--mask-bg:rgba(128,90,213,0.12);}
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{width:100%;overflow-x:hidden;}
-body{background:var(--navy);font-family:'Jost',sans-serif;color:var(--cream);min-height:100vh;}
-body.mask-rouge{--mask-color:#e53e3e;--mask-bg:rgba(229,62,62,0.12);}
-body.mask-orange{--mask-color:#ed8936;--mask-bg:rgba(237,137,54,0.12);}
-body.mask-jaune{--mask-color:#d69e2e;--mask-bg:rgba(214,158,46,0.12);}
-body.mask-vert{--mask-color:#38a169;--mask-bg:rgba(56,161,105,0.12);}
-body.mask-bleu{--mask-color:#3182ce;--mask-bg:rgba(49,130,206,0.12);}
-body.mask-indigo{--mask-color:#5a67d8;--mask-bg:rgba(90,103,216,0.12);}
-body.mask-violet{--mask-color:#805ad5;--mask-bg:rgba(128,90,213,0.12);}
-#valeur-progress-bar{position:fixed;top:0;left:0;right:0;z-index:200;}
-#hero-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
-.phase{display:none;padding:80px 16px 48px;max-width:520px;margin:0 auto;position:relative;z-index:1;}
-.phase.active{display:block;animation:fadeUp .4s ease-out both;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
-.hero-wrap{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:80px 16px 40px;}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:var(--mask-bg);border:1px solid var(--mask-color);border-radius:20px;font-size:11px;font-weight:700;color:var(--mask-color);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,12vw,72px);font-weight:700;color:var(--cream);line-height:1;margin-bottom:10px;}
-.hero-sub{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);font-style:italic;margin-bottom:28px;}
-.hero-line{font-size:15px;color:var(--text-muted);line-height:2;opacity:0;transition:opacity .5s;}
-.hero-line.vis{opacity:1;}
-.hero-line.hi{color:var(--cream);font-weight:500;}
-.btn-p{width:100%;padding:16px;background:linear-gradient(135deg,var(--mask-color),#9f7aea);border:none;border-radius:14px;color:#fff;font-family:'Jost',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .3s;margin-top:8px;display:block;}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(128,90,213,.4);}
-.btn-s{width:100%;padding:14px;background:transparent;border:1px solid var(--navy-border);border-radius:14px;color:var(--text-muted);font-family:'Jost',sans-serif;font-size:14px;cursor:pointer;transition:all .3s;margin-top:8px;display:block;}
-.btn-s:hover{border-color:var(--gold);color:var(--gold);}
-.btn-gold{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:14px;color:#0d1117;font-family:'Jost',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .3s;margin-top:8px;display:block;}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.5);}
-.btn-copy{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;background:var(--mask-bg);border:1px solid var(--mask-color);border-radius:10px;color:var(--mask-color);font-family:'Jost',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s;margin-top:8px;}
-.btn-copy:hover{background:var(--mask-color);color:#fff;}
-.btn-validate{width:100%;padding:18px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:14px;color:#0d1117;font-family:'Jost',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;margin-top:16px;opacity:.4;pointer-events:none;display:block;}
-.btn-validate.on{opacity:1;pointer-events:all;box-shadow:0 8px 24px rgba(201,168,76,.4);}
-.btn-validate.on:hover{transform:translateY(-2px);}
-.card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:18px;padding:18px;margin-bottom:14px;}
-.card-gold{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.25);border-radius:18px;padding:18px;margin-bottom:14px;}
-.card-mask{background:var(--mask-bg);border:1px solid var(--mask-color);border-radius:18px;padding:18px;margin-bottom:14px;}
-.eyebrow{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;}
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--cream);margin-bottom:8px;line-height:1.2;}
-.sec-desc{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:16px;}
-.recall-quote{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold-light);font-style:italic;line-height:1.7;padding:14px;background:rgba(201,168,76,.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;margin:10px 0;}
-.recall-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--navy-border);font-size:13px;}
-.recall-row:last-child{border-bottom:none;}
-.recall-row span:first-child{color:var(--text-muted);}
-.recall-row span:last-child{color:var(--cream);font-weight:500;text-align:right;max-width:60%;}
-.tw-wrap{text-align:center;padding:20px 0;}
-.tw-line{font-size:15px;color:var(--text-muted);line-height:2;opacity:0;transition:opacity .6s;}
-.tw-line.vis{opacity:1;}
-.tw-line.b{color:var(--cream);font-weight:600;}
-.stepper{display:flex;align-items:center;margin-bottom:20px;}
-.st-step{display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto;}
-.st-num{width:30px;height:30px;border-radius:50%;background:var(--navy-border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-muted);transition:all .4s;}
-.st-step.active .st-num{background:var(--mask-color);color:#fff;box-shadow:0 0 12px rgba(128,90,213,.5);}
-.st-step.done .st-num{background:var(--gold);color:#0d1117;}
-.st-lbl{font-size:10px;color:var(--text-muted);font-weight:500;}
-.st-step.active .st-lbl{color:var(--mask-color);}
-.st-step.done .st-lbl{color:var(--gold);}
-.st-line{flex:1;height:2px;background:var(--navy-border);margin:0 4px 14px;}
-.st-line.done{background:var(--gold);}
+/* ============================================================
+   © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
+   Tous droits réservés. Reproduction interdite.
+   ============================================================ */
+:root {
+  --bleu:#3182ce; --bleu-dark:#1a5fa8; --bleu-light:#90cdf4; --bleu-bg:rgba(49,130,206,0.12);
+  --gold:#c9a84c; --gold-light:#e8c97a; --gold-dim:rgba(201,168,76,0.18);
+  --cream:#f5f0e8; --navy:#0a0f1a; --navy-card:#111827; --navy-mid:#161b26;
+  --navy-border:#1e2f4a; --text-muted:#8b9ab8; --text-light:#d4dce8;
+  --mask-color:#3182ce; --mask-bg:rgba(49,130,206,0.12);
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',system-ui,sans-serif;background:var(--navy);color:var(--text-light);
+  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+textarea,input{font-family:inherit;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--bleu);border-radius:4px;}
+body{-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+.journal-input,input[type=text],input[type=range],textarea,.copy-allowed{
+  -webkit-user-select:text;-moz-user-select:text;user-select:text;}
+
+/* ACCESS SCREENS */
+.access-screen{display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px;}
+.access-screen.show{display:flex;}
+.access-card{background:var(--navy-card);border:2px solid var(--bleu);border-radius:24px;padding:36px 28px;max-width:420px;width:100%;text-align:center;}
+
+/* PHASES */
+.phase{display:none;min-height:100vh;padding-bottom:60px;}
+.phase.active{display:block;}
+
+/* MOD HEADER */
+.mod-header{position:sticky;top:62px;z-index:90;background:rgba(10,15,26,0.95);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--navy-border);padding:10px 16px;}
+.mod-header-inner{max-width:700px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.mod-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bleu-bg);
+  border:1px solid var(--bleu);color:var(--bleu-light);padding:5px 14px;border-radius:20px;
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+.prog-steps{display:flex;align-items:center;gap:6px;}
+.ps{width:26px;height:26px;border-radius:50%;border:2px solid var(--navy-border);background:var(--navy-card);
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;
+  color:var(--text-muted);transition:all 0.4s;}
+.ps.active{border-color:var(--bleu);background:var(--bleu-bg);color:var(--bleu-light);box-shadow:0 0 12px var(--bleu-bg);}
+.ps.done{border-color:var(--gold);background:rgba(201,168,76,0.15);color:var(--gold);}
+.ps-line{width:14px;height:2px;background:var(--navy-border);border-radius:2px;transition:background 0.4s;}
+.ps-line.done{background:var(--gold);}
+
+/* CARDS */
+.card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+.card-gold{background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.02));
+  border:1px solid rgba(201,168,76,0.35);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+
+/* HERO */
+.hero-canvas-wrap{position:relative;height:260px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+#hero-canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
+.hero-text-over{position:relative;z-index:2;text-align:center;padding:20px;}
+.hero-badge{display:inline-block;background:linear-gradient(135deg,var(--bleu-bg),rgba(49,130,206,0.06));
+  border:1px solid var(--bleu);border-radius:50px;padding:8px 24px;margin-bottom:20px;
+  font-size:11px;font-weight:700;letter-spacing:3px;color:var(--bleu-light);text-transform:uppercase;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,8vw,64px);
+  font-weight:700;color:var(--cream);line-height:1;margin-bottom:8px;}
+.hero-title span{color:var(--gold);}
+.hero-line{opacity:0;transform:translateY(10px);transition:opacity 0.6s ease,transform 0.6s ease;
+  font-size:14px;color:var(--text-muted);line-height:1.9;padding:2px 0;}
+.hero-line.visible{opacity:1;transform:translateY(0);}
+
+/* WRAP */
+.wrap{max-width:700px;margin:0 auto;padding:0 16px 40px;}
+
+/* TYPEWRITER */
+.typewriter-block{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3.5vw,20px);
+  font-style:italic;color:var(--gold-light);line-height:1.8;border-left:3px solid var(--gold);
+  padding-left:20px;margin:20px 0;}
+.tw-cursor{display:inline-block;width:2px;height:1em;background:var(--gold);
+  animation:blink 0.8s step-end infinite;vertical-align:text-bottom;}
+@keyframes blink{50%{opacity:0}}
+
+/* STEPPER */
+.stepper{display:flex;align-items:center;justify-content:center;gap:0;margin:24px auto;max-width:280px;}
+.step-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--navy-border);background:var(--navy-card);
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
+  color:var(--text-muted);transition:all 0.4s;flex-shrink:0;}
+.step-dot.active{border-color:var(--bleu);background:var(--bleu);color:#fff;box-shadow:0 0 20px rgba(49,130,206,0.4);}
+.step-dot.done{border-color:var(--gold);background:rgba(201,168,76,0.2);color:var(--gold);}
+.step-line{height:2px;flex:1;background:var(--navy-border);transition:background 0.4s;}
+.step-line.done{background:var(--gold);}
 .q-block{display:none;}
-.q-block.active{display:block;animation:fadeUp .35s ease-out both;}
-.icon-anim{font-size:44px;text-align:center;margin:12px 0;display:block;animation:iconPulse 2.5s ease-in-out infinite;}
-@keyframes iconPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
-.comp-grid{display:grid;grid-template-columns:1fr 32px 1fr;gap:6px;align-items:start;margin:14px 0;}
-.comp-col{border-radius:12px;padding:12px;}
-.comp-avant{background:rgba(229,62,62,.08);border:1px solid rgba(229,62,62,.2);}
-.comp-apres{background:rgba(56,161,105,.08);border:1px solid rgba(56,161,105,.2);}
-.comp-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.comp-avant .comp-lbl{color:#e53e3e;}
-.comp-apres .comp-lbl{color:#38a169;}
-.comp-txt{font-size:13px;color:var(--text-muted);line-height:1.6;}
-.comp-arrow{display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);animation:arrPulse 1.5s ease-in-out infinite;}
-@keyframes arrPulse{0%,100%{opacity:.4;transform:scale(.9);}50%{opacity:1;transform:scale(1.1);}}
-@media(max-width:420px){.comp-grid{grid-template-columns:1fr;}.comp-arrow{margin:4px 0;font-size:22px;transform:rotate(90deg);}}
-details.sugg{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.2);border-radius:10px;margin-top:10px;overflow:hidden;}
-details.sugg summary{padding:10px 14px;font-size:13px;color:var(--gold);cursor:pointer;font-weight:600;list-style:none;display:flex;align-items:center;gap:6px;}
-details.sugg summary::-webkit-details-marker{display:none;}
-details.sugg .si{padding:0 14px 12px;}
-details.sugg li{font-size:13px;color:var(--text-muted);padding:5px 0;border-bottom:1px solid var(--navy-border);line-height:1.6;list-style:none;display:flex;gap:6px;}
-details.sugg li:last-child{border-bottom:none;}
-details.sugg li::before{content:"->>";color:var(--mask-color);flex-shrink:0;}
-.act-btns{display:flex;gap:8px;margin:12px 0;}
-.act-btns button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--navy-border);background:transparent;color:var(--text-muted);font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;transition:all .25s;}
-.act-btns button:hover{border-color:var(--mask-color);color:var(--mask-color);}
-.journal-ta{width:100%;background:var(--navy-card);border:1px solid var(--navy-border);border-radius:12px;padding:14px;color:var(--cream);font-family:'Jost',sans-serif;font-size:14px;line-height:1.7;resize:vertical;min-height:100px;transition:border-color .3s;margin:10px 0;}
-.journal-ta:focus{outline:none;border-color:var(--mask-color);}
-.journal-ta::placeholder{color:var(--text-muted);}
-.slider-wrap{margin:14px 0;}
-.slider-wrap label{font-size:13px;color:var(--text-muted);margin-bottom:6px;display:block;}
-.slider-wrap input[type=range]{width:100%;accent-color:var(--mask-color);}
-.confetti-piece{position:fixed;top:-10px;animation:confettiFall linear both;z-index:999;}
-@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
-.comp-complete{text-align:center;padding:32px 0 16px;}
-.comp-complete .big-emoji{font-size:64px;margin-bottom:16px;display:block;animation:iconPulse 2s ease-in-out infinite;}
-.comp-complete h2{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--cream);margin-bottom:8px;}
-.comp-complete p{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:20px;}
-.accomp-list{display:flex;flex-direction:column;gap:0;}
-.accomp-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--navy-border);}
-.accomp-item:last-child{border-bottom:none;}
-.accomp-item .ae{font-size:20px;flex-shrink:0;}
-.accomp-item .at{font-size:12px;font-weight:700;color:var(--gold);}
-.accomp-item .ad{font-size:12px;color:var(--text-muted);}
-.copyright{font-size:11px;color:var(--text-muted);text-align:center;padding:24px 0 8px;line-height:1.7;}
+.q-block.active{display:block;animation:fadeUp 0.5s ease;}
+
+/* JOURNAL */
+.journal-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--navy-border);
+  border-radius:10px;padding:14px 16px;color:var(--cream);font-size:14px;line-height:1.7;
+  resize:vertical;min-height:80px;transition:border-color 0.3s;}
+.journal-input:focus{outline:none;border-color:var(--bleu);box-shadow:0 0 0 3px var(--bleu-bg);}
+
+/* AVANT APRES */
+.before-after{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;align-items:center;margin:16px 0;}
+.ba-col{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:12px;padding:16px;text-align:center;}
+.ba-col.before{border-color:rgba(229,62,62,0.3);background:rgba(229,62,62,0.06);}
+.ba-col.after{border-color:rgba(49,130,206,0.3);background:var(--bleu-bg);}
+.ba-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:block;}
+.ba-col.before .ba-label{color:#fc8181;}
+.ba-col.after .ba-label{color:var(--bleu-light);}
+.ba-text{font-size:12px;line-height:1.6;color:var(--text-light);}
+.ba-arrow{text-align:center;font-size:22px;animation:arrowPulse 2s ease-in-out infinite;}
+@keyframes arrowPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2) translateX(3px)}}
+
+/* SUGGESTIONS */
+.suggest-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+  padding:12px 16px;background:rgba(49,130,206,0.08);border:1px solid rgba(49,130,206,0.2);
+  border-radius:10px;margin-bottom:6px;color:var(--bleu-light);font-size:13px;font-weight:600;transition:all 0.2s;}
+.suggest-toggle:hover{background:rgba(49,130,206,0.14);}
+.suggest-toggle .chev{transition:transform 0.3s;}
+.suggest-body{max-height:0;overflow:hidden;transition:max-height 0.5s ease;}
+.suggest-body.open{max-height:600px;}
+.suggest-item{padding:10px 16px;margin:5px 0;background:rgba(255,255,255,0.03);
+  border:1px solid var(--navy-border);border-radius:8px;font-size:13px;color:var(--text-light);
+  cursor:pointer;transition:all 0.2s;}
+.suggest-item:hover{border-color:var(--bleu);color:var(--bleu-light);background:var(--bleu-bg);}
+
+/* ACT BUTTONS */
+.act-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;}
+.act-btn{padding:16px 10px;border-radius:14px;cursor:pointer;border:2px solid var(--navy-border);
+  background:var(--navy-card);text-align:center;transition:all 0.3s;color:var(--text-muted);}
+.act-btn .act-icon{font-size:28px;margin-bottom:6px;display:block;}
+.act-btn .act-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.act-btn.selected{border-color:var(--bleu);background:var(--bleu-bg);color:var(--bleu-light);
+  transform:scale(1.04);box-shadow:0 4px 20px rgba(49,130,206,0.25);}
+
+/* TIMER */
+.timer-wrap{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);
+  border-radius:12px;padding:16px;text-align:center;margin:10px 0;}
+.timer-display{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;
+  color:var(--gold);letter-spacing:2px;display:block;margin:8px 0;}
+.timer-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#000;
+  border:none;border-radius:20px;padding:8px 18px;font-size:12px;font-weight:700;
+  cursor:pointer;margin:0 4px;transition:all 0.2s;}
+.timer-btn:hover{background:var(--gold-light);}
+
+/* ALLIANCE */
+#fusion-canvas{width:100%;height:200px;display:block;border-radius:16px;}
+.alliance-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px;display:block;}
+.alliance-preview{background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(49,130,206,0.06));
+  border:1px solid rgba(201,168,76,0.4);border-radius:14px;padding:20px;margin:20px 0;
+  font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;
+  color:var(--cream);line-height:1.8;min-height:80px;}
+.alliance-preview .ap-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);
+  text-transform:uppercase;font-style:normal;margin-bottom:8px;display:block;font-family:'Jost',sans-serif;}
+.copy-allowed{cursor:text;}
+.btn-copy-alliance{display:flex;align-items:center;gap:8px;justify-content:center;
+  background:rgba(201,168,76,0.1);border:1px solid var(--gold);color:var(--gold);
+  border-radius:10px;padding:10px 20px;font-size:12px;font-weight:700;cursor:pointer;
+  margin-top:8px;transition:all 0.2s;width:100%;}
+.btn-copy-alliance:hover{background:rgba(201,168,76,0.2);}
+.btn-copy-alliance:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* SLIDERS */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;
+  border-radius:3px;outline:none;cursor:pointer;}
+input[type=range].slider-mask{background:linear-gradient(to right,var(--mask-color,#e53e3e) 0%,var(--mask-color,#e53e3e) var(--val,50%),var(--navy-border) var(--val,50%),var(--navy-border) 100%);}
+input[type=range].slider-bleu{background:linear-gradient(to right,var(--bleu) 0%,var(--bleu) var(--val,50%),var(--navy-border) var(--val,50%),var(--navy-border) 100%);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;
+  border-radius:50%;background:var(--cream);border:3px solid var(--gold);
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:transform 0.2s;}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
+
+/* GAP */
+.gap-bar-wrap{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:20px;height:20px;overflow:hidden;}
+.gap-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--bleu),var(--gold));transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1);}
+
+/* BUTTONS */
+.btn-primary{width:100%;padding:16px 24px;background:linear-gradient(135deg,var(--bleu),var(--bleu-dark));
+  color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 30px rgba(49,130,206,0.35);transition:all 0.3s;letter-spacing:0.5px;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(49,130,206,0.5);}
+.btn-primary:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-gold{width:100%;padding:16px 24px;background:linear-gradient(135deg,var(--gold),#a07830);
+  color:#000;border:none;border-radius:50px;font-size:16px;font-weight:800;cursor:pointer;
+  box-shadow:0 6px 30px rgba(201,168,76,0.35);transition:all 0.3s;letter-spacing:0.5px;}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(201,168,76,0.5);}
+.btn-gold:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-secondary{width:100%;padding:14px 24px;background:transparent;color:var(--text-muted);
+  border:1px solid var(--navy-border);border-radius:50px;font-size:14px;cursor:pointer;transition:all 0.2s;}
+.btn-secondary:hover{border-color:var(--bleu);color:var(--bleu-light);}
+
+/* COMPLETION */
+.completion-wrap{max-width:540px;margin:0 auto;text-align:center;padding:40px 20px;}
+.completion-emoji{font-size:72px;margin-bottom:20px;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.completion-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);
+  color:var(--cream);line-height:1.2;margin-bottom:20px;}
+.unlock-badge{display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,rgba(128,90,213,0.12),rgba(128,90,213,0.04));
+  border:1px solid rgba(128,90,213,0.4);border-radius:16px;padding:18px 20px;margin:24px 0;text-align:left;}
+.unlock-title{font-weight:700;font-size:15px;color:#b794f4;margin-bottom:2px;}
+.unlock-desc{font-size:12px;color:var(--text-muted);}
+
+/* CONFETTI */
+.confetti-piece{position:fixed;top:-10px;pointer-events:none;animation:confettiFall linear both;}
+@keyframes confettiFall{from{transform:translateY(-10px) rotate(0);opacity:1}to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.mini-confetti{position:fixed;pointer-events:none;animation:miniFall 1.5s ease-out both;}
+@keyframes miniFall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(120px) scale(0.3)}}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal.delay-1{transition-delay:0.1s;}
+.reveal.delay-2{transition-delay:0.2s;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 6px 30px rgba(49,130,206,0.35)}50%{box-shadow:0 6px 40px rgba(49,130,206,0.6)}}
+.pulse{animation:pulse 2s ease-in-out infinite;}
+
+.copyright-footer{text-align:center;padding:24px 20px;color:var(--text-muted);font-size:10px;
+  line-height:1.9;letter-spacing:0.5px;border-top:1px solid var(--navy-border);margin-top:40px;}
+
+@media(max-width:600px){
+  .before-after{grid-template-columns:1fr;}.ba-arrow{transform:rotate(90deg);}
+  .act-btns{grid-template-columns:1fr 1fr;}.act-btns .act-btn:last-child{grid-column:span 2;}
+}
+@media(max-width:480px){button{min-height:44px;}textarea,input{font-size:16px!important;}}
 </style>
 </head>
 <body>
+<div id="valeur-progress-bar"></div>
 
-<canvas id="hero-canvas"></canvas>
-
-<!-- ══════════════ PHASE 0 : HÉRO ══════════════ -->
-<div class="phase active" id="phase-0">
-  <div class="hero-wrap">
-    <div class="badge" id="badge-module">✦ MODULE 5 · U · UNIFIER</div>
-    <h1 class="hero-title">UNIFIER</h1>
-    <p class="hero-sub">Réconcilier le masque et la valeur</p>
-    <div id="hero-lines" style="margin-bottom:32px;max-width:400px;width:100%;">
-      <p class="hero-line" id="hl0">Vous avez vu votre masque.</p>
-      <p class="hero-line hi" id="hl1">Vous avez trouvé votre valeur piégée.</p>
-      <p class="hero-line" id="hl2">Il est temps de les <strong style="color:var(--gold);">unifier</strong>.</p>
-      <p class="hero-line" id="hl3">Non pas supprimer le masque — mais le comprendre.</p>
-      <p class="hero-line hi" id="hl4">Et choisir, consciemment, qui vous voulez être.</p>
-    </div>
-    <button class="btn-p" id="btn-start" onclick="goPhase(1)">Commencer l'Unification →</button>
-    <button class="btn-s" onclick="goHome()">← Tableau de bord</button>
+<!-- LOADING -->
+<div class="access-screen show" id="screen-loading">
+  <div style="text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px;">🌀</div>
+    <p style="color:var(--text-muted);font-size:15px;">Vérification de votre session…</p>
   </div>
 </div>
 
-<!-- ══════════════ PHASE 1 : RAPPEL ══════════════ -->
-<div class="phase" id="phase-1">
-  <div class="stepper" id="stepper-1">
-    <div class="st-step active" id="s1-1"><div class="st-num">1</div><div class="st-lbl">Rappel</div></div>
-    <div class="st-line" id="sl1"></div>
-    <div class="st-step" id="s1-2"><div class="st-num">2</div><div class="st-lbl">Unifier</div></div>
-    <div class="st-line" id="sl2"></div>
-    <div class="st-step" id="s1-3"><div class="st-num">3</div><div class="st-lbl">Engagement</div></div>
-  </div>
-
-  <!-- Q-block 1 : Récapitulatif -->
-  <div class="q-block active" data-q="1" id="q1-1">
-    <div class="eyebrow">Étape 1 — Rappel</div>
-    <h2 class="sec-title">Ce que vous avez découvert</h2>
-    <p class="sec-desc">Votre parcours jusqu'ici a mis en lumière des vérités importantes. Voici ce que vous avez exploré.</p>
-
-    <div class="card">
-      <div class="eyebrow">Votre masque dominant</div>
-      <p id="recall-mask" class="recall-quote">Chargement…</p>
-      <div class="recall-row"><span>Valeur piégée</span><span id="recall-value">—</span></div>
-      <div class="recall-row"><span>Module</span><span>4 — Explorer ✓</span></div>
-    </div>
-
-    <div class="card-gold">
-      <div class="eyebrow">La phrase de votre conflit intérieur</div>
-      <p id="recall-phrase" class="recall-quote" style="font-size:15px;">Chargement…</p>
-      <button class="btn-copy" onclick="copyText(document.getElementById('recall-phrase').textContent)">⧉ Copier cette phrase</button>
-    </div>
-
-    <button class="btn-p" onclick="goQ(2)">J'ai relu ma découverte →</button>
-  </div>
-
-  <!-- Q-block 2 : Réflexion -->
-  <div class="q-block" data-q="2" id="q1-2">
-    <div class="eyebrow">Étape 1 — Rappel</div>
-    <h2 class="sec-title">Comment vous sentez-vous face à votre masque ?</h2>
-    <p class="sec-desc">Après avoir exploré les modules précédents, quelque chose a peut-être changé dans votre regard sur vous-même.</p>
-
-    <span class="icon-anim">🎭</span>
-
-    <div class="act-btns" id="feeling-btns">
-      <button onclick="selectFeeling(this,'Soulagé·e')">😮‍💨 Soulagé·e</button>
-      <button onclick="selectFeeling(this,'Curieux·se')">🔍 Curieux·se</button>
-      <button onclick="selectFeeling(this,'Résistance')">⚡ Résistance</button>
-      <button onclick="selectFeeling(this,'Prêt·e')">✨ Prêt·e</button>
-    </div>
-
-    <div class="card" style="display:none;margin-top:14px;" id="feeling-card">
-      <div class="eyebrow">Ce que vous ressentez</div>
-      <p id="feeling-text" style="color:var(--cream);font-size:14px;line-height:1.7;">—</p>
-    </div>
-
-    <details class="sugg" style="margin-top:14px;">
-      <summary>✦ Ce que d'autres ont ressenti à cette étape</summary>
-      <ul class="si">
-        <li>Un soulagement de mettre des mots sur ce qu'ils vivaient depuis longtemps</li>
-        <li>Une légère résistance — "est-ce vraiment moi ?" — qui s'est transformée en curiosité</li>
-        <li>La surprise de découvrir que leur valeur était là depuis toujours, juste cachée</li>
-        <li>L'envie d'aller plus loin, de transformer la compréhension en action concrète</li>
-      </ul>
-    </details>
-
-    <button class="btn-p" id="btn-q2-next" onclick="goPhase(2)" style="opacity:.4;pointer-events:none;">Passer à l'Unification →</button>
-    <button class="btn-s" onclick="goQ(1)">← Retour</button>
+<!-- ACCÈS REFUSÉ -->
+<div class="access-screen" id="screen-denied">
+  <div class="access-card">
+    <div style="font-size:52px;margin-bottom:14px;">🔒</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:24px;margin-bottom:10px;">Module non encore déverrouillé</h2>
+    <p style="color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:24px;">Vous devez d'abord compléter le <strong style="color:var(--bleu-light);">Module 4 — EXPLORER</strong> pour accéder à cette étape.</p>
+    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" style="display:block;background:linear-gradient(135deg,var(--bleu),var(--bleu-dark));color:#fff;text-decoration:none;border-radius:50px;padding:14px 20px;font-weight:700;text-align:center;">← Retour au tableau de bord</a>
   </div>
 </div>
 
-<!-- ══════════════ PHASE 2 : UNIFICATION ══════════════ -->
-<div class="phase" id="phase-2">
-  <div class="stepper">
-    <div class="st-step done"><div class="st-num">1</div><div class="st-lbl">Rappel</div></div>
-    <div class="st-line done"></div>
-    <div class="st-step active"><div class="st-num">2</div><div class="st-lbl">Unifier</div></div>
-    <div class="st-line"></div>
-    <div class="st-step"><div class="st-num">3</div><div class="st-lbl">Engagement</div></div>
+<!-- APP -->
+<div id="app-content" style="display:none;">
+
+<!-- ════════════════════════════════
+  PHASE 0 — HÉRO CINÉMATIQUE
+════════════════════════════════ -->
+<div id="phase-0" class="phase active">
+  <div class="hero-canvas-wrap">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-text-over">
+      <div class="hero-badge">Méthode V.A.L.E.U.R© · Module 5</div>
+      <h1 class="hero-title">U · <span>UNIFIER</span></h1>
+    </div>
   </div>
+  <div class="wrap" style="text-align:center;padding-top:28px;">
+    <div id="hero-lines" style="max-width:480px;margin:0 auto;">
+      <div class="hero-line">Vous avez vu le conflit. Vous avez nommé la peur.</div>
+      <div class="hero-line">Vous avez dialogué avec votre masque.</div>
+      <div class="hero-line">Maintenant vient le moment le plus profond…</div>
+      <div class="hero-line" style="color:var(--gold);font-weight:600;">Réconcilier ce qui semblait opposé.</div>
+      <div class="hero-line">Le masque n'est pas votre ennemi.</div>
+      <div class="hero-line">Il est une ancienne protection devenue inutile.</div>
+      <div class="hero-line" style="color:var(--bleu-light);font-weight:600;">Il attend votre permission de se reposer.</div>
+    </div>
+    <button class="btn-primary pulse" id="hero-btn" onclick="goPhase(1)" style="max-width:380px;margin:32px auto 0;display:none;">
+      ✦ Commencer l'unification
+    </button>
+  </div>
+</div>
 
-  <!-- Q-block 1 : Carte avant/après -->
-  <div class="q-block active" data-q="1" id="q2-1">
-    <div class="eyebrow">Étape 2 — Unification</div>
-    <h2 class="sec-title">Le masque et la valeur : deux faces du même besoin</h2>
-    <p class="sec-desc">Votre masque ne vous veut pas de mal. Il protège quelque chose de précieux. Voici la transformation possible.</p>
-
-    <div class="comp-grid">
-      <div class="comp-col comp-avant">
-        <div class="comp-lbl">AVANT — Le masque dit</div>
-        <p class="comp-txt" id="comp-avant-txt">Chargement…</p>
-      </div>
-      <div class="comp-arrow">→</div>
-      <div class="comp-col comp-apres">
-        <div class="comp-lbl">APRÈS — La nature veut</div>
-        <p class="comp-txt" id="comp-apres-txt">Chargement…</p>
+<!-- ════════════════════════════════
+  PHASE 1 — RAPPEL MODULE 4
+════════════════════════════════ -->
+<div id="phase-1" class="phase">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-badge">🔵 Module 5 — UNIFIER</div>
+      <div class="prog-steps" id="prog-steps-1"></div>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:32px;">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-size:48px;margin-bottom:12px;">🔍</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);margin-bottom:8px;">Là où vous en étiez…</h2>
+      <p style="color:var(--text-muted);font-size:14px;line-height:1.7;">Module 4 vous a révélé votre conflit intérieur. Voici ce que vous avez découvert.</p>
+    </div>
+    <div class="card-gold reveal">
+      <p style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;">✦ Votre révélation — Module 4 EXPLORER</p>
+      <div style="display:grid;gap:14px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-size:22px;flex-shrink:0;" id="recall-emoji">🎭</span>
+          <div>
+            <p style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Masque dominant</p>
+            <p id="recall-mask" style="color:var(--cream);font-weight:600;font-size:14px;">—</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-size:22px;flex-shrink:0;">💎</span>
+          <div>
+            <p style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Valeur piégée</p>
+            <p id="recall-value" style="color:var(--cream);font-weight:600;font-size:14px;">—</p>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="card-mask" style="text-align:center;">
-      <span class="icon-anim">🌀</span>
-      <p style="font-size:14px;color:var(--text-muted);line-height:1.8;">L'unification n'est pas d'éliminer le masque.<br>C'est de <strong style="color:var(--cream);">comprendre sa peur</strong> et de choisir d'agir depuis votre valeur.</p>
+    <div class="card reveal delay-1">
+      <p style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;">✦ Votre phrase de conflit</p>
+      <div class="typewriter-block"><span id="tw-text"></span><span class="tw-cursor" id="tw-cursor"></span></div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Cette phrase résume la tension que vous portez. Aujourd'hui, vous allez la transformer.</p>
     </div>
-
-    <button class="btn-p" onclick="goQ2(2)">J'ai compris la transformation →</button>
-  </div>
-
-  <!-- Q-block 2 : Phrase d'unification -->
-  <div class="q-block" data-q="2" id="q2-2">
-    <div class="eyebrow">Étape 2 — Unification</div>
-    <h2 class="sec-title">Votre phrase d'unification</h2>
-    <p class="sec-desc">Une phrase qui reconnaît à la fois le masque ET votre valeur. C'est votre nouvelle boussole.</p>
-
-    <div class="card-gold">
-      <p id="unity-phrase" class="recall-quote" style="font-size:16px;">Chargement…</p>
-      <button class="btn-copy" onclick="copyText(document.getElementById('unity-phrase').textContent)">⧉ Copier ma phrase d'unification</button>
+    <div class="card reveal delay-2" style="background:linear-gradient(135deg,rgba(49,130,206,0.08),transparent);border-color:rgba(49,130,206,0.25);">
+      <p style="font-size:14px;color:var(--text-light);line-height:1.9;text-align:center;">
+        <strong style="color:var(--gold);">UNIFIER</strong> ne signifie pas <em>faire disparaître</em> le masque.<br><br>
+        Cela signifie <strong style="color:var(--bleu-light);">réconcilier deux parties de vous-même</strong><br>
+        qui se croyaient ennemies,<br>
+        et qui ont toujours voulu la même chose :<br>
+        <strong style="color:var(--cream);">votre sécurité ET votre épanouissement.</strong>
+      </p>
     </div>
-
-    <div class="tw-wrap" id="unity-tw">
-      <p class="tw-line" id="utw0">Cette phrase est votre vérité.</p>
-      <p class="tw-line b" id="utw1">Elle reconnaît la peur — sans lui obéir.</p>
-      <p class="tw-line" id="utw2">Elle honore votre valeur — sans ignorer le masque.</p>
-      <p class="tw-line b" id="utw3">C'est l'Unification.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="btn-primary" onclick="goPhase(2)">→ Commencer les 3 questions</button>
+      <button class="btn-secondary" onclick="goPhase(0)">← Retour à l'intro</button>
     </div>
-
-    <details class="sugg">
-      <summary>✦ Exemples de phrases d'unification</summary>
-      <ul class="si">
-        <li>Je reconnais que mon masque a peur du rejet, ET je choisis d'agir depuis mon authenticité.</li>
-        <li>Mon masque me dit de me taire, ET ma valeur de connexion vraie me demande de m'exprimer.</li>
-        <li>La peur de l'échec est là, ET ma valeur de créativité mérite que j'essaie quand même.</li>
-        <li>Mon masque veut tout contrôler, ET ma valeur de liberté m'invite à faire confiance au flux.</li>
-      </ul>
-    </details>
-
-    <button class="btn-p" onclick="goPhase(3)">Passer à l'Engagement →</button>
-    <button class="btn-s" onclick="goQ2(1)">← Retour</button>
   </div>
 </div>
 
-<!-- ══════════════ PHASE 3 : ENGAGEMENT ══════════════ -->
-<div class="phase" id="phase-3">
-  <div class="stepper">
-    <div class="st-step done"><div class="st-num">1</div><div class="st-lbl">Rappel</div></div>
-    <div class="st-line done"></div>
-    <div class="st-step done"><div class="st-num">2</div><div class="st-lbl">Unifier</div></div>
-    <div class="st-line done"></div>
-    <div class="st-step active"><div class="st-num">3</div><div class="st-lbl">Engagement</div></div>
+<!-- ════════════════════════════════
+  PHASE 2 — LES 3 QUESTIONS
+════════════════════════════════ -->
+<div id="phase-2" class="phase">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-badge">🔵 Module 5 — UNIFIER</div>
+      <div class="prog-steps" id="prog-steps-2"></div>
+    </div>
   </div>
+  <div class="wrap" style="padding-top:28px;">
 
-  <div class="eyebrow">Étape 3 — Engagement</div>
-  <h2 class="sec-title">Votre serment intérieur</h2>
-  <p class="sec-desc">L'unification n'est pas juste une compréhension — c'est un engagement envers vous-même. Écrivez votre serment.</p>
+    <!-- STEPPER -->
+    <div class="stepper">
+      <div class="step-dot active" id="sd1">1</div>
+      <div class="step-line" id="sl1"></div>
+      <div class="step-dot" id="sd2">2</div>
+      <div class="step-line" id="sl2"></div>
+      <div class="step-dot" id="sd3">3</div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-bottom:24px;" id="stepper-label">Question 1 sur 3</p>
 
-  <div class="card-mask" style="margin-bottom:18px;">
-    <p style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-light);font-style:italic;line-height:1.7;text-align:center;">
-      "Je reconnais mon <span id="engage-mask">masque</span>.<br>
-      Je choisis d'agir depuis ma valeur de <span id="engage-value" style="color:var(--gold);font-weight:700;">…</span>.<br>
-      Pas parfaitement — mais consciemment."
+    <!-- Q1 -->
+    <div class="q-block active" id="qb1">
+      <div class="card-gold">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--bleu);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:14px;flex-shrink:0;">1</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--cream);">Comprendre le masque sans le blâmer</h3>
+        </div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:16px;">Votre masque a une bonne raison d'exister. Il est né d'une peur réelle, à un moment de votre vie où vous en aviez besoin.</p>
+        <div style="background:rgba(201,168,76,0.1);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 10px 10px 0;margin-bottom:20px;">
+          <p style="font-size:14px;font-style:italic;color:var(--gold-light);line-height:1.8;" id="q1-context"></p>
+        </div>
+        <label class="alliance-label">Que cherche vraiment mon masque en me "protégeant" ainsi ?</label>
+        <textarea class="journal-input" id="jt1" rows="4" placeholder="Ex : Il cherche à m'éviter la souffrance du rejet. À garder les gens près de moi…" oninput="autoSave('jt1');checkQ1()"></textarea>
+        <p style="font-size:11px;color:var(--text-muted);margin-top:6px;">✓ Auto-sauvegardé</p>
+      </div>
+      <button class="btn-primary" id="q1-next" onclick="goQ(2)" disabled>→ Question suivante</button>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block" id="qb2">
+      <div class="card-gold">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--bleu);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:14px;flex-shrink:0;">2</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--cream);">Avec et sans le masque</h3>
+        </div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:16px;">Comparez concrètement votre vie avec vs sans ce masque.</p>
+        <div class="before-after">
+          <div class="ba-col before">
+            <span class="ba-label">😔 Avec le masque</span>
+            <div class="ba-text" id="ba-before">Je m'efface, j'évite, je contrôle…</div>
+          </div>
+          <div class="ba-arrow">→</div>
+          <div class="ba-col after">
+            <span class="ba-label">✨ Sans le masque</span>
+            <div class="ba-text" id="ba-after">Je m'exprime, je fais confiance…</div>
+          </div>
+        </div>
+        <div style="margin:14px 0;">
+          <div class="suggest-toggle" onclick="toggleSuggest('sq2a')"><span>💡 Exemples "Avec le masque"</span><span class="chev" id="chev-sq2a">▾</span></div>
+          <div class="suggest-body" id="sq2a">
+            <div class="suggest-item" onclick="appendTo('jt2',this.textContent)">Je dis oui quand je veux dire non</div>
+            <div class="suggest-item" onclick="appendTo('jt2',this.textContent)">Je surveille en permanence les réactions des autres</div>
+            <div class="suggest-item" onclick="appendTo('jt2',this.textContent)">J'anticipe tout pour éviter l'imprévu</div>
+            <div class="suggest-item" onclick="appendTo('jt2',this.textContent)">Je m'épuise à être parfait·e</div>
+            <div class="suggest-item" onclick="appendTo('jt2',this.textContent)">Je reste en surface, j'évite les sujets profonds</div>
+          </div>
+          <div class="suggest-toggle" style="margin-top:8px;" onclick="toggleSuggest('sq2b')"><span>✨ Exemples "Sans le masque"</span><span class="chev" id="chev-sq2b">▾</span></div>
+          <div class="suggest-body" id="sq2b">
+            <div class="suggest-item" onclick="appendTo('jt3',this.textContent)">Je me fie à mon intuition sans tout contrôler</div>
+            <div class="suggest-item" onclick="appendTo('jt3',this.textContent)">Je peux être moi-même sans craindre d'être rejeté·e</div>
+            <div class="suggest-item" onclick="appendTo('jt3',this.textContent)">Je vis des relations authentiques, pas des rôles</div>
+            <div class="suggest-item" onclick="appendTo('jt3',this.textContent)">J'ose dire ce que je pense sans m'excuser</div>
+            <div class="suggest-item" onclick="appendTo('jt3',this.textContent)">Je ressens une légèreté retrouvée</div>
+          </div>
+        </div>
+        <label class="alliance-label" style="margin-top:12px;">Ma vie avec le masque :</label>
+        <textarea class="journal-input" id="jt2" rows="3" placeholder="Dans ma vie quotidienne, le masque m'amène à…" oninput="autoSave('jt2');updateBAGrid()"></textarea>
+        <label class="alliance-label" style="margin-top:12px;">Ma vie sans le masque — ce à quoi j'aspire :</label>
+        <textarea class="journal-input" id="jt3" rows="3" placeholder="Sans ce masque, je pourrais…" oninput="autoSave('jt3');updateBAGrid()"></textarea>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn-primary" onclick="goQ(3)">→ Dernière question</button>
+        <button class="btn-secondary" onclick="goQ(1)">← Retour</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block" id="qb3">
+      <div class="card-gold">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--bleu);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:14px;flex-shrink:0;">3</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--cream);">Un premier geste d'unification</h3>
+        </div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px;">L'unification commence par un acte concret. Choisissez ce qui vous convient le mieux.</p>
+        <div class="act-btns">
+          <div class="act-btn" id="act-dire" onclick="selectAct('dire')"><span class="act-icon">🗣️</span><span class="act-label">Dire</span></div>
+          <div class="act-btn" id="act-ecrire" onclick="selectAct('ecrire')"><span class="act-icon">✍️</span><span class="act-label">Écrire</span></div>
+          <div class="act-btn" id="act-faire" onclick="selectAct('faire')"><span class="act-icon">🚶</span><span class="act-label">Faire</span></div>
+        </div>
+        <div id="act-context" style="display:none;background:rgba(49,130,206,0.1);border:1px solid rgba(49,130,206,0.25);border-radius:10px;padding:14px;margin:12px 0;font-size:13px;color:var(--bleu-light);line-height:1.7;"></div>
+        <label class="alliance-label" style="margin-top:16px;">Mon engagement concret dans les 48h :</label>
+        <textarea class="journal-input" id="jt4" rows="3" placeholder="Je vais…" oninput="autoSave('jt4');checkQ3()"></textarea>
+        <!-- Timer -->
+        <div style="margin-top:16px;">
+          <div class="suggest-toggle" onclick="toggleTimer()"><span>⏱ Timer de pleine conscience — 3 min (optionnel)</span><span class="chev" id="chev-timer">▾</span></div>
+          <div class="suggest-body" id="timer-body">
+            <div class="timer-wrap">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Prenez 3 minutes pour ressentir votre engagement</p>
+              <span class="timer-display" id="timer-display">03:00</span>
+              <div>
+                <button class="timer-btn" onclick="startTimer()">▶ Démarrer</button>
+                <button class="timer-btn" onclick="resetTimer()" style="background:var(--navy-card);color:var(--text-muted);border:1px solid var(--navy-border);">↺ Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn-primary" id="q3-next" onclick="goPhase(3)" disabled>→ Construire mon alliance intérieure</button>
+        <button class="btn-secondary" onclick="goQ(2)">← Retour</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+  PHASE 3 — ALLIANCE INTÉRIEURE
+════════════════════════════════ -->
+<div id="phase-3" class="phase">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-badge">🔵 Module 5 — UNIFIER</div>
+      <div class="prog-steps" id="prog-steps-3"></div>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:28px;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--cream);">L'Alliance intérieure</h2>
+      <p style="color:var(--text-muted);font-size:14px;line-height:1.7;margin-top:8px;">Le masque et la valeur vont maintenant parler d'une seule voix.</p>
+    </div>
+    <div style="border-radius:20px;overflow:hidden;margin-bottom:24px;position:relative;background:var(--navy-mid);">
+      <canvas id="fusion-canvas"></canvas>
+      <div id="fusion-label" style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;"></div>
+    </div>
+    <div>
+      <div style="margin-bottom:14px;">
+        <label class="alliance-label">1 · Mon masque cherche à me protéger de…</label>
+        <textarea class="journal-input" id="al1" rows="2" placeholder="Ex : la peur d'être rejeté·e, de ne pas être suffisant·e…" oninput="updateAlliancePreview()"></textarea>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="alliance-label">2 · Ma valeur profonde est…</label>
+        <textarea class="journal-input" id="al2" rows="2" placeholder="Ex : l'authenticité, la liberté, la connexion vraie…" oninput="updateAlliancePreview()"></textarea>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="alliance-label">3 · Ce dont j'ai besoin maintenant, c'est…</label>
+        <textarea class="journal-input" id="al3" rows="2" placeholder="Ex : me faire confiance davantage, poser mes limites avec douceur…" oninput="updateAlliancePreview()"></textarea>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="alliance-label">4 · Je m'engage à…</label>
+        <textarea class="journal-input" id="al4" rows="2" placeholder="Ex : choisir une action alignée sur ma valeur chaque jour…" oninput="updateAlliancePreview()"></textarea>
+      </div>
+    </div>
+    <div class="alliance-preview copy-allowed">
+      <span class="ap-label">✦ Votre Alliance — prévisualisation en direct</span>
+      <span id="ap-text" style="color:var(--text-muted);font-style:italic;font-size:14px;">Remplissez les champs pour voir votre alliance prendre forme…</span>
+    </div>
+    <button class="btn-copy-alliance" id="copy-btn" onclick="copyAlliance()" disabled>📋 Copier mon alliance (seule zone autorisée)</button>
+    <p id="copy-confirm" style="text-align:center;font-size:12px;color:var(--gold);margin-top:6px;display:none;">✓ Copié dans votre presse-papiers !</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+      <button class="btn-gold" id="seal-btn" onclick="sealAlliance()" disabled>⚡ Sceller mon alliance intérieure</button>
+      <button class="btn-primary" onclick="goPhase(4)" style="margin-top:4px;">→ Continuer vers la Boussole</button>
+      <button class="btn-secondary" onclick="goPhase(2)">← Retour aux questions</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+  PHASE 4 — BOUSSOLE
+════════════════════════════════ -->
+<div id="phase-4" class="phase">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-badge">🔵 Module 5 — UNIFIER</div>
+      <div class="prog-steps" id="prog-steps-4"></div>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:32px;">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-size:48px;margin-bottom:12px;">🧭</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--cream);">Ma Boussole intérieure</h2>
+      <p style="color:var(--text-muted);font-size:14px;line-height:1.7;margin-top:8px;">Évaluez où vous en êtes en ce moment précis.</p>
+    </div>
+    <div class="card reveal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;font-weight:600;color:var(--cream);" id="mask-slider-label">🎭 Activation du masque</span>
+        <span id="mask-slider-val" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--text-muted);">5 / 10</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">0 = au repos · 10 = en pleine activation</p>
+      <input type="range" class="slider-mask" id="slider-mask" min="0" max="10" value="5" oninput="updateCompass()" style="--val:50%;">
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <span style="font-size:11px;color:var(--text-muted);">😌 Au repos</span>
+        <span style="font-size:11px;color:var(--text-muted);">😰 Pleine activation</span>
+      </div>
+    </div>
+    <div class="card reveal delay-1">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;font-weight:600;color:var(--cream);">💎 Expression de ma valeur</span>
+        <span id="valeur-slider-val" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--bleu-light);">5 / 10</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">0 = complètement étouffée · 10 = pleinement exprimée</p>
+      <input type="range" class="slider-bleu" id="slider-valeur" min="0" max="10" value="5" oninput="updateCompass()" style="--val:50%;">
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <span style="font-size:11px;color:var(--text-muted);">🔇 Étouffée</span>
+        <span style="font-size:11px;color:var(--text-muted);">🌟 Rayonnante</span>
+      </div>
+    </div>
+    <div class="card reveal delay-2">
+      <p style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;">Écart masque ↔ valeur</p>
+      <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:20px;height:20px;overflow:hidden;">
+        <div class="gap-bar-fill" id="gap-bar" style="width:0%;"></div>
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;color:var(--gold);" id="gap-number">0</span>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:2px;" id="gap-msg">points d'écart</p>
+      </div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <p style="font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">Ce que révèle votre boussole</p>
+      <p style="font-size:14px;color:var(--text-light);line-height:1.8;" id="compass-insight">Déplacez les curseurs pour voir votre situation…</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+      <button class="btn-primary" onclick="goPhase(5)">→ Journal final</button>
+      <button class="btn-secondary" onclick="goPhase(3)">← Retour à l'alliance</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+  PHASE 5 — JOURNAL FINAL
+════════════════════════════════ -->
+<div id="phase-5" class="phase">
+  <div class="mod-header">
+    <div class="mod-header-inner">
+      <div class="mod-badge">🔵 Module 5 — UNIFIER</div>
+      <div class="prog-steps" id="prog-steps-5"></div>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:32px;">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-size:40px;margin-bottom:10px;">📔</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);">Journal d'unification</h2>
+      <p style="color:var(--text-muted);font-size:14px;margin-top:8px;">Votre vécu de ce module — certains champs sont pré-remplis par votre parcours.</p>
+    </div>
+    <div class="card reveal">
+      <label class="alliance-label">Ce que j'ai compris sur mon masque :</label>
+      <textarea class="journal-input" id="jf1" rows="4" placeholder="La compréhension essentielle que je retire de ce module…" oninput="checkFinalValidate()"></textarea>
+    </div>
+    <div class="card reveal delay-1">
+      <label class="alliance-label">Mon alliance intérieure en quelques mots :</label>
+      <textarea class="journal-input" id="jf2" rows="4" placeholder="Résumez votre alliance en vos propres mots…" oninput="checkFinalValidate()"></textarea>
+    </div>
+    <div class="card reveal delay-2">
+      <label class="alliance-label">Ce que je ressens maintenant :</label>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;">
+        <input type="range" class="slider-bleu" id="final-feeling" min="1" max="10" value="6" oninput="document.getElementById('final-feeling-val').textContent=this.value+'/10';updateFinalSlider(this);" style="--val:55%;">
+        <span id="final-feeling-val" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold);min-width:55px;text-align:center;">6/10</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;">
+        <span style="font-size:11px;color:var(--text-muted);">Encore résistant·e</span>
+        <span style="font-size:11px;color:var(--text-muted);">En paix ✦</span>
+      </div>
+    </div>
+    <div class="card reveal">
+      <label class="alliance-label">Un message à mon masque pour sceller l'alliance :</label>
+      <textarea class="journal-input" id="jf3" rows="4" placeholder="Ex : Je te remercie de m'avoir protégé·e. Tu peux te reposer maintenant…"></textarea>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+      <button class="btn-gold" id="btn-validate" onclick="validateModule5()" disabled>
+        ✓ Valider le Module 5 — UNIFIER 🔵
+      </button>
+      <button class="btn-secondary" onclick="goPhase(4)">← Retour à la boussole</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+  PHASE 6 — COMPLÉTION
+════════════════════════════════ -->
+<div id="phase-6" class="phase">
+  <div class="completion-wrap">
+    <div class="completion-emoji">🔵</div>
+    <div style="display:inline-block;background:var(--bleu-bg);border:1px solid var(--bleu);border-radius:50px;padding:6px 18px;margin-bottom:20px;">
+      <span style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--bleu-light);text-transform:uppercase;">Module 5 complété ✓</span>
+    </div>
+    <h1 class="completion-title">Vous venez de créer<br><span style="color:var(--gold);">votre Alliance</span><br>intérieure.</h1>
+    <p style="font-size:15px;color:var(--text-muted);line-height:1.8;max-width:480px;margin:0 auto 28px;">
+      Le masque et la valeur ne se combattent plus.<br>
+      Ils avancent ensemble — dans la même direction.<br>
+      <strong style="color:var(--cream);">C'est votre nouvelle posture intérieure.</strong>
     </p>
+    <div class="card-gold" style="max-width:480px;margin:0 auto 24px;text-align:left;">
+      <p style="font-size:10px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">✦ Votre Alliance</p>
+      <p id="comp-alliance-text" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--cream);line-height:1.8;"></p>
+    </div>
+    <div class="unlock-badge" style="max-width:480px;margin:0 auto;">
+      <div style="font-size:36px;">🔓</div>
+      <div>
+        <div class="unlock-title">Module 6 · RENFORCER débloqué 💜</div>
+        <div class="unlock-desc">Ancrer la nouvelle posture avec des comportements choisis</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:400px;margin:24px auto 0;">
+      <button class="btn-primary" onclick="goToModule6()">→ Commencer RENFORCER 💜</button>
+      <button class="btn-secondary" onclick="window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/'">⌂ Retour à l'accueil</button>
+    </div>
   </div>
-
-  <div class="card">
-    <div class="eyebrow">Mon engagement personnel</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">Décrivez une situation concrète où vous allez mettre en pratique cette unification :</p>
-    <textarea class="journal-ta" id="m5-journal" placeholder="Exemple : La prochaine fois que mon masque me pousse à me taire en réunion, je vais prendre une respiration et choisir de m'exprimer depuis ma valeur d'authenticité…" oninput="checkValidate()"></textarea>
+  <div class="copyright-footer">
+    © 2025 Méthode V.A.L.E.U.R© · Céline Bourbon, Psychologue<br>
+    Basé sur <em>"De la peur à la joie d'être soi"</em> — Éditions L'Harmattan<br>
+    Tous droits réservés · Reproduction interdite sans autorisation écrite
   </div>
-
-  <div class="slider-wrap">
-    <label>Mon niveau d'engagement aujourd'hui : <strong id="engage-val">7</strong>/10</label>
-    <input type="range" min="1" max="10" value="7" id="engage-slider" oninput="document.getElementById('engage-val').textContent=this.value">
-  </div>
-
-  <button class="btn-validate" id="btn-validate" onclick="validateM5()">✦ Valider mon Unification</button>
-  <button class="btn-s" style="margin-top:8px;" onclick="goPhase(2)">← Retour</button>
-
-  <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px;">Écrivez au moins quelques mots pour activer la validation.</p>
 </div>
 
-<!-- ══════════════ PHASE COMPLETE ══════════════ -->
-<div class="phase" id="phase-complete">
-  <div class="comp-complete">
-    <span class="big-emoji">🌟</span>
-    <h2>Unification accomplie</h2>
-    <p>Vous venez de franchir une étape décisive.<br>Vous avez cessé de combattre votre masque — vous l'avez compris.</p>
-  </div>
-
-  <div class="card-gold">
-    <div class="eyebrow">Votre phrase d'unification</div>
-    <p id="final-phrase" class="recall-quote" style="font-size:15px;">—</p>
-  </div>
-
-  <div class="card">
-    <div class="eyebrow">Ce que vous avez accompli dans ce module</div>
-    <div class="accomp-list" id="accomp-list"></div>
-  </div>
-
-  <div class="tw-wrap" id="final-tw">
-    <p class="tw-line" id="ftw0">Vous portez désormais une conscience nouvelle.</p>
-    <p class="tw-line b" id="ftw1">Le masque est là — mais vous n'êtes plus son otage.</p>
-    <p class="tw-line" id="ftw2">Le Module 6 vous attend : <strong>RENFORCER</strong>.</p>
-    <p class="tw-line b" id="ftw3">Ancrer cette unification dans votre quotidien.</p>
-  </div>
-
-  <button class="btn-gold" onclick="goToModule6()">→ Commencer le Module 6 — RENFORCER</button>
-  <button class="btn-s" onclick="goHome()">← Retour au tableau de bord</button>
-
-  <p class="copyright">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue<br>Tous droits réservés · <em>De la peur à la joie d'être soi</em>, Éditions L'Harmattan</p>
-</div>
+</div><!-- /app-content -->
 
 <script>
-/* ══════════════════════════════════════════════════
-   MODULE 5 · UNIFIER — JavaScript
-   Méthode V.A.L.E.U.R© — Céline Bourbon
-   ══════════════════════════════════════════════════ */
+/* ─── ANTI-COPY ──────────────────────────────────────────── */
+document.addEventListener('contextmenu',function(e){if(!e.target.closest('.copy-allowed'))e.preventDefault();});
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&['c','u','s','p','a'].includes(e.key.toLowerCase())){
+    if(!document.activeElement.closest('.copy-allowed')&&!['TEXTAREA','INPUT'].includes(document.activeElement.tagName))e.preventDefault();
+  }
+  if(e.key==='F12')e.preventDefault();
+});
+document.addEventListener('copy',function(e){
+  if(!document.activeElement.closest('.copy-allowed')&&!['TEXTAREA','INPUT'].includes(document.activeElement.tagName))e.preventDefault();
+});
 
-/* ── MASQUES DATA ── */
-var MASKS = {
-  rouge:  { emoji:'🔴', name:'Masque Rouge',   peur:'mort / maladie',        class:'mask-rouge',  defaultMaskSays:'Ne te fie pas à ton corps',            defaultNatureWants:'Sérénité et confiance en la vie' },
-  orange: { emoji:'🟠', name:'Masque Orange',  peur:'souffrance psychique',   class:'mask-orange', defaultMaskSays:'Fuis les émotions difficiles',          defaultNatureWants:'Profondeur émotionnelle et authenticité' },
-  jaune:  { emoji:'🟡', name:'Masque Jaune',   peur:'inconnu / incertitude',  class:'mask-jaune',  defaultMaskSays:'Contrôle tout et prévois chaque scénario', defaultNatureWants:'Liberté et spontanéité' },
-  vert:   { emoji:'🟢', name:'Masque Vert',    peur:'rejet / abandon',        class:'mask-vert',   defaultMaskSays:'Dis toujours oui, ne dérange pas',      defaultNatureWants:'Authenticité et connexion vraie' },
-  bleu:   { emoji:'🔵', name:'Masque Bleu',    peur:'impuissance',            class:'mask-bleu',   defaultMaskSays:'Prends tout en charge, maîtrise tout',  defaultNatureWants:'Lâcher-prise et collaboration' },
-  indigo: { emoji:'🔷', name:'Masque Indigo',  peur:'échec / inadéquation',   class:'mask-indigo', defaultMaskSays:'Perfectionne encore, tu n\'es pas assez', defaultNatureWants:'Excellence bienveillante et droit à l\'erreur' },
-  violet: { emoji:'💜', name:'Masque Violet',  peur:'perte d\'identité',      class:'mask-violet', defaultMaskSays:'Reste dans le rôle, ne te remets pas en question', defaultNatureWants:'Évolution et authenticité existentielle' }
+/* ─── MASQUES ────────────────────────────────────────────── */
+var MASKS={
+  rouge:{emoji:'🔴',name:'Masque Rouge',peur:'Mort / maladie',color:'#e53e3e',before:'Je surveille chaque sensation, j\'évite tout risque',after:'Je fais confiance à mon corps et à la vie',protect:'de la peur de mourir ou de souffrir physiquement'},
+  orange:{emoji:'🟠',name:'Masque Orange',peur:'Souffrance psychique',color:'#ed8936',before:'Je fuis les émotions, j\'évite les conflits',after:'Je ressens pleinement, je vis authentiquement',protect:'de la souffrance psychique et émotionnelle'},
+  jaune:{emoji:'🟡',name:'Masque Jaune',peur:'Inconnu / incertitude',color:'#d69e2e',before:'Je dois tout planifier, l\'imprévu me paralyse',after:'Je fais confiance au flux de la vie',protect:'de l\'incertitude et de l\'inconnu'},
+  vert:{emoji:'🟢',name:'Masque Vert',peur:'Rejet / abandon',color:'#38a169',before:'Je dis toujours oui, je cache mes vrais besoins',after:'Je m\'exprime librement sans craindre d\'être rejeté·e',protect:'de la peur du rejet et de l\'abandon'},
+  bleu:{emoji:'🔵',name:'Masque Bleu',peur:'Impuissance',color:'#3182ce',before:'Je contrôle les autres pour ne pas me sentir impuissant·e',after:'Je m\'appuie sur les autres avec confiance',protect:'du sentiment d\'impuissance'},
+  indigo:{emoji:'🟣',name:'Masque Indigo',peur:'Échec / inadéquation',color:'#5a67d8',before:'Je dois être parfait·e, je me critique sans cesse',after:'Je m\'accorde le droit à l\'erreur',protect:'de la peur de l\'échec'},
+  violet:{emoji:'💜',name:'Masque Violet',peur:'Perte d\'identité',color:'#805ad5',before:'Je me perds dans les questions existentielles',after:'Je suis ancré·e dans qui je suis vraiment',protect:'de la peur de perdre mon identité'}
 };
 
-/* ── STATE ── */
-var dominantMask = 'vert';
-var coreValue = '';
-var conflictPhrase = '';
-var currentPhase = 0;
-var feelingSelected = false;
+/* ─── ÉTAT ───────────────────────────────────────────────── */
+var currentPhase=0,currentQ=1;
+var dominantMask='vert',maskData=MASKS.vert,conflictPhrase='',coreValue='';
+var allianceText='',selectedAct='';
+var timerInterval=null,timerSeconds=180,timerRunning=false;
+var fusionStarted=false,heroAnimId=null,fusionAnimId=null;
 
-/* ══════════════════════════════════════════════════
-   INIT
-   ══════════════════════════════════════════════════ */
-function init() {
-  try {
-    dominantMask = localStorage.getItem('valeur_dominant_mask') || 'vert';
-    if (!MASKS[dominantMask]) dominantMask = 'vert';
-    coreValue = localStorage.getItem('valeur_core_value') || '';
-    conflictPhrase = localStorage.getItem('valeur_conflict_phrase') || '';
-  } catch(e) {
-    dominantMask = 'vert';
-  }
-
-  var mask = MASKS[dominantMask];
-
-  /* Apply mask color theme */
-  document.body.className = mask.class;
-
-  /* Populate recall section */
-  var recallMask = document.getElementById('recall-mask');
-  if (recallMask) recallMask.textContent = mask.emoji + ' ' + mask.name + ' — peur de ' + mask.peur;
-
-  var recallValue = document.getElementById('recall-value');
-  if (recallValue) recallValue.textContent = coreValue || '(non défini)';
-
-  var recallPhrase = document.getElementById('recall-phrase');
-  if (recallPhrase) {
-    recallPhrase.textContent = conflictPhrase ||
-      'Mon ' + mask.name + ' me pousse à "' + mask.defaultMaskSays.toLowerCase() + '" pour me protéger de la peur du ' + mask.peur + ', MAIS ma nature aspire à "' + mask.defaultNatureWants.toLowerCase() + '".';
-  }
-
-  /* Populate comparison grid */
-  var compAvant = document.getElementById('comp-avant-txt');
-  if (compAvant) compAvant.textContent = '"' + mask.defaultMaskSays + '"';
-
-  var compApres = document.getElementById('comp-apres-txt');
-  if (compApres) compApres.textContent = '"' + mask.defaultNatureWants + '"';
-
-  /* Populate unity phrase */
-  var val = coreValue || 'ma valeur profonde';
-  var unityPhrase = document.getElementById('unity-phrase');
-  if (unityPhrase) {
-    unityPhrase.textContent = 'Je reconnais que mon ' + mask.name + ' a peur du ' + mask.peur +
-      '. ET je choisis d\'agir depuis ma valeur de ' + val +
-      ' — pas parfaitement, mais consciemment.';
-  }
-
-  /* Populate engagement section */
-  var engageMask = document.getElementById('engage-mask');
-  if (engageMask) engageMask.textContent = mask.name;
-
-  var engageValue = document.getElementById('engage-value');
-  if (engageValue) engageValue.textContent = val;
-
-  /* Start canvas animation */
-  startCanvas();
-
-  /* Start hero typewriter */
-  setTimeout(function() {
-    typewriteHero(['hl0','hl1','hl2','hl3','hl4'], 0);
-  }, 400);
-}
-
-/* ══════════════════════════════════════════════════
-   PHASE NAVIGATION
-   ══════════════════════════════════════════════════ */
-function goPhase(n) {
-  var phases = ['phase-0','phase-1','phase-2','phase-3','phase-complete'];
-  var els = document.querySelectorAll('.phase');
-  for (var i = 0; i < els.length; i++) {
-    els[i].classList.remove('active');
-  }
-  var target = document.getElementById(phases[n]);
-  if (target) {
-    target.classList.add('active');
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
-  currentPhase = n;
-
-  /* Trigger typewriter on relevant phases */
-  if (n === 2) {
-    setTimeout(function() {
-      typewriteLines(['utw0','utw1','utw2','utw3'], 0);
-    }, 600);
-  }
-  if (n === 4) {
-    setTimeout(function() {
-      typewriteLines(['ftw0','ftw1','ftw2','ftw3'], 0);
-    }, 600);
-    populateComplete();
-  }
-}
-
-/* ══════════════════════════════════════════════════
-   QUESTION NAVIGATION (Phase 1)
-   ══════════════════════════════════════════════════ */
-function goQ(n) {
-  var blocks = document.querySelectorAll('#phase-1 .q-block');
-  for (var i = 0; i < blocks.length; i++) {
-    blocks[i].classList.remove('active');
-  }
-  var target = document.getElementById('q1-' + n);
-  if (target) target.classList.add('active');
-}
-
-/* ══════════════════════════════════════════════════
-   QUESTION NAVIGATION (Phase 2)
-   ══════════════════════════════════════════════════ */
-function goQ2(n) {
-  var blocks = document.querySelectorAll('#phase-2 .q-block');
-  for (var i = 0; i < blocks.length; i++) {
-    blocks[i].classList.remove('active');
-  }
-  var target = document.getElementById('q2-' + n);
-  if (target) target.classList.add('active');
-}
-
-/* ══════════════════════════════════════════════════
-   FEELING SELECTION
-   ══════════════════════════════════════════════════ */
-function selectFeeling(btn, label) {
-  var btns = document.querySelectorAll('#feeling-btns button');
-  for (var i = 0; i < btns.length; i++) {
-    btns[i].style.borderColor = '';
-    btns[i].style.color = '';
-  }
-  btn.style.borderColor = 'var(--mask-color)';
-  btn.style.color = 'var(--mask-color)';
-
-  var card = document.getElementById('feeling-card');
-  var text = document.getElementById('feeling-text');
-  var messages = {
-    'Soulagé·e': 'Ce soulagement est précieux. Il signifie que quelque chose en vous se dépose. Continuez avec cette légèreté.',
-    'Curieux·se': 'La curiosité est la porte d\'entrée de la transformation. Vous êtes exactement là où il faut être.',
-    'Résistance': 'La résistance est normale — et même signe que vous touchez quelque chose de vrai. Le masque protège. Avancez doucement.',
-    'Prêt·e': 'Cette disponibilité intérieure est un cadeau. Vous êtes prêt·e à vous rencontrer vraiment.'
-  };
-  if (card) card.style.display = 'block';
-  if (text) text.textContent = messages[label] || label;
-
-  feelingSelected = true;
-  var btnNext = document.getElementById('btn-q2-next');
-  if (btnNext) {
-    btnNext.style.opacity = '1';
-    btnNext.style.pointerEvents = 'all';
-  }
-}
-
-/* ══════════════════════════════════════════════════
-   VALIDATE
-   ══════════════════════════════════════════════════ */
-function checkValidate() {
-  var journal = document.getElementById('m5-journal');
-  var btn = document.getElementById('btn-validate');
-  if (!journal || !btn) return;
-  if (journal.value.trim().length > 10) {
-    btn.classList.add('on');
-  } else {
-    btn.classList.remove('on');
-  }
-}
-
-function validateM5() {
-  var journal = document.getElementById('m5-journal');
-  var slider = document.getElementById('engage-slider');
-  var mask = MASKS[dominantMask];
-  var val = coreValue || 'ma valeur profonde';
-
-  var unityPhrase = 'Je reconnais que mon ' + mask.name + ' a peur du ' + mask.peur +
-    '. ET je choisis d\'agir depuis ma valeur de ' + val + ' — pas parfaitement, mais consciemment.';
-
-  try {
-    localStorage.setItem('valeur_module5_complete', 'true');
-    localStorage.setItem('valeur_unity_phrase', unityPhrase);
-    localStorage.setItem('valeur_journal_5', JSON.stringify({
-      journal: journal ? journal.value : '',
-      engagement: slider ? slider.value : '7',
-      mask: mask.name,
-      value: val,
-      date: new Date().toLocaleDateString('fr-FR')
-    }));
-  } catch(e) {}
-
-  /* Register completion with VALEUR_PROGRESS */
-  if (typeof VALEUR_PROGRESS !== 'undefined') {
-    VALEUR_PROGRESS.complete('module5');
-  }
-
-  /* Set final phrase */
-  var finalPhrase = document.getElementById('final-phrase');
-  if (finalPhrase) finalPhrase.textContent = unityPhrase;
-
-  goPhase(4);
-
-  setTimeout(launchConfetti, 400);
-  setTimeout(launchConfetti, 900);
-  setTimeout(launchConfetti, 1400);
-}
-
-/* ══════════════════════════════════════════════════
-   POPULATE COMPLETION SCREEN
-   ══════════════════════════════════════════════════ */
-function populateComplete() {
-  var mask = MASKS[dominantMask];
-  var val = coreValue || 'ma valeur profonde';
-  var unityPhrase = 'Je reconnais que mon ' + mask.name + ' a peur du ' + mask.peur +
-    '. ET je choisis d\'agir depuis ma valeur de ' + val + ' — pas parfaitement, mais consciemment.';
-
-  var fp = document.getElementById('final-phrase');
-  if (fp) fp.textContent = unityPhrase;
-
-  var list = document.getElementById('accomp-list');
-  if (!list) return;
-  var items = [
-    { e:'🎭', t:'RAPPEL', d:'Vous avez relu votre découverte du Module 4' },
-    { e:'🌀', t:'UNIFICATION', d:'Vous avez compris que masque et valeur coexistent' },
-    { e:'💎', t:'PHRASE D\'UNIFICATION', d:'Votre nouvelle boussole est formulée' },
-    { e:'📝', t:'ENGAGEMENT', d:'Vous avez écrit votre serment intérieur' }
-  ];
-  list.innerHTML = '';
-  for (var i = 0; i < items.length; i++) {
-    var item = items[i];
-    var div = document.createElement('div');
-    div.className = 'accomp-item';
-    var isLast = (i === items.length - 1);
-    div.style.borderBottom = isLast ? 'none' : '';
-    div.innerHTML = '<span class="ae">' + item.e + '</span>' +
-      '<div style="flex:1"><div class="at">' + item.t + '</div><div class="ad">' + item.d + '</div></div>' +
-      '<span style="color:#38a169;">✓</span>';
-    list.appendChild(div);
-  }
-}
-
-/* ══════════════════════════════════════════════════
-   COPY TEXT
-   ══════════════════════════════════════════════════ */
-function copyText(text) {
-  if (!text || text === 'Chargement…') return;
-  try {
-    navigator.clipboard.writeText(text);
-    var btns = document.querySelectorAll('.btn-copy');
-    for (var i = 0; i < btns.length; i++) {
-      btns[i].textContent = '✓ Copié !';
+/* ─── SESSION ────────────────────────────────────────────── */
+function getSession(){
+  try{
+    var reg=JSON.parse(localStorage.getItem('valeur_registry')||'[]');
+    for(var i=0;i<reg.length;i++){
+      var s=JSON.parse(localStorage.getItem('valeur_'+reg[i].email+'_session')||'null');
+      if(s&&s.loginAt&&(Date.now()-new Date(s.loginAt))/86400000<7)return s;
     }
-    setTimeout(function() {
-      var btns2 = document.querySelectorAll('.btn-copy');
-      for (var j = 0; j < btns2.length; j++) {
-        btns2[j].textContent = '⧉ Copier';
+  }catch(e){}return null;
+}
+function isModule4Done(email){
+  try{
+    var p=JSON.parse(localStorage.getItem('valeur_'+email+'_module4Progress')||'null');
+    if(p&&(p.completed||p.done))return true;
+  }catch(e){}
+  return!!localStorage.getItem('valeur_module4_complete');
+}
+function checkAccess(){
+  var s=getSession();
+  if(!s){window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/';return;}
+  if(!isModule4Done(s.email)){
+    document.getElementById('screen-loading').classList.remove('show');
+    document.getElementById('screen-denied').classList.add('show');return;
+  }
+  document.getElementById('screen-loading').classList.remove('show');
+  document.getElementById('app-content').style.display='block';
+  init();
+}
+
+/* ─── INIT ───────────────────────────────────────────────── */
+function init(){
+  loadM4Data();applyMaskColor();startHeroCanvas();animateHeroLines();
+  populateRecall();prefillAll();updateCompass();
+  if(typeof VALEUR_PROGRESS!=='undefined')VALEUR_PROGRESS.render('module5');
+  setTimeout(initScrollReveal,600);
+}
+function loadM4Data(){
+  try{
+    dominantMask=localStorage.getItem('valeur_dominant_mask')||'vert';
+    maskData=MASKS[dominantMask]||MASKS.vert;
+    conflictPhrase=localStorage.getItem('valeur_conflict_phrase')||'';
+    coreValue=localStorage.getItem('valeur_core_value')||'votre valeur profonde';
+    var j4=JSON.parse(localStorage.getItem('valeur_journal_4')||'{}');
+    if(j4.conflit)conflictPhrase=j4.conflit;
+  }catch(e){maskData=MASKS.vert;}
+}
+function applyMaskColor(){
+  document.documentElement.style.setProperty('--mask-color',maskData.color);
+  document.documentElement.style.setProperty('--mask-bg',maskData.color+'20');
+}
+
+/* ─── HERO CANVAS ────────────────────────────────────────── */
+function startHeroCanvas(){
+  var c=document.getElementById('hero-canvas');if(!c)return;
+  var ctx=c.getContext('2d');
+  c.width=c.offsetWidth||700;c.height=c.offsetHeight||260;
+  var W=c.width,H=c.height,t=0;
+  var mc=maskData.color,gc='#c9a84c';
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    var bg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W/2);
+    bg.addColorStop(0,'#0d1526');bg.addColorStop(1,'#070c16');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    var cx=W/2,cy=H/2,or=Math.min(W,H)*0.26;
+    var mx=cx+Math.cos(t)*or,my=cy+Math.sin(t)*or*0.45;
+    var gx=cx+Math.cos(t+Math.PI)*or,gy=cy+Math.sin(t+Math.PI)*or*0.45;
+    drawOrb(ctx,mx,my,26,mc);drawOrb(ctx,gx,gy,20,gc);
+    var cg=ctx.createRadialGradient(cx,cy,0,cx,cy,55);
+    cg.addColorStop(0,'rgba(201,168,76,0.12)');cg.addColorStop(1,'transparent');
+    ctx.fillStyle=cg;ctx.beginPath();ctx.arc(cx,cy,55,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.ellipse(cx,cy,or,or*0.45,0,0,Math.PI*2);ctx.stroke();
+    t+=0.018;heroAnimId=requestAnimationFrame(frame);
+  }
+  frame();
+}
+function drawOrb(ctx,x,y,r,col){
+  var g=ctx.createRadialGradient(x-r*0.3,y-r*0.3,0,x,y,r*1.8);
+  g.addColorStop(0,col+'ff');g.addColorStop(0.5,col+'88');g.addColorStop(1,'transparent');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*1.8,0,Math.PI*2);ctx.fill();
+  var core=ctx.createRadialGradient(x,y,0,x,y,r);
+  core.addColorStop(0,'#fff');core.addColorStop(0.3,col);core.addColorStop(1,col+'00');
+  ctx.fillStyle=core;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+}
+function animateHeroLines(){
+  var lines=document.querySelectorAll('.hero-line');
+  lines.forEach(function(l,i){setTimeout(function(){l.classList.add('visible');},600+i*350);});
+  setTimeout(function(){var b=document.getElementById('hero-btn');if(b)b.style.display='block';},600+lines.length*350+200);
+}
+
+/* ─── RECALL ─────────────────────────────────────────────── */
+function populateRecall(){
+  var rm=document.getElementById('recall-mask');if(rm)rm.textContent=maskData.emoji+' '+maskData.name;
+  var rv=document.getElementById('recall-value');if(rv)rv.textContent=coreValue||'—';
+  var re=document.getElementById('recall-emoji');if(re)re.textContent=maskData.emoji;
+  var q1c=document.getElementById('q1-context');
+  if(q1c)q1c.textContent='"Mon '+maskData.name+' cherche à me protéger '+maskData.protect+'…"';
+  var bb=document.getElementById('ba-before');if(bb)bb.textContent=maskData.before;
+  var ba=document.getElementById('ba-after');if(ba)ba.textContent=maskData.after;
+  var msl=document.getElementById('mask-slider-label');if(msl)msl.textContent=maskData.emoji+' Activation du '+maskData.name;
+}
+
+/* ─── TYPEWRITER ─────────────────────────────────────────── */
+function startTypewriter(){
+  var text=conflictPhrase||('Je reconnais la tension entre mon '+maskData.name+' et ma valeur de '+coreValue+'.');
+  var el=document.getElementById('tw-text'),cur=document.getElementById('tw-cursor');
+  if(!el)return;
+  el.textContent='';if(cur)cur.style.display='inline-block';
+  var i=0,iv=setInterval(function(){
+    if(i<text.length){el.textContent+=text[i];i++;}
+    else{clearInterval(iv);setTimeout(function(){if(cur)cur.style.display='none';},1200);}
+  },28);
+}
+
+/* ─── PREFILL ────────────────────────────────────────────── */
+function prefillAll(){
+  var ids=['jt1','jt2','jt3','jt4','al1','al2','al3','al4'];
+  ids.forEach(function(id){
+    var saved=localStorage.getItem('valeur_'+id+'_m5');
+    var el=document.getElementById(id);
+    if(el&&saved)el.value=saved;
+  });
+  // Default al2 = coreValue
+  var al2=document.getElementById('al2');
+  if(al2&&!al2.value&&coreValue)al2.value=coreValue;
+  updateAlliancePreview();checkQ1();checkQ3();checkFinalValidate();
+}
+
+/* ─── AUTOSAVE ───────────────────────────────────────────── */
+function autoSave(id){
+  try{var el=document.getElementById(id);if(el)localStorage.setItem('valeur_'+id+'_m5',el.value);}catch(e){}
+}
+
+/* ─── PHASE NAV ──────────────────────────────────────────── */
+function goPhase(n){
+  if(heroAnimId){cancelAnimationFrame(heroAnimId);heroAnimId=null;}
+  for(var i=0;i<=6;i++){var p=document.getElementById('phase-'+i);if(p)p.classList.remove('active');}
+  var t=document.getElementById('phase-'+n);
+  if(t){t.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+  currentPhase=n;renderProgressSteps(n);
+  if(n===1)setTimeout(startTypewriter,400);
+  if(n===3&&!fusionStarted){setTimeout(startFusionCanvas,300);fusionStarted=true;}
+  if(n===3)updateAlliancePreview();
+  if(n===5)prefillFinalJournal();
+}
+function renderProgressSteps(phase){
+  var steps=[1,2,3,4,5];
+  var ids=['prog-steps-1','prog-steps-2','prog-steps-3','prog-steps-4','prog-steps-5'];
+  var id='prog-steps-'+phase;
+  var el=document.getElementById(id);if(!el)return;
+  var html='';
+  steps.forEach(function(sp,i){
+    if(i>0)html+='<div class="ps-line'+(sp<=phase?' done':'')+'"></div>';
+    var cls='ps';
+    if(sp<phase)cls+=' done';else if(sp===phase)cls+=' active';
+    html+='<div class="'+cls+'">'+(sp<phase?'✓':(i+1))+'</div>';
+  });
+  el.innerHTML=html;
+}
+
+/* ─── Q NAV ──────────────────────────────────────────────── */
+function goQ(n){
+  for(var i=1;i<=3;i++){
+    var qb=document.getElementById('qb'+i);if(qb)qb.classList.remove('active');
+    var sd=document.getElementById('sd'+i);
+    if(sd){sd.classList.remove('active','done');if(i<n)sd.classList.add('done');else if(i===n)sd.classList.add('active');}
+    if(i<3){var sl=document.getElementById('sl'+i);if(sl){sl.classList.remove('done');if(i<n)sl.classList.add('done');}}
+  }
+  var tq=document.getElementById('qb'+n);if(tq)tq.classList.add('active');
+  currentQ=n;
+  var lbl=document.getElementById('stepper-label');if(lbl)lbl.textContent='Question '+n+' sur 3';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ─── VALIDATIONS ────────────────────────────────────────── */
+function checkQ1(){
+  var v=(document.getElementById('jt1')?document.getElementById('jt1').value:'').trim();
+  var b=document.getElementById('q1-next');if(b)b.disabled=v.length<5;
+}
+function checkQ3(){
+  var v=(document.getElementById('jt4')?document.getElementById('jt4').value:'').trim();
+  var b=document.getElementById('q3-next');if(b)b.disabled=v.length<5;
+}
+function checkFinalValidate(){
+  var f1=(document.getElementById('jf1')?document.getElementById('jf1').value:'').trim();
+  var f2=(document.getElementById('jf2')?document.getElementById('jf2').value:'').trim();
+  var b=document.getElementById('btn-validate');if(b)b.disabled=!(f1.length>5&&f2.length>5);
+}
+
+/* ─── SUGGESTIONS ────────────────────────────────────────── */
+function toggleSuggest(id){
+  var body=document.getElementById(id);if(!body)return;
+  var open=body.classList.toggle('open');
+  var chev=document.getElementById('chev-'+id);
+  if(chev)chev.style.transform=open?'rotate(180deg)':'';
+}
+function appendTo(id,text){
+  var el=document.getElementById(id);if(!el)return;
+  el.value=(el.value?el.value+'\n':'')+text;
+  autoSave(id);updateBAGrid();
+}
+
+/* ─── BA GRID ────────────────────────────────────────────── */
+function updateBAGrid(){
+  var jt2=document.getElementById('jt2'),jt3=document.getElementById('jt3');
+  var bb=document.getElementById('ba-before'),ba=document.getElementById('ba-after');
+  if(jt2&&bb&&jt2.value.trim()){var l=jt2.value.trim().split('\n');bb.textContent=l[0].substring(0,80)+(l[0].length>80||l.length>1?'…':'');}
+  if(jt3&&ba&&jt3.value.trim()){var l2=jt3.value.trim().split('\n');ba.textContent=l2[0].substring(0,80)+(l2[0].length>80||l2.length>1?'…':'');}
+}
+
+/* ─── ACT ────────────────────────────────────────────────── */
+var actCtx={
+  dire:'Choisir de <strong>dire</strong> quelque chose d\'authentique à une personne de confiance — un besoin, une limite, une vérité que vous taisez habituellement.',
+  ecrire:'Choisir d\'<strong>écrire</strong> une lettre à vous-même ou à votre masque — sans forcément l\'envoyer. L\'écriture extériorise ce qui était intérieur.',
+  faire:'Choisir de <strong>faire</strong> un acte concret aligné sur votre valeur — même minuscule. Un nouveau comportement envoie un nouveau signal à votre système nerveux.'
+};
+function selectAct(type){
+  selectedAct=type;
+  ['dire','ecrire','faire'].forEach(function(t){
+    var b=document.getElementById('act-'+t);if(b)b.classList.toggle('selected',t===type);
+  });
+  var ctx=document.getElementById('act-context');
+  if(ctx){ctx.innerHTML=actCtx[type]||'';ctx.style.display='block';ctx.style.animation='fadeUp 0.4s ease';}
+  checkQ3();
+}
+
+/* ─── TIMER ──────────────────────────────────────────────── */
+function toggleTimer(){
+  var b=document.getElementById('timer-body');if(b)b.classList.toggle('open');
+  var c=document.getElementById('chev-timer');if(c)c.style.transform=b&&b.classList.contains('open')?'rotate(180deg)':'';
+}
+function startTimer(){
+  if(timerRunning)return;timerRunning=true;
+  timerInterval=setInterval(function(){
+    timerSeconds--;
+    var m=Math.floor(timerSeconds/60),s=timerSeconds%60;
+    var el=document.getElementById('timer-display');
+    if(el)el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if(timerSeconds<=0){clearInterval(timerInterval);timerRunning=false;if(el)el.textContent='✓ Terminé';}
+  },1000);
+}
+function resetTimer(){clearInterval(timerInterval);timerRunning=false;timerSeconds=180;var el=document.getElementById('timer-display');if(el)el.textContent='03:00';}
+
+/* ─── FUSION CANVAS ──────────────────────────────────────── */
+function startFusionCanvas(){
+  var c=document.getElementById('fusion-canvas');if(!c)return;
+  var ctx=c.getContext('2d');
+  c.width=c.offsetWidth||700;c.height=200;
+  var W=c.width,H=c.height,t=0;
+  var mc=maskData.color,gc='#c9a84c';
+  var phase='orbit',mergeT=0;
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    var bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#0d1526');bg.addColorStop(1,'#07111f');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    var cx=W/2,cy=H/2,lbl=document.getElementById('fusion-label');
+    if(phase==='orbit'){
+      var d=W*0.2;
+      drawOrb(ctx,cx+Math.cos(t)*d,cy+Math.sin(t)*d*0.4,22,mc);
+      drawOrb(ctx,cx+Math.cos(t+Math.PI)*d,cy+Math.sin(t+Math.PI)*d*0.4,18,gc);
+      t+=0.025;if(t>Math.PI*4){phase='merge';mergeT=0;}
+      if(lbl)lbl.textContent='';
+    }else if(phase==='merge'){
+      mergeT+=0.025;var prog=Math.min(mergeT,1);
+      var ease=1-Math.pow(1-prog,3),d2=W*0.2*(1-ease);
+      drawOrb(ctx,cx+Math.cos(t)*d2,cy+Math.sin(t)*d2*0.4,22+ease*10,mc);
+      drawOrb(ctx,cx+Math.cos(t+Math.PI)*d2,cy+Math.sin(t+Math.PI)*d2*0.4,18+ease*8,gc);
+      t+=0.01;if(lbl)lbl.textContent=prog>0.3?(prog<0.9?'Fusion en cours…':'Alliance créée ✦'):'';
+      if(prog>=1)phase='gold';
+    }else{
+      var pulse=1+Math.sin(t*2)*0.08;
+      var gr=ctx.createRadialGradient(cx,cy,0,cx,cy,60*pulse);
+      gr.addColorStop(0,'#fff');gr.addColorStop(0.2,gc);gr.addColorStop(0.6,gc+'66');gr.addColorStop(1,'transparent');
+      ctx.fillStyle=gr;ctx.beginPath();ctx.arc(cx,cy,60*pulse,0,Math.PI*2);ctx.fill();
+      for(var r=0;r<8;r++){
+        var ang=r*Math.PI/4+t;
+        ctx.strokeStyle='rgba(201,168,76,'+(0.12+Math.sin(t*3+r)*0.08)+')';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(cx+Math.cos(ang)*35,cy+Math.sin(ang)*35);ctx.lineTo(cx+Math.cos(ang)*72,cy+Math.sin(ang)*72);ctx.stroke();
       }
-    }, 2000);
-  } catch(e) {}
-}
-
-/* ══════════════════════════════════════════════════
-   CANVAS ANIMATION
-   ══════════════════════════════════════════════════ */
-function startCanvas() {
-  var canvas = document.getElementById('hero-canvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W, H;
-  var particles = [];
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (var i = 0; i < 55; i++) {
-    particles.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 2 + 0.4,
-      isMask: Math.random() > 0.5,
-      alpha: Math.random() * 0.45 + 0.08
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.isMask
-        ? 'rgba(128,90,213,' + p.alpha + ')'
-        : 'rgba(201,168,76,' + p.alpha + ')';
-      ctx.fill();
+      t+=0.02;if(lbl)lbl.textContent='✦ Alliance intérieure';
     }
-    requestAnimationFrame(draw);
+    fusionAnimId=requestAnimationFrame(frame);
   }
-  draw();
+  frame();
 }
 
-/* ══════════════════════════════════════════════════
-   TYPEWRITER EFFECTS
-   ══════════════════════════════════════════════════ */
-function typewriteHero(ids, idx) {
-  if (idx >= ids.length) return;
-  var el = document.getElementById(ids[idx]);
-  if (el) el.classList.add('vis');
-  setTimeout(function() {
-    typewriteHero(ids, idx + 1);
-  }, 500);
+/* ─── ALLIANCE PREVIEW ───────────────────────────────────── */
+function updateAlliancePreview(){
+  var a1=(document.getElementById('al1')?document.getElementById('al1').value:'').trim();
+  var a2=(document.getElementById('al2')?document.getElementById('al2').value:'').trim();
+  var a3=(document.getElementById('al3')?document.getElementById('al3').value:'').trim();
+  var a4=(document.getElementById('al4')?document.getElementById('al4').value:'').trim();
+  var pv=document.getElementById('ap-text'),sb=document.getElementById('seal-btn'),cb=document.getElementById('copy-btn');
+  if(!a1&&!a2&&!a3&&!a4){
+    if(pv){pv.textContent='Remplissez les champs pour voir votre alliance prendre forme…';pv.style.color='var(--text-muted)';}
+    if(sb)sb.disabled=true;if(cb)cb.disabled=true;return;
+  }
+  var parts=[];
+  if(a1)parts.push('Je reconnais que mon '+maskData.name+' cherche à me protéger de '+a1+'.');
+  if(a2)parts.push('Ma valeur profonde est '+a2+'.');
+  if(a3)parts.push('Ce dont j\'ai besoin maintenant, c\'est '+a3+'.');
+  if(a4)parts.push('Je m\'engage à '+a4+'.');
+  allianceText=parts.join(' ');
+  if(pv){pv.textContent=allianceText;pv.style.color='var(--cream)';}
+  var filled=[a1,a2,a3,a4].filter(function(x){return x.length>2;}).length;
+  if(sb)sb.disabled=filled<2;if(cb)cb.disabled=filled<1;
+  try{localStorage.setItem('valeur_alliance_m5',allianceText);}catch(e){}
 }
-
-function typewriteLines(ids, idx) {
-  if (idx >= ids.length) return;
-  var el = document.getElementById(ids[idx]);
-  if (el) el.classList.add('vis');
-  setTimeout(function() {
-    typewriteLines(ids, idx + 1);
-  }, 600);
+function copyAlliance(){
+  if(!allianceText)return;
+  try{navigator.clipboard.writeText(allianceText).then(showCopyConfirm).catch(function(){fallbackCopy(allianceText);});}
+  catch(e){fallbackCopy(allianceText);}
 }
-
-/* ══════════════════════════════════════════════════
-   NAVIGATION
-   ══════════════════════════════════════════════════ */
-function goToModule6() {
-  window.location.href = MODULE_URLS.module6;
+function fallbackCopy(text){
+  var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showCopyConfirm();}catch(e){}document.body.removeChild(ta);
 }
-
-function goHome() {
-  window.location.href = MODULE_URLS.home;
+function showCopyConfirm(){
+  var c=document.getElementById('copy-confirm');
+  if(c){c.style.display='block';setTimeout(function(){c.style.display='none';},3000);}
 }
-
-/* ══════════════════════════════════════════════════
-   CONFETTI
-   ══════════════════════════════════════════════════ */
-function launchConfetti() {
-  var cols = ['#c9a84c','#e8c97a','#805ad5','#fff','#e2e8f0','#38a169','#5a67d8'];
-  for (var i = 0; i < 70; i++) {
-    (function(idx) {
-      setTimeout(function() {
-        var el = document.createElement('div');
-        el.className = 'confetti-piece';
-        var sz = 5 + Math.random() * 10;
-        el.style.cssText = 'left:' + (Math.random() * 100) + 'vw;' +
-          'width:' + sz + 'px;height:' + sz + 'px;' +
-          'background:' + cols[Math.floor(Math.random() * cols.length)] + ';' +
-          'animation-duration:' + (2.5 + Math.random() * 2) + 's;' +
-          'animation-delay:' + (Math.random() * 0.3) + 's;' +
-          'border-radius:' + (Math.random() > 0.5 ? '50%' : '3px') + ';' +
-          'transform:rotate(' + (Math.random() * 360) + 'deg);';
-        document.body.appendChild(el);
-        setTimeout(function() { el.remove(); }, 5500);
-      }, idx * 20);
+function sealAlliance(){
+  updateAlliancePreview();launchMiniConfetti();
+  var btn=document.getElementById('seal-btn');
+  if(btn){btn.textContent='✓ Alliance scellée — '+maskData.emoji+' + 💛';btn.style.background='linear-gradient(135deg,var(--gold),#a07830)';btn.style.color='#000';btn.disabled=true;}
+  try{localStorage.setItem('valeur_alliance_sealed','true');}catch(e){}
+}
+function launchMiniConfetti(){
+  var btn=document.getElementById('seal-btn');if(!btn)return;
+  var rect=btn.getBoundingClientRect();
+  for(var i=0;i<30;i++){
+    (function(idx){
+      setTimeout(function(){
+        var p=document.createElement('div');p.className='mini-confetti';
+        var sz=4+Math.random()*8,x=rect.left+(Math.random()-0.5)*rect.width+rect.width/2;
+        p.style.cssText='left:'+x+'px;top:'+rect.top+'px;width:'+sz+'px;height:'+sz+'px;background:'+(Math.random()>0.5?'#c9a84c':'#e8c97a')+';border-radius:'+(Math.random()>0.5?'50%':'2px')+';animation-delay:'+(Math.random()*0.3)+'s;animation-duration:'+(0.8+Math.random()*0.8)+'s;';
+        document.body.appendChild(p);setTimeout(function(){p.remove();},2000);
+      },idx*30);
     })(i);
   }
 }
 
-/* ══════════════════════════════════════════════════
-   START
-   ══════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', init);
+/* ─── COMPASS ────────────────────────────────────────────── */
+function updateCompass(){
+  var sm=document.getElementById('slider-mask'),sv=document.getElementById('slider-valeur');
+  if(!sm||!sv)return;
+  var mv=parseInt(sm.value),vv=parseInt(sv.value);
+  sm.style.setProperty('--val',(mv*10)+'%');sv.style.setProperty('--val',(vv*10)+'%');
+  var mEl=document.getElementById('mask-slider-val'),vEl=document.getElementById('valeur-slider-val');
+  if(mEl){mEl.textContent=mv+' / 10';mEl.style.color=mv>7?'#fc8181':mv>4?'#ed8936':'var(--text-muted)';}
+  if(vEl){vEl.textContent=vv+' / 10';vEl.style.color=vv>7?'var(--bleu-light)':vv>4?'var(--gold)':'var(--text-muted)';}
+  var gap=Math.abs(vv-mv);
+  var gb=document.getElementById('gap-bar');if(gb)gb.style.width=(gap*10)+'%';
+  var gn=document.getElementById('gap-number');if(gn)gn.textContent=gap;
+  var msgs=['Votre masque et votre valeur sont en parfait alignement. ✦ Moment d\'ancrage.','Légère tension — sain et normal. Vous êtes en chemin.','Tension perceptible — votre masque est encore actif. Respirez.','Forte tension — votre masque protège intensément. Quel déclencheur ?','Tension maximale — prenez soin de vous avant d\'agir.'];
+  var mi=gap<=1?0:gap<=3?1:gap<=5?2:gap<=8?3:4;
+  var ci=document.getElementById('compass-insight');if(ci)ci.textContent=msgs[mi];
+  try{localStorage.setItem('valeur_compass_m5',JSON.stringify({mask:mv,valeur:vv,gap:gap}));}catch(e){}
+}
+function updateFinalSlider(el){var v=parseInt(el.value);el.style.setProperty('--val',(v/10*100)+'%');}
+
+/* ─── JOURNAL FINAL PREFILL ──────────────────────────────── */
+function prefillFinalJournal(){
+  var jt1=document.getElementById('jt1')?document.getElementById('jt1').value:'';
+  var al=localStorage.getItem('valeur_alliance_m5')||allianceText;
+  var jf1=document.getElementById('jf1'),jf2=document.getElementById('jf2');
+  if(jf1&&!jf1.value&&jt1.trim())jf1.value=jt1;
+  if(jf2&&!jf2.value&&al)jf2.value=al;
+  checkFinalValidate();
+}
+
+/* ─── VALIDATE MODULE 5 ──────────────────────────────────── */
+function validateModule5(){
+  var session=getSession();
+  var email=session?session.email:'';
+  try{
+    localStorage.setItem('valeur_module5_complete','true');
+    localStorage.setItem('valeur_module6_unlocked','true');
+    if(email){
+      localStorage.setItem('valeur_'+email+'_module5Progress',JSON.stringify({
+        completed:true,done:true,completedAt:new Date().toISOString()
+      }));
+    }
+    localStorage.setItem('valeur_journal_5',JSON.stringify({
+      jf1:document.getElementById('jf1')?document.getElementById('jf1').value:'',
+      jf2:document.getElementById('jf2')?document.getElementById('jf2').value:'',
+      jf3:document.getElementById('jf3')?document.getElementById('jf3').value:'',
+      feeling:document.getElementById('final-feeling')?document.getElementById('final-feeling').value:'',
+      alliance:allianceText,date:new Date().toLocaleDateString('fr-FR')
+    }));
+  }catch(e){}
+  if(typeof VALEUR_PROGRESS!=='undefined')VALEUR_PROGRESS.complete('module5');
+  populateCompletion();goPhase(6);
+  setTimeout(launchConfetti,400);setTimeout(launchConfetti,900);setTimeout(launchConfetti,1400);
+}
+function populateCompletion(){
+  var el=document.getElementById('comp-alliance-text');
+  var txt=allianceText||localStorage.getItem('valeur_alliance_m5')||('Mon '+maskData.name+' et ma valeur de '+coreValue+' avancent ensemble.');
+  if(el)el.textContent=txt;
+}
+
+/* ─── CONFETTI ───────────────────────────────────────────── */
+function launchConfetti(){
+  var cols=['#3182ce','#c9a84c','#faf089','#90cdf4','#805ad5','#fff','#e53e3e','#68d391'];
+  for(var i=0;i<90;i++){
+    (function(idx){setTimeout(function(){
+      var p=document.createElement('div');p.className='confetti-piece';
+      var sz=5+Math.random()*10;
+      p.style.cssText='left:'+Math.random()*100+'vw;width:'+sz+'px;height:'+sz+'px;background:'+cols[Math.floor(Math.random()*cols.length)]+';animation-duration:'+(2.5+Math.random()*2)+'s;animation-delay:'+(Math.random()*0.3)+'s;border-radius:'+(Math.random()>.5?'50%':'3px')+';transform:rotate('+Math.floor(Math.random()*360)+'deg);';
+      document.body.appendChild(p);setTimeout(function(){p.remove();},5500);
+    },idx*25);})(i);
+  }
+}
+
+/* ─── SCROLL REVEAL ──────────────────────────────────────── */
+function initScrollReveal(){
+  var els=document.querySelectorAll('.card,.card-gold');
+  els.forEach(function(el,i){
+    el.classList.add('reveal');
+    if(i%3===1)el.classList.add('delay-1');
+    if(i%3===2)el.classList.add('delay-2');
+  });
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:0.08});
+  els.forEach(function(el){obs.observe(el);});
+}
+
+/* ─── NAVIGATE ───────────────────────────────────────────── */
+function goToModule6(){
+  window.location.href=(typeof MODULE_URLS!=='undefined')?MODULE_URLS.module6:'module6.html';
+}
+
+/* ─── START ──────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',function(){setTimeout(checkAccess,400);});
+
 </script>
-<script>
-VALEUR_PROGRESS.render('module5');
-</script>
+<script>if(typeof VALEUR_PROGRESS!=='undefined')VALEUR_PROGRESS.render('module5');</script>
 </body>
 </html>
