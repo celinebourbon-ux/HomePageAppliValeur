@@ -801,7 +801,8 @@ function populateRecall(){
 
 /* ─── TYPEWRITER ─────────────────────────────────────────── */
 function startTypewriter(){
-  var text=conflictPhrase||('Je reconnais la tension entre mon '+maskData.name+' et ma valeur de '+coreValue+'.');
+var cv=localStorage.getItem('valeur_core_value')||coreValue||'votre valeur profonde';
+var text=conflictPhrase||('Je reconnais la tension entre mon '+maskData.name+' et ma valeur de '+cv+'.');
   var el=document.getElementById('tw-text'),cur=document.getElementById('tw-cursor');
   if(!el)return;
   el.textContent='';if(cur)cur.style.display='inline-block';
