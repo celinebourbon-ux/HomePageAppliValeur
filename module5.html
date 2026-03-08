@@ -874,16 +874,13 @@ function goQ(n){
 /* ─── VALIDATIONS ────────────────────────────────────────── */
 function checkQ1(){
   var v=(document.getElementById('jt1')?document.getElementById('jt1').value:'').trim();
-  var b=document.getElementById('q1-next');if(b)b.disabled=v.length<5;
 }
 function checkQ3(){
   var v=(document.getElementById('jt4')?document.getElementById('jt4').value:'').trim();
-  var b=document.getElementById('q3-next');if(b)b.disabled=v.length<5;
 }
 function checkFinalValidate(){
   var f1=(document.getElementById('jf1')?document.getElementById('jf1').value:'').trim();
   var f2=(document.getElementById('jf2')?document.getElementById('jf2').value:'').trim();
-  var b=document.getElementById('btn-validate');if(b)b.disabled=!(f1.length>5&&f2.length>5);
 }
 
 /* ─── SUGGESTIONS ────────────────────────────────────────── */
