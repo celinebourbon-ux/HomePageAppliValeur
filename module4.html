@@ -1597,7 +1597,24 @@ function validateModule() {
       insight: document.getElementById('insight-slider').value,
       date: new Date().toLocaleDateString('fr-FR')
     }));
+} catch(e) {}
+
+  // ── Clé email-préfixée (vérifiée par module5 checkAccess) ──
+  try {
+    const reg = JSON.parse(localStorage.getItem('valeur_registry') || '[]');
+    for (const u of reg) {
+      const s = JSON.parse(localStorage.getItem('valeur_' + u.email + '_session') || 'null');
+      if (s && s.loginAt && (Date.now() - new Date(s.loginAt)) / 86400000 < 7) {
+        localStorage.setItem('valeur_' + s.email + '_module4Progress', JSON.stringify({
+          completed: true, done: true, completedAt: new Date().toISOString()
+        }));
+        break;
+      }
+    }
   } catch(e) {}
+
+  // VALEUR_PROGRESS
+  if (typeof VALEUR_PROGRESS !== 'undefined') VALEUR_PROGRESS.complete('module4');
 
   // Update progress bar
   const ps4 = document.querySelectorAll('.ps')[3];
