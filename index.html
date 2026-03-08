@@ -29,6 +29,10 @@ input:-webkit-autofill{-webkit-box-shadow:0 0 0 30px #111827 inset!important;-we
 @keyframes goldGlow{0%,100%{box-shadow:0 0 12px #c9a84c66,0 0 24px #c9a84c33}50%{box-shadow:0 0 24px #c9a84caa,0 0 48px #c9a84c66}}
 @keyframes stepPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 #valeur-footer-copyright{position:fixed;bottom:0;left:0;right:0;background:rgba(10,15,26,0.95);border-top:1px solid #1e2f4a;padding:4px 16px;text-align:center;font-size:10px;color:#64748b;z-index:200;pointer-events:none;letter-spacing:0.3px;}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal.delay-1{transition-delay:.1s;}
+.reveal.delay-2{transition-delay:.2s;}
 </style>
 <script src="valeur-config.js"></script>
 </head><body>
@@ -1897,4 +1901,15 @@ function App(){
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+
+// Scroll reveal global
+function initScrollReveal() {
+  var targets = document.querySelectorAll('.reveal:not(.visible)');
+  if (!targets.length) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  targets.forEach(function(el) { obs.observe(el); });
+}
+setInterval(initScrollReveal, 1200);
 </script></body></html>
