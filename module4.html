@@ -1089,7 +1089,7 @@ body.mask-violet { --mask-color: #805ad5; --mask-bg: rgba(128,90,213,0.12); }
 
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px;">
       <button class="btn-primary" id="btn-p3-next" onclick="goToPhase(4)" disabled>Finaliser mon exploration →</button>
-      <button class="btn-secondary" onclick="VALEUR_PROGRESS.complete('module4'); goToPhase(4)">← Retour</button>
+      <button class="btn-secondary" onclick="goToPhase(2)">← Retour</button>
     </div>
   </div>
 </div>
@@ -1395,14 +1395,17 @@ function goToPhase(n) {
 
   // Update progress
   const pct = [0, 20, 40, 60, 80, 100][n] || 0;
-  document.getElementById('pct-label').textContent = (60 + Math.round(pct * 0.07)) + '%';
+  const pctEl = document.getElementById('pct-label');
+  if (pctEl) pctEl.textContent = (60 + Math.round(pct * 0.07)) + '%';
   if (n >= 5) {
-    document.getElementById('pct-label').textContent = '67%';
-    document.getElementById('ps5').classList.add('active');
+    if (pctEl) pctEl.textContent = '67%';
+    const ps5el = document.getElementById('ps5');
+    if (ps5el) ps5el.classList.add('active');
   }
 
   // Check footer visibility
-  document.getElementById('main-footer').style.display = n === 5 ? 'none' : '';
+  const footer = document.getElementById('main-footer');
+  if (footer) footer.style.display = n === 5 ? 'none' : '';
 }
 
 /* ══════════════════════════════════════════════════
@@ -1595,10 +1598,13 @@ function validateModule() {
   const ps5 = document.getElementById('ps5');
   if (ps5) ps5.classList.add('active');
 
-  // Populate completion screen
-  populateCompletion();
+  // Enregistrement via VALEUR_PROGRESS (barre + email-tracking)
+  try { VALEUR_PROGRESS.complete('module4'); } catch(e) {}
 
-  // Go to completion
+  // Populate completion screen — isolé pour ne pas bloquer la navigation
+  try { populateCompletion(); } catch(e) {}
+
+  // Go to completion — toujours exécuté
   goToPhase(5);
 
   // Fire confetti
