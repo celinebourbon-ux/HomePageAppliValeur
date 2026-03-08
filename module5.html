@@ -1000,8 +1000,8 @@ function updateAlliancePreview(){
   allianceText=parts.join(' ');
   if(pv){pv.textContent=allianceText;pv.style.color='var(--cream)';}
   var filled=[a1,a2,a3,a4].filter(function(x){return x.length>2;}).length;
-  if(sb)sb.disabled=filled<2;if(cb)cb.disabled=filled<1;
-  try{localStorage.setItem('valeur_alliance_m5',allianceText);}catch(e){}
+   if(cb)cb.disabled=filled<1;
+   try{localStorage.setItem('valeur_alliance_m5',allianceText);}catch(e){}
 }
 function copyAlliance(){
   if(!allianceText)return;
