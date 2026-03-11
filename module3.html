@@ -20,6 +20,7 @@
   --green:#38A169;--blue:#3182CE;--indigo:#5A67D8;--violet:#805AD5;
   --mod3:#D4AC0D;--mod3-glow:rgba(212,172,13,.22);--mod3-glass:rgba(212,172,13,.06);
   --mod:#D4AC0D;
+  --mc:#D4AC0D;--mc-glow:rgba(212,172,13,.45);
 }
 html{scroll-behavior:smooth;}
 body{
@@ -1771,10 +1772,12 @@ header.module-header{display:none!important;}
 <script>
 /* â•â• PROTECTION CONTENU â•â• */
 document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('selectstart',function(e){if(['TEXTAREA','INPUT','SELECT'].includes(e.target.tagName))return;e.preventDefault();});
+document.addEventListener('dragstart',function(e){e.preventDefault();});
+document.addEventListener('copy',function(e){if(['TEXTAREA','INPUT'].includes(e.target.tagName))return;e.preventDefault();});
 document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&['a','c','u','s','p'].includes(e.key.toLowerCase()))e.preventDefault();
-  if(e.key==='F12'||((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase())))e.preventDefault();
+  if(e.key==='F12')e.preventDefault();
+  if(e.ctrlKey&&['u','s','p','i'].includes(e.key.toLowerCase()))e.preventDefault();
 });
 
 /* â•â• SCROLL PROGRESS â•â• */
@@ -1864,12 +1867,14 @@ function saveDailyJournal(){showToast('âœ“ Journal du jour enregistrÃ©');}
 
 /* â•â• COMPLETE MODULE â•â• */
 function completeModule(){
+  try{ localStorage.setItem('valeur_module3_complete','true'); }catch(e){}
+  if(typeof VALEUR_PROGRESS!=='undefined'){ try{ VALEUR_PROGRESS.complete('module3'); }catch(e){} }
   const btn=document.querySelector('.btn-complete');
-  btn.textContent='âœ¦ FÃ©licitations â€” Module 3 ValidÃ© !';
-  btn.style.background='linear-gradient(135deg,#38A169,#68D391)';
-  document.getElementById('unlock-preview').classList.add('show');
+  if(btn){ btn.textContent='\u2746 F\u00e9licitations \u2014 Module 3 Valid\u00e9 !';
+    btn.style.background='linear-gradient(135deg,#38A169,#68D391)'; }
+  var _up=document.getElementById('unlock-preview');if(_up)_up.classList.add('show');
   setTimeout(()=>launchConfetti(),300);
-  showToast('ğŸ‰ Module 3 complÃ©tÃ© ! Incroyable travail !');
+  showToast('\uD83C\uDF89 Module 3 \u2014 LOCALISER \u2014 compl\u00e9t\u00e9 ! Module 4 d\u00e9bloqu\u00e9 !');
 }
 
 /* â•â• CONFETTI â•â• */
@@ -1960,10 +1965,10 @@ function loadJournalEntries(){
   function injectMaskLabel(){
     var m=localStorage.getItem('valeur_masque_actif')||'vert';
     var names={
-      rouge:'í ½í´´ Masque Rouge',orange:'í ½í¿  Masque Orange',
-      jaune:'í ½í¿¡ Masque Jaune',vert:'í ½í¿¢ Masque Vert',
-      bleu:'í ½í´µ Masque Bleu',indigo:'í ½í¿£ Masque Indigo',
-      violet:'í ½í²œ Masque Violet'
+      rouge:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Masque Rouge',orange:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Masque Orange',
+      jaune:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Masque Jaune',vert:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Masque Vert',
+      bleu:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Masque Bleu',indigo:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Masque Indigo',
+      violet:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Masque Violet'
     };
     var label=names[m]||m;
     document.querySelectorAll('.valeur-mask-name').forEach(function(el){
