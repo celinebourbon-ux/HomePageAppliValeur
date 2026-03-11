@@ -2,1988 +2,687 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Module 3 — Localiser · Méthode V.A.L.E.U.R©</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>V.A.L.E.U.R© — Module 3 · Localiser</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════
-   ROOT & RESET
-══════════════════════════════════════════ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --gold:#C9A84C;--gold-light:#F0D080;--gold-glow:rgba(201,168,76,.22);
+  --yellow:#D69E2E;--yellow-light:#F6E05E;--yellow-glow:rgba(214,158,46,.25);
   --navy:#070D1A;--navy2:#0D1526;--navy3:#131F35;--navy4:#1A2845;
   --glass:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);
-  --text:#F2EDE6;--muted:#8A9BB5;
-  --red:#E53E3E;--orange:#ED8936;--yellow:#D4AC0D;--yellow-light:#F6E05E;
-  --green:#38A169;--blue:#3182CE;--indigo:#5A67D8;--violet:#805AD5;
-  --mod3:#D4AC0D;--mod3-glow:rgba(212,172,13,.22);--mod3-glass:rgba(212,172,13,.06);
-  --mod:#D4AC0D;
-  --mc:#D4AC0D;--mc-glow:rgba(212,172,13,.45);
+  --text:#F2EDE6;--muted:#8A9BB5;--subtle:rgba(242,237,230,.55);
+  --red:#E53E3E;--orange:#ED8936;--green:#38A169;
+  --blue:#3182CE;--indigo:#5A67D8;--violet:#805AD5;
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'Jost',sans-serif;
+  --radius:20px;--radius-sm:12px;
+  --transition:all .3s cubic-bezier(.4,0,.2,1);
 }
-html{scroll-behavior:smooth;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  font-family:'Jost',sans-serif;background:var(--navy);color:var(--text);
-  min-height:100vh;overflow-x:hidden;
-  user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;
-}
-
-/* ══ AURORA ══ */
-.bg-aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
-.orb{position:absolute;border-radius:50%;filter:blur(130px);animation:drift 22s ease-in-out infinite;}
-.orb1{width:650px;height:650px;background:var(--yellow);top:-200px;left:-150px;opacity:.07;}
-.orb2{width:500px;height:500px;background:var(--orange);bottom:-100px;right:-100px;opacity:.06;animation-delay:-8s;}
-.orb3{width:350px;height:350px;background:var(--gold);top:45%;left:55%;opacity:.05;animation-delay:-16s;}
-@keyframes drift{0%,100%{transform:translate(0,0);}33%{transform:translate(35px,-25px);}66%{transform:translate(-20px,35px);}}
-
-/* ══ PROGRESS BAR ══ */
-#progress-bar{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  background:rgba(7,13,26,.92);backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(201,168,76,.15);
-  padding:10px 20px;display:flex;align-items:center;gap:12px;
-}
-.pb-back{
-  display:flex;align-items:center;gap:6px;
-  background:var(--glass);border:1px solid var(--gb);border-radius:8px;
-  padding:6px 12px;color:var(--muted);font-size:12px;letter-spacing:.5px;
-  text-decoration:none;transition:all .3s;white-space:nowrap;flex-shrink:0;
-}
-.pb-back:hover{background:var(--gold-glow);border-color:var(--gold);color:var(--gold);}
-.pb-steps{display:flex;gap:6px;flex:1;align-items:center;}
-.pb-step{
-  flex:1;height:30px;border-radius:8px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .5s cubic-bezier(.34,1.56,.64,1);
-}
-.pb-step.done{background:linear-gradient(135deg,var(--gold),var(--gold-light));border-color:var(--gold-light);box-shadow:0 2px 12px rgba(201,168,76,.35);cursor:pointer;}
-.pb-step.active{background:rgba(212,172,13,.1);border-color:var(--yellow);animation:pulse-mod3 2.5s ease-in-out infinite;}
-@keyframes pulse-mod3{0%,100%{box-shadow:0 0 0 0 rgba(212,172,13,.3);}50%{box-shadow:0 0 0 4px rgba(212,172,13,0);}}
-.pb-letter{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted);}
-.pb-step.done .pb-letter{color:#070D1A;}
-.pb-step.active .pb-letter{color:var(--yellow);}
-.pb-pct{font-size:13px;font-weight:700;color:var(--gold);min-width:36px;text-align:right;}
-@media(max-width:480px){.pb-letter{font-size:9px;}.pb-step{height:24px;}#progress-bar{padding:8px 12px;gap:8px;}.pb-back span{display:none;}}
-
-/* ══ DOT NAV ══ */
-#dot-nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:10px;}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:all .4s;}
-.dot.active{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 8px var(--mod3-glow);transform:scale(1.3);}
-.dot:hover{background:rgba(212,172,13,.5);}
-@media(max-width:768px){#dot-nav{display:none;}}
-
-/* ══ SCROLL LINE ══ */
-#scroll-line{position:fixed;top:50px;left:0;height:2px;z-index:999;background:linear-gradient(90deg,var(--yellow),var(--yellow-light));width:0%;transition:width .1s linear;}
-
-/* ══ MAIN ══ */
-main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px 140px;}
-
-/* ══ SECTIONS ══ */
-.section{padding:60px 0;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
-.section.visible{opacity:1;transform:none;}
-
-/* ══ SECTION HEADER ══ */
-.s-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);margin-bottom:10px;font-weight:600;}
-.s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;line-height:1.1;color:var(--text);margin-bottom:20px;}
-.s-title em{font-style:italic;color:var(--yellow);}
-.s-lead{font-size:1.05rem;line-height:1.8;color:var(--muted);font-weight:300;margin-bottom:24px;}
-.divider{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--yellow),transparent);margin:30px 0;}
-
-/* ══ GLASS CARD ══ */
-.glass{
-  background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid var(--gb);border-radius:20px;padding:28px;position:relative;overflow:hidden;
-}
-.glass::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 60%);pointer-events:none;}
-.glass-yellow{border-color:rgba(212,172,13,.2);}
-.glass-yellow::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--yellow),transparent);}
-
-/* ══ HERO MODULE ══ */
-.hero-module{
-  text-align:center;padding:60px 20px 40px;
-  position:relative;
-}
-.hero-step-badge{
-  display:inline-flex;align-items:center;gap:10px;
-  background:rgba(212,172,13,.1);border:1px solid rgba(212,172,13,.3);
-  border-radius:100px;padding:8px 20px;margin-bottom:28px;
-  font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);
-  font-weight:600;
-}
-.hero-letter{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(7rem,20vw,12rem);font-weight:300;line-height:.85;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(212,172,13,.3);
-  position:relative;display:inline-block;
-  animation:letter-glow 4s ease-in-out infinite;
-}
-@keyframes letter-glow{
-  0%,100%{-webkit-text-stroke:1px rgba(212,172,13,.3);filter:drop-shadow(0 0 0px transparent);}
-  50%{-webkit-text-stroke:1px rgba(212,172,13,.7);filter:drop-shadow(0 0 30px rgba(212,172,13,.3));}
-}
-.hero-word{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.8rem,5vw,2.8rem);font-weight:300;
-  background:linear-gradient(135deg,var(--yellow) 0%,var(--yellow-light) 60%,var(--yellow) 100%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  display:block;margin-bottom:12px;
-}
-.hero-subtitle{font-size:1rem;color:var(--muted);font-weight:300;font-style:italic;font-family:'Cormorant Garamond',serif;margin-bottom:32px;}
-.hero-duration{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--glass);border:1px solid var(--gb);border-radius:10px;
-  padding:8px 18px;font-size:.85rem;color:var(--muted);
-}
-
-/* ══ KEY MESSAGE ══ */
-.key-message{
-  background:var(--mod3-glass);backdrop-filter:blur(20px);
-  border:1px solid rgba(212,172,13,.25);border-radius:20px;
-  padding:32px;text-align:center;position:relative;overflow:hidden;
-  margin:24px 0;
-}
-.key-message::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(212,172,13,.08),transparent 60%);pointer-events:none;}
-.key-message::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--yellow),transparent);}
-.key-message h3{font-family:'Cormorant Garamond',serif;font-size:1.05rem;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);margin-bottom:20px;}
-.key-message blockquote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,3vw,1.6rem);font-weight:300;font-style:italic;color:var(--text);line-height:1.7;}
-.key-message strong{color:var(--yellow);font-style:normal;}
-
-/* ══ PHASE HEADER ══ */
-.phase-badge{
-  display:inline-flex;align-items:center;gap:10px;
-  background:rgba(212,172,13,.08);border:1px solid rgba(212,172,13,.2);
-  border-radius:100px;padding:6px 16px;margin-bottom:20px;
-  font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);font-weight:600;
-}
-.phase-num{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--yellow);opacity:.15;line-height:1;margin-bottom:-10px;}
-
-/* ══ DEFINITION BOX ══ */
-.definition-box{
-  background:rgba(212,172,13,.05);border:1px solid rgba(212,172,13,.2);
-  border-radius:16px;padding:24px;margin:20px 0;
-  border-left:3px solid var(--yellow);
-}
-.definition-box .def-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);margin-bottom:10px;font-weight:600;}
-.definition-box p{font-size:.95rem;line-height:1.8;color:var(--text);font-weight:300;}
-.definition-box strong{color:var(--yellow);font-weight:600;}
-
-/* ══ METAPHOR CARD ══ */
-.metaphor-card{
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;padding:24px;margin:20px 0;position:relative;
-}
-.metaphor-card::before{content:'💡';position:absolute;top:-12px;left:20px;font-size:1.4rem;background:var(--navy2);padding:0 8px;}
-.metaphor-card p{font-size:.9rem;line-height:1.8;color:var(--muted);font-weight:300;}
-.metaphor-card p strong{color:var(--text);font-weight:500;}
-.metaphor-step{display:flex;gap:12px;margin-top:12px;align-items:flex-start;}
-.metaphor-num{
-  min-width:24px;height:24px;border-radius:50%;
-  background:linear-gradient(135deg,var(--yellow),var(--yellow-light));
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:var(--navy);flex-shrink:0;margin-top:2px;
-}
-.metaphor-text{font-size:.9rem;line-height:1.7;color:var(--muted);}
-
-/* ══ NEGATIVE LIST ══ */
-.quote-list{margin:16px 0;}
-.quote-item{
-  display:flex;gap:10px;align-items:flex-start;
-  padding:8px 12px;border-radius:8px;margin-bottom:6px;
-  background:rgba(229,62,62,.04);border:1px solid rgba(229,62,62,.1);
-  font-size:.88rem;color:var(--muted);font-style:italic;
-}
-.quote-item::before{content:'"';color:var(--red);font-family:'Cormorant Garamond',serif;font-size:1.5rem;line-height:1;flex-shrink:0;margin-top:-4px;}
-
-/* ══ TWO LEVELS ══ */
-.two-levels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
-@media(max-width:480px){.two-levels{grid-template-columns:1fr;}}
-.level-card{
-  border-radius:14px;padding:20px;
-  background:var(--glass);border:1px solid var(--gb);
-  position:relative;
-}
-.level-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0;}
-.level1::before{background:linear-gradient(90deg,var(--orange),transparent);}
-.level2::before{background:linear-gradient(90deg,var(--yellow),transparent);}
-.level-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;opacity:.4;line-height:1;margin-bottom:8px;}
-.level1 .level-num{color:var(--orange);}
-.level2 .level-num{color:var(--yellow);}
-.level-title{font-size:.8rem;font-weight:700;letter-spacing:.8px;margin-bottom:8px;color:var(--text);}
-.level-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
-.ltag{font-size:10px;padding:3px 8px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);color:var(--muted);}
-
-/* ══ PROCESS BOX ══ */
-.process-box{
-  background:rgba(212,172,13,.04);border:1px solid rgba(212,172,13,.15);
-  border-radius:14px;padding:20px;margin:16px 0;
-}
-.process-box .proc-title{font-size:.8rem;font-weight:700;letter-spacing:1px;color:var(--yellow);margin-bottom:8px;}
-.process-box p{font-size:.88rem;color:var(--muted);line-height:1.7;}
-.process-step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
-.ps-num{
-  min-width:22px;height:22px;border-radius:50%;
-  background:rgba(212,172,13,.15);border:1px solid rgba(212,172,13,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:700;color:var(--yellow);flex-shrink:0;margin-top:2px;
-}
-.ps-text{font-size:.88rem;color:var(--muted);line-height:1.65;}
-.ps-text strong{color:var(--text);}
-.process-box .proc-note{
-  font-size:.8rem;color:var(--muted);font-style:italic;margin-top:10px;
-  border-top:1px solid rgba(255,255,255,.06);padding-top:10px;
-}
-
-/* ══ PILLARS TABLE ══ */
-.pillars-grid{display:flex;flex-direction:column;gap:8px;margin:20px 0;}
-.pillar-row{
-  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
-  background:var(--glass);border:1px solid var(--gb);border-radius:12px;padding:16px;
-}
-.pillar-num{
-  font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;
-  color:var(--yellow);opacity:.5;line-height:1;min-width:28px;
-}
-.pillar-content{}
-.pillar-name{font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);margin-bottom:4px;}
-.pillar-text{font-size:.88rem;color:var(--muted);line-height:1.6;}
-.pillar-text strong{color:var(--text);}
-
-/* ══ ÉTAPES PROCESSUS ÉMOTIONNEL ══ */
-.process-steps{display:flex;flex-direction:column;gap:0;margin:24px 0;position:relative;}
-.process-steps::before{
-  content:'';position:absolute;left:22px;top:0;bottom:0;width:1px;
-  background:linear-gradient(to bottom,rgba(212,172,13,.4),rgba(212,172,13,.1));
-}
-.proc-step{
-  display:flex;gap:16px;align-items:flex-start;
-  padding:20px;padding-left:0;position:relative;
-}
-.proc-icon{
-  min-width:46px;height:46px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;
-  z-index:1;
-}
-.proc-step:nth-child(1) .proc-icon{background:rgba(212,172,13,.15);border:2px solid var(--yellow);color:var(--yellow);}
-.proc-step:nth-child(2) .proc-icon{background:rgba(237,137,54,.12);border:2px solid var(--orange);color:var(--orange);}
-.proc-step:nth-child(3) .proc-icon{background:rgba(49,130,206,.1);border:2px solid var(--blue);color:var(--blue);}
-.proc-step:nth-child(4) .proc-icon{background:rgba(56,161,105,.1);border:2px solid var(--green);color:var(--green);}
-.proc-body{}
-.proc-body h4{font-size:.85rem;font-weight:700;letter-spacing:.8px;color:var(--text);margin-bottom:6px;}
-.proc-body p{font-size:.88rem;color:var(--muted);line-height:1.7;}
-.proc-body strong{color:var(--text);}
-.proc-body .proc-examples{font-size:.82rem;color:var(--muted);font-style:italic;margin-top:6px;}
-.proc-body .proc-table{margin-top:10px;}
-.proc-row{display:flex;gap:8px;margin-bottom:6px;align-items:flex-start;font-size:.82rem;}
-.proc-cond{
-  min-width:120px;padding:4px 8px;border-radius:6px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  color:var(--muted);font-size:.78rem;
-}
-.proc-arrow{color:var(--yellow);flex-shrink:0;padding-top:4px;}
-.proc-result{color:var(--muted);font-size:.82rem;line-height:1.5;}
-
-/* ══ VISUAL SUMMARY ══ */
-.visual-summary{
-  display:flex;flex-direction:column;align-items:center;gap:0;
-  padding:28px;background:var(--glass);border:1px solid var(--gb);border-radius:18px;margin:24px 0;
-}
-.vs-item{
-  display:flex;align-items:center;gap:0;flex-direction:column;
-  font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  color:var(--text);
-}
-.vs-arrow{color:var(--yellow);font-size:1.4rem;margin:4px 0;opacity:.6;}
-.vs-time{
-  margin-top:16px;
-  background:rgba(212,172,13,.08);border:1px solid rgba(212,172,13,.2);
-  border-radius:100px;padding:6px 18px;
-  font-size:.8rem;letter-spacing:1px;color:var(--yellow);
-}
-
-/* ══ EMOTION FAMILIES ══ */
-.emotion-families{display:flex;flex-direction:column;gap:14px;margin:24px 0;}
-.emotion-card{
-  border-radius:18px;border:1px solid rgba(255,255,255,.07);
-  background:var(--glass);backdrop-filter:blur(16px);
-  overflow:hidden;cursor:pointer;
-  transition:all .4s cubic-bezier(.34,1.2,.64,1);
-}
-.emotion-card:hover{transform:translateX(4px);}
-.emotion-header{display:flex;align-items:center;gap:16px;padding:20px;}
-.emotion-icon{
-  width:52px;height:52px;border-radius:14px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
-  border:1px solid rgba(255,255,255,.12);
-}
-.emo-anxiete .emotion-icon{background:rgba(237,137,54,.12);border-color:rgba(237,137,54,.25);}
-.emo-colere .emotion-icon{background:rgba(229,62,62,.08);border-color:rgba(229,62,62,.2);}
-.emo-culpa .emotion-icon{background:rgba(128,90,213,.1);border-color:rgba(128,90,213,.2);}
-.emo-tristesse .emotion-icon{background:rgba(49,130,206,.08);border-color:rgba(49,130,206,.2);}
-.emotion-meta{flex:1;}
-.emotion-name{font-weight:700;font-size:1rem;color:var(--text);margin-bottom:2px;}
-.emotion-msg{font-size:.82rem;color:var(--muted);font-style:italic;}
-.emotion-toggle{
-  width:30px;height:30px;border-radius:50%;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;color:var(--muted);flex-shrink:0;transition:all .3s;
-}
-.emotion-card.open .emotion-toggle{transform:rotate(45deg);}
-.emotion-body{
-  max-height:0;overflow:hidden;
-  transition:max-height .6s cubic-bezier(.4,0,.2,1),padding .3s;
-  padding:0 20px;
-}
-.emotion-card.open .emotion-body{max-height:600px;padding:0 20px 22px;}
-
-/* body signals */
-.body-signals{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
-@media(max-width:400px){.body-signals{grid-template-columns:1fr;}}
-.signal-item{
-  display:flex;gap:8px;align-items:flex-start;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  border-radius:10px;padding:10px 12px;
-}
-.signal-emoji{font-size:1rem;flex-shrink:0;margin-top:1px;}
-.signal-text{font-size:.8rem;color:var(--muted);line-height:1.5;}
-.signal-text strong{color:var(--text);display:block;font-size:.75rem;margin-bottom:2px;}
-
-/* besoin caché */
-.besoin-block{
-  background:rgba(212,172,13,.05);border:1px solid rgba(212,172,13,.15);
-  border-radius:12px;padding:14px;margin:12px 0;
-}
-.besoin-block .besoin-label{font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);margin-bottom:6px;}
-.besoin-block .besoin-content{font-size:.85rem;color:var(--text);font-weight:500;}
-.besoin-questions{margin-top:10px;}
-.besoin-q{font-size:.8rem;color:var(--muted);padding:3px 0;display:flex;gap:6px;}
-.besoin-q::before{content:'•';color:var(--yellow);flex-shrink:0;}
-
-/* accueil steps */
-.accueil-steps{margin-top:12px;}
-.acc-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
-.acc-check{
-  min-width:22px;height:22px;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:700;color:white;flex-shrink:0;
-}
-.acc-text{font-size:.82rem;color:var(--muted);line-height:1.5;}
-.acc-text strong{color:var(--text);}
-
-/* colors per emotion */
-.emo-anxiete .emotion-card-bar{background:var(--orange);}
-.emo-colere .emotion-card-bar{background:var(--red);}
-.emo-culpa .emotion-card-bar{background:var(--violet);}
-.emo-tristesse .emotion-card-bar{background:var(--blue);}
-
-/* emotion family colors for toggle */
-.emo-anxiete.open .emotion-toggle{color:var(--orange);}
-.emo-colere.open .emotion-toggle{color:var(--red);}
-.emo-culpa.open .emotion-toggle{color:var(--violet);}
-.emo-tristesse.open .emotion-toggle{color:var(--blue);}
-
-/* ══ BODY MAP ══ */
-.body-map-section{margin:24px 0;}
-.body-map-desc{font-size:.9rem;line-height:1.8;color:var(--muted);margin-bottom:24px;}
-.body-map-visual{
-  background:var(--glass);border:1px solid var(--gb);border-radius:18px;
-  padding:28px;text-align:center;margin-bottom:20px;
-}
-.body-map-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--yellow);margin-bottom:20px;}
-.body-figure{
-  display:inline-block;position:relative;width:120px;
-}
-.body-svg{width:100%;max-width:120px;}
-.emotion-zones{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;text-align:left;}
-.zone-item{
-  display:flex;gap:10px;align-items:flex-start;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  border-radius:10px;padding:12px;
-}
-.zone-dot{
-  min-width:10px;height:10px;border-radius:50%;margin-top:5px;flex-shrink:0;
-}
-.zone-content{}
-.zone-emotion{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:2px;}
-.zone-location{font-size:.75rem;color:var(--muted);}
-
-/* ══ BODY SCAN EXERCISE ══ */
-.body-scan-form{
-  background:var(--glass);border:1px solid rgba(212,172,13,.2);
-  border-radius:18px;padding:24px;margin:20px 0;
-}
-.bsf-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text);margin-bottom:6px;}
-.bsf-subtitle{font-size:.82rem;color:var(--muted);margin-bottom:20px;}
-.scan-question{margin-bottom:16px;}
-.scan-question label{font-size:.82rem;font-weight:600;color:var(--yellow);display:block;margin-bottom:6px;letter-spacing:.5px;}
-.scan-input{
-  width:100%;padding:10px 14px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
-  border-radius:10px;color:var(--text);font-family:'Jost',sans-serif;
-  font-size:.88rem;font-weight:300;resize:none;outline:none;
-  transition:border-color .3s;
-}
-.scan-input:focus{border-color:rgba(212,172,13,.4);}
-.scan-input::placeholder{color:var(--muted);opacity:.5;}
-
-/* ══ ACCUEIL METHOD ══ */
-.accueil-what{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;
-}
-@media(max-width:480px){.accueil-what{grid-template-columns:1fr;}}
-.accueil-no{
-  background:rgba(229,62,62,.05);border:1px solid rgba(229,62,62,.15);
-  border-radius:14px;padding:18px;
-}
-.accueil-yes{
-  background:rgba(212,172,13,.05);border:1px solid rgba(212,172,13,.15);
-  border-radius:14px;padding:18px;
-}
-.accueil-what-label{font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
-.accueil-no .accueil-what-label{color:var(--red);}
-.accueil-yes .accueil-what-label{color:var(--yellow);}
-.accueil-items{font-size:.85rem;color:var(--muted);line-height:1.8;}
-
-/* truth banner */
-.truth-banner{
-  text-align:center;padding:20px;margin:20px 0;
-  background:rgba(212,172,13,.06);border:1px solid rgba(212,172,13,.2);
-  border-radius:14px;
-}
-.truth-banner p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.6;}
-.truth-banner p strong{color:var(--yellow);}
-
-/* 4 accueil steps */
-.four-steps-accueil{display:flex;flex-direction:column;gap:14px;margin:20px 0;}
-.accueil4-card{
-  background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:20px;
-  position:relative;overflow:hidden;
-}
-.accueil4-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
-.accueil4-card:nth-child(1)::before{background:var(--yellow);}
-.accueil4-card:nth-child(2)::before{background:var(--orange);}
-.accueil4-card:nth-child(3)::before{background:var(--green);}
-.accueil4-card:nth-child(4)::before{background:var(--blue);}
-.accueil4-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;opacity:.4;color:var(--yellow);margin-bottom:4px;}
-.accueil4-name{font-size:.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
-.accueil4-quote{
-  background:rgba(212,172,13,.04);border:1px solid rgba(212,172,13,.12);
-  border-radius:10px;padding:12px;font-size:.88rem;font-style:italic;
-  color:var(--text);font-family:'Cormorant Garamond',serif;line-height:1.6;margin-bottom:10px;
-}
-.accueil4-action{font-size:.82rem;color:var(--muted);line-height:1.7;}
-.accueil4-action strong{color:var(--text);}
-
-/* action table */
-.action-table{margin:20px 0;}
-.action-row{
-  display:grid;grid-template-columns:100px 1fr;gap:14px;
-  padding:12px 16px;border-radius:10px;margin-bottom:6px;
-  background:var(--glass);border:1px solid var(--gb);
-}
-.action-emotion{font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:100px;display:inline-block;}
-.action-emotion.anxiete{background:rgba(237,137,54,.12);color:var(--orange);}
-.action-emotion.colere{background:rgba(229,62,62,.08);color:var(--red);}
-.action-emotion.culpa{background:rgba(128,90,213,.08);color:var(--violet);}
-.action-emotion.tristesse{background:rgba(49,130,206,.08);color:var(--blue);}
-.action-text{font-size:.82rem;color:var(--muted);line-height:1.6;}
-
-/* ══ BREATHING ══ */
-.breathing-card{
-  background:var(--glass);border:1px solid rgba(212,172,13,.2);
-  border-radius:18px;padding:28px;text-align:center;margin:20px 0;
-}
-.breathing-circle{
-  width:100px;height:100px;border-radius:50%;
-  border:2px solid rgba(212,172,13,.3);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;position:relative;
-  cursor:pointer;
-  transition:all .3s;
-}
-.breathing-circle:hover{border-color:var(--yellow);}
-.breathing-circle.inhale{animation:breathe-in 4s ease-in-out forwards;}
-.breathing-circle.hold{animation:breathe-hold 2s ease-in-out forwards;}
-.breathing-circle.exhale{animation:breathe-out 4s ease-in-out forwards;}
-@keyframes breathe-in{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(212,172,13,.2);}100%{transform:scale(1.3);box-shadow:0 0 0 20px rgba(212,172,13,.05);}}
-@keyframes breathe-hold{0%,100%{transform:scale(1.3);}}
-@keyframes breathe-out{0%{transform:scale(1.3);}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(212,172,13,0);}}
-.breath-icon{font-size:2rem;}
-.breath-instruction{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);margin-bottom:6px;}
-.breath-detail{font-size:.85rem;color:var(--muted);font-style:italic;margin-bottom:20px;}
-.breath-phases{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;}
-.breath-phase{padding:12px 8px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
-.bp-label{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);margin-bottom:6px;}
-.bp-text{font-size:.8rem;color:var(--muted);font-style:italic;line-height:1.4;}
-.btn-breathe{
-  margin-top:20px;padding:12px 28px;border-radius:12px;
-  background:rgba(212,172,13,.1);border:1px solid rgba(212,172,13,.3);
-  font-family:'Jost',sans-serif;font-size:.88rem;font-weight:600;
-  color:var(--yellow);cursor:pointer;transition:all .3s;
-}
-.btn-breathe:hover{background:rgba(212,172,13,.2);}
-
-/* ══ PERSONAL MAPPING ══ */
-.mapping-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
-@media(max-width:560px){.mapping-grid{grid-template-columns:1fr;}}
-.mapping-card{
-  background:var(--glass);border:1px solid var(--gb);
-  border-radius:16px;padding:22px;
-}
-.mapping-card-title{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);
-  margin-bottom:16px;display:flex;align-items:center;gap:8px;
-}
-.mapping-field{margin-bottom:12px;}
-.mapping-field label{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);display:block;margin-bottom:5px;}
-.mapping-input{
-  width:100%;padding:8px 12px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
-  border-radius:8px;color:var(--text);font-family:'Jost',sans-serif;
-  font-size:.85rem;font-weight:300;resize:none;outline:none;
-  transition:border-color .3s;
-}
-.mapping-input:focus{border-color:rgba(212,172,13,.4);}
-.mapping-input::placeholder{color:var(--muted);opacity:.4;}
-
-/* ══ ACTION PLAN ══ */
-.action-plan{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
-@media(max-width:480px){.action-plan{grid-template-columns:1fr;}}
-.ap-card{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:20px;}
-.ap-title{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--yellow);margin-bottom:12px;}
-.ap-step{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;}
-.ap-bullet{width:6px;height:6px;border-radius:50%;background:var(--yellow);flex-shrink:0;margin-top:6px;}
-.ap-text{font-size:.83rem;color:var(--muted);line-height:1.6;}
-.ap-text strong{color:var(--text);}
-
-/* journal quotidien */
-.daily-journal{background:var(--glass);border:1px solid rgba(212,172,13,.2);border-radius:18px;padding:24px;margin:20px 0;}
-.dj-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--text);margin-bottom:4px;}
-.dj-sub{font-size:.8rem;color:var(--muted);margin-bottom:18px;}
-.dj-field{margin-bottom:12px;}
-.dj-field label{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);display:block;margin-bottom:5px;}
-.dj-input{
-  width:100%;padding:8px 12px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
-  border-radius:8px;color:var(--text);font-family:'Jost',sans-serif;
-  font-size:.85rem;font-weight:300;resize:none;outline:none;
-  transition:border-color .3s;
-}
-.dj-input:focus{border-color:rgba(212,172,13,.4);}
-.dj-input::placeholder{color:var(--muted);opacity:.4;}
-
-/* ══ CONCLUSION ══ */
-.conclusion-card{
-  background:var(--mod3-glass);border:1px solid rgba(212,172,13,.25);
-  border-radius:20px;padding:32px;margin:24px 0;position:relative;overflow:hidden;text-align:center;
-}
-.conclusion-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(212,172,13,.1),transparent 60%);pointer-events:none;}
-.conclusion-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--yellow),transparent);}
-.conclusion-card p{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--text);line-height:1.8;font-style:italic;margin-bottom:16px;}
-.conclusion-card strong{color:var(--yellow);}
-.tools-list{display:flex;flex-direction:column;gap:8px;text-align:left;margin-top:16px;}
-.tool-item{display:flex;gap:10px;align-items:center;font-size:.88rem;color:var(--muted);}
-.tool-num{
-  min-width:28px;height:28px;border-radius:50%;
-  background:linear-gradient(135deg,var(--yellow),var(--yellow-light));
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;color:var(--navy);flex-shrink:0;
-}
-
-/* ══ COMPLETE BUTTON ══ */
-.complete-zone{text-align:center;padding:48px 20px;}
-.btn-complete{
-  display:inline-flex;align-items:center;gap:12px;
-  background:linear-gradient(135deg,var(--yellow) 0%,var(--yellow-light) 100%);
-  border:none;border-radius:18px;padding:20px 40px;
-  font-family:'Jost',sans-serif;font-size:1.05rem;font-weight:700;
-  color:var(--navy);cursor:pointer;
-  transition:all .5s cubic-bezier(.34,1.56,.64,1);
-  box-shadow:0 8px 32px rgba(212,172,13,.4);
-  letter-spacing:.5px;
-}
-.btn-complete:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 16px 50px rgba(212,172,13,.6);}
-.btn-complete:active{transform:scale(.97);}
-.complete-sub{margin-top:14px;font-size:.85rem;color:var(--muted);letter-spacing:.5px;}
-.unlock-preview{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  margin-top:20px;padding:14px 24px;border-radius:14px;
-  background:rgba(56,161,105,.06);border:1px solid rgba(56,161,105,.18);
-  font-size:.85rem;color:var(--muted);
-  opacity:0;transform:translateY(10px);
-  transition:opacity .5s .2s ease,transform .5s .2s ease;
-}
-.unlock-preview.show{opacity:1;transform:none;}
-.unlock-dot{
-  width:32px;height:32px;border-radius:8px;
-  background:linear-gradient(135deg,var(--green),#68D391);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.1rem;color:white;
-}
-
-/* ══ TOAST ══ */
-#toast{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
-  z-index:2000;background:rgba(13,21,38,.97);backdrop-filter:blur(16px);
-  border:1px solid rgba(212,172,13,.3);border-radius:14px;
-  padding:14px 24px;font-size:.9rem;color:var(--text);
-  opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);
-  white-space:nowrap;pointer-events:none;
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* ══ JOURNAL FAB ══ */
-#journal-fab{
-  position:fixed;bottom:28px;right:24px;z-index:900;
-  width:56px;height:56px;border-radius:50%;
-  background:linear-gradient(135deg,var(--yellow) 0%,var(--yellow-light) 100%);
-  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:20px;box-shadow:0 8px 28px rgba(212,172,13,.45);
-  transition:all .4s cubic-bezier(.34,1.56,.64,1);
-  animation:fab-breathe 3s ease-in-out infinite;
-}
-#journal-fab:hover{transform:scale(1.12);}
-@keyframes fab-breathe{
-  0%,100%{box-shadow:0 8px 28px rgba(212,172,13,.45),0 0 0 0 rgba(212,172,13,0);}
-  50%{box-shadow:0 8px 28px rgba(212,172,13,.45),0 0 0 10px rgba(212,172,13,.05);}
-}
-
-/* ══ JOURNAL DRAWER ══ */
-#journal-overlay{position:fixed;inset:0;z-index:1100;background:rgba(7,13,26,.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .4s;}
-#journal-overlay.open{opacity:1;pointer-events:all;}
-#journal-drawer{
-  position:fixed;bottom:0;right:0;left:0;z-index:1200;
-  max-width:560px;margin:0 auto;
-  background:var(--navy3);border:1px solid rgba(212,172,13,.15);
-  border-bottom:none;border-radius:28px 28px 0 0;
-  padding:24px 24px 40px;
-  transform:translateY(100%);transition:transform .5s cubic-bezier(.34,1.2,.64,1);
-  max-height:80vh;overflow-y:auto;
-}
-#journal-drawer.open{transform:translateY(0);}
-.drawer-handle{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.12);margin:0 auto 24px;}
-.drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-.drawer-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--text);}
-.drawer-title span{color:var(--yellow);}
-.drawer-close{width:34px;height:34px;border-radius:50%;background:var(--glass);border:1px solid var(--gb);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
-.drawer-close:hover{background:rgba(255,255,255,.08);color:var(--text);}
-.journal-date-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);margin-bottom:10px;}
-#journal-textarea{width:100%;min-height:120px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;color:var(--text);font-family:'Jost',sans-serif;font-size:.92rem;font-weight:300;line-height:1.7;resize:vertical;outline:none;transition:border-color .3s;}
-#journal-textarea:focus{border-color:rgba(212,172,13,.35);}
-#journal-textarea::placeholder{color:var(--muted);opacity:.5;}
-.journal-actions{display:flex;gap:10px;margin-top:12px;}
-.j-btn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--gb);font-family:'Jost',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .3s;}
-.j-save{background:linear-gradient(135deg,var(--yellow),var(--yellow-light));color:var(--navy);border-color:transparent;}
-.j-save:hover{box-shadow:0 4px 16px rgba(212,172,13,.4);}
-.j-clear{background:transparent;color:var(--muted);}
-.j-clear:hover{background:rgba(255,255,255,.05);color:var(--text);}
-.journal-entries{margin-top:20px;}
-.journal-entry{
-  padding:14px;border-radius:10px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  margin-bottom:10px;
-}
-.je-date{font-size:.75rem;color:var(--yellow);letter-spacing:1px;margin-bottom:6px;}
-.je-text{font-size:.88rem;color:var(--muted);line-height:1.6;}
-
-/* ══ CONFETTI ══ */
-#confetti-canvas{position:fixed;inset:0;z-index:3000;pointer-events:none;}
-
-/* ══ COPYRIGHT BADGE ══ */
-.copyright-footer{
-  text-align:center;padding:16px;
-  font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;
-  color:rgba(255,255,255,.15);border-top:1px solid rgba(255,255,255,.04);
-}
-
-/* ══ HIGHLIGHT BOX ══ */
-.highlight-box{
-  background:rgba(212,172,13,.06);border:1px solid rgba(212,172,13,.18);
-  border-radius:14px;padding:18px;margin:16px 0;
-}
-.highlight-box p{font-size:.9rem;color:var(--text);line-height:1.8;}
-.highlight-box strong{color:var(--yellow);}
-
-/* ══ SAVE BTN ══ */
-.btn-save-form{
-  width:100%;padding:13px;border-radius:12px;
-  background:linear-gradient(135deg,var(--yellow),var(--yellow-light));
-  border:none;font-family:'Jost',sans-serif;font-size:.9rem;font-weight:700;
-  color:var(--navy);cursor:pointer;margin-top:8px;
-  transition:all .4s cubic-bezier(.34,1.56,.64,1);
-}
-.btn-save-form:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,172,13,.4);}
-
-/* ╔══════════════════════════════════════════════════════════════╗
-   ║  V.A.L.E.U.R© — HARMONISATION VISUELLE GLOBALE             ║
-   ╚══════════════════════════════════════════════════════════════╝ */
-
-/* ── HERO UNIFIÉ ────────────────────────────────────────────── */
-.valeur-hero{
-  display:flex;flex-direction:column;align-items:center;
-  justify-content:center;min-height:92vh;text-align:center;
-  padding:90px 20px 48px;position:relative;z-index:2;
-}
-.valeur-hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.5);
-  border-radius:50px;padding:7px 22px;font-size:11px;font-weight:700;
-  letter-spacing:3px;color:#C9A84C;margin-bottom:24px;
-  text-transform:uppercase;font-family:'Jost',sans-serif;
-}
-.valeur-hero-letter{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(5.5rem,20vw,9.5rem);font-weight:700;
-  color:#C9A84C;line-height:.85;margin-bottom:10px;
-  text-shadow:0 0 80px rgba(201,168,76,.4),0 0 160px rgba(201,168,76,.15);
-  animation:letter-glow 4s ease-in-out infinite;
-}
-@keyframes letter-glow{
-  0%,100%{text-shadow:0 0 80px rgba(201,168,76,.4),0 0 160px rgba(201,168,76,.15);}
-  50%{text-shadow:0 0 120px rgba(201,168,76,.6),0 0 200px rgba(201,168,76,.25);}
-}
-.valeur-hero-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.3rem,5vw,2.2rem);font-weight:300;
-  color:#F2EDE6;letter-spacing:.18em;text-transform:uppercase;
-  margin-bottom:18px;
-}
-.valeur-hero-quote{
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:clamp(15px,3vw,19px);color:rgba(242,237,230,.78);
-  max-width:540px;line-height:1.75;margin:0 auto 22px;
-}
-.valeur-mask-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(201,168,76,.35);border-radius:12px;
-  padding:9px 18px;font-size:13px;color:#F2EDE6;
-  margin-bottom:24px;font-family:'Jost',sans-serif;
-}
-.valeur-mask-tag strong{color:#C9A84C;font-weight:700;}
-/* Plan de séance toggle */
-.valeur-plan-btn{
-  background:transparent;border:1px solid rgba(201,168,76,.4);
-  border-radius:50px;padding:8px 22px;font-size:11px;font-weight:700;
-  letter-spacing:2px;color:#C9A84C;cursor:pointer;margin-bottom:12px;
-  font-family:'Jost',sans-serif;text-transform:uppercase;
-  transition:all .3s;
-}
-.valeur-plan-btn:hover{background:rgba(201,168,76,.12);}
-.valeur-plan-box{
-  display:none;background:rgba(13,21,38,.7);
-  border:1px solid rgba(201,168,76,.2);border-radius:16px;
-  padding:20px 24px;text-align:left;max-width:500px;
-  margin:0 auto 24px;backdrop-filter:blur(12px);
-  animation:fade-in .3s ease;
-}
-.valeur-plan-box.open{display:block;}
-.valeur-plan-item{
-  display:flex;align-items:flex-start;gap:12px;
-  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);
-}
-.valeur-plan-item:last-child{border-bottom:none;}
-.valeur-plan-num{
-  width:22px;height:22px;border-radius:50%;
-  background:rgba(201,168,76,.2);color:#C9A84C;
-  font-size:11px;font-weight:700;display:flex;
-  align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
-}
-.valeur-plan-text{font-size:13px;color:rgba(242,237,230,.8);line-height:1.55;font-family:'Jost',sans-serif;}
-.valeur-plan-text strong{color:#F2EDE6;}
-/* CTA or */
-.valeur-cta{
-  background:linear-gradient(135deg,#C9A84C 0%,#F0D080 100%);
-  color:#070D1A;font-family:'Jost',sans-serif;font-weight:700;
-  font-size:15px;border:none;border-radius:50px;
-  padding:15px 44px;cursor:pointer;letter-spacing:.5px;
-  box-shadow:0 4px 28px rgba(201,168,76,.4);transition:all .35s;
-  margin-top:8px;
-}
-.valeur-cta:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 40px rgba(201,168,76,.55);
-}
-
-/* ── SECTION HEADERS UNIFORMES ──────────────────────────────── */
-.v-sec-header{text-align:center;padding:44px 0 28px;}
-.v-sec-divider{
-  width:50px;height:2px;
-  background:linear-gradient(90deg,transparent,var(--mod,#C9A84C),transparent);
-  margin:0 auto 14px;
-}
-.v-sec-num{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:4px;text-transform:uppercase;color:#C9A84C;
-  margin-bottom:6px;
-}
-.v-sec-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.5rem,5vw,2.3rem);font-weight:700;
-  color:#F2EDE6;line-height:1.2;margin-bottom:8px;
-}
-.v-sec-subtitle{
-  font-size:14px;color:#8A9BB5;line-height:1.6;
-  max-width:480px;margin:0 auto;font-family:'Jost',sans-serif;
-}
-/* Bouton continuer */
-.v-sec-next{
-  display:block;width:fit-content;margin:36px auto 8px;
-  background:transparent;border:1px solid var(--mod,#C9A84C);
-  border-radius:50px;padding:11px 30px;font-size:13px;
-  font-weight:600;color:var(--mod,#C9A84C);cursor:pointer;
-  font-family:'Jost',sans-serif;letter-spacing:.5px;
-  transition:all .3s;
-}
-.v-sec-next:hover{background:var(--mod,#C9A84C);color:#070D1A;}
-
-/* ── JOURNAL FAB OR (override universel) ────────────────────── */
-#journal-fab,#journal-fab-btn{
-  background:linear-gradient(135deg,#C9A84C 0%,#F0D080 100%)!important;
-  box-shadow:0 8px 28px rgba(201,168,76,.48)!important;
-  color:#070D1A!important;
-}
-@keyframes fab-gold-breathe{
-  0%,100%{box-shadow:0 8px 28px rgba(201,168,76,.48),0 0 0 0 rgba(201,168,76,.35);}
-  50%{box-shadow:0 8px 28px rgba(201,168,76,.48),0 0 0 10px rgba(201,168,76,0);}
-}
-#journal-fab{animation:fab-gold-breathe 3s ease-in-out infinite!important;}
-
-/* ── MASQUER LES VIEUX HERO DUPLIQUÉS ───────────────────────── */
-.progress-bar-wrap{display:none!important;}
-/* M2 old header */
-header.module-header{display:none!important;}
-/* M4 old hero-wrap canvas : masqué car remplacé */
-#phase-hero .hero-wrap canvas{display:none;}
-/* Enlever ancien module-badge M4 */
-#phase-hero .module-badge{display:none!important;}
-#phase-hero h1.hero-title{display:none!important;}
-#phase-hero .hero-subtitle{display:none!important;}
-#phase-hero .hero-desc{display:none!important;}
-/* M5 ancien hero */
-.hero-canvas-wrap{display:none!important;}
-#hero-lines{display:none!important;}
-.hero-line{display:none!important;}
-/* M6 ancien hero-wrap */
-#phase-0 .hero-wrap{display:none!important;}
-
-/* ── ANCIEN progress-bar M2 interne ────────────────────────── */
-.progress-bar:not(#progress-bar){display:none!important;}
-
-
-/* ── FIXUP COMPLÉMENTAIRE ──────────────────────────────────── */
-#phase-hero .hero-wrap{display:none!important;}
-#phase-hero .hero-content{display:none!important;}
-/* M5: remove hero gradient overlay */
-#phase-0 .hero-canvas-wrap{display:none!important;}
-#phase-0 .hero-text-over{display:none!important;}
-/* M1: ensure root doesn't overlap hero */
-#valeur-hero-m1{margin-bottom:0;}
+  background:var(--navy);color:var(--text);
+  font-family:var(--font-body);font-weight:300;
+  overflow-x:hidden;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+body{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+img{pointer-events:none;-webkit-user-drag:none}
+.aurora{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orbe{position:absolute;border-radius:50%;filter:blur(80px);animation:drift 18s ease-in-out infinite}
+.orbe-1{width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(214,158,46,.12),transparent 70%);animation-delay:0s}
+.orbe-2{width:500px;height:500px;bottom:-150px;right:-50px;background:radial-gradient(circle,rgba(201,168,76,.1),transparent 70%);animation-delay:-6s}
+.orbe-3{width:400px;height:400px;top:40%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(240,208,128,.06),transparent 70%);animation-delay:-12s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+#scroll-line{position:fixed;top:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,var(--yellow),var(--gold-light));z-index:1001;transition:width .1s linear}
+#prog-bar{position:fixed;top:2px;left:0;right:0;height:3px;background:rgba(255,255,255,.04);z-index:1000}
+#prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--yellow),var(--gold-light));transition:width .6s ease;border-radius:0 2px 2px 0}
+.glass-header{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  padding:12px 24px;background:rgba(7,13,26,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(214,158,46,.15);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.back-btn{
+  display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.8rem;letter-spacing:.05em;
+  text-decoration:none;transition:var(--transition);padding:6px 12px;
+  border:1px solid rgba(255,255,255,.06);border-radius:8px;
+}
+.back-btn:hover{color:var(--yellow);border-color:rgba(214,158,46,.3)}
+.logo-text{font-family:var(--font-display);font-size:1.1rem;font-weight:600;color:var(--gold);letter-spacing:.12em;text-decoration:none;white-space:nowrap}
+.mod-badge{background:rgba(214,158,46,.12);border:1px solid rgba(214,158,46,.3);color:var(--yellow);font-size:.7rem;letter-spacing:.15em;padding:3px 10px;border-radius:20px;font-weight:500}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.ham span{display:block;width:22px;height:1.5px;background:var(--muted);transition:var(--transition)}
+nav#nav{display:flex;gap:8px;align-items:center}
+nav#nav a{color:var(--muted);font-size:.78rem;text-decoration:none;padding:5px 12px;border-radius:8px;transition:var(--transition);letter-spacing:.04em}
+nav#nav a:hover{color:var(--text);background:var(--glass)}
+@media(max-width:768px){
+  .ham{display:flex}
+  nav#nav{display:none;position:absolute;top:56px;left:0;right:0;background:rgba(7,13,26,.97);backdrop-filter:blur(20px);flex-direction:column;padding:12px;gap:4px;border-bottom:1px solid var(--gb)}
+  nav#nav.open{display:flex}
+  nav#nav a{padding:10px 16px;font-size:.85rem}
+}
+#dot-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:800;display:flex;flex-direction:column;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;transition:var(--transition);border:1px solid transparent}
+.dot.active,.dot:hover{background:var(--yellow);border-color:var(--yellow-light);transform:scale(1.4)}
+@media(max-width:768px){#dot-nav{display:none}}
+.container{max-width:860px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.section{padding:100px 0 60px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.section-inner{padding:80px 0}
+.glass-card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--gb);border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;transition:var(--transition)}
+.glass-card:hover{border-color:rgba(214,158,46,.2);background:rgba(255,255,255,.06)}
+.glass-card.gold{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.04)}
+.glass-card.yellow{border-color:rgba(214,158,46,.35);background:rgba(214,158,46,.04)}
+h1{font-family:var(--font-display);font-size:clamp(3rem,8vw,5.5rem);font-weight:300;line-height:1.05}
+h1 em{font-style:italic;color:var(--yellow)}
+h2{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;line-height:1.2;margin-bottom:1rem}
+h2 em{font-style:italic;color:var(--yellow)}
+h3{font-family:var(--font-display);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:400;line-height:1.3;margin-bottom:.8rem}
+h4{font-family:var(--font-body);font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);margin-bottom:.6rem}
+p{line-height:1.75;color:var(--subtle);margin-bottom:1rem;font-size:.95rem}
+.lead{font-size:1.1rem;line-height:1.7;color:rgba(242,237,230,.8);margin-bottom:1.5rem}
+blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;line-height:1.6;color:var(--text);border-left:3px solid var(--yellow);padding-left:1.5rem;margin:1.5rem 0}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid;border-radius:30px;padding:6px 18px;font-size:.72rem;letter-spacing:.18em;font-weight:500;margin-bottom:1.5rem}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.hero-stat{text-align:center;padding:1.2rem;background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm)}
+.hs-num{font-family:var(--font-display);font-size:1.8rem;font-weight:400;color:var(--yellow);display:block}
+.hs-lbl{font-size:.72rem;color:var(--muted);letter-spacing:.08em;margin-top:.2rem}
+@media(max-width:600px){.hero-stats{grid-template-columns:1fr 1fr}}
+.hero-cit{background:rgba(214,158,46,.08);border:1px solid rgba(214,158,46,.2);border-radius:var(--radius-sm);padding:1.5rem;margin-top:2rem;font-family:var(--font-display);font-style:italic;font-size:1.1rem;line-height:1.6;color:var(--text)}
+.hero-cit cite{display:block;font-style:normal;font-size:.72rem;color:var(--muted);margin-top:.8rem;letter-spacing:.08em}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}}
+.col-card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:1.4rem;text-align:center}
+.col-icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.col-card strong{font-family:var(--font-display);font-size:1.05rem;color:var(--text);display:block;margin-bottom:.4rem}
+.col-card p{font-size:.85rem;margin:0}
+.zones-grid{display:grid;gap:.6rem;margin:1.5rem 0}
+.zone-row{display:grid;grid-template-columns:140px 1fr;gap:1rem;align-items:center;background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:.9rem 1.2rem;transition:var(--transition)}
+.zone-row:hover{border-color:rgba(214,158,46,.25);background:rgba(214,158,46,.04)}
+.zone-lbl{font-weight:500;font-size:.88rem;color:var(--text)}
+.zone-sig{font-size:.82rem;color:var(--muted);line-height:1.5}
+@media(max-width:500px){.zone-row{grid-template-columns:1fr}.zone-lbl{margin-bottom:.3rem}}
+.thermo-box{background:var(--glass);border:1px solid rgba(214,158,46,.2);border-radius:var(--radius);padding:2rem;margin:1.5rem 0;text-align:center}
+.thermo-ttl{font-family:var(--font-display);font-size:1.3rem;color:var(--yellow);margin-bottom:.4rem}
+.thermo-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.5rem}
+.thermo-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem}
+.thermo-body{display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:72px}
+.thermo-lbl{font-size:.78rem;color:var(--text);font-weight:500;letter-spacing:.04em}
+.body-fig{width:54px;height:96px;border-radius:27px 27px 18px 18px;overflow:hidden}
+.thermo-note{font-size:.68rem;color:var(--muted);text-align:center;max-width:72px;line-height:1.3}
+.sci-badge{display:inline-block;background:rgba(214,158,46,.1);border:1px solid rgba(214,158,46,.25);border-radius:6px;padding:4px 10px;font-size:.68rem;color:var(--yellow);letter-spacing:.06em;margin-top:1.2rem}
+.mz-list{display:grid;gap:.8rem;margin:1.5rem 0}
+.mz-card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:1rem 1.4rem;cursor:pointer;transition:var(--transition);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem}
+.mz-card:hover,.mz-card.active{border-color:rgba(214,158,46,.3);background:rgba(214,158,46,.05)}
+.mz-e{font-size:1.4rem}
+.mz-t{font-weight:500;font-size:.92rem;color:var(--text)}
+.mz-sub{font-size:.72rem;color:var(--muted);margin-top:.15rem}
+.mz-arr{color:var(--muted);font-size:.9rem;transition:var(--transition)}
+.mz-card.active .mz-arr{transform:rotate(90deg);color:var(--yellow)}
+.mz-detail{display:none;background:rgba(214,158,46,.04);border-top:1px solid rgba(214,158,46,.12);padding:1rem 1.4rem 1.2rem;border-radius:0 0 var(--radius-sm) var(--radius-sm)}
+.mz-detail.open{display:block}
+.mz-pills{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}
+.mz-pill{background:rgba(214,158,46,.1);border:1px solid rgba(214,158,46,.2);border-radius:20px;padding:3px 12px;font-size:.75rem;color:var(--yellow-light)}
+.mz-sens{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sens-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0}
+@media(max-width:600px){.sens-grid{grid-template-columns:1fr}}
+.sens-card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:1.4rem;text-align:center;transition:var(--transition)}
+.sens-card:hover{border-color:rgba(214,158,46,.3);transform:translateY(-2px)}
+.sens-ico{font-size:2.2rem;display:block;margin-bottom:.8rem}
+.sens-name{font-family:var(--font-display);font-size:1.1rem;color:var(--yellow);display:block;margin-bottom:.5rem}
+.sens-desc{font-size:.82rem;color:var(--muted);line-height:1.5}
+.sens-tags{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.8rem}
+.sens-tag{background:rgba(214,158,46,.08);border:1px solid rgba(214,158,46,.15);border-radius:20px;padding:2px 8px;font-size:.7rem;color:var(--subtle)}
+.dist-block{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+@media(max-width:500px){.dist-block{grid-template-columns:1fr}}
+.dist-x{border-radius:var(--radius-sm);padding:1.2rem;text-align:center;background:rgba(229,62,62,.06);border:1px solid rgba(229,62,62,.2)}
+.dist-ok{border-radius:var(--radius-sm);padding:1.2rem;text-align:center;background:rgba(56,161,105,.06);border:1px solid rgba(56,161,105,.2)}
+.dist-ico{font-size:1.5rem;display:block;margin-bottom:.6rem}
+.dist-lbl{font-size:.72rem;letter-spacing:.12em;font-weight:500;display:block;margin-bottom:.5rem}
+.dist-x .dist-lbl{color:#fc8181}
+.dist-ok .dist-lbl{color:#68d391}
+.dist-ex{font-family:var(--font-display);font-style:italic;font-size:1rem;color:var(--text);line-height:1.4}
+.scan-steps{display:flex;flex-direction:column;gap:1rem;margin:1.5rem 0}
+.scan-step{display:grid;grid-template-columns:48px 1fr;gap:1.2rem;align-items:start;background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:1.2rem 1.4rem;transition:var(--transition)}
+.scan-step:hover{border-color:rgba(214,158,46,.25)}
+.ss-num{width:44px;height:44px;border-radius:50%;background:rgba(214,158,46,.12);border:1px solid rgba(214,158,46,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.2rem;color:var(--yellow);font-weight:600;flex-shrink:0}
+.ss-t{font-weight:500;font-size:.92rem;color:var(--text);margin-bottom:.4rem}
+.ss-d{font-size:.83rem;color:var(--muted);line-height:1.6}
+.ss-note{display:inline-block;margin-top:.5rem;padding:.4rem .9rem;background:rgba(214,158,46,.08);border:1px solid rgba(214,158,46,.2);border-radius:8px;font-size:.78rem;color:var(--yellow-light);font-style:italic}
+.scan-interactive{background:rgba(214,158,46,.05);border:1px solid rgba(214,158,46,.25);border-radius:var(--radius);padding:2rem;margin:2rem 0;text-align:center}
+.sz-list{display:flex;flex-direction:column;gap:.6rem;margin:1.5rem 0}
+.sz-item{display:flex;align-items:center;gap:1rem;padding:.9rem 1.2rem;background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);text-align:left}
+.sz-item:hover{border-color:rgba(214,158,46,.3);background:rgba(214,158,46,.06)}
+.sz-item.sel{border-color:var(--yellow);background:rgba(214,158,46,.1)}
+.sz-bul{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(214,158,46,.3);background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--yellow);flex-shrink:0;transition:var(--transition)}
+.sz-item.sel .sz-bul{background:var(--yellow);color:var(--navy);border-color:var(--yellow)}
+.sz-name{font-size:.9rem;color:var(--text);font-weight:500}
+.sz-q{font-size:.78rem;color:var(--muted);line-height:1.4}
+.scan-fb{margin-top:1.5rem;padding:1.2rem;background:rgba(214,158,46,.08);border:1px solid rgba(214,158,46,.2);border-radius:var(--radius-sm);display:none}
+.scan-fb.vis{display:block}
+.scan-fb p{color:var(--text);margin:0;font-size:.9rem}
+.scan-fb em{color:var(--yellow);font-style:italic}
+.resp-widget{background:rgba(214,158,46,.05);border:1px solid rgba(214,158,46,.3);border-radius:var(--radius);padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.resp-circle{width:160px;height:160px;border-radius:50%;margin:0 auto 2rem;background:rgba(214,158,46,.08);border:2px solid rgba(214,158,46,.3);display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;cursor:pointer}
+.resp-ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--yellow);opacity:.3}
+.resp-ring.pulsing{animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.12);opacity:.7}}
+.resp-phase{font-family:var(--font-display);font-size:1.3rem;color:var(--yellow);font-weight:600}
+.resp-count{font-family:var(--font-display);font-size:2.5rem;color:var(--text);font-weight:300;margin:.2rem 0}
+.resp-sub{font-size:.72rem;color:var(--muted);letter-spacing:.1em;margin-top:.2rem}
+.resp-btn{background:linear-gradient(135deg,rgba(214,158,46,.2),rgba(201,168,76,.1));border:1px solid var(--yellow);color:var(--yellow);padding:.9rem 2.5rem;border-radius:30px;font-family:var(--font-body);font-size:.88rem;font-weight:500;letter-spacing:.08em;cursor:pointer;transition:var(--transition);margin:.5rem}
+.resp-btn:hover{background:rgba(214,158,46,.3);transform:translateY(-1px)}
+.resp-btn.sec{background:transparent;border-color:rgba(255,255,255,.15);color:var(--muted)}
+.resp-btn.sec:hover{border-color:rgba(255,255,255,.3);color:var(--text)}
+.resp-dots{display:flex;justify-content:center;gap:.6rem;margin-top:1.5rem}
+.rdot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);transition:var(--transition)}
+.rdot.done{background:var(--yellow);border-color:var(--yellow)}
+.rdot.cur{background:rgba(214,158,46,.4);border-color:var(--yellow);transform:scale(1.3)}
+.resp-expl{font-size:.8rem;color:var(--muted);line-height:1.6;background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:1rem;margin-top:1.5rem}
+.checklist{display:flex;flex-direction:column;gap:.7rem;margin:1.5rem 0}
+.ck-item{display:flex;align-items:center;gap:1rem;padding:.9rem 1.2rem;background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition)}
+.ck-item:hover{border-color:rgba(214,158,46,.2)}
+.ck-item.on{background:rgba(214,158,46,.06);border-color:rgba(214,158,46,.3)}
+.ck-box{width:24px;height:24px;border-radius:6px;border:1.5px solid rgba(214,158,46,.4);background:transparent;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:var(--transition);flex-shrink:0}
+.ck-item.on .ck-box{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
+.ck-txt{font-size:.88rem;color:var(--subtle)}
+.ck-item.on .ck-txt{color:var(--text)}
+.ck-score{text-align:center;padding:1rem;margin-top:.5rem;background:rgba(214,158,46,.08);border:1px solid rgba(214,158,46,.2);border-radius:var(--radius-sm);font-size:.88rem;color:var(--yellow)}
+.finish-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:2rem 0}
+@media(max-width:600px){.finish-grid{grid-template-columns:1fr}}
+.fin-card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:1.4rem;text-align:center}
+.fin-ico{font-size:2rem;display:block;margin-bottom:.7rem}
+.fin-lbl{font-family:var(--font-display);font-size:1rem;color:var(--yellow);display:block;margin-bottom:.3rem}
+.fin-v{font-size:.8rem;color:var(--muted);line-height:1.4}
+.btn-complete{display:block;width:100%;max-width:460px;margin:2rem auto 0;background:linear-gradient(135deg,rgba(214,158,46,.25),rgba(201,168,76,.15));border:1.5px solid var(--yellow);color:var(--yellow-light);padding:1.1rem 2rem;border-radius:var(--radius);font-family:var(--font-body);font-size:.92rem;font-weight:500;letter-spacing:.1em;cursor:pointer;transition:var(--transition);text-align:center;text-decoration:none}
+.btn-complete:hover{background:rgba(214,158,46,.3);transform:translateY(-2px);color:#fff}
+.unlock-next{text-align:center;margin-top:1rem;padding:1rem;background:rgba(56,161,105,.06);border:1px solid rgba(56,161,105,.2);border-radius:var(--radius-sm);font-size:.82rem;color:#68d391}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:9999}
+#toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(214,158,46,.15);backdrop-filter:blur(20px);border:1px solid rgba(214,158,46,.4);color:var(--text);padding:.9rem 2rem;border-radius:40px;font-size:.88rem;z-index:9990;transition:transform .5s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;max-width:90vw;text-align:center}
+#toast.vis{transform:translateX(-50%) translateY(0)}
+#fab{position:fixed;bottom:28px;right:24px;z-index:850;width:52px;height:52px;border-radius:50%;cursor:pointer;background:linear-gradient(135deg,rgba(214,158,46,.25),rgba(201,168,76,.1));border:1.5px solid var(--yellow);font-size:1.3rem;transition:var(--transition);display:flex;align-items:center;justify-content:center}
+#fab:hover{transform:scale(1.1);background:rgba(214,158,46,.35)}
+.modal-ov{position:fixed;inset:0;background:rgba(7,13,26,.9);backdrop-filter:blur(10px);z-index:9000;display:flex;align-items:flex-end;justify-content:center;padding:0}
+.modal-sh{background:var(--navy3);border:1px solid var(--gb);border-radius:24px 24px 0 0;padding:2rem;width:100%;max-width:600px;max-height:80vh;overflow-y:auto;position:relative}
+.mod-handle{width:40px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 1.5rem}
+.mod-close{position:absolute;top:1.5rem;right:1.5rem;background:transparent;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;transition:var(--transition)}
+.mod-close:hover{color:var(--text)}
+.j-ta{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--gb);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font-body);font-size:.88rem;padding:1rem;resize:vertical;min-height:90px;margin:.5rem 0 1rem;outline:none;transition:var(--transition)}
+.j-ta:focus{border-color:rgba(214,158,46,.4)}
+.j-lbl{font-size:.78rem;color:var(--muted);letter-spacing:.08em;display:block;margin-bottom:.3rem}
+.j-sel{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--gb);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font-body);font-size:.88rem;padding:.7rem 1rem;margin:.5rem 0 1rem;outline:none;transition:var(--transition)}
+.j-sel:focus{border-color:rgba(214,158,46,.4)}
+.j-sel option{background:var(--navy3)}
+.btn-jsave{width:100%;background:rgba(214,158,46,.15);border:1px solid rgba(214,158,46,.3);color:var(--yellow);padding:.8rem;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-body);font-size:.88rem;font-weight:500;transition:var(--transition)}
+.btn-jsave:hover{background:rgba(214,158,46,.25)}
+.animate-up{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.animate-up.vis{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+.tc{text-align:center}
+.copy{text-align:center;padding:.6rem;margin-top:2rem;font-size:.65rem;color:rgba(255,255,255,.2);letter-spacing:.08em}
 </style>
 </head>
 <body>
-
-<!-- Aurora -->
-<div class="bg-aurora" aria-hidden="true">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-</div>
-
-<!-- Confetti canvas -->
-<canvas id="confetti-canvas"></canvas>
-
-<!-- Progress Bar -->
-<div id="progress-bar">
-  <a href="dashboard.html" class="pb-back">← <span>Tableau de bord</span></a>
-  <div class="pb-steps">
-    <div class="pb-step done" onclick="location.href='module1.html'" title="Module 1 — Voir"><span class="pb-letter">V</span></div>
-    <div class="pb-step done" onclick="location.href='module2.html'" title="Module 2 — Accueillir"><span class="pb-letter">A</span></div>
-    <div class="pb-step active" title="Module 3 — Localiser (en cours)"><span class="pb-letter">L</span></div>
-    <div class="pb-step" title="Module 4 — Explorer"><span class="pb-letter">E</span></div>
-    <div class="pb-step" title="Module 5 — Unifier"><span class="pb-letter">U</span></div>
-    <div class="pb-step" title="Module 6 — Renforcer"><span class="pb-letter">R</span></div>
-  </div>
-  <span class="pb-pct" id="pb-pct">37%</span>
-</div>
+<div class="aurora"><div class="orbe orbe-1"></div><div class="orbe orbe-2"></div><div class="orbe orbe-3"></div></div>
 <div id="scroll-line"></div>
+<div id="prog-bar"><div id="prog-fill"></div></div>
 
-<!-- Side dot nav -->
-<nav id="dot-nav" aria-label="Navigation par section">
-  <div class="dot active" onclick="scrollToSection(0)" title="Introduction"></div>
-  <div class="dot" onclick="scrollToSection(1)" title="Phase I — L'Émotion"></div>
-  <div class="dot" onclick="scrollToSection(2)" title="Phase II — Création"></div>
-  <div class="dot" onclick="scrollToSection(3)" title="Phase III — 4 Familles"></div>
-  <div class="dot" onclick="scrollToSection(4)" title="Phase IV — Corps"></div>
-  <div class="dot" onclick="scrollToSection(5)" title="Phase V — Accueil"></div>
-  <div class="dot" onclick="scrollToSection(6)" title="Phase VI — Personnel"></div>
-  <div class="dot" onclick="scrollToSection(7)" title="Plan d'Action"></div>
+<header class="glass-header">
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="module2.html" class="back-btn">← Accueillir</a>
+    <a href="index.html" class="logo-text">V.A.L.E.U.R©</a>
+    <span class="mod-badge">LOCALISER · L</span>
+  </div>
+  <div class="ham" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  <nav id="nav">
+    <a href="index.html">🏠 Accueil</a>
+    <a href="module1.html">Module 1</a>
+    <a href="module2.html">Module 2</a>
+    <a href="module4.html">Module 4 →</a>
+  </nav>
+</header>
+
+<nav id="dot-nav">
+  <div class="dot active" onclick="goTo(0)" title="Localiser"></div>
+  <div class="dot" onclick="goTo(1)" title="Le corps parle"></div>
+  <div class="dot" onclick="goTo(2)" title="Thermographie"></div>
+  <div class="dot" onclick="goTo(3)" title="4 sensations"></div>
+  <div class="dot" onclick="goTo(4)" title="Body Scan"></div>
+  <div class="dot" onclick="goTo(5)" title="Respiration"></div>
+  <div class="dot" onclick="goTo(6)" title="Terminer"></div>
 </nav>
 
 <main>
 
-<!-- ╔═══════════════════════════════════════════════════════╗
-     ║  HERO UNIFIÉ V.A.L.E.U.R© — Module 3               ║
-     ╚═══════════════════════════════════════════════════════╝ -->
-<div class="valeur-hero" id="valeur-hero-m3">
-  <div class="valeur-hero-badge">✶ Étape 3 sur 6 · Méthode V.A.L.E.U.R©</div>
-  <div class="valeur-hero-letter">L</div>
-  <div class="valeur-hero-name">Localiser</div>
-  <p class="valeur-hero-quote">Votre corps sait avant votre mental.<br><em>Écoutez où ça se passe en vous.</em></p>
-  <div class="valeur-mask-tag">Vous travaillez sur votre <strong class="valeur-mask-name">Masque</strong></div>
-  <button class="valeur-plan-btn" onclick="togglePlan(this)">▼ Plan de séance</button>
-  <div class="valeur-plan-box"><div class="valeur-plan-item"><div class="valeur-plan-num">I</div><div class="valeur-plan-text"><strong>Les émotions — messagères intelligentes</strong> · 15 min</div></div><div class="valeur-plan-item"><div class="valeur-plan-num">II</div><div class="valeur-plan-text"><strong>Body scan — cartographier votre corps</strong> · 20 min</div></div><div class="valeur-plan-item"><div class="valeur-plan-num">III</div><div class="valeur-plan-text"><strong>Dictionnaire corps-masques</strong> · 25 min</div></div><div class="valeur-plan-item"><div class="valeur-plan-num">IV</div><div class="valeur-plan-text"><strong>Votre mappage personnel</strong> · 15 min</div></div></div>
-  <button class="valeur-cta" onclick="scrollToFirstSection()">Commencer le body scan →</button>
-</div>
-<!-- ═══ FIN HERO M3 ═══ -->
-
-
-  <!-- ══ SECTION 0 — HERO ══ -->
-  <section class="section" data-section="0">
-    <div class="hero-module">
-      <div class="hero-step-badge">✦ Étape 3 sur 6 · Méthode V.A.L.E.U.R©</div>
-      <div class="hero-letter">L</div>
-      <span class="hero-word">Localiser</span>
-      <p class="hero-subtitle">Les Émotions — Le Monde Intérieur et Ses Messagères</p>
-      <div class="hero-duration">⏱ Séance de 90 min · 6 phases · Transformatif</div>
-    </div>
-
-    <div class="key-message">
-      <h3>💡 Message Clé</h3>
-      <blockquote>
-        Les émotions ne sont pas vos ennemies.<br>
-        Ce sont des <strong>messagères intelligentes</strong> qui vous parlent<br>
-        du plus profond de vous.<br>
-        Apprendre à les accueillir pour écouter leurs vrais messages :<br>
-        <strong>VOS BESOINS.</strong>
-      </blockquote>
-    </div>
-
-    <div class="glass glass-yellow" style="margin-top:24px;">
-      <div class="s-label">Structure de la séance</div>
-      <div class="pillars-grid">
-        <div class="pillar-row"><div class="pillar-num">I</div><div class="pillar-content"><div class="pillar-name">Qu'est-ce qu'une Émotion ?</div><div class="pillar-text" style="color:var(--muted);">Comprendre le système d'alerte — <em>15 min</em></div></div></div>
-        <div class="pillar-row"><div class="pillar-num">II</div><div class="pillar-content"><div class="pillar-name">Comment Une Émotion Se Crée</div><div class="pillar-text" style="color:var(--muted);">Les 4 étapes du processus — <em>20 min</em></div></div></div>
-        <div class="pillar-row"><div class="pillar-num">III</div><div class="pillar-content"><div class="pillar-name">Les 4 Familles d'Émotions</div><div class="pillar-text" style="color:var(--muted);">Reconnaître les 4 voix et besoins — <em>25 min</em></div></div></div>
-        <div class="pillar-row"><div class="pillar-num">IV</div><div class="pillar-content"><div class="pillar-name">Le Corps Parle</div><div class="pillar-text" style="color:var(--muted);">Localiser les émotions — <em>15 min</em></div></div></div>
-        <div class="pillar-row"><div class="pillar-num">V</div><div class="pillar-content"><div class="pillar-name">L'Accueil</div><div class="pillar-text" style="color:var(--muted);">Techniques sans jugement — <em>10 min</em></div></div></div>
-        <div class="pillar-row"><div class="pillar-num">VI</div><div class="pillar-content"><div class="pillar-name">Vos Émotions Personnelles</div><div class="pillar-text" style="color:var(--muted);">Identifier vos patterns — <em>5 min</em></div></div></div>
+<!-- S0 HERO -->
+<section class="section" id="s0" data-s="0">
+  <div class="container">
+    <div class="animate-up">
+      <div class="badge" style="color:var(--yellow);border-color:rgba(214,158,46,.3)">Étape 3 · V.A.L.E.U.R©</div>
+      <h1><em>Localiser</em></h1>
+      <p class="lead" style="max-width:540px">Le corps ne ment jamais. Chaque masque laisse une empreinte physique précise — une tension, un nœud, un vide. C'est là que réside la vérité.</p>
+      <div class="hero-cit">
+        "Le traumatisme s'imprime dans notre corps. Tout ce qui ne s'exprime pas s'imprime."
+        <cite>— Méthode V.A.L.E.U.R© · Céline Bourbon, Psychologue</cite>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hs-num">~35</span><div class="hs-lbl">minutes · à votre rythme</div></div>
+        <div class="hero-stat"><span class="hs-num">5</span><div class="hs-lbl">étapes du body scan</div></div>
+        <div class="hero-stat"><span class="hs-num">7</span><div class="hs-lbl">zones corporelles clés</div></div>
       </div>
     </div>
-  </section>
-
-  <!-- ══ SECTION 1 — PHASE I ══ -->
-  <section class="section" data-section="1">
-<div class="v-sec-header"><div class="v-sec-divider"></div><div class="v-sec-num">I</div><div class="v-sec-title">Qu’est-ce qu’une Émotion ?</div><div class="v-sec-subtitle">Le système d’alerte intérieur</div></div>
-    <div class="phase-badge">Phase I · 15 min</div>
-    <div class="phase-num">I.</div>
-    <h2 class="s-title">Qu'est-ce qu'une<br><em>Émotion ?</em></h2>
-
-    <!-- A. Définition via métaphore -->
-    <div class="s-label" style="margin-top:8px;">A. La Vraie Définition</div>
-    <div class="metaphor-card">
-      <p><strong>Imaginez que vous avez un système d'alarme intérieur, comme une maison intelligente.</strong></p>
-      <p style="margin-top:10px;">Cette alarme fait 3 choses :</p>
-      <div class="metaphor-step"><div class="metaphor-num">1</div><div class="metaphor-text">Elle détecte quelque chose (danger, injustice, perte, sécurité)</div></div>
-      <div class="metaphor-step"><div class="metaphor-num">2</div><div class="metaphor-text">Elle active une réaction dans votre corps (cœur qui s'accélère, muscles tendus, larmes)</div></div>
-      <div class="metaphor-step"><div class="metaphor-num">3</div><div class="metaphor-text">Elle vous envoie un message : <em>« Attention ! Il y a quelque chose d'important pour toi. »</em></div></div>
-      <p style="margin-top:14px;font-weight:600;color:var(--yellow);">Cette alarme, c'est une ÉMOTION.</p>
-    </div>
-
-    <div class="definition-box">
-      <div class="def-label">Définition</div>
-      <p>Une émotion est une <strong>réaction spontanée et automatique</strong> de votre corps et votre esprit face à une situation, un événement ou une pensée. <strong>Son objectif :</strong> vous <strong>alerter</strong> qu'il y a quelque chose d'important pour votre équilibre ou votre sécurité intérieure.</p>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- B. Pas des défauts -->
-    <div class="s-label">B. Les Émotions Ne Sont PAS Des Défauts</div>
-    <p class="s-lead">Les émotions sont souvent présentées comme des faiblesses :</p>
-    <div class="quote-list">
-      <div class="quote-item">Tu es trop sensible</div>
-      <div class="quote-item">Tu pleures trop</div>
-      <div class="quote-item">Tu dois contrôler ta colère</div>
-      <div class="quote-item">Tu en fais trop</div>
-    </div>
-    <div class="highlight-box" style="margin-top:16px;">
-      <p><strong>La vérité :</strong> Les émotions sont des <strong>systèmes d'information hautement sophistiqués</strong> développés pendant des millions d'années d'évolution. Votre système émotionnel est AUSSI intelligent que votre cerveau rationnel. Peut-être plus — parce qu'il traite des informations que votre conscient n'a pas encore vues.</p>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- C. Les 2 niveaux -->
-    <div class="s-label">C. Les 2 Niveaux Intérieurs</div>
-    <p class="s-lead">Vos émotions prennent naissance dans votre corps grâce à un système d'alarme inconscient appelé <strong>neuroception</strong> (détection automatique et permanente de danger/sécurité).</p>
-    <div class="two-levels">
-      <div class="level-card level1">
-        <div class="level-num" style="color:var(--orange);">1</div>
-        <div class="level-title">CORPOREL & ÉMOTIONNEL</div>
-        <div class="level-tags">
-          <span class="ltag">Automatique</span>
-          <span class="ltag">Instinctif</span>
-          <span class="ltag">Ressenti</span>
-          <span class="ltag">Intuitif</span>
-          <span class="ltag">Inconscient</span>
-          <span class="ltag">Mécanique</span>
-        </div>
-      </div>
-      <div class="level-card level2">
-        <div class="level-num" style="color:var(--yellow);">2</div>
-        <div class="level-title">CONSCIENT</div>
-        <div class="level-tags">
-          <span class="ltag">Logique</span>
-          <span class="ltag">Clarté</span>
-          <span class="ltag">Calme</span>
-          <span class="ltag">Curiosité</span>
-          <span class="ltag">Compassion</span>
-          <span class="ltag">Raisonnement</span>
-        </div>
-      </div>
-    </div>
-    <div class="process-box">
-      <div class="proc-title">Ce qui se passe vraiment</div>
-      <div class="process-step"><div class="ps-num">1</div><div class="ps-text"><strong>Votre corps réagit d'abord de manière inconsciente</strong> — votre cœur ressent, bloque le raisonnement : <em>pilotage automatique</em></div></div>
-      <div class="process-step"><div class="ps-num">2</div><div class="ps-text"><strong>Puis votre tête comprend</strong> — votre conscience raisonne sur ce qu'il se passe : <em>le pilote reprend le volant</em></div></div>
-      <p class="proc-note">Pas l'inverse !</p>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- D. Les 4 piliers -->
-    <div class="s-label">D. Les 4 Piliers de la Vérité Émotionnelle</div>
-    <div class="pillars-grid" style="margin-top:16px;">
-      <div class="pillar-row">
-        <div class="pillar-num">1</div>
-        <div class="pillar-content">
-          <div class="pillar-name">Automatisme</div>
-          <div class="pillar-text">Les émotions sont <strong>automatiques</strong>. Vous ne les choisissez pas.</div>
-        </div>
-      </div>
-      <div class="pillar-row">
-        <div class="pillar-num">2</div>
-        <div class="pillar-content">
-          <div class="pillar-name">Information</div>
-          <div class="pillar-text">Chaque émotion porte une <strong>information</strong> importante. Il n'y a pas d'émotion « mauvaise ».</div>
-        </div>
-      </div>
-      <div class="pillar-row">
-        <div class="pillar-num">3</div>
-        <div class="pillar-content">
-          <div class="pillar-name">Corps-Esprit</div>
-          <div class="pillar-text">L'émotion est une <strong>réaction corporelle automatique</strong>. Le <strong>ressenti</strong> vient du corps <strong>avant</strong> la pensée.</div>
-        </div>
-      </div>
-      <div class="pillar-row">
-        <div class="pillar-num">4</div>
-        <div class="pillar-content">
-          <div class="pillar-name">Besoin Caché</div>
-          <div class="pillar-text">Derrière chaque émotion il y a <strong>un besoin non satisfait</strong>. C'est cela le vrai message.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ SECTION 2 — PHASE II ══ -->
-  <section class="section" data-section="2">
-<div class="v-sec-header"><div class="v-sec-divider"></div><div class="v-sec-num">II</div><div class="v-sec-title">Comment une Émotion Se Crée</div><div class="v-sec-subtitle">Les 4 étapes du processus</div></div>
-    <div class="phase-badge">Phase II · 20 min</div>
-    <div class="phase-num">II.</div>
-    <h2 class="s-title">Comment Une Émotion<br><em>Se Crée</em></h2>
-    <p class="s-lead">Les 4 étapes du processus émotionnel</p>
-
-    <div class="process-steps">
-      <!-- Étape 1 -->
-      <div class="proc-step">
-        <div class="proc-icon">1</div>
-        <div class="proc-body">
-          <h4>DÉCLENCHEUR</h4>
-          <p>Un déclencheur est toute situation, événement, personne ou pensée qui « réveille » votre système émotionnel.</p>
-          <p class="proc-examples" style="margin-top:8px;">
-            • Déclencheur <strong>externe</strong> : Quelqu'un vous crie dessus — Vous perdez un objet précieux<br>
-            • Déclencheur <strong>interne</strong> : Une pensée qui s'impose (<em>« et si j'échouais ? »</em>) — Une mémoire qui surgit
-          </p>
-          <p style="font-size:.8rem;color:var(--yellow);margin-top:6px;">⚡ Important : Vous n'avez pas toujours le contrôle sur le déclencheur.</p>
-        </div>
-      </div>
-
-      <!-- Étape 2 -->
-      <div class="proc-step">
-        <div class="proc-icon">2</div>
-        <div class="proc-body">
-          <h4>ÉVALUATION RAPIDE — Scan de l'environnement</h4>
-          <p>Votre système scanne instantanément :<br>
-          <em>« C'est une menace ou une opportunité ? » · « Est-ce important pour moi ? » · « Ai-je besoin de réagir ? »</em></p>
-          <p style="margin-top:8px;">Votre cerveau compare avec :</p>
-          <p class="proc-examples">
-            • Votre mémoire (<em>« L'ai-je vécu avant ? »</em>)<br>
-            • Vos croyances (<em>« C'est grave ou pas ? »</em>)<br>
-            • Votre programmation d'attachement<br>
-            • Votre fenêtre de tolérance au stress
-          </p>
-        </div>
-      </div>
-
-      <!-- Étape 3 -->
-      <div class="proc-step">
-        <div class="proc-icon">3</div>
-        <div class="proc-body">
-          <h4>RÉACTION CORPORELLE</h4>
-          <p>Basé sur le scan, votre système nerveux autonome <strong>s'active</strong>. Votre corps commence à <strong>réagir</strong>. C'est <strong>automatique</strong>.</p>
-          <div class="proc-table" style="margin-top:12px;">
-            <div class="proc-row">
-              <div class="proc-cond" style="background:rgba(56,161,105,.08);border-color:rgba(56,161,105,.2);color:#68D391;font-size:.75rem;">SCAN = Sécurité</div>
-              <div class="proc-arrow">→</div>
-              <div class="proc-result"><strong style="color:#68D391;">PARASYMPATHIQUE (frein)</strong> — Cœur ralentit, respiration profonde — <em>Calme, joie</em></div>
-            </div>
-            <div class="proc-row">
-              <div class="proc-cond" style="background:rgba(229,62,62,.06);border-color:rgba(229,62,62,.15);color:#FC8181;font-size:.75rem;">SCAN = Danger</div>
-              <div class="proc-arrow">→</div>
-              <div class="proc-result"><strong style="color:#FC8181;">SYMPATHIQUE (accélérateur)</strong> — Cœur s'accélère, muscles tendus — <em>Peur, colère</em></div>
-            </div>
-            <div class="proc-row">
-              <div class="proc-cond" style="background:rgba(128,90,213,.06);border-color:rgba(128,90,213,.15);color:#B794F4;font-size:.75rem;">SCAN = Insurmontable</div>
-              <div class="proc-arrow">→</div>
-              <div class="proc-result"><strong style="color:#B794F4;">DORSAL (frein à main)</strong> — Cœur ralentit trop, figement — <em>Dépression, vide</em></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Étape 4 -->
-      <div class="proc-step">
-        <div class="proc-icon">4</div>
-        <div class="proc-body">
-          <h4>CONSCIENCE ET ÉTIQUETTE</h4>
-          <p>Votre conscience arrive enfin : <em>« Oh ! Je reconnais cette sensation corporelle. C'est… anxiété/colère/tristesse »</em></p>
-          <p style="margin-top:6px;color:var(--muted);">Délai : quelques secondes après le déclencheur. Vous êtes conscient(e) <strong>APRÈS</strong> que le processus ait déjà commencé. C'est pourquoi vous tremblez avant de réaliser que vous avez peur.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Résumé visuel -->
-    <div class="visual-summary">
-      <div class="s-label" style="margin-bottom:20px;">Résumé Visuel</div>
-      <div class="vs-item"><span style="font-size:.9rem;font-weight:600;letter-spacing:2px;">DÉCLENCHEUR</span></div>
-      <div class="vs-arrow">↓</div>
-      <div class="vs-item"><span style="font-size:.9rem;font-weight:600;letter-spacing:2px;">SCAN RAPIDE</span></div>
-      <div class="vs-arrow">↓</div>
-      <div class="vs-item"><span style="font-size:.9rem;font-weight:600;letter-spacing:2px;">ACTIVATION DU SNA</span></div>
-      <div class="vs-arrow">↓</div>
-      <div class="vs-item"><span style="font-size:.9rem;font-weight:600;letter-spacing:2px;">CONSCIENCE</span></div>
-      <div class="vs-arrow">↓</div>
-      <div class="vs-item"><span style="font-size:.9rem;font-weight:600;letter-spacing:2px;">PENSÉES + ACTIONS</span></div>
-      <div class="vs-time">⏱ Timing total : Moins de 2 secondes</div>
-    </div>
-  </section>
-
-  <!-- ══ SECTION 3 — PHASE III ══ -->
-  <section class="section" data-section="3">
-<div class="v-sec-header"><div class="v-sec-divider"></div><div class="v-sec-num">III</div><div class="v-sec-title">Les Émotions et le Corps</div><div class="v-sec-subtitle">Localiser les signaux corporels</div></div>
-    <div class="phase-badge">Phase III · 25 min</div>
-    <div class="phase-num">III.</div>
-    <h2 class="s-title">Les 4 Familles<br><em>d'Émotions</em></h2>
-    <p class="s-lead">Votre système émotionnel a <strong style="color:var(--yellow);">4 grands systèmes d'alerte</strong>, comme 4 voix différentes. Chacune parle d'un besoin profond. Chacune a un message à transmettre.</p>
-    <p style="font-size:.8rem;color:var(--muted);margin-bottom:20px;">✦ Cliquez sur chaque émotion pour explorer son message</p>
-
-    <div class="emotion-families">
-
-      <!-- Anxiété -->
-      <div class="emotion-card emo-anxiete" onclick="toggleEmotion(this)">
-        <div class="emotion-header">
-          <div class="emotion-icon">🟠</div>
-          <div class="emotion-meta">
-            <div class="emotion-name">L'Anxiété</div>
-            <div class="emotion-msg">« Un danger menace »</div>
-          </div>
-          <div class="emotion-toggle">+</div>
-        </div>
-        <div class="emotion-body">
-          <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;">L'anxiété est <strong style="color:var(--text);">l'alerte de sécurité</strong> de votre système. Elle dit : « Quelque chose de dangereux pourrait arriver. Je dois être vigilant. »<br><em style="font-size:.78rem;">Autres noms : Peur, inquiétude, appréhension, stress, nervosité, angoisse</em></p>
-          <div class="body-signals">
-            <div class="signal-item"><div class="signal-emoji">💓</div><div class="signal-text"><strong>CŒUR</strong>Accélération, palpitations, « mon cœur va exploser »</div></div>
-            <div class="signal-item"><div class="signal-emoji">🫁</div><div class="signal-text"><strong>RESPIRATION</strong>Courte, superficielle, hyperventilation</div></div>
-            <div class="signal-item"><div class="signal-emoji">💪</div><div class="signal-text"><strong>MUSCLES</strong>Tensions, épaules remontées, gorge serrée</div></div>
-            <div class="signal-item"><div class="signal-emoji">🧠</div><div class="signal-text"><strong>ESPRIT</strong>Pensées rapides, anticipation du pire, « Et si… ? »</div></div>
-          </div>
-          <div class="besoin-block">
-            <div class="besoin-label">Le Besoin Caché</div>
-            <div class="besoin-content">SÉCURITÉ · INFORMATION · PRÉVOYANCE</div>
-            <div class="besoin-questions">
-              <div class="besoin-q">De quoi aurais-je besoin pour me sentir rassuré(e) ?</div>
-              <div class="besoin-q">Qu'est-ce que je ne reconnais pas qui m'effraye ?</div>
-              <div class="besoin-q">Comment puis-je me préparer à cette situation ?</div>
-            </div>
-          </div>
-          <div class="accueil-steps">
-            <div class="acc-step"><div class="acc-check" style="background:var(--orange);">✓</div><div class="acc-text"><strong>Reconnaître :</strong> « Je ressens de l'anxiété. C'est mon système qui essaie de me protéger. »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--orange);">✓</div><div class="acc-text"><strong>Écouter :</strong> « Qu'est-ce que tu veux me dire ? De quoi ai-je vraiment peur ? »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--orange);">✓</div><div class="acc-text"><strong>Agir :</strong> Prendre des mesures concrètes si réel, respirer si imaginaire</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Colère -->
-      <div class="emotion-card emo-colere" onclick="toggleEmotion(this)">
-        <div class="emotion-header">
-          <div class="emotion-icon">🔴</div>
-          <div class="emotion-meta">
-            <div class="emotion-name">La Colère</div>
-            <div class="emotion-msg">« C'est injuste ! Je dois réagir »</div>
-          </div>
-          <div class="emotion-toggle">+</div>
-        </div>
-        <div class="emotion-body">
-          <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;">La colère est <strong style="color:var(--text);">l'alerte de justice</strong>. Elle dit : « Mon besoin de respect/liberté/équité est bafoué. Je dois agir ! »<br><em style="font-size:.78rem;">Autres noms : Irritation, agacement, frustration, rage, ressentiment</em></p>
-          <div class="body-signals">
-            <div class="signal-item"><div class="signal-emoji">💓</div><div class="signal-text"><strong>CŒUR</strong>Accélération forte, chaleur, « Je sens le feu »</div></div>
-            <div class="signal-item"><div class="signal-emoji">🫁</div><div class="signal-text"><strong>RESPIRATION</strong>Courte avec force, inspirations rapides</div></div>
-            <div class="signal-item"><div class="signal-emoji">💪</div><div class="signal-text"><strong>MUSCLES</strong>Tension partout, poings fermés, « Je veux frapper »</div></div>
-            <div class="signal-item"><div class="signal-emoji">🧠</div><div class="signal-text"><strong>ESPRIT</strong>Pensées agressives, tunnel vision, « C'est INJUSTE ! »</div></div>
-          </div>
-          <div class="besoin-block" style="background:rgba(229,62,62,.05);border-color:rgba(229,62,62,.15);">
-            <div class="besoin-label" style="color:var(--red);">Le Besoin Caché</div>
-            <div class="besoin-content">RESPECT · JUSTICE · POUVOIR D'AGIR</div>
-            <div class="besoin-questions">
-              <div class="besoin-q">Quel besoin fondamental est violé ?</div>
-              <div class="besoin-q">Qu'est-ce que je veux que l'autre comprenne ?</div>
-              <div class="besoin-q">Quelle limite dois-je poser ?</div>
-            </div>
-          </div>
-          <div class="accueil-steps">
-            <div class="acc-step"><div class="acc-check" style="background:var(--red);">✓</div><div class="acc-text"><strong>Reconnaître :</strong> « Je ressens de la colère. Un besoin est bafoué. »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--red);">✓</div><div class="acc-text"><strong>Écouter :</strong> « Quel besoin ? Qu'est-ce que je veux vraiment ? »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--red);">✓</div><div class="acc-text"><strong>Agir :</strong> Exprimer mon besoin clairement, poser des limites</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Culpabilité/Honte -->
-      <div class="emotion-card emo-culpa" onclick="toggleEmotion(this)">
-        <div class="emotion-header">
-          <div class="emotion-icon">🟣</div>
-          <div class="emotion-meta">
-            <div class="emotion-name">La Culpabilité / Honte</div>
-            <div class="emotion-msg">« J'ai mal agi selon mes valeurs »</div>
-          </div>
-          <div class="emotion-toggle">+</div>
-        </div>
-        <div class="emotion-body">
-          <p style="font-size:.82rem;color:var(--muted);margin-bottom:6px;"><strong style="color:var(--text);">Nuance importante :</strong></p>
-          <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;">• <strong style="color:var(--text);">Culpabilité</strong> : « J'ai mal agi » (focalisé sur <em>l'acte</em>)<br>• <strong style="color:var(--text);">Honte</strong> : « Je suis mauvais » (focalisé sur <em>l'identité</em>)<br><em style="font-size:.78rem;">Autres noms : Remords, regret, embarras, malaise, auto-reproche</em></p>
-          <div class="body-signals">
-            <div class="signal-item"><div class="signal-emoji">💓</div><div class="signal-text"><strong>CŒUR</strong>Oppression, « Cœur lourd », contraction</div></div>
-            <div class="signal-item"><div class="signal-emoji">🫁</div><div class="signal-text"><strong>RESPIRATION</strong>Courte, supprimée, envie de pleurer</div></div>
-            <div class="signal-item"><div class="signal-emoji">💪</div><div class="signal-text"><strong>MUSCLES</strong>Lourdeur, enroulement sur soi, envie de se cacher</div></div>
-            <div class="signal-item"><div class="signal-emoji">🧠</div><div class="signal-text"><strong>ESPRIT</strong>Rumination, critique de soi, « Je suis nul(le) »</div></div>
-          </div>
-          <div class="besoin-block" style="background:rgba(128,90,213,.05);border-color:rgba(128,90,213,.15);">
-            <div class="besoin-label" style="color:var(--violet);">Le Besoin Caché</div>
-            <div class="besoin-content">RÉPARATION · PARDON · COHÉRENCE</div>
-            <div class="besoin-questions">
-              <div class="besoin-q">Quelle valeur personnelle ai-je violée ?</div>
-              <div class="besoin-q">Comment puis-je réparer ?</div>
-              <div class="besoin-q">Comment puis-je me pardonner ?</div>
-            </div>
-          </div>
-          <div class="accueil-steps">
-            <div class="acc-step"><div class="acc-check" style="background:var(--violet);">✓</div><div class="acc-text"><strong>Reconnaître :</strong> « Je ressens de la culpabilité. J'ai violé une valeur. »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--violet);">✓</div><div class="acc-text"><strong>Écouter :</strong> « Quelle valeur ? Que dois-je réparer ? »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--violet);">✓</div><div class="acc-text"><strong>Agir :</strong> M'excuser, réparer, apprendre, me pardonner</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tristesse -->
-      <div class="emotion-card emo-tristesse" onclick="toggleEmotion(this)">
-        <div class="emotion-header">
-          <div class="emotion-icon">🔵</div>
-          <div class="emotion-meta">
-            <div class="emotion-name">La Tristesse</div>
-            <div class="emotion-msg">« J'ai perdu quelque chose de précieux »</div>
-          </div>
-          <div class="emotion-toggle">+</div>
-        </div>
-        <div class="emotion-body">
-          <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;">La tristesse est <strong style="color:var(--text);">l'alerte de perte</strong>. Elle dit : « Quelque chose / quelqu'un d'important est parti. Je dois accepter et intégrer. »<br><em style="font-size:.78rem;">Autres noms : Chagrin, deuil, découragement, déception, abattement</em></p>
-          <div class="body-signals">
-            <div class="signal-item"><div class="signal-emoji">💓</div><div class="signal-text"><strong>CŒUR</strong>Lourdeur, « Mon cœur est lourd », oppression douce</div></div>
-            <div class="signal-item"><div class="signal-emoji">🫁</div><div class="signal-text"><strong>RESPIRATION</strong>Profonde mais lente, soupirs</div></div>
-            <div class="signal-item"><div class="signal-emoji">💪</div><div class="signal-text"><strong>MUSCLES</strong>Mous, sans énergie, « Je n'ai pas la force »</div></div>
-            <div class="signal-item"><div class="signal-emoji">👁️</div><div class="signal-text"><strong>YEUX</strong>Larmes, regard vague</div></div>
-          </div>
-          <div class="besoin-block" style="background:rgba(49,130,206,.05);border-color:rgba(49,130,206,.15);">
-            <div class="besoin-label" style="color:var(--blue);">Le Besoin Caché</div>
-            <div class="besoin-content">RÉCONFORT · SOUTIEN · RECONNAISSANCE</div>
-            <div class="besoin-questions">
-              <div class="besoin-q">Qu'est-ce que j'ai perdu ?</div>
-              <div class="besoin-q">De quel soutien aurais-je besoin ?</div>
-              <div class="besoin-q">Comment puis-je honorer cette perte ?</div>
-            </div>
-          </div>
-          <div class="accueil-steps">
-            <div class="acc-step"><div class="acc-check" style="background:var(--blue);">✓</div><div class="acc-text"><strong>Reconnaître :</strong> « Je ressens de la tristesse. Cette perte est importante. »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--blue);">✓</div><div class="acc-text"><strong>Écouter :</strong> « Qu'est-ce que j'ai perdu ? Qu'est-ce qu'il/elle m'a donné ? »</div></div>
-            <div class="acc-step"><div class="acc-check" style="background:var(--blue);">✓</div><div class="acc-text"><strong>Agir :</strong> Pleurer, parler, créer un rituel, intégrer</div></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══ SECTION 4 — PHASE IV ══ -->
-  <section class="section" data-section="4">
-<div class="v-sec-header"><div class="v-sec-divider"></div><div class="v-sec-num">IV</div><div class="v-sec-title">Dictionnaire Corps-Masques</div><div class="v-sec-subtitle">Où chaque masque se manifeste</div></div>
-    <div class="phase-badge">Phase IV · 15 min</div>
-    <div class="phase-num">IV.</div>
-    <h2 class="s-title">Le Corps<br><em>Parle</em></h2>
-    <p class="s-lead">Localiser les émotions dans le corps</p>
-
-    <div class="body-map-desc">Chaque émotion se manifeste à un endroit spécifique du corps. C'est <strong style="color:var(--text);">physiologique</strong>. Votre système nerveux active des zones spécifiques selon l'émotion.</div>
-
-    <!-- Zones corporelles -->
-    <div class="body-map-visual">
-      <div class="body-map-title">Les émotions ont des adresses physiques</div>
-
-      <!-- Human body silhouette (SVG) -->
-      <div class="body-figure">
-        <svg viewBox="0 0 100 220" class="body-svg" xmlns="http://www.w3.org/2000/svg">
-          <!-- Tête -->
-          <circle cx="50" cy="20" r="15" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-          <!-- Cou -->
-          <rect x="44" y="34" width="12" height="8" rx="3" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-          <!-- Torse -->
-          <rect x="28" y="42" width="44" height="60" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-          <!-- Bras gauche -->
-          <rect x="10" y="44" width="16" height="50" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <!-- Bras droit -->
-          <rect x="74" y="44" width="16" height="50" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <!-- Ventre -->
-          <rect x="30" y="102" width="40" height="28" rx="5" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <!-- Jambe gauche -->
-          <rect x="30" y="130" width="18" height="70" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <!-- Jambe droite -->
-          <rect x="52" y="130" width="18" height="70" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <!-- Zones émotions -->
-          <!-- Gorge - anxiété -->
-          <circle cx="50" cy="38" r="5" fill="rgba(237,137,54,.5)" stroke="var(--orange)" stroke-width="1.5">
-            <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
-          </circle>
-          <!-- Cœur - tristesse/amour -->
-          <circle cx="40" cy="56" r="6" fill="rgba(49,130,206,.5)" stroke="var(--blue)" stroke-width="1.5">
-            <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/>
-          </circle>
-          <!-- Estomac - peur/anxiété -->
-          <circle cx="50" cy="78" r="5" fill="rgba(212,172,13,.5)" stroke="var(--yellow)" stroke-width="1.5">
-            <animate attributeName="opacity" values="1;0.4;1" dur="2.2s" repeatCount="indefinite"/>
-          </circle>
-          <!-- Poings - colère -->
-          <circle cx="10" cy="88" r="4" fill="rgba(229,62,62,.5)" stroke="var(--red)" stroke-width="1.5">
-            <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="90" cy="88" r="4" fill="rgba(229,62,62,.5)" stroke="var(--red)" stroke-width="1.5">
-            <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
-          </circle>
-          <!-- Ventre bas - honte/culpabilité -->
-          <circle cx="50" cy="112" r="5" fill="rgba(128,90,213,.5)" stroke="var(--violet)" stroke-width="1.5">
-            <animate attributeName="opacity" values="1;0.4;1" dur="2.5s" repeatCount="indefinite"/>
-          </circle>
-        </svg>
-      </div>
-
-      <div class="emotion-zones">
-        <div class="zone-item">
-          <div class="zone-dot" style="background:var(--orange);"></div>
-          <div class="zone-content">
-            <div class="zone-emotion">Anxiété / Peur</div>
-            <div class="zone-location">Gorge · Poitrine · Ventre</div>
-          </div>
-        </div>
-        <div class="zone-item">
-          <div class="zone-dot" style="background:var(--red);"></div>
-          <div class="zone-content">
-            <div class="zone-emotion">Colère</div>
-            <div class="zone-location">Poings · Nuque · Mâchoire</div>
-          </div>
-        </div>
-        <div class="zone-item">
-          <div class="zone-dot" style="background:var(--blue);"></div>
-          <div class="zone-content">
-            <div class="zone-emotion">Tristesse</div>
-            <div class="zone-location">Cœur · Gorge · Yeux</div>
-          </div>
-        </div>
-        <div class="zone-item">
-          <div class="zone-dot" style="background:var(--violet);"></div>
-          <div class="zone-content">
-            <div class="zone-emotion">Honte / Culpabilité</div>
-            <div class="zone-location">Ventre bas · Épaules · Dos</div>
-          </div>
-        </div>
-        <div class="zone-item">
-          <div class="zone-dot" style="background:var(--yellow);"></div>
-          <div class="zone-content">
-            <div class="zone-emotion">Stress / Contrôle</div>
-            <div class="zone-location">Plexus solaire · Nuque</div>
-          </div>
-        </div>
-        <div class="zone-item">
-          <div class="zone-dot" style="background:var(--green);"></div>
-          <div class="zone-content">
-            <div class="zone-emotion">Joie / Sécurité</div>
-            <div class="zone-location">Tout le corps · Légèreté</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Exercice Body Scan -->
-    <div class="body-scan-form">
-      <div class="bsf-title">✦ Exercice : Scannez Votre Corps Maintenant</div>
-      <div class="bsf-subtitle">Posez-vous ces questions et notez vos réponses</div>
-
-      <div class="scan-question">
-        <label>Où dans mon corps la ressens-je le plus ? (chaleur / froid / douleur / tension)</label>
-        <textarea class="scan-input" rows="2" placeholder="Ex : dans la gorge, une oppression… dans le ventre, un nœud…"></textarea>
-      </div>
-      <div class="scan-question">
-        <label>Quelle sensation exactement ?</label>
-        <textarea class="scan-input" rows="2" placeholder="Ex : brûlure, lourdeur, picotements, vide, pression…"></textarea>
-      </div>
-      <div class="scan-question">
-        <label>Comment mon cœur bat ?</label>
-        <input type="text" class="scan-input" placeholder="Ex : vite, doucement, irrégulièrement…">
-      </div>
-      <div class="scan-question">
-        <label>Comment je respire ?</label>
-        <input type="text" class="scan-input" placeholder="Ex : court, bloqué, profond, rapide…">
-      </div>
-      <div class="scan-question">
-        <label>Où sont mes muscles tendus ?</label>
-        <input type="text" class="scan-input" placeholder="Ex : épaules, mâchoire, abdomen, nuque…">
-      </div>
-      <div class="scan-question">
-        <label>Autres remarques ou sensations ?</label>
-        <textarea class="scan-input" rows="2" placeholder="Tout ce que vous observez en ce moment…"></textarea>
-      </div>
-      <button class="btn-save-form" onclick="saveBodyScan()">💾 Enregistrer mon scan corporel</button>
-    </div>
-  </section>
-
-  <!-- ══ SECTION 5 — PHASE V ══ -->
-  <section class="section" data-section="5">
-<div class="v-sec-header"><div class="v-sec-divider"></div><div class="v-sec-num">V</div><div class="v-sec-title">Votre Mappage Personnel</div><div class="v-sec-subtitle">Cartographie de votre monde intérieur</div></div>
-    <div class="phase-badge">Phase V · 10 min</div>
-    <div class="phase-num">V.</div>
-    <h2 class="s-title"><em>L'Accueil</em><br>La porte vers le besoin</h2>
-
-    <!-- Définition -->
-    <div class="accueil-what">
-      <div class="accueil-no">
-        <div class="accueil-what-label">❌ Accueillir n'est PAS</div>
-        <div class="accueil-items">Approuver l'émotion<br>La subir passivement<br>La laisser tout envahir<br>Prétendre qu'elle n'est pas là</div>
-      </div>
-      <div class="accueil-yes">
-        <div class="accueil-what-label">✓ Accueillir signifie</div>
-        <div class="accueil-items">Reconnaître qu'elle est là<br>L'écouter sans jugement<br>Chercher le message<br>Puis agir sagement</div>
-      </div>
-    </div>
-
-    <div class="truth-banner">
-      <p><strong>Quand vous combattez une émotion, elle se renforce.</strong><br>Quand vous l'accueillez, elle se <strong>transforme</strong>.</p>
-    </div>
-
-    <!-- Les 4 étapes de l'accueil -->
-    <div class="s-label" style="margin-top:28px;">Les 4 Étapes de l'Accueil</div>
-    <div class="four-steps-accueil">
-
-      <div class="accueil4-card">
-        <div class="accueil4-num">01</div>
-        <div class="accueil4-name">Pause et Reconnaissance</div>
-        <div class="accueil4-quote">« Pause. Je reconnais que je ressens une émotion. C'est : [anxiété / colère / culpabilité / tristesse]. Ce n'est pas une faiblesse. C'est mon système qui me parle. »</div>
-        <div class="accueil4-action">
-          <strong>Action :</strong><br>
-          • Arrêtez-vous <strong>5 secondes</strong><br>
-          • Nommez l'émotion à haute voix<br>
-          • Respirez profondément une fois
-        </div>
-      </div>
-
-      <div class="accueil4-card">
-        <div class="accueil4-num">02</div>
-        <div class="accueil4-name">Localisation Corporelle</div>
-        <div class="accueil4-quote">« Où est-elle dans mon corps ? Quelle sensation exacte ? Mon cœur ? Mon ventre ? Ma gorge ? »</div>
-        <div class="accueil4-action">
-          <strong>Action :</strong><br>
-          • Posez votre main où vous ressentez l'émotion<br>
-          • Décrivez la sensation<br>
-          • Restez avec ça <strong>10-20 secondes</strong>
-        </div>
-      </div>
-
-      <div class="accueil4-card">
-        <div class="accueil4-num">03</div>
-        <div class="accueil4-name">Écoute du Message</div>
-        <div class="accueil4-quote">« Qu'est-ce que tu veux me dire ? Quel besoin tu montres ? »</div>
-        <div class="accueil4-action">
-          <strong>Si anxiété :</strong> De quoi j'ai besoin pour me sentir sûr(e) ?<br>
-          <strong>Si colère :</strong> Quel besoin est bafoué ?<br>
-          <strong>Si culpabilité :</strong> Quelle valeur j'ai violée ?<br>
-          <strong>Si tristesse :</strong> Qu'est-ce que j'ai perdu ?<br>
-          <em style="font-size:.78rem;color:rgba(255,255,255,.4);">Le message vient souvent comme un sentiment, une image, une sensation. Écoutez votre intuition.</em>
-        </div>
-      </div>
-
-      <div class="accueil4-card">
-        <div class="accueil4-num">04</div>
-        <div class="accueil4-name">Action Alignée</div>
-        <div class="accueil4-quote">« Maintenant que je comprends, qu'est-ce que je fais ? Comment je peux honorer ce besoin ? »</div>
-        <div class="accueil4-action"><strong>Action :</strong> Je réponds consciemment au besoin en tension</div>
-      </div>
-
-    </div>
-
-    <!-- Tableau rappel émotions → actions -->
-    <div class="s-label" style="margin-top:28px;">Rappel — Émotion → Action Alignée</div>
-    <div class="action-table">
-      <div class="action-row">
-        <div><span class="action-emotion anxiete">Anxiété</span></div>
-        <div class="action-text">Chercher de l'information, faire un plan, demander de l'aide, agir pour le changement</div>
-      </div>
-      <div class="action-row">
-        <div><span class="action-emotion colere">Colère</span></div>
-        <div class="action-text">Exprimer mon besoin calmement, poser mes limites, me faire respecter, partir si c'est impossible</div>
-      </div>
-      <div class="action-row">
-        <div><span class="action-emotion culpa">Culpabilité</span></div>
-        <div class="action-text">M'excuser, réparer, racheter ma faute, me pardonner, pardonner l'autre</div>
-      </div>
-      <div class="action-row">
-        <div><span class="action-emotion tristesse">Tristesse</span></div>
-        <div class="action-text">Parler, demander du soutien, pleurer, créer un rituel apaisant, prendre soin de moi</div>
-      </div>
-    </div>
-
-    <!-- Respiration consciente -->
-    <div class="s-label" style="margin-top:28px;">La Respiration Consciente</div>
-    <div class="breathing-card">
-      <div class="breathing-circle" id="breathing-circle" onclick="startBreathing()">
-        <span class="breath-icon">🌬️</span>
-      </div>
-      <div class="breath-instruction" id="breath-text">Cliquez pour commencer</div>
-      <div class="breath-detail" id="breath-detail">Outil d'accueil émotionnel · 3 à 5 cycles</div>
-      <div class="breath-phases">
-        <div class="breath-phase">
-          <div class="bp-label">Inspiration</div>
-          <div class="bp-text">« Je reconnais cette émotion »</div>
-        </div>
-        <div class="breath-phase">
-          <div class="bp-label">Rétention</div>
-          <div class="bp-text">« Elle est là, c'est OK »</div>
-        </div>
-        <div class="breath-phase">
-          <div class="bp-label">Expiration</div>
-          <div class="bp-text">« Je la laisse circuler »</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ SECTION 6 — PHASE VI ══ -->
-  <section class="section" data-section="6">
-    <div class="phase-badge">Phase VI · 5 min</div>
-    <div class="phase-num">VI.</div>
-    <h2 class="s-title">Vos Émotions<br><em>Personnelles</em></h2>
-    <p class="s-lead">Exercice : Mappage Personnel — Pour 2 émotions que vous ressentez régulièrement</p>
-
-    <div class="mapping-grid">
-      <!-- Émotion 1 -->
-      <div class="mapping-card">
-        <div class="mapping-card-title">🟡 Émotion 1</div>
-        <div class="mapping-field">
-          <label>Émotion</label>
-          <input type="text" class="mapping-input" placeholder="Nommez-la…">
-        </div>
-        <div class="mapping-field">
-          <label>Où je la ressens</label>
-          <input type="text" class="mapping-input" placeholder="Dans le corps…">
-        </div>
-        <div class="mapping-field">
-          <label>Déclencheur typique</label>
-          <textarea class="mapping-input" rows="2" placeholder="Situation, personne, pensée…"></textarea>
-        </div>
-        <div class="mapping-field">
-          <label>Besoin sous-jacent</label>
-          <input type="text" class="mapping-input" placeholder="Ce dont j'ai vraiment besoin…">
-        </div>
-        <div class="mapping-field">
-          <label>Comment j'agis actuellement</label>
-          <textarea class="mapping-input" rows="2" placeholder="Ma réaction habituelle…"></textarea>
-        </div>
-        <div class="mapping-field">
-          <label>Comment j'aimerais agir différemment</label>
-          <textarea class="mapping-input" rows="2" placeholder="Ma nouvelle posture…"></textarea>
-        </div>
-      </div>
-
-      <!-- Émotion 2 -->
-      <div class="mapping-card">
-        <div class="mapping-card-title">🟠 Émotion 2</div>
-        <div class="mapping-field">
-          <label>Émotion</label>
-          <input type="text" class="mapping-input" placeholder="Nommez-la…">
-        </div>
-        <div class="mapping-field">
-          <label>Où je la ressens</label>
-          <input type="text" class="mapping-input" placeholder="Dans le corps…">
-        </div>
-        <div class="mapping-field">
-          <label>Déclencheur typique</label>
-          <textarea class="mapping-input" rows="2" placeholder="Situation, personne, pensée…"></textarea>
-        </div>
-        <div class="mapping-field">
-          <label>Besoin sous-jacent</label>
-          <input type="text" class="mapping-input" placeholder="Ce dont j'ai vraiment besoin…">
-        </div>
-        <div class="mapping-field">
-          <label>Comment j'agis actuellement</label>
-          <textarea class="mapping-input" rows="2" placeholder="Ma réaction habituelle…"></textarea>
-        </div>
-        <div class="mapping-field">
-          <label>Comment j'aimerais agir différemment</label>
-          <textarea class="mapping-input" rows="2" placeholder="Ma nouvelle posture…"></textarea>
-        </div>
-      </div>
-    </div>
-    <button class="btn-save-form" onclick="saveMapping()">💾 Enregistrer mon mappage</button>
-  </section>
-
-  <!-- ══ SECTION 7 — PLAN D'ACTION ══ -->
-  <section class="section" data-section="7">
-    <div class="phase-badge">Plan d'Action · Entre les séances</div>
-    <div class="phase-num" style="font-size:2.5rem;">✦</div>
-    <h2 class="s-title">Votre Plan<br><em>d'Action</em></h2>
-
-    <div class="action-plan">
-      <div class="ap-card">
-        <div class="ap-title">🌅 Matin · Body Scan</div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">Arrêt <strong>2 min</strong></div></div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">« Comment je me sens ? »</div></div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">Scan rapide du corps</div></div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">Respire <strong>3×</strong></div></div>
-      </div>
-      <div class="ap-card">
-        <div class="ap-title">🌙 Soir · Bilan</div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">Revois la journée</div></div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">Émotion non traitée ?</div></div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">Accueille rapidement</div></div>
-        <div class="ap-step"><div class="ap-bullet"></div><div class="ap-text">Pardonne et lâche prise</div></div>
-      </div>
-    </div>
-
-    <!-- Journal quotidien -->
-    <div class="daily-journal">
-      <div class="dj-title">📓 Journal Émotionnel — Chaque soir (3 min)</div>
-      <div class="dj-sub">Prenez quelques instants pour ancrer vos prises de conscience</div>
-      <div class="dj-field">
-        <label>Émotion principale d'aujourd'hui</label>
-        <input type="text" class="dj-input" placeholder="Nommez votre émotion principale…">
-      </div>
-      <div class="dj-field">
-        <label>Où je l'ai ressentie</label>
-        <input type="text" class="dj-input" placeholder="Zone corporelle…">
-      </div>
-      <div class="dj-field">
-        <label>Qu'est-ce qu'elle voulait me dire ?</label>
-        <textarea class="dj-input" rows="2" placeholder="Son message, son besoin…"></textarea>
-      </div>
-      <div class="dj-field">
-        <label>Besoin identifié</label>
-        <input type="text" class="dj-input" placeholder="Ce dont j'avais besoin…">
-      </div>
-      <div class="dj-field">
-        <label>Comment j'ai agi</label>
-        <textarea class="dj-input" rows="2" placeholder="Ma réaction réelle…"></textarea>
-      </div>
-      <div class="dj-field">
-        <label>Comment j'aurais aimé agir</label>
-        <textarea class="dj-input" rows="2" placeholder="Ma réaction idéale pour la prochaine fois…"></textarea>
-      </div>
-      <button class="btn-save-form" onclick="saveDailyJournal()">💾 Enregistrer mon journal du jour</button>
-    </div>
-
-    <!-- Conclusion -->
-    <div class="conclusion-card">
-      <p>Vous venez de comprendre quelque chose de <strong>révolutionnaire</strong> : vos émotions ne sont pas vos ennemies. Ce sont vos messagères les plus intelligentes. Elles ne surgissent pas pour vous détruire. Elles surgissent parce que vous avez un besoin, et elles crient :</p>
-      <p style="font-size:1.3rem;font-weight:600;color:var(--yellow);font-style:normal;">"ÉCOUTE-MOI !"</p>
-      <p>Quand vous combattez une émotion, elle devient douloureuse. Quand vous l'accueillez, elle devient votre <strong>sagesse</strong>.</p>
-      <div class="tools-list">
-        <div class="tool-item"><div class="tool-num">1</div>Reconnaître vos émotions sans jugement</div>
-        <div class="tool-item"><div class="tool-num">2</div>Localiser où vous les ressentez dans le corps</div>
-        <div class="tool-item"><div class="tool-num">3</div>Écouter quel besoin elles crient</div>
-      </div>
-    </div>
-
-    <!-- Complete -->
-    <div class="complete-zone">
-      <button class="btn-complete" onclick="completeModule()">
-        ✦ Module 3 Complété — Vers l'Exploration
-      </button>
-      <p class="complete-sub">Module 4 — Explorer · Prochaine étape</p>
-      <div class="unlock-preview" id="unlock-preview">
-        <div class="unlock-dot">E</div>
-        <span>Module 4 — <strong style="color:var(--text);">Explorer</strong> · Le conflit intérieur</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="copyright-footer">
-    © Méthode V.A.L.E.U.R© — Céline Bourbon · Tous droits réservés · Contenu protégé
+    <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
   </div>
+</section>
 
+<!-- S1 LE CORPS NE MENT JAMAIS -->
+<section class="section-inner" id="s1" data-s="1">
+  <div class="container">
+    <div class="animate-up">
+      <h4>La vérité du corps</h4>
+      <h2>Le corps ne <em>ment jamais</em></h2>
+      <p class="lead">Votre corps et votre esprit forment un système intégré. Vos masques vous maintiennent en état d'alerte permanent — et cela laisse des traces physiques mesurables.</p>
+    </div>
+    <div class="two-col animate-up d1">
+      <div class="col-card"><span class="col-icon">🧠</span><strong>Niveau Conscient</strong><p>Ce que vous pensez et verbalisez. Arrive après le corps.</p></div>
+      <div class="col-card"><span class="col-icon">🫀</span><strong>Niveau Corporel</strong><p>Ce que votre système nerveux ressent. Arrive en premier — toujours.</p></div>
+    </div>
+    <div class="glass-card gold animate-up d2">
+      <h4>Le principe fondamental</h4>
+      <p style="color:var(--text);font-size:1rem;line-height:1.7">Avant de penser une émotion, vous la <strong style="color:var(--yellow)">ressentez dans votre corps</strong>. Le cœur s'accélère, les épaules montent, le ventre se contracte — tout cela se produit <em>avant</em> que vous réalisiez consciemment ce qui se passe.</p>
+      <blockquote>"Vous tremblez avant de réaliser que vous avez peur. Votre corps savait déjà."</blockquote>
+    </div>
+    <div class="glass-card animate-up d3">
+      <h4>Pourquoi localiser ?</h4>
+      <h3>La carte des tensions courantes</h3>
+      <div class="zones-grid">
+        <div class="zone-row"><div class="zone-lbl">🫀 Poitrine</div><div class="zone-sig">Pression, étouffement, cœur qui s'emballe — signal d'alerte maximal</div></div>
+        <div class="zone-row"><div class="zone-lbl">🌀 Ventre</div><div class="zone-sig">Tension, nausée, boule, vide — siège des émotions profondes</div></div>
+        <div class="zone-row"><div class="zone-lbl">🗣️ Gorge</div><div class="zone-sig">Nœud, paralysie, difficulté à avaler — ce qu'on retient de dire</div></div>
+        <div class="zone-row"><div class="zone-lbl">🧠 Tête</div><div class="zone-sig">Tension frontale, migraine, confusion — surcharge mentale</div></div>
+        <div class="zone-row"><div class="zone-lbl">🦴 Dos</div><div class="zone-sig">Rigidité, poids, douleurs — ce qu'on porte pour les autres</div></div>
+        <div class="zone-row"><div class="zone-lbl">✨ Corps entier</div><div class="zone-sig">Tensions diffuses, chaleur, froid, tremblements — saturation générale</div></div>
+      </div>
+    </div>
+    <div class="glass-card yellow animate-up d4">
+      <p style="text-align:center;color:var(--text);font-size:.95rem;margin:0">🔬 <strong style="color:var(--yellow)">Neurobiologiquement prouvé</strong> — En respirant consciemment et en nommant la zone de tension, vous signalez à votre système nerveux : <em>"Pas de danger, tu peux te calmer."</em> L'apaisement s'installe en 2 à 3 minutes.</p>
+    </div>
+    <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
+  </div>
+</section>
+
+<!-- S2 THERMOGRAPHIE & ZONES PAR MASQUE -->
+<section class="section-inner" id="s2" data-s="2">
+  <div class="container">
+    <div class="animate-up">
+      <h4>Les émotions ont des adresses physiques</h4>
+      <h2>Thermographie des <em>émotions</em></h2>
+      <p class="lead">Chaque émotion se manifeste à un endroit spécifique du corps. Votre système nerveux active des zones précises selon ce que vous ressentez — c'est physiologique et mesurable.</p>
+    </div>
+    <div class="thermo-box animate-up d1">
+      <div class="thermo-ttl">La carte corporelle des émotions</div>
+      <div class="thermo-sub">D'après Nummenmaa et al., PNAS 14/01/2014, Vol.111</div>
+      <div class="thermo-grid">
+        <div class="thermo-body"><div class="thermo-lbl">Colère</div><div class="body-fig" style="background:linear-gradient(180deg,#ff6b00,#ff3a00 30%,#c0392b 60%,#1a0a00)"></div><div class="thermo-note">Mains + haut du corps</div></div>
+        <div class="thermo-body"><div class="thermo-lbl">Peur</div><div class="body-fig" style="background:linear-gradient(180deg,#ff4500,#ff6600 20%,#331100 50%,#000511)"></div><div class="thermo-note">Poitrine + jambes</div></div>
+        <div class="thermo-body"><div class="thermo-lbl">Anxiété</div><div class="body-fig" style="background:linear-gradient(180deg,#cc3300,#994400 30%,#442200 60%,#000511)"></div><div class="thermo-note">Thorax + ventre</div></div>
+        <div class="thermo-body"><div class="thermo-lbl">Joie</div><div class="body-fig" style="background:linear-gradient(180deg,#ff9900,#ffcc00 30%,#ff6600 60%,#220000)"></div><div class="thermo-note">Corps entier activé</div></div>
+        <div class="thermo-body"><div class="thermo-lbl">Tristesse</div><div class="body-fig" style="background:linear-gradient(180deg,#003366,#001a33 30%,#000a1a 60%,#000000)"></div><div class="thermo-note">Corps inhibé</div></div>
+        <div class="thermo-body"><div class="thermo-lbl">Dépression</div><div class="body-fig" style="background:linear-gradient(180deg,#002244,#001122 40%,#000511 80%,#000000)"></div><div class="thermo-note">Énergie très faible</div></div>
+        <div class="thermo-body"><div class="thermo-lbl">Neutre</div><div class="body-fig" style="background:linear-gradient(180deg,#1a1a2e,#16213e 50%,#0f3460)"></div><div class="thermo-note">Équilibre somatique</div></div>
+      </div>
+      <div class="sci-badge">🔬 Nummenmaa et al. · PNAS 2014 · Topographie corporelle des émotions</div>
+    </div>
+
+    <div class="animate-up d2" style="margin-top:2.5rem">
+      <h4>Zones corporelles par masque</h4>
+      <h3>Où se cache <em>votre</em> masque dans le corps ?</h3>
+      <p>Appuyez sur chaque masque pour découvrir ses zones corporelles typiques et les sensations associées.</p>
+    </div>
+
+    <div class="mz-list animate-up d3">
+      <div>
+        <div class="mz-card" onclick="togMZ('r')" id="mzc-r"><span class="mz-e">🔴</span><div><div class="mz-t">Masque Rouge — La Vigilance</div><div class="mz-sub">Peur de la mort / de la maladie</div></div><span class="mz-arr">›</span></div>
+        <div class="mz-detail" id="mzd-r"><div class="mz-pills"><span class="mz-pill">🫀 Cœur / Poitrine</span><span class="mz-pill">🫁 Respiration</span><span class="mz-pill">💪 Muscles tendus</span></div><div class="mz-sens">Palpitations, oppression thoracique, difficultés respiratoires, hypersensibilité aux signaux corporels. Le corps est en alerte permanente, scannnant chaque sensation pour y détecter un danger.</div></div>
+      </div>
+      <div>
+        <div class="mz-card" onclick="togMZ('o')" id="mzc-o"><span class="mz-e">🟠</span><div><div class="mz-t">Masque Orange — L'Évitement</div><div class="mz-sub">Peur de la souffrance psychique</div></div><span class="mz-arr">›</span></div>
+        <div class="mz-detail" id="mzd-o"><div class="mz-pills"><span class="mz-pill">🗣️ Gorge</span><span class="mz-pill">🦴 Épaules</span><span class="mz-pill">🌀 Plexus solaire</span></div><div class="mz-sens">Nœud dans la gorge, épaules remontées et contractées, sensation d'étouffement. Le corps retient les émotions pour ne pas les laisser monter. Fatigue chronique due à cette gestion permanente.</div></div>
+      </div>
+      <div>
+        <div class="mz-card" onclick="togMZ('j')" id="mzc-j"><span class="mz-e">🟡</span><div><div class="mz-t">Masque Jaune — Le Contrôle</div><div class="mz-sub">Peur de l'inconnu / de l'incertitude</div></div><span class="mz-arr">›</span></div>
+        <div class="mz-detail" id="mzd-j"><div class="mz-pills"><span class="mz-pill">🌀 Ventre / Plexus</span><span class="mz-pill">🧠 Tête</span><span class="mz-pill">💪 Mains crispées</span></div><div class="mz-sens">Boule dans le ventre, tension dans le plexus solaire, pensées intrusives avec pression crânienne. Les mains se crispent, la mâchoire se serre. Le corps cherche à "tenir" ce qui pourrait lui échapper.</div></div>
+      </div>
+      <div>
+        <div class="mz-card" onclick="togMZ('v')" id="mzc-v"><span class="mz-e">🟢</span><div><div class="mz-t">Masque Vert — L'Adaptation</div><div class="mz-sub">Peur du rejet / de l'abandon</div></div><span class="mz-arr">›</span></div>
+        <div class="mz-detail" id="mzd-v"><div class="mz-pills"><span class="mz-pill">🫀 Poitrine / Cœur</span><span class="mz-pill">🗣️ Gorge</span><span class="mz-pill">🌀 Estomac</span></div><div class="mz-sens">Serrement dans la poitrine dès qu'une tension relationnelle apparaît, gorge qui se serre quand on voudrait s'affirmer. Le corps anticipe l'abandon avant même que la situation soit réelle.</div></div>
+      </div>
+      <div>
+        <div class="mz-card" onclick="togMZ('b')" id="mzc-b"><span class="mz-e">🔵</span><div><div class="mz-t">Masque Bleu — L'Hypercontrôle</div><div class="mz-sub">Peur de l'impuissance</div></div><span class="mz-arr">›</span></div>
+        <div class="mz-detail" id="mzd-b"><div class="mz-pills"><span class="mz-pill">🧠 Tête / Nuque</span><span class="mz-pill">🦴 Dos / Épaules</span><span class="mz-pill">🫀 Poitrine</span></div><div class="mz-sens">Tension dans la nuque et les trapèzes (le poids de tout contrôler), maux de tête fréquents, dos rigide. L'hypervigilance se traduit par une posture de commandement permanente — corps droit, muscles en tension.</div></div>
+      </div>
+      <div>
+        <div class="mz-card" onclick="togMZ('i')" id="mzc-i"><span class="mz-e">🔷</span><div><div class="mz-t">Masque Indigo — La Perfection</div><div class="mz-sub">Peur de l'échec / de l'inadéquation</div></div><span class="mz-arr">›</span></div>
+        <div class="mz-detail" id="mzd-i"><div class="mz-pills"><span class="mz-pill">🗣️ Gorge</span><span class="mz-pill">🌀 Ventre</span><span class="mz-pill">💪 Corps entier crispé</span></div><div class="mz-sens">Gorge serrée avant une prise de parole, estomac contracté face à une évaluation, corps entier crispé dans l'attente d'un résultat. Le perfectionnisme se vit comme une tension chronique qui ne se relâche jamais vraiment.</div></div>
+      </div>
+      <div>
+        <div class="mz-card" onclick="togMZ('p')" id="mzc-p"><span class="mz-e">💜</span><div><div class="mz-t">Masque Violet — Le Faux Soi</div><div class="mz-sub">Peur de la perte d'identité</div></div><span class="mz-arr">›</span></div>
+        <div class="mz-detail" id="mzd-p"><div class="mz-pills"><span class="mz-pill">✨ Corps entier</span><span class="mz-pill">🌀 Ventre</span><span class="mz-pill">🫀 Poitrine vide</span></div><div class="mz-sens">Sensation de vide ou de flou dans tout le corps, impression de ne plus être "chez soi" dans sa propre enveloppe. Légèreté dissociative ou, à l'inverse, pesanteur existentielle qui envahit. Le corps ne sait plus où il habite.</div></div>
+      </div>
+    </div>
+    <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
+  </div>
+</section>
+
+<!-- S3 LES 4 TYPES DE SENSATIONS -->
+<section class="section-inner" id="s3" data-s="3">
+  <div class="container">
+    <div class="animate-up">
+      <h4>Le vocabulaire du corps</h4>
+      <h2>Les <em>4 types</em> de sensations</h2>
+      <p class="lead">Pour localiser avec précision, vous devez distinguer les sensations des émotions. Voici les 4 familles de sensations que votre corps utilise pour parler.</p>
+    </div>
+    <div class="sens-grid animate-up d1">
+      <div class="sens-card"><span class="sens-ico">🔩</span><span class="sens-name">Tension · Contraction</span><div class="sens-desc">Serrement, raideur, crispation. Le corps se prépare à réagir ou à résister.</div><div class="sens-tags"><span class="sens-tag">épaules remontées</span><span class="sens-tag">mâchoire serrée</span><span class="sens-tag">nuque raide</span><span class="sens-tag">poings fermés</span></div></div>
+      <div class="sens-card"><span class="sens-ico">🕳️</span><span class="sens-name">Vide · Lourdeur</span><div class="sens-desc">Absence, pesanteur, effondrement. Le corps exprime l'épuisement ou la tristesse.</div><div class="sens-tags"><span class="sens-tag">ventre creux</span><span class="sens-tag">jambes lourdes</span><span class="sens-tag">poitrine vide</span><span class="sens-tag">corps sans énergie</span></div></div>
+      <div class="sens-card"><span class="sens-ico">🔥</span><span class="sens-name">Chaleur · Inflammation</span><div class="sens-desc">Brûlure, rougeur, pulsations. Le corps est en mode activation ou en conflit.</div><div class="sens-tags"><span class="sens-tag">visage chaud</span><span class="sens-tag">palpitations</span><span class="sens-tag">ventre qui brûle</span><span class="sens-tag">picotements</span></div></div>
+      <div class="sens-card"><span class="sens-ico">❄️</span><span class="sens-name">Engourdissement</span><div class="sens-desc">Froid, insensibilité, figement. Le corps a coupé le signal pour se protéger.</div><div class="sens-tags"><span class="sens-tag">mains froides</span><span class="sens-tag">membres qui ne répondent plus</span><span class="sens-tag">paralysie douce</span><span class="sens-tag">vide froid</span></div></div>
+    </div>
+
+    <div class="animate-up d2" style="margin-top:2rem">
+      <h4>La distinction essentielle</h4>
+      <h3>Émotion vs <em>Sensation</em></h3>
+      <p>L'erreur la plus fréquente : confondre ce que vous <em>ressentez</em> (l'émotion nommée) avec ce que vous <em>percevez</em> dans le corps (la sensation physique). LOCALISER travaille uniquement avec les sensations.</p>
+    </div>
+    <div class="dist-block animate-up d3">
+      <div class="dist-x"><span class="dist-ico">✗</span><span class="dist-lbl">L'ÉMOTION (à éviter)</span><div class="dist-ex">"Je suis triste"<br>"Je suis anxieux·e"<br>"Je suis en colère"</div></div>
+      <div class="dist-ok"><span class="dist-ico">✓</span><span class="dist-lbl">LA SENSATION (à utiliser)</span><div class="dist-ex">"Je sens un poids dense dans ma poitrine"<br>"Je sens une boule dans le ventre"<br>"Je sens une chaleur dans les mains"</div></div>
+    </div>
+    <div class="glass-card gold animate-up d4">
+      <p style="text-align:center;color:var(--text);margin:0;font-size:.95rem">💡 <strong style="color:var(--yellow)">Pourquoi cette distinction ?</strong> Les émotions sont des étiquettes mentales. Les sensations sont des données brutes du corps. En travaillant avec les sensations, vous contournez la résistance du mental et accédez directement à ce qui est figé.</p>
+    </div>
+    <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
+  </div>
+</section>
+
+<!-- S4 BODY SCAN -->
+<section class="section-inner" id="s4" data-s="4">
+  <div class="container">
+    <div class="animate-up">
+      <h4>Le protocole</h4>
+      <h2>Body Scan <em>V.A.L.E.U.R©</em></h2>
+      <p class="lead">Un scan corporel guidé en 5 étapes. Fermez les yeux, parcourez votre corps de haut en bas — lentement, sans jugement, avec curiosité.</p>
+    </div>
+    <div class="scan-steps animate-up d1">
+      <div class="scan-step"><div class="ss-num">1</div><div><div class="ss-t">Respiration centrée (2 min)</div><div class="ss-d">Posez une main sur votre cœur. Fermez les yeux. Pratiquez 3 cycles de respiration abdominale profonde. Dites intérieurement : <em>"Je suis en sécurité. Mon corps peut parler."</em></div></div></div>
+      <div class="scan-step"><div class="ss-num">2</div><div><div class="ss-t">Scanner corporel descendant (de haut en bas, très lentement)</div><div class="ss-d">Parcourez chaque zone en vous demandant : tendue ? légère ? claire ?</div><span class="ss-note">🧠 Tête · 🗣️ Gorge · 🫀 Poitrine · 🌀 Ventre · 🦵 Jambes</span></div></div>
+      <div class="scan-step"><div class="ss-num">3</div><div><div class="ss-t">Identification précise de LA zone principale</div><div class="ss-d">Trouvez l'endroit où la sensation est la plus forte. Une zone, pas toutes. <em>"C'est dans ma poitrine"</em> ou <em>"C'est dans mon ventre + gorge"</em> ou <em>"C'est partout"</em>.</div></div></div>
+      <div class="scan-step"><div class="ss-num">4</div><div><div class="ss-t">Description de la sensation (pas l'émotion)</div><div class="ss-d">Décrivez ce que vous <em>percevez physiquement</em>. Utilisez : pesanteur, compression, brûlure, froid, vide, pulsation, tension... Pas : je suis triste, j'ai peur.</div></div></div>
+      <div class="scan-step"><div class="ss-num">5</div><div><div class="ss-t">Intensité de 0 à 10</div><div class="ss-d">Donnez une note à votre sensation principale. <em>"C'est 7/10 de densité."</em> Puis respirez consciemment dans cette zone pendant 5 à 10 min. L'intensité devrait baisser d'au moins 1 à 2 points.</div></div></div>
+    </div>
+
+    <div class="scan-interactive animate-up d2">
+      <h4>Exercice interactif</h4>
+      <h3 style="margin-bottom:.5rem">Où ressentez-vous votre masque ?</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:0">Sélectionnez votre zone principale en ce moment</p>
+      <div class="sz-list" id="sz-list">
+        <div class="sz-item" onclick="selZone(this,'tete')"><div class="sz-bul">🧠</div><div><div class="sz-name">Tête</div><div class="sz-q">Tendue ? Légère ? Claire ? Pression frontale ?</div></div></div>
+        <div class="sz-item" onclick="selZone(this,'gorge')"><div class="sz-bul">🗣️</div><div><div class="sz-name">Gorge</div><div class="sz-q">Libre ? Nouée ? Bloquée ? Nœud ?</div></div></div>
+        <div class="sz-item" onclick="selZone(this,'poitrine')"><div class="sz-bul">🫀</div><div><div class="sz-name">Poitrine</div><div class="sz-q">Pression ? Légère ? Étouffement ? Palpitations ?</div></div></div>
+        <div class="sz-item" onclick="selZone(this,'ventre')"><div class="sz-bul">🌀</div><div><div class="sz-name">Ventre / Plexus</div><div class="sz-q">Boule ? Nausée ? Vide ? Lourd ? Contracté ?</div></div></div>
+        <div class="sz-item" onclick="selZone(this,'dos')"><div class="sz-bul">🦴</div><div><div class="sz-name">Dos / Épaules</div><div class="sz-q">Rigide ? Lourd ? Douloureux ? Épaules remontées ?</div></div></div>
+        <div class="sz-item" onclick="selZone(this,'jambes')"><div class="sz-bul">🦵</div><div><div class="sz-name">Jambes / Corps entier</div><div class="sz-q">Ancrées ? Molles ? Tremblantes ? Diffus partout ?</div></div></div>
+      </div>
+      <div class="scan-fb" id="scan-fb"><p id="scan-fb-txt"></p></div>
+    </div>
+    <div class="copy animate-up d3">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
+  </div>
+</section>
+
+<!-- S5 RESPIRATION + CHECKLIST -->
+<section class="section-inner" id="s5" data-s="5">
+  <div class="container">
+    <div class="animate-up">
+      <h4>L'outil clé</h4>
+      <h2>Respiration <em>5 — 5 — 5</em></h2>
+      <p class="lead">La cohérence cardiaque — le protocole le plus puissant pour signaler à votre système nerveux qu'il peut se calmer. Neurobiologiquement mesurable, immédiatement efficace.</p>
+    </div>
+
+    <div class="resp-widget animate-up d1">
+      <div class="resp-circle" id="resp-c" onclick="startResp()">
+        <div class="resp-ring" id="resp-ring"></div>
+        <div class="resp-phase" id="resp-ph">Appuyez</div>
+        <div class="resp-count" id="resp-cnt">▶</div>
+        <div class="resp-sub" id="resp-sub">pour commencer</div>
+      </div>
+      <div>
+        <button class="resp-btn" id="rbtn-start" onclick="startResp()">▶ Commencer</button>
+        <button class="resp-btn sec" id="rbtn-reset" onclick="resetResp()" style="display:none">↺ Recommencer</button>
+      </div>
+      <div class="resp-dots" id="rdots">
+        <div class="rdot" id="rd0"></div><div class="rdot" id="rd1"></div><div class="rdot" id="rd2"></div><div class="rdot" id="rd3"></div><div class="rdot" id="rd4"></div>
+      </div>
+      <div class="resp-expl">
+        🫀 <strong style="color:var(--yellow)">Pourquoi 5 secondes ?</strong> C'est la fréquence naturelle où votre cœur et votre respiration se synchronisent — la <em>résonance cardiaque</em>. En 2 à 3 minutes, votre système parasympathique s'active et l'apaisement s'installe.
+        <br><br>📋 <strong style="color:var(--yellow)">Le cycle :</strong> Inspirez par le nez (5s) → Retenez (5s) → Expirez par la bouche (5s) · Répétez 5 fois
+      </div>
+    </div>
+
+    <div class="animate-up d2">
+      <h4 style="margin-top:2rem">Checklist · Localiser</h4>
+      <h3>Avez-vous bien <em>localisé</em> ?</h3>
+      <p>Cochez chaque étape réalisée. Il vous en faut au moins 5 sur 7.</p>
+    </div>
+    <div class="checklist animate-up d3" id="ck">
+      <div class="ck-item" onclick="togCk(this,0)"><div class="ck-box">✓</div><div class="ck-txt">J'ai fait le scan corporel complet (de haut en bas)</div></div>
+      <div class="ck-item" onclick="togCk(this,1)"><div class="ck-box">✓</div><div class="ck-txt">J'ai identifié LA zone principale de tension</div></div>
+      <div class="ck-item" onclick="togCk(this,2)"><div class="ck-box">✓</div><div class="ck-txt">J'ai décrit une sensation physique, pas une émotion</div></div>
+      <div class="ck-item" onclick="togCk(this,3)"><div class="ck-box">✓</div><div class="ck-txt">J'ai donné une intensité de 0 à 10 à ma sensation</div></div>
+      <div class="ck-item" onclick="togCk(this,4)"><div class="ck-box">✓</div><div class="ck-txt">J'ai pratiqué la respiration 5-5-5 (5 cycles complets)</div></div>
+      <div class="ck-item" onclick="togCk(this,5)"><div class="ck-box">✓</div><div class="ck-txt">L'intensité a baissé d'au moins 1 à 2 points</div></div>
+      <div class="ck-item" onclick="togCk(this,6)"><div class="ck-box">✓</div><div class="ck-txt">Je me sens prêt·e à comprendre le "pourquoi" de cette sensation</div></div>
+    </div>
+    <div class="ck-score" id="ck-score">0 / 7 étapes réalisées</div>
+
+    <div class="glass-card gold animate-up d4" style="margin-top:1.5rem">
+      <p style="text-align:center;margin:0;color:var(--text);font-size:.95rem">
+        📋 <strong style="color:var(--yellow)">Plan d'action quotidien</strong><br>
+        <span style="color:var(--muted);font-size:.85rem">Matin : 2 min · scan rapide + 3 respirations · "Comment je me sens ?"<br>Soir : revois la journée · émotion non-traitée ? · accueille · pardonne et lâche prise</span>
+      </p>
+    </div>
+    <div class="copy animate-up d5">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
+  </div>
+</section>
+
+<!-- S6 TERMINER -->
+<section class="section" id="s6" data-s="6">
+  <div class="container">
+    <div class="animate-up tc">
+      <div class="badge" style="color:var(--yellow);border-color:rgba(214,158,46,.3)">Prêt·e pour la suite</div>
+      <h2><em>Félicitations</em> — vous êtes ancré·e</h2>
+      <p class="lead">Vous venez de maîtriser quelque chose de révolutionnaire : la connexion directe à votre corps. Vous pouvez maintenant localiser où votre masque s'installe — c'est le début de la transformation.</p>
+    </div>
+    <div class="finish-grid animate-up d1">
+      <div class="fin-card"><span class="fin-ico">🫀</span><span class="fin-lbl">Connecté·e</span><div class="fin-v">Au langage physique de votre corps</div></div>
+      <div class="fin-card"><span class="fin-ico">🗺️</span><span class="fin-lbl">Cartographié·e</span><div class="fin-v">Vos zones de tension spécifiques</div></div>
+      <div class="fin-card"><span class="fin-ico">🌬️</span><span class="fin-lbl">Apaisé·e</span><div class="fin-v">Par la respiration 5-5-5</div></div>
+    </div>
+    <div class="glass-card gold animate-up d2" style="text-align:center">
+      <p style="color:var(--text);font-style:italic;font-family:var(--font-display);font-size:1.1rem;margin:0">"Vos émotions ne sont pas vos ennemies. Ce sont vos messagères les plus intelligentes. Quand vous les accueillez dans votre corps, elles deviennent votre sagesse."</p>
+      <p style="color:var(--muted);font-size:.75rem;margin-top:.8rem;margin-bottom:0">— Méthode V.A.L.E.U.R© · Céline Bourbon</p>
+    </div>
+    <div class="animate-up d3">
+      <button class="btn-complete" id="btn-fin" onclick="finishModule()">✓ Terminer le Module 3 — Débloquer EXPLORER 🟢</button>
+      <div class="unlock-next">Module 4 — <strong>EXPLORER</strong> · Explorer le conflit intérieur profond · débloqué !</div>
+    </div>
+    <div class="copy animate-up d4">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
+  </div>
+</section>
 </main>
 
-<!-- Toast -->
-<div id="toast"></div>
+<button id="fab" onclick="openJ()" title="Journal">📝</button>
 
-<!-- Journal FAB -->
-<button id="journal-fab" onclick="openJournal()" title="Mon journal de bord">📔</button>
-<div id="journal-overlay" onclick="closeJournal()"></div>
-<div id="journal-drawer">
-  <div class="drawer-handle"></div>
-  <div class="drawer-header">
-    <span class="drawer-title">Journal <span>V.A.L.E.U.R©</span></span>
-    <button class="drawer-close" onclick="closeJournal()">✕</button>
+<div id="j-modal" class="modal-ov" style="display:none" onclick="closeJbg(event)">
+  <div class="modal-sh">
+    <div class="mod-handle"></div>
+    <button class="mod-close" onclick="closeJ()">✕</button>
+    <h4 style="margin-bottom:1.2rem">Module L — Localiser</h4>
+    <label class="j-lbl">Mon masque actif</label>
+    <select class="j-sel" id="jm"><option value="">Quel masque aujourd'hui ?</option><option>🔴 Rouge — La Vigilance</option><option>🟠 Orange — L'Évitement</option><option>🟡 Jaune — Le Contrôle</option><option>🟢 Vert — L'Adaptation</option><option>🔵 Bleu — L'Hypercontrôle</option><option>🔷 Indigo — La Perfection</option><option>💜 Violet — Le Faux Soi</option></select>
+    <label class="j-lbl">Où je ressens cette émotion dans mon corps ?</label>
+    <textarea class="j-ta" id="jz" placeholder="Ex : une boule dans le ventre, une tension dans les épaules..."></textarea>
+    <label class="j-lbl">Description de la sensation (pas l'émotion)</label>
+    <textarea class="j-ta" id="js" placeholder="Ex : un poids dense, une chaleur, un vide, une contraction..."></textarea>
+    <label class="j-lbl">Intensité (0-10) → Après respiration 5-5-5</label>
+    <textarea class="j-ta" id="ji" placeholder="Ex : 7/10 avant · 4/10 après" style="min-height:60px"></textarea>
+    <button class="btn-jsave" onclick="saveJ()">💾 Sauvegarder dans mon journal</button>
   </div>
-  <div class="journal-date-label" id="journal-date-label"></div>
-  <textarea id="journal-textarea" placeholder="Notez vos réflexions, prises de conscience, émotions du moment…&#10;&#10;Ce journal vous appartient."></textarea>
-  <div class="journal-actions">
-    <button class="j-btn j-save" onclick="saveJournalEntry()">💾 Sauvegarder</button>
-    <button class="j-btn j-clear" onclick="clearJournalEntry()">Effacer</button>
-  </div>
-  <div class="journal-entries" id="journal-entries"></div>
 </div>
 
+<div id="toast"></div>
+<canvas id="confetti-canvas"></canvas>
+
 <script>
-/* ══ PROTECTION CONTENU ══ */
 document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('selectstart',function(e){if(['TEXTAREA','INPUT','SELECT'].includes(e.target.tagName))return;e.preventDefault();});
-document.addEventListener('dragstart',function(e){e.preventDefault();});
-document.addEventListener('copy',function(e){if(['TEXTAREA','INPUT'].includes(e.target.tagName))return;e.preventDefault();});
-document.addEventListener('keydown',e=>{
-  if(e.key==='F12')e.preventDefault();
-  if(e.ctrlKey&&['u','s','p','i'].includes(e.key.toLowerCase()))e.preventDefault();
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&'cusp a'.includes(e.key.toLowerCase()))e.preventDefault()});
+document.addEventListener('selectstart',e=>e.preventDefault());
+document.addEventListener('dragstart',e=>e.preventDefault());
+
+function toggleNav(){document.getElementById('nav').classList.toggle('open')}
+
+window.addEventListener('scroll',()=>{
+  var st=document.documentElement.scrollTop||document.body.scrollTop;
+  var sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  var p=st/sh;
+  document.getElementById('scroll-line').style.width=(p*100)+'%';
+  document.getElementById('prog-fill').style.width=(p*100)+'%';
+  updateDots();runAnims();
 });
 
-/* ══ SCROLL PROGRESS ══ */
-function updateScrollProgress(){
-  const doc=document.documentElement;
-  const pct=(doc.scrollTop||document.body.scrollTop)/(doc.scrollHeight-doc.clientHeight)*100;
-  document.getElementById('scroll-line').style.width=Math.min(pct,100)+'%';
+function updateDots(){
+  var ss=document.querySelectorAll('[data-s]');var vh=window.innerHeight/2;var a=0;
+  ss.forEach((s,i)=>{var r=s.getBoundingClientRect();if(r.top<vh)a=i});
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===a));
 }
-window.addEventListener('scroll',updateScrollProgress,{passive:true});
+function goTo(i){var ss=document.querySelectorAll('[data-s]');if(ss[i])ss[i].scrollIntoView({behavior:'smooth'})}
+function runAnims(){document.querySelectorAll('.animate-up:not(.vis)').forEach(el=>{var r=el.getBoundingClientRect();if(r.top<window.innerHeight-60)el.classList.add('vis')})}
+window.addEventListener('load',runAnims);
 
-/* ══ INTERSECTION OBSERVER ══ */
-const sections=document.querySelectorAll('.section');
-const dots=document.querySelectorAll('.dot');
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      const idx=parseInt(e.target.dataset.section)||0;
-      dots.forEach(d=>d.classList.remove('active'));
-      if(dots[idx])dots[idx].classList.add('active');
-    }
-  });
-},{threshold:.15,rootMargin:'-50px 0px'});
-sections.forEach(s=>observer.observe(s));
-
-function scrollToSection(idx){
-  const s=document.querySelector(`[data-section="${idx}"]`);
-  if(s)s.scrollIntoView({behavior:'smooth',block:'start'});
+// MASQUES ZONES
+function togMZ(id){
+  var c=document.getElementById('mzc-'+id);var d=document.getElementById('mzd-'+id);
+  var was=d.classList.contains('open');
+  document.querySelectorAll('.mz-detail').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.mz-card').forEach(x=>x.classList.remove('active'));
+  if(!was){d.classList.add('open');c.classList.add('active')}
 }
 
-/* ══ EMOTION CARDS ══ */
-function toggleEmotion(card){
-  const wasOpen=card.classList.contains('open');
-  document.querySelectorAll('.emotion-card.open').forEach(c=>{
-    c.classList.remove('open');
-    c.querySelector('.emotion-body').style.maxHeight='0';
-  });
-  if(!wasOpen){
-    card.classList.add('open');
+// BODY SCAN INTERACTIF
+var sfb={
+  tete:'🧠 <em>Zone : Tête</em> — Souvent le Masque Jaune (contrôle) ou Bleu (hypercontrôle). Votre esprit surveille tout. Posez vos mains sur votre front et respirez doucement vers cette zone.',
+  gorge:'🗣️ <em>Zone : Gorge</em> — Classique du Masque Vert (adaptation) et Orange (évitement). Quelque chose n\'a pas été dit. Respirez dans cette zone et demandez-vous : qu\'est-ce que je retiens de dire ?',
+  poitrine:'🫀 <em>Zone : Poitrine</em> — Masque Rouge (survie) ou Vert (abandon). Le cœur sait avant le mental. Posez une main sur votre poitrine et respirez lentement, profondément.',
+  ventre:'🌀 <em>Zone : Ventre</em> — Le deuxième cerveau. Masque Jaune, Indigo ou Vert. Respirez dans le ventre : gonflez l\'abdomen à l\'inspire, relâchez à l\'expire.',
+  dos:'🦴 <em>Zone : Dos / Épaules</em> — Ce que vous portez pour les autres. Masque Bleu. Montez et descendez les épaules 3 fois. Sentez-les se relâcher. Puis respirez.',
+  jambes:'🦵 <em>Zone : Corps entier</em> — Tension diffuse ou Masque Violet (identité). Ancrez vos pieds dans le sol. Sentez le contact. Respirez en descendant jusqu\'aux pieds.'
+};
+function selZone(el,z){
+  document.querySelectorAll('.sz-item').forEach(i=>i.classList.remove('sel'));
+  el.classList.add('sel');
+  var fb=document.getElementById('scan-fb');
+  document.getElementById('scan-fb-txt').innerHTML=sfb[z];
+  fb.classList.add('vis');
+}
+
+// RESPIRATION 5-5-5
+var rS={run:false,cyc:0,ph:0,cnt:5,tmr:null};
+var rPh=[{l:'Inspirez',d:5,s:'par le nez'},{l:'Retenez',d:5,s:'doucement'},{l:'Expirez',d:5,s:'par la bouche'}];
+function startResp(){
+  if(rS.run)return;
+  rS.run=true;rS.cyc=0;rS.ph=0;rS.cnt=5;
+  document.getElementById('rbtn-start').style.display='none';
+  document.getElementById('rbtn-reset').style.display='inline-block';
+  document.getElementById('resp-ring').classList.add('pulsing');
+  doPhase();
+}
+function doPhase(){
+  if(rS.cyc>=5){endResp();return}
+  var p=rPh[rS.ph];rS.cnt=p.d;
+  document.getElementById('resp-ph').textContent=p.l;
+  document.getElementById('resp-sub').textContent=p.s+' · cycle '+(rS.cyc+1)+'/5';
+  updDots2();tick2();
+}
+function tick2(){
+  document.getElementById('resp-cnt').textContent=rS.cnt;
+  if(rS.cnt<=0){
+    rS.ph=(rS.ph+1)%3;if(rS.ph===0)rS.cyc++;
+    clearTimeout(rS.tmr);rS.tmr=setTimeout(doPhase,300);return;
   }
+  rS.cnt--;rS.tmr=setTimeout(tick2,1000);
+}
+function updDots2(){
+  for(var i=0;i<5;i++){var d=document.getElementById('rd'+i);d.className='rdot'+(i<rS.cyc?' done':i===rS.cyc?' cur':'')}
+}
+function endResp(){
+  rS.run=false;
+  document.getElementById('resp-ph').textContent='✓ Terminé';
+  document.getElementById('resp-cnt').textContent='';
+  document.getElementById('resp-sub').textContent='5 cycles réalisés';
+  document.getElementById('resp-ring').classList.remove('pulsing');
+  for(var i=0;i<5;i++)document.getElementById('rd'+i).className='rdot done';
+  toast('🌬️ 5 cycles réalisés — Votre système nerveux s\'apaise');
+}
+function resetResp(){
+  clearTimeout(rS.tmr);rS.run=false;rS.cyc=0;rS.ph=0;rS.cnt=5;
+  document.getElementById('resp-ph').textContent='Appuyez';
+  document.getElementById('resp-cnt').textContent='▶';
+  document.getElementById('resp-sub').textContent='pour commencer';
+  document.getElementById('resp-ring').classList.remove('pulsing');
+  document.getElementById('rbtn-start').style.display='inline-block';
+  document.getElementById('rbtn-reset').style.display='none';
+  for(var i=0;i<5;i++)document.getElementById('rd'+i).className='rdot';
 }
 
-/* ══ BREATHING ANIMATION ══ */
-let breathPhase=0,breathTimer=null,breathRunning=false;
-const breathTexts=[
-  ['Inspirez…','4 secondes · « Je reconnais cette émotion »','inhale'],
-  ['Retenez…','2 secondes · « Elle est là, c\'est OK »','hold'],
-  ['Expirez…','4 secondes · « Je la laisse circuler »','exhale']
-];
-function startBreathing(){
-  if(breathRunning){
-    clearTimeout(breathTimer);
-    breathRunning=false;
-    const c=document.getElementById('breathing-circle');
-    c.className='breathing-circle';
-    document.getElementById('breath-text').textContent='Cliquez pour recommencer';
-    document.getElementById('breath-detail').textContent='Outil d\'accueil émotionnel · 3 à 5 cycles';
-    return;
-  }
-  breathRunning=true;
-  breathPhase=0;
-  runBreathPhase();
-}
-function runBreathPhase(){
-  if(!breathRunning)return;
-  const[text,detail,cls]=breathTexts[breathPhase%3];
-  const c=document.getElementById('breathing-circle');
-  c.className='breathing-circle '+cls;
-  document.getElementById('breath-text').textContent=text;
-  document.getElementById('breath-detail').textContent=detail;
-  const durations=[4000,2000,4000];
-  breathTimer=setTimeout(()=>{
-    breathPhase++;
-    runBreathPhase();
-  },durations[(breathPhase)%3]);
+// CHECKLIST
+var ckS=new Array(7).fill(false);
+function togCk(el,i){
+  ckS[i]=!ckS[i];el.classList.toggle('on',ckS[i]);
+  var n=ckS.filter(Boolean).length;
+  var s=document.getElementById('ck-score');
+  s.textContent=n+' / 7 étapes réalisées';
+  if(n>=5)s.textContent+=' — \u2713 Vous avez bien localisé !';
 }
 
-/* ══ SAVE FORMS ══ */
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
-function saveBodyScan(){showToast('✓ Scan corporel enregistré dans votre journal');}
-function saveMapping(){showToast('✓ Mappage personnel sauvegardé');}
-function saveDailyJournal(){showToast('✓ Journal du jour enregistré');}
-
-/* ══ COMPLETE MODULE ══ */
-function completeModule(){
-  try{ localStorage.setItem('valeur_module3_complete','true'); }catch(e){}
-  if(typeof VALEUR_PROGRESS!=='undefined'){ try{ VALEUR_PROGRESS.complete('module3'); }catch(e){} }
-  const btn=document.querySelector('.btn-complete');
-  if(btn){ btn.textContent='\u2746 F\u00e9licitations \u2014 Module 3 Valid\u00e9 !';
-    btn.style.background='linear-gradient(135deg,#38A169,#68D391)'; }
-  var _up=document.getElementById('unlock-preview');if(_up)_up.classList.add('show');
-  setTimeout(()=>launchConfetti(),300);
-  showToast('\uD83C\uDF89 Module 3 \u2014 LOCALISER \u2014 compl\u00e9t\u00e9 ! Module 4 d\u00e9bloqu\u00e9 !');
+// COMPLÉTION
+function finishModule(){
+  try{var p=JSON.parse(localStorage.getItem('valeur_progress_v2')||'{}');p.module3=true;p.module3_date=new Date().toISOString();localStorage.setItem('valeur_progress_v2',JSON.stringify(p))}catch(e){}
+  confetti();toast('🟡 Module LOCALISER complété ! EXPLORER se débloque...');
+  var b=document.getElementById('btn-fin');b.textContent='✓ Complété !';b.style.borderColor='#38A169';b.style.color='#68d391';
+  setTimeout(()=>window.location.href='module4.html',3500);
 }
 
-/* ══ CONFETTI ══ */
-function launchConfetti(){
-  const canvas=document.getElementById('confetti-canvas');
-  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-  const ctx=canvas.getContext('2d');
-  const colors=['#D4AC0D','#F6E05E','#E53E3E','#ED8936','#38A169','#3182CE','#805AD5','#C9A84C'];
-  const particles=Array.from({length:180},()=>({
-    x:Math.random()*canvas.width,y:-20,
-    vx:(Math.random()-.5)*4,vy:Math.random()*4+2,
-    color:colors[Math.floor(Math.random()*colors.length)],
-    size:Math.random()*8+4,
-    rot:Math.random()*360,rv:(Math.random()-.5)*8,
-    shape:Math.random()>.5?'rect':'circle'
-  }));
-  let frame=0;
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;p.vy+=.06;
-      if(p.y>canvas.height+20)return;
-      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
-      ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,1-frame/200);
-      if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/3,p.size,p.size/1.5);}
-      else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill();}
-      ctx.restore();
-    });
-    frame++;
-    if(frame<200)requestAnimationFrame(draw);
-    else ctx.clearRect(0,0,canvas.width,canvas.height);
-  }
-  draw();
+// CONFETTI
+function confetti(){
+  var c=document.getElementById('confetti-canvas');var ctx=c.getContext('2d');
+  c.width=window.innerWidth;c.height=window.innerHeight;
+  var ps=[];var cols=['#D69E2E','#F6E05E','#38A169','#805AD5','#3182CE','#ED8936','#E53E3E'];
+  for(var i=0;i<140;i++)ps.push({x:Math.random()*c.width,y:-10,vx:(Math.random()-.5)*5,vy:Math.random()*4+2,w:Math.random()*10+5,h:Math.random()*6+3,c:cols[~~(Math.random()*cols.length)],a:Math.random()*360,av:(Math.random()-.5)*8});
+  var f=0;
+  function draw(){ctx.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=p.av;p.vy+=.08;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a*Math.PI/180);ctx.fillStyle=p.c;ctx.globalAlpha=Math.max(0,1-f/120);ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()});f++;if(f<150)requestAnimationFrame(draw);else ctx.clearRect(0,0,c.width,c.height)}
+  requestAnimationFrame(draw);
 }
 
-/* ══ JOURNAL ══ */
-function openJournal(){
-  document.getElementById('journal-overlay').classList.add('open');
-  document.getElementById('journal-drawer').classList.add('open');
-  const now=new Date();
-  document.getElementById('journal-date-label').textContent=
-    now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  loadJournalEntries();
-}
-function closeJournal(){
-  document.getElementById('journal-overlay').classList.remove('open');
-  document.getElementById('journal-drawer').classList.remove('open');
-}
-function saveJournalEntry(){
-  const text=document.getElementById('journal-textarea').value.trim();
-  if(!text)return;
-  const entries=JSON.parse(sessionStorage.getItem('valeur_journal')||'[]');
-  entries.unshift({date:new Date().toLocaleString('fr-FR'),text});
-  sessionStorage.setItem('valeur_journal',JSON.stringify(entries.slice(0,20)));
-  document.getElementById('journal-textarea').value='';
-  loadJournalEntries();
-  showToast('✓ Entrée sauvegardée');
-}
-function clearJournalEntry(){document.getElementById('journal-textarea').value='';}
-function loadJournalEntries(){
-  const entries=JSON.parse(sessionStorage.getItem('valeur_journal')||'[]');
-  const container=document.getElementById('journal-entries');
-  container.innerHTML=entries.length?entries.map(e=>`
-    <div class="journal-entry">
-      <div class="je-date">${e.date}</div>
-      <div class="je-text">${e.text.replace(/\n/g,'<br>')}</div>
-    </div>`).join(''):'';
-}
-</script>
-<script>
+// TOAST
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('vis');setTimeout(()=>t.classList.remove('vis'),3500)}
 
-/* ══ HARMONY JS — Module 3 ══ */
-(function(){
-  // 1. scrollToFirstSection
-  window.scrollToFirstSection=function(){
-    if(typeof scrollToSection==='function')scrollToSection(1);else document.querySelector('[data-section="1"]')?.scrollIntoView({behavior:'smooth'});
-  };
-
-  // 2. Plan de séance toggle
-  window.togglePlan=function(btn){
-    var box=btn.nextElementSibling;
-    var open=box.classList.contains('open');
-    box.classList.toggle('open',!open);
-    btn.textContent=open?'▼ Plan de séance':'▲ Masquer le plan';
-  };
-
-  // 3. Mask label injection dans hero
-  function injectMaskLabel(){
-    var m=localStorage.getItem('valeur_masque_actif')||'vert';
-    var names={
-      rouge:'������ Masque Rouge',orange:'������ Masque Orange',
-      jaune:'������ Masque Jaune',vert:'������ Masque Vert',
-      bleu:'������ Masque Bleu',indigo:'������ Masque Indigo',
-      violet:'������ Masque Violet'
-    };
-    var label=names[m]||m;
-    document.querySelectorAll('.valeur-mask-name').forEach(function(el){
-      el.textContent=label;
-    });
-  }
-  document.addEventListener('DOMContentLoaded',function(){
-    injectMaskLabel();
-    // Fade-in hero on load
-    var h=document.querySelector('.valeur-hero');
-    if(h){h.style.opacity='0';h.style.transform='translateY(20px)';
-    setTimeout(function(){h.style.transition='opacity .8s ease,transform .8s ease';h.style.opacity='1';h.style.transform='translateY(0)';},120);}
-  });
-})();
-
+// JOURNAL
+function openJ(){document.getElementById('j-modal').style.display='flex'}
+function closeJ(){document.getElementById('j-modal').style.display='none'}
+function closeJbg(e){if(e.target===document.getElementById('j-modal'))closeJ()}
+function saveJ(){
+  try{var es=JSON.parse(localStorage.getItem('valeur_journal_v2')||'[]');es.push({module:'L',date:new Date().toISOString(),masque:document.getElementById('jm').value,zone:document.getElementById('jz').value,sensation:document.getElementById('js').value,intensite:document.getElementById('ji').value});localStorage.setItem('valeur_journal_v2',JSON.stringify(es));toast('📝 Journal sauvegardé !');closeJ();['jz','js','ji'].forEach(id=>document.getElementById(id).value='')}catch(e){toast('Erreur de sauvegarde')}
+}
 </script>
 </body>
 </html>
