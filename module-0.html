@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>V.A.L.E.U.R© — Module 0 · Comprendre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/design-system.css">
+  <style>
+    .steps-accordion { display:flex; flex-direction:column; gap:0.8rem; margin:1.2rem 0; }
+    .accordion-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition-fast);
+    }
+    .accordion-item.open { border-color: var(--border-gold); }
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.1rem 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .accordion-header:hover { background: rgba(255,255,255,0.03); }
+    .accordion-letter {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 300;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex-shrink: 0;
+      width: 28px;
+    }
+    .accordion-title { flex: 1; }
+    .accordion-title strong { display:block; font-size:0.82rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-primary); }
+    .accordion-title small { font-size:0.76rem; color:var(--text-muted); }
+    .accordion-chevron { color:var(--text-muted); font-size:0.8rem; transition:transform 0.3s; }
+    .accordion-item.open .accordion-chevron { transform: rotate(90deg); color:var(--gold); }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .accordion-item.open .accordion-body { max-height: 400px; }
+    .accordion-inner { padding: 0 1.4rem 1.4rem; }
+    .accordion-inner p { font-size:0.88rem; line-height:1.7; color:var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="orbe orbe-1"></div>
+<div class="orbe orbe-2"></div>
+
+<div id="valeur-progress-bar"></div>
+
+<header class="glass-header">
+  <div class="header-content">
+    <a href="index.html" class="logo-text">V.A.L.E.U.R©</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <nav id="nav-menu">
+      <a href="index.html">🏠 Accueil</a>
+      <a href="module-0.html" class="active">📚 Modules</a>
+      <a href="journal.html">📓 Journal</a>
+      <a href="questionnaire.html">🎯 Questionnaire</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="module-hero animate-up">
+    <div class="module-step-badge">Module 0 — Introduction</div>
+    <span class="module-emoji">🧠</span>
+    <h1>Comprendre</h1>
+    <p class="lead">L'anxiété n'est pas votre ennemie — c'est une peur déguisée</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="glass-card gold-border section animate-up delay-1">
+    <div class="insight-box">
+      <p>Vous vous sentez anxieux·se sans vraiment savoir pourquoi ? Ce n'est pas une anomalie — c'est votre cerveau qui applique une stratégie de survie. Cette stratégie s'appelle un <strong style="color:var(--text-primary)">masque de défense</strong>.</p>
+    </div>
+  </div>
+
+  <!-- L'ANXIÉTÉ -->
+  <section class="glass-card section animate-up delay-2">
+    <h4>Psychoéducation</h4>
+    <h2 style="margin:0.3rem 0 1rem;">D'où vient l'anxiété vraiment ?</h2>
+    <div class="content-block">
+      <p>Votre cerveau est biologiquement programmé pour protéger. Face à une menace perçue — rejet, échec, perte de contrôle — il déclenche une alarme. Cette alarme, c'est l'anxiété.</p>
+    </div>
+    <div class="content-block">
+      <p>La Méthode V.A.L.E.U.R© identifie <strong style="color:var(--text-primary)">7 peurs universelles</strong> — des peurs que tout être humain porte en lui, à des degrés variables. Ces peurs génèrent des <strong style="color:var(--text-primary)">masques de défense</strong> : des comportements automatiques devenus une prison.</p>
+    </div>
+    <div class="insight-box">
+      <p>Ce n'est pas une pathologie. C'est <strong style="color:var(--gold)">une protection devenue prison</strong>. Et toute prison a une porte de sortie.</p>
+    </div>
+  </section>
+
+  <!-- LES 7 MASQUES -->
+  <section class="section animate-up delay-2">
+    <h4>Les 7 Masques</h4>
+    <h2 style="margin:0.3rem 0 1.2rem;">Les 7 peurs universelles</h2>
+    <div class="masque-list">
+      <div class="masque-item">
+        <span class="masque-dot" style="background:#e53e3e;box-shadow:0 0 8px #e53e3e44;"></span>
+        <div class="masque-text"><strong>Masque Rouge</strong><small>Peur de la mort / maladie</small></div>
+      </div>
+      <div class="masque-item">
+        <span class="masque-dot" style="background:#ed8936;box-shadow:0 0 8px #ed893644;"></span>
+        <div class="masque-text"><strong>Masque Orange</strong><small>Peur de la souffrance</small></div>
+      </div>
+      <div class="masque-item">
+        <span class="masque-dot" style="background:#d69e2e;box-shadow:0 0 8px #d69e2e44;"></span>
+        <div class="masque-text"><strong>Masque Jaune</strong><small>Peur de l'incertitude</small></div>
+      </div>
+      <div class="masque-item">
+        <span class="masque-dot" style="background:#38a169;box-shadow:0 0 8px #38a16944;"></span>
+        <div class="masque-text"><strong>Masque Vert</strong><small>Peur du rejet / abandon</small></div>
+      </div>
+      <div class="masque-item">
+        <span class="masque-dot" style="background:#3182ce;box-shadow:0 0 8px #3182ce44;"></span>
+        <div class="masque-text"><strong>Masque Bleu</strong><small>Peur de l'impuissance</small></div>
+      </div>
+      <div class="masque-item">
+        <span class="masque-dot" style="background:#805ad5;box-shadow:0 0 8px #805ad544;"></span>
+        <div class="masque-text"><strong>Masque Indigo</strong><small>Peur de l'échec</small></div>
+      </div>
+      <div class="masque-item">
+        <span class="masque-dot" style="background:#b83280;box-shadow:0 0 8px #b8328044;"></span>
+        <div class="masque-text"><strong>Masque Violet</strong><small>Peur de perdre son identité</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA MÉTHODE VALEUR -->
+  <section class="glass-card section animate-up delay-3">
+    <h4>La Méthode</h4>
+    <h2 style="margin:0.3rem 0 1.2rem;">L'acronyme V.A.L.E.U.R©</h2>
+    <div class="steps-accordion" id="valeur-accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-letter">V</span>
+          <div class="accordion-title"><strong>VOIR</strong><small>Identifier le masque actif et le déclencheur</small></div>
+          <span class="accordion-chevron">›</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-inner"><p>La première étape est la conscience. Reconnaître le masque qui s'active, identifier la situation déclenchante, nommer ce qui se passe sans jugement. La conscience est le début de la liberté.</p></div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-letter">A</span>
+          <div class="accordion-title"><strong>ACCUEILLIR</strong><small>Recevoir l'émotion sans la fuir</small></div>
+          <span class="accordion-chevron">›</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-inner"><p>Au lieu de fuir, on accueille. L'émotion n'est pas un danger — c'est une information. L'accueillir pleinement, sans résistance, c'est lui retirer son pouvoir.</p></div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-letter">L</span>
+          <div class="accordion-title"><strong>LOCALISER</strong><small>Trouver où ça se manifeste dans le corps</small></div>
+          <span class="accordion-chevron">›</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-inner"><p>Les émotions ont une adresse corporelle. Une gorge serrée, un ventre noué, une poitrine oppressée. Localiser la sensation ancre la prise de conscience dans le réel et ouvre la voie à la régulation.</p></div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-letter">E</span>
+          <div class="accordion-title"><strong>EXPLORER</strong><small>Explorer le conflit intérieur</small></div>
+          <span class="accordion-chevron">›</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-inner"><p>Le cœur de la méthode : "Une part de moi voudrait créer du lien, mais une autre a encore plus peur d'être rejetée." Explorer ce conflit entre la nature authentique et la peur, c'est commencer à le résoudre.</p></div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-letter">U</span>
+          <div class="accordion-title"><strong>UNIFIER</strong><small>Réconcilier les parties en conflit</small></div>
+          <span class="accordion-chevron">›</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-inner"><p>Unifier, c'est accueillir les deux parties — la peur ET le désir profond — sans en rejeter aucune. Cette réconciliation intérieure crée l'espace pour un choix authentique.</p></div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="accordion-letter">R</span>
+          <div class="accordion-title"><strong>RENFORCER</strong><small>Ancrer la nouvelle posture</small></div>
+          <span class="accordion-chevron">›</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-inner"><p>La transformation se consolide par de nouveaux comportements — choisis, non plus subis. Renforcer, c'est ancrer la nouvelle posture dans la vie quotidienne, jusqu'à ce qu'elle devienne naturelle.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUESTIONNAIRE CTA -->
+  <section class="glass-card gold-border section animate-up delay-4" style="text-align:center;padding:2.5rem;">
+    <span style="font-size:2.5rem;display:block;margin-bottom:1rem;">🎯</span>
+    <h4>Première étape</h4>
+    <h2 style="margin:0.3rem 0 0.8rem;font-weight:300;">Révélez votre masque dominant</h2>
+    <p style="max-width:380px;margin:0 auto 1.5rem;">Le questionnaire V.A.L.E.U.R© cartographie de manière chirurgicale la source de votre anxiété. Une vraie révélation.</p>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;">Code d'accès : <strong style="color:var(--gold);letter-spacing:0.1em;">VALEUR2025</strong></p>
+    <a href="questionnaire.html" class="btn-primary" style="margin-right:0.8rem;">Faire le questionnaire →</a>
+  </section>
+
+  <!-- NAVIGATION -->
+  <div style="display:flex;justify-content:center;gap:1rem;margin-top:2rem;padding:1rem 0;" class="animate-up delay-5">
+    <a href="module1.html" class="btn-primary">Commencer · Module 1 →</a>
+  </div>
+
+</main>
+
+<button class="fab" id="fab-journal" title="Journal V.A.L.E.U.R©">📓</button>
+
+<div id="journal-modal" class="modal-overlay" style="display:none;">
+  <div class="glass-card modal-content">
+    <button class="modal-close" onclick="closeJournalModal()">✕</button>
+    <h4 style="margin-bottom:0.3rem;">Journal V.A.L.E.U.R©</h4>
+    <h3 style="margin-bottom:1.5rem;font-weight:300;">Observer un masque maintenant</h3>
+    <form id="quick-journal-form">
+      <div class="form-group">
+        <select name="masque" required>
+          <option value="">🎭 Quel masque détectez-vous ?</option>
+          <option value="rouge">🔴 Rouge — Mort / Maladie</option>
+          <option value="orange">🟠 Orange — Souffrance psychique</option>
+          <option value="jaune">🟡 Jaune — Inconnu / Incertitude</option>
+          <option value="vert">🟢 Vert — Rejet / Abandon</option>
+          <option value="bleu">🔵 Bleu — Impuissance</option>
+          <option value="indigo">🟣 Indigo — Échec / Inadéquation</option>
+          <option value="violet">💜 Violet — Perte d'identité</option>
+        </select>
+      </div>
+      <div class="valeur-steps">
+        <div class="step-item"><label><span class="step-letter">V</span> VOIR — le déclencheur</label><textarea name="V" placeholder="Quelle situation a activé ce masque ?" rows="2"></textarea></div>
+        <div class="step-item"><label><span class="step-letter">A</span> ACCUEILLIR — l'émotion</label><textarea name="A" placeholder="Quelle émotion ressentez-vous ?" rows="2"></textarea></div>
+        <div class="step-item"><label><span class="step-letter">L</span> LOCALISER — dans le corps</label><textarea name="L" placeholder="Où ressentez-vous ça ?" rows="2"></textarea></div>
+        <div class="step-item"><label><span class="step-letter">E</span> EXPLORER — le conflit</label><textarea name="E" placeholder="Conflit entre masque et valeur profonde ?" rows="2"></textarea></div>
+        <div class="step-item"><label><span class="step-letter">U</span> UNIFIER — la conscience</label><textarea name="U" placeholder="Action consciente choisie ?" rows="2"></textarea></div>
+        <div class="step-item"><label><span class="step-letter">R</span> RENFORCER — l'ancrage</label><textarea name="R" placeholder="Comment ancrer cette prise de conscience ?" rows="2"></textarea></div>
+      </div>
+      <button type="submit" class="btn-primary full-width" style="margin-top:0.5rem;">💾 Sauvegarder</button>
+    </form>
+  </div>
+</div>
+
+<div class="copyright-bar">
+  © Céline Bourbon — Méthode V.A.L.E.U.R© — Tous droits réservés — "De la peur à la joie d'être soi", L'Harmattan — Reproduction interdite
+</div>
+
+<script src="valeur-config.js"></script>
+<script src="assets/js/valeur-core.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  VALEUR_PROGRESS.render('');
+});
+
+function toggleAccordion(header) {
+  var item = header.parentElement;
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.accordion-item.open').forEach(function(el) { el.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>

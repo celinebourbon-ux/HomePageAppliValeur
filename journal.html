@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>V.A.L.E.U.R© — Journal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/design-system.css">
+  <style>
+    .filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: rgba(201,168,76,0.12);
+      border-color: var(--border-gold);
+      color: var(--gold);
+    }
+    .new-entry-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1.3rem 1.5rem;
+      background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.04));
+      border: 1px dashed var(--border-gold);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      margin-bottom: 1.5rem;
+      width: 100%;
+      text-align: left;
+    }
+    .new-entry-btn:hover {
+      background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.07));
+      transform: translateY(-2px);
+    }
+    .new-entry-btn span { font-size: 1.4rem; }
+    .new-entry-text strong { display:block; font-size:0.85rem; font-weight:600; color:var(--text-primary); }
+    .new-entry-text small { font-size:0.75rem; color:var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="orbe orbe-1"></div>
+<div class="orbe orbe-2"></div>
+
+<div id="valeur-progress-bar"></div>
+
+<header class="glass-header">
+  <div class="header-content">
+    <a href="index.html" class="logo-text">V.A.L.E.U.R©</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <nav id="nav-menu">
+      <a href="index.html">🏠 Accueil</a>
+      <a href="module-0.html">📚 Modules</a>
+      <a href="journal.html" class="active">📓 Journal</a>
+      <a href="questionnaire.html">🎯 Questionnaire</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HEADER -->
+  <section class="section animate-up">
+    <h4>Mon Espace</h4>
+    <h1>Journal V.A.L.E.U.R©</h1>
+    <p class="lead">Chaque entrée est un pas vers votre nature authentique</p>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-grid animate-up delay-1">
+    <div class="stat-card glass-card">
+      <span class="stat-value" id="total-entries">0</span>
+      <span class="stat-label">Observations</span>
+    </div>
+    <div class="stat-card glass-card">
+      <span class="stat-value" id="masque-fav">—</span>
+      <span class="stat-label">Masque fréquent</span>
+    </div>
+    <div class="stat-card glass-card">
+      <span class="stat-value" id="derniere-entree">—</span>
+      <span class="stat-label">Dernière entrée</span>
+    </div>
+  </div>
+
+  <hr class="gold-divider">
+
+  <!-- NEW ENTRY -->
+  <button class="new-entry-btn animate-up delay-2" onclick="openNewEntry()">
+    <span>✍️</span>
+    <div class="new-entry-text">
+      <strong>Nouvelle observation</strong>
+      <small>Observer un masque actif — appliquer la méthode V.A.L.E.U.R©</small>
+    </div>
+    <span style="color:var(--gold);margin-left:auto;">+</span>
+  </button>
+
+  <!-- INLINE JOURNAL FORM (hidden by default) -->
+  <div id="inline-form-wrap" style="display:none;" class="glass-card gold-border section animate-up">
+    <h4 style="margin-bottom:1rem;">Nouvelle Observation</h4>
+    <form id="inline-journal-form">
+      <div class="form-group">
+        <select name="masque" required>
+          <option value="">🎭 Quel masque détectez-vous ?</option>
+          <option value="rouge">🔴 Rouge — Peur de la mort / maladie</option>
+          <option value="orange">🟠 Orange — Peur de la souffrance</option>
+          <option value="jaune">🟡 Jaune — Peur de l'incertitude</option>
+          <option value="vert">🟢 Vert — Peur du rejet / abandon</option>
+          <option value="bleu">🔵 Bleu — Peur de l'impuissance</option>
+          <option value="indigo">🟣 Indigo — Peur de l'échec</option>
+          <option value="violet">💜 Violet — Peur de perdre son identité</option>
+        </select>
+      </div>
+      <div class="valeur-steps">
+        <div class="step-item">
+          <label><span class="step-letter">V</span> VOIR — le déclencheur</label>
+          <textarea name="V" placeholder="Quelle situation a activé ce masque ? Décrivez précisément le contexte." rows="3"></textarea>
+        </div>
+        <div class="step-item">
+          <label><span class="step-letter">A</span> ACCUEILLIR — l'émotion</label>
+          <textarea name="A" placeholder="Quelle émotion est présente ? Nommez-la sans la juger." rows="3"></textarea>
+        </div>
+        <div class="step-item">
+          <label><span class="step-letter">L</span> LOCALISER — dans le corps</label>
+          <textarea name="L" placeholder="Où ressentez-vous ça dans votre corps ? Décrivez la sensation physique." rows="3"></textarea>
+        </div>
+        <div class="step-item">
+          <label><span class="step-letter">E</span> EXPLORER — le conflit intérieur</label>
+          <textarea name="E" placeholder="'Une part de moi voudrait... mais une autre a peur de...'" rows="3"></textarea>
+        </div>
+        <div class="step-item">
+          <label><span class="step-letter">U</span> UNIFIER — la conscience</label>
+          <textarea name="U" placeholder="Comment réconciliez-vous ces deux parties ? Quelle action consciente choisissez-vous ?" rows="3"></textarea>
+        </div>
+        <div class="step-item">
+          <label><span class="step-letter">R</span> RENFORCER — l'ancrage</label>
+          <textarea name="R" placeholder="Comment allez-vous ancrer cette prise de conscience ? Un geste, une phrase, un engagement." rows="3"></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.8rem;margin-top:1rem;flex-wrap:wrap;">
+        <button type="submit" class="btn-primary">💾 Sauvegarder cette observation</button>
+        <button type="button" class="btn-secondary" onclick="closeInlineForm()">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar animate-up delay-3" id="filter-bar">
+    <button class="filter-btn active" data-filter="all" onclick="filterEntries('all', this)">Tout voir</button>
+    <button class="filter-btn" data-filter="rouge" onclick="filterEntries('rouge', this)">🔴 Rouge</button>
+    <button class="filter-btn" data-filter="orange" onclick="filterEntries('orange', this)">🟠 Orange</button>
+    <button class="filter-btn" data-filter="jaune" onclick="filterEntries('jaune', this)">🟡 Jaune</button>
+    <button class="filter-btn" data-filter="vert" onclick="filterEntries('vert', this)">🟢 Vert</button>
+    <button class="filter-btn" data-filter="bleu" onclick="filterEntries('bleu', this)">🔵 Bleu</button>
+    <button class="filter-btn" data-filter="indigo" onclick="filterEntries('indigo', this)">🟣 Indigo</button>
+    <button class="filter-btn" data-filter="violet" onclick="filterEntries('violet', this)">💜 Violet</button>
+  </div>
+
+  <!-- JOURNAL ENTRIES -->
+  <section class="section animate-up delay-3">
+    <div id="journal-list"></div>
+  </section>
+
+</main>
+
+<button class="fab" id="fab-journal" title="Journal rapide V.A.L.E.U.R©" onclick="openNewEntry()">✍️</button>
+
+<!-- No FAB modal on journal page — direct to inline form -->
+<div id="journal-modal" style="display:none;"></div>
+
+<div class="copyright-bar">
+  © Céline Bourbon — Méthode V.A.L.E.U.R© — Tous droits réservés — "De la peur à la joie d'être soi", L'Harmattan — Reproduction interdite
+</div>
+
+<script src="valeur-config.js"></script>
+<script src="assets/js/valeur-core.js"></script>
+<script>
+var currentFilter = 'all';
+
+function openNewEntry() {
+  var wrap = document.getElementById('inline-form-wrap');
+  wrap.style.display = 'block';
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Re-override FAB click for this page
+  var fab = document.getElementById('fab-journal');
+  if (fab) fab.onclick = openNewEntry;
+}
+
+function closeInlineForm() {
+  document.getElementById('inline-form-wrap').style.display = 'none';
+}
+
+document.getElementById('inline-journal-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var data = new FormData(this);
+  var entry = {
+    masque: data.get('masque'),
+    V: data.get('V'), A: data.get('A'), L: data.get('L'),
+    E: data.get('E'), U: data.get('U'), R: data.get('R')
+  };
+  if (!entry.masque) { ValeurToast.show('⚠️ Sélectionnez un masque'); return; }
+  ValeurJournal.add(entry);
+  this.reset();
+  closeInlineForm();
+  ValeurConfetti.launch(80);
+  ValeurToast.show('✨ Observation sauvegardée !');
+  renderJournalPage();
+});
+
+function filterEntries(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderJournalPage();
+}
+
+function renderJournalPage() {
+  var all = ValeurJournal.getAll().reverse();
+  var filtered = currentFilter === 'all' ? all : all.filter(function(e) { return e.masque === currentFilter; });
+
+  // Stats
+  document.getElementById('total-entries').textContent = all.length;
+
+  // Most used masque
+  if (all.length) {
+    var counts = {};
+    all.forEach(function(e) { counts[e.masque] = (counts[e.masque] || 0) + 1; });
+    var top = Object.keys(counts).reduce(function(a, b) { return counts[a] > counts[b] ? a : b; });
+    var ml = ValeurJournal.getMasqueLabel(top);
+    document.getElementById('masque-fav').textContent = ml.label.split(' ')[0] + ' ' + (top.charAt(0).toUpperCase() + top.slice(1));
+  }
+
+  // Last entry date
+  if (all.length) {
+    var last = new Date(all[0].date);
+    var today = new Date();
+    var diff = Math.floor((today - last) / (1000*60*60*24));
+    var lastStr = diff === 0 ? "Aujourd'hui" : diff === 1 ? "Hier" : "Il y a " + diff + "j";
+    document.getElementById('derniere-entree').textContent = lastStr;
+  }
+
+  ValeurJournal.renderEntries('journal-list', filtered);
+}
+
+// Override ValeurJournal.confirmDelete to re-render journal page
+var _origDelete = ValeurJournal.confirmDelete.bind(ValeurJournal);
+ValeurJournal.confirmDelete = function(id) {
+  if (confirm('Supprimer cette observation ?')) {
+    ValeurJournal.delete(id);
+    ValeurToast.show('Entrée supprimée');
+    renderJournalPage();
+  }
+};
+
+window.renderJournalPage = renderJournalPage;
+
+document.addEventListener('DOMContentLoaded', function() {
+  VALEUR_PROGRESS.render('');
+  renderJournalPage();
+});
+</script>
+</body>
+</html>
