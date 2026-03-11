@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V.A.L.E.U.R© — Mon Parcours</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none}
+:root{
+  --gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:rgba(201,168,76,0.15);
+  --navy:#0a0d14;--navy2:#0f1320;--navy3:#141828;
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(201,168,76,0.18);
+  --text:#f0ead8;--text-dim:rgba(240,234,216,0.5);--text-muted:rgba(240,234,216,0.3);
+  --sidebar-w:260px;
+  --c0:#9b9b9b;--c1:#e05555;--c2:#e07c3a;--c3:#d4b84a;--c4:#5aaa6a;--c5:#4a8fe8;--c6:#7c5cbf;--c7:#b04fbf;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--navy);font-family:'Jost',sans-serif;color:var(--text);display:flex;flex-direction:column}
+
+/* ANTI COPY */
+img{pointer-events:none}
+
+/* BG */
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.12;animation:drift 14s ease-in-out infinite}
+.orb1{width:600px;height:600px;background:radial-gradient(#4a0080,transparent);top:-150px;left:-100px}
+.orb2{width:400px;height:400px;background:radial-gradient(#c9a84c,transparent);bottom:-100px;right:0;animation-delay:-6s}
+.orb3{width:350px;height:350px;background:radial-gradient(#003066,transparent);top:40%;left:40%;animation-delay:-10s}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(25px,-18px)}}
+.grid-tex{position:fixed;inset:0;background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* ── TOP BAR ── */
+.topbar{
+  position:relative;z-index:100;flex-shrink:0;
+  display:flex;align-items:center;gap:16px;
+  padding:0 24px;height:64px;
+  background:rgba(10,13,20,0.85);
+  border-bottom:1px solid rgba(201,168,76,0.12);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+}
+.menu-btn{
+  display:none;background:none;border:1px solid rgba(201,168,76,0.25);
+  border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--gold);font-size:1rem;
+}
+.topbar-logo{
+  font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;
+  color:var(--gold);letter-spacing:0.15em;white-space:nowrap;
+}
+.topbar-sep{width:1px;height:20px;background:rgba(201,168,76,0.2)}
+.topbar-sub{font-size:0.7rem;color:var(--text-dim);letter-spacing:0.1em;font-weight:300;font-style:italic}
+
+/* GLOBAL PROGRESS */
+.progress-wrap{flex:1;display:flex;align-items:center;gap:12px;max-width:400px;margin-left:auto}
+.progress-label{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.progress-bar-outer{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:99px;transition:width 1s cubic-bezier(0.4,0,0.2,1);width:0%}
+.progress-pct{font-size:0.7rem;color:var(--gold);font-weight:500;min-width:30px;text-align:right}
+
+.topbar-user{display:flex;align-items:center;gap:10px;margin-left:16px}
+.avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-dim),rgba(201,168,76,0.08));
+  border:1px solid rgba(201,168,76,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:var(--gold);
+}
+.user-name{font-size:0.75rem;color:var(--text-dim);display:none}
+.logout-btn{
+  background:none;border:none;cursor:pointer;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-muted);padding:4px 8px;border-radius:6px;
+  transition:color 0.2s;font-family:'Jost',sans-serif;
+}
+.logout-btn:hover{color:var(--gold)}
+
+/* ── LAYOUT ── */
+.layout{display:flex;flex:1;overflow:hidden;position:relative;z-index:10}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:rgba(10,13,20,0.7);
+  border-right:1px solid rgba(201,168,76,0.1);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;
+  overflow-y:auto;transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  z-index:50;
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);border-radius:99px}
+
+.sidebar-section{padding:20px 16px 8px;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted)}
+.nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;margin:2px 8px;
+  border-radius:12px;cursor:pointer;
+  transition:all 0.2s ease;text-decoration:none;
+  border:1px solid transparent;position:relative;
+  overflow:hidden;
+}
+.nav-item::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  transition:opacity 0.3s;border-radius:12px;
+}
+.nav-item:hover::before{opacity:1}
+.nav-item:hover{border-color:rgba(201,168,76,0.15)}
+.nav-item.active{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.25)}
+.nav-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:2px solid currentColor;position:relative}
+.nav-dot.done{border:none}
+.nav-dot.done::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff}
+.nav-label{font-size:0.8rem;font-weight:400;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-step{font-size:0.6rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;font-weight:300}
+.nav-status{margin-left:auto;font-size:0.6rem;padding:2px 7px;border-radius:99px;font-weight:500;white-space:nowrap}
+.nav-status.done{background:rgba(90,170,106,0.15);color:#5aaa6a}
+.nav-status.active-s{background:rgba(201,168,76,0.15);color:var(--gold)}
+.nav-status.locked{background:rgba(255,255,255,0.04);color:var(--text-muted)}
+
+.sidebar-footer{margin-top:auto;padding:20px 16px;border-top:1px solid rgba(201,168,76,0.08)}
+.book-badge{
+  background:var(--gold-dim);border:1px solid rgba(201,168,76,0.2);
+  border-radius:12px;padding:14px;font-size:0.72rem;line-height:1.6;
+  color:var(--text-dim);text-align:center;
+}
+.book-badge strong{display:block;color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:0.9rem;margin-bottom:4px}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:32px 28px 120px;scrollbar-width:thin;scrollbar-color:rgba(201,168,76,0.2) transparent}
+.main::-webkit-scrollbar{width:4px}
+.main::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);border-radius:99px}
+
+/* HERO */
+.hero{margin-bottom:40px;animation:fadeUp 0.6s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.hero-greeting{font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:300;line-height:1.3;color:var(--text)}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{margin-top:12px;font-size:0.85rem;color:var(--text-dim);font-weight:300;max-width:560px;line-height:1.7}
+
+/* MODULES GRID */
+.modules-title{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;animation:fadeUp 0.7s 0.1s ease both}
+
+/* MODULE CARD */
+.card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:20px;padding:28px 24px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  animation:cardIn 0.5s ease both;
+}
+.card::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  background:radial-gradient(ellipse at top left,var(--mask-color-dim,rgba(201,168,76,0.08)),transparent 70%);
+  transition:opacity 0.4s;
+}
+.card:hover::before{opacity:1}
+.card:hover{transform:translateY(-4px);border-color:var(--mask-color,rgba(201,168,76,0.3));box-shadow:0 16px 48px rgba(0,0,0,0.4),0 0 0 1px var(--mask-color-dim,transparent)}
+.card.locked{opacity:0.5;cursor:not-allowed}
+.card.locked:hover{transform:none;box-shadow:none}
+@keyframes cardIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:none}}
+
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.card-icon{
+  width:48px;height:48px;border-radius:14px;
+  background:var(--mask-color-dim,var(--gold-dim));
+  border:1px solid var(--mask-color-border,rgba(201,168,76,0.2));
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  box-shadow:0 4px 20px var(--mask-color-shadow,rgba(201,168,76,0.15));
+}
+.card-badge{
+  font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
+  padding:4px 10px;border-radius:99px;
+}
+.badge-done{background:rgba(90,170,106,0.15);color:#5aaa6a;border:1px solid rgba(90,170,106,0.25)}
+.badge-active{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
+.badge-locked{background:rgba(255,255,255,0.04);color:var(--text-muted);border:1px solid rgba(255,255,255,0.06)}
+
+.card-step{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--mask-color,var(--gold));margin-bottom:6px;opacity:0.8}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--text);margin-bottom:8px}
+.card-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.65;font-weight:300}
+
+.card-footer{margin-top:20px;display:flex;align-items:center;justify-content:space-between}
+.card-progress{flex:1;margin-right:16px}
+.card-prog-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
+.card-prog-fill{height:100%;border-radius:99px;background:var(--mask-color,var(--gold));transition:width 1.2s ease}
+.card-prog-text{font-size:0.65rem;color:var(--text-muted);margin-top:6px}
+.card-arrow{color:var(--mask-color,var(--gold));font-size:1.1rem;opacity:0.6;transition:all 0.2s}
+.card:hover .card-arrow{opacity:1;transform:translateX(4px)}
+
+/* LOCK OVERLAY */
+.lock-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.5rem;opacity:0.3}
+
+/* ── JOURNAL ── */
+.journal-fab{
+  position:fixed;bottom:28px;right:24px;z-index:200;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#a8792a);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  box-shadow:0 8px 32px rgba(201,168,76,0.4);
+  transition:all 0.3s ease;
+}
+.journal-fab:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(201,168,76,0.5)}
+.journal-fab.open{border-radius:12px;background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.3);box-shadow:none}
+
+.journal-panel{
+  position:fixed;bottom:92px;right:24px;z-index:199;
+  width:min(380px,calc(100vw - 32px));
+  background:rgba(10,13,20,0.95);
+  border:1px solid rgba(201,168,76,0.2);border-radius:20px;
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  box-shadow:0 24px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(201,168,76,0.06);
+  transform:translateY(20px) scale(0.95);opacity:0;pointer-events:none;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  display:flex;flex-direction:column;max-height:70vh;
+}
+.journal-panel.open{transform:none;opacity:1;pointer-events:all}
+.journal-header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.journal-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold)}
+.journal-count{font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em}
+.journal-entries{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.journal-entries::-webkit-scrollbar{width:3px}
+.journal-entries::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);border-radius:99px}
+.journal-entry{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);
+  border-radius:12px;padding:12px 14px;
+}
+.entry-date{font-size:0.62rem;color:var(--text-muted);margin-bottom:6px;letter-spacing:0.05em}
+.entry-text{font-size:0.82rem;color:var(--text-dim);line-height:1.6;font-weight:300}
+.journal-compose{padding:16px 20px;border-top:1px solid rgba(201,168,76,0.08);flex-shrink:0}
+.journal-textarea{
+  width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.15);
+  border-radius:12px;padding:12px 14px;resize:none;
+  font-family:'Jost',sans-serif;font-size:0.82rem;color:var(--text);
+  outline:none;line-height:1.6;min-height:80px;font-weight:300;
+  transition:border-color 0.2s;
+}
+.journal-textarea::placeholder{color:rgba(240,234,216,0.2)}
+.journal-textarea:focus{border-color:rgba(201,168,76,0.35);user-select:text;-webkit-user-select:text}
+.journal-send{
+  margin-top:10px;width:100%;padding:10px;
+  background:linear-gradient(135deg,var(--gold),#a8792a);
+  border:none;border-radius:10px;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;color:#0a0d14;
+  transition:opacity 0.2s;
+}
+.journal-send:hover{opacity:0.9}
+.journal-empty{text-align:center;padding:24px;font-size:0.8rem;color:var(--text-muted);font-style:italic}
+
+/* ── CONFETTI ── */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+/* ── SIDEBAR OVERLAY (mobile) ── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:49;backdrop-filter:blur(4px)}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .menu-btn{display:flex}
+  .topbar-sub{display:none}
+  .user-name{display:none}
+  .progress-label{display:none}
+  .sidebar{
+    position:fixed;left:0;top:64px;bottom:0;transform:translateX(-100%);
+    border-right:1px solid rgba(201,168,76,0.15);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{padding:20px 16px 120px}
+  .grid{grid-template-columns:1fr}
+  .hero-title{font-size:1.5rem}
+}
+@media(min-width:769px){
+  .menu-btn{display:none!important}
+}
+
+/* TOAST */
+.toast{
+  position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);
+  background:rgba(10,13,20,0.95);border:1px solid rgba(201,168,76,0.3);
+  border-radius:12px;padding:12px 24px;
+  font-size:0.8rem;color:var(--gold);letter-spacing:0.05em;
+  z-index:500;opacity:0;pointer-events:none;
+  transition:all 0.4s ease;box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  backdrop-filter:blur(20px);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* COPYRIGHT */
+.copyright-watermark{
+  position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
+  font-size:0.6rem;letter-spacing:0.15em;color:rgba(201,168,76,0.2);
+  pointer-events:none;z-index:1000;white-space:nowrap;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+</div>
+<div class="grid-tex"></div>
+<canvas id="confetti-canvas"></canvas>
+<div class="toast" id="toast"></div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()">☰</button>
+  <span class="logo-title">V.A.L.E.U.R©</span>
+  <div class="topbar-sep"></div>
+  <span class="topbar-sub">Les 7 peurs qui empêchent d'être soi</span>
+  <div class="progress-wrap">
+    <span class="progress-label">Progression</span>
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="globalBar"></div></div>
+    <span class="progress-pct" id="globalPct">0%</span>
+  </div>
+  <div class="topbar-user">
+    <div class="avatar" id="avatarIcon">✦</div>
+    <button class="logout-btn" onclick="doLogout()">Déconnexion</button>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR OVERLAY -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">Navigation</div>
+    <div id="sidebarNav"></div>
+    <div class="sidebar-footer">
+      <div class="book-badge">
+        <strong>"De la peur à la joie d'être soi"</strong>
+        Céline Bourbon — Éd. L'Harmattan<br>
+        <span style="color:var(--gold);font-size:0.65rem">Méthode V.A.L.E.U.R©</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main" id="mainContent">
+    <div class="hero">
+      <div class="hero-greeting" id="heroGreeting">Bienvenue</div>
+      <h1 class="hero-title">Votre parcours vers <em>être vraiment vous</em></h1>
+      <p class="hero-sub">Chaque module vous rapproche de votre nature authentique. Suivez la méthode V.A.L.E.U.R© à votre rythme, un pas transformateur à la fois.</p>
+    </div>
+
+    <div class="modules-title">Vos 7 modules — Parcours V.A.L.E.U.R©</div>
+    <div class="grid" id="modulesGrid"></div>
+  </main>
+</div>
+
+<!-- JOURNAL FAB -->
+<button class="journal-fab" id="journalFab" onclick="toggleJournal()" title="Mon Journal">📓</button>
+
+<!-- JOURNAL PANEL -->
+<div class="journal-panel" id="journalPanel">
+  <div class="journal-header">
+    <span class="journal-title">✦ Mon Journal</span>
+    <span class="journal-count" id="journalCount">0 note</span>
+  </div>
+  <div class="journal-entries" id="journalEntries"></div>
+  <div class="journal-compose">
+    <textarea class="journal-textarea" id="journalInput" placeholder="Notez vos ressentis, prises de conscience, émotions du moment…" maxlength="1000"></textarea>
+    <button class="journal-send" onclick="saveJournalEntry()">Sauvegarder cette note →</button>
+  </div>
+</div>
+
+<div class="copyright-watermark">© V.A.L.E.U.R — Céline Bourbon — Méthode propriétaire — Tous droits réservés</div>
+
+<script>
+// ── ANTI-COPY ──
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&['c','u','s','a','p','i'].includes(e.key.toLowerCase()))e.preventDefault();
+  if(e.key==='F12')e.preventDefault();
+});
+document.addEventListener('dragstart',e=>e.preventDefault());
+document.addEventListener('selectstart',e=>{
+  if(e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='INPUT')e.preventDefault();
+});
+
+// ── DATA ──
+const MODULES = [
+  {
+    id:0, slug:'module0',
+    step:'Fondations', label:'Comprendre',
+    icon:'🧠', color:'#9b9b9b',
+    desc:'L\'anxiété : d\'où vient-elle vraiment ? Découvrez les 7 peurs universelles et vos masques de protection.',
+    url:'module0.html', always_open:true
+  },
+  {
+    id:1, slug:'module1',
+    step:'V — Voir', label:'Identifier le masque',
+    icon:'👁', color:'#e05555',
+    desc:'Reconnaître quel masque est activé en vous. Le premier pas vers la liberté est de voir ce qui se passe vraiment.',
+    url:'module1.html'
+  },
+  {
+    id:2, slug:'module2',
+    step:'A — Accueillir', label:'Recevoir l\'émotion',
+    icon:'🤲', color:'#e07c3a',
+    desc:'Recevoir l\'émotion sans la fuir ni la combattre. L\'accueil est le début de la transformation.',
+    url:'module2.html'
+  },
+  {
+    id:3, slug:'module3',
+    step:'L — Localiser', label:'Ressentir le corps',
+    icon:'🫀', color:'#d4b84a',
+    desc:'Trouver où l\'émotion vit dans votre corps. Le corps sait toujours avant la tête.',
+    url:'module3.html'
+  },
+  {
+    id:4, slug:'module4',
+    step:'E — Explorer', label:'Le conflit intérieur',
+    icon:'🔍', color:'#5aaa6a',
+    desc:'Explorer le conflit entre votre nature authentique et la peur qui la retient. La clé de tout.',
+    url:'module4.html'
+  },
+  {
+    id:5, slug:'module5',
+    step:'U — Unifier', label:'Réconcilier les parties',
+    icon:'☯', color:'#4a8fe8',
+    desc:'Réconcilier les parties en conflit en vous. L\'unification est la paix intérieure retrouvée.',
+    url:'module5.html'
+  },
+  {
+    id:6, slug:'module6',
+    step:'R — Renforcer', label:'Ancrer la transformation',
+    icon:'✨', color:'#b04fbf',
+    desc:'Ancrer la nouvelle posture avec des comportements choisis. Vous devenez enfin vous-même.',
+    url:'module6.html'
+  }
+];
+
+// ── STATE ──
+function getCompleted(){
+  const arr=[];
+  MODULES.forEach(m=>{
+    if(localStorage.getItem('VALEUR_module'+m.id+'_complete')==='1')arr.push(m.id);
+  });
+  return arr;
+}
+function isUnlocked(id){
+  if(id===0)return true;
+  return localStorage.getItem('VALEUR_module'+(id-1)+'_complete')==='1';
+}
+function getProgress(id){
+  const p=localStorage.getItem('valeur_module'+id+'_progress');
+  return p?parseInt(p):0;
+}
+
+// ── RENDER ──
+function hexToRgb(h){
+  const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+function renderModules(){
+  const completed=getCompleted();
+  const grid=document.getElementById('modulesGrid');
+  grid.innerHTML='';
+  MODULES.forEach((m,i)=>{
+    const done=completed.includes(m.id);
+    const unlocked=isUnlocked(m.id);
+    const prog=getProgress(m.id);
+    const rgb=hexToRgb(m.color);
+    const card=document.createElement('div');
+    card.className='card'+(unlocked?'':' locked');
+    card.style.cssText=`--mask-color:${m.color};--mask-color-dim:rgba(${rgb},0.08);--mask-color-border:rgba(${rgb},0.2);--mask-color-shadow:rgba(${rgb},0.15);animation-delay:${i*0.06}s`;
+    card.innerHTML=`
+      <div class="card-header">
+        <div class="card-icon">${m.icon}</div>
+        <span class="card-badge ${done?'badge-done':unlocked?'badge-active':'badge-locked'}">${done?'✓ Complété':unlocked?'En cours':'🔒 Verrouillé'}</span>
+      </div>
+      <div class="card-step">${m.step}</div>
+      <div class="card-title">${m.label}</div>
+      <div class="card-desc">${m.desc}</div>
+      <div class="card-footer">
+        <div class="card-progress">
+          <div class="card-prog-bar"><div class="card-prog-fill" style="width:${done?100:prog}%"></div></div>
+          <div class="card-prog-text">${done?'Module complété':prog>0?prog+'% accompli':'Prêt à commencer'}</div>
+        </div>
+        ${unlocked?`<span class="card-arrow">→</span>`:'<span class="card-arrow" style="opacity:0.2">🔒</span>'}
+      </div>
+      ${!unlocked?'<div class="lock-icon">🔒</div>':''}
+    `;
+    if(unlocked){
+      card.addEventListener('click',()=>{
+        window.location.href=m.url;
+      });
+    }
+    grid.appendChild(card);
+  });
+  updateGlobalProgress();
+  renderSidebar();
+}
+
+function updateGlobalProgress(){
+  const completed=getCompleted();
+  const pct=Math.round((completed.length/MODULES.length)*100);
+  document.getElementById('globalBar').style.width=pct+'%';
+  document.getElementById('globalPct').textContent=pct+'%';
+}
+
+function renderSidebar(){
+  const completed=getCompleted();
+  const nav=document.getElementById('sidebarNav');
+  nav.innerHTML='';
+  MODULES.forEach(m=>{
+    const done=completed.includes(m.id);
+    const unlocked=isUnlocked(m.id);
+    const item=document.createElement('a');
+    item.className='nav-item'+(unlocked?'':' locked-nav');
+    item.href=unlocked?m.url:'#';
+    item.innerHTML=`
+      <div class="nav-dot ${done?'done':''}" style="color:${m.color};background:${done?m.color:'transparent'}"></div>
+      <div style="flex:1;min-width:0">
+        <div class="nav-label">${m.label}</div>
+        <div class="nav-step">${m.step}</div>
+      </div>
+      <span class="nav-status ${done?'done':unlocked?'active-s':'locked'}">${done?'✓':unlocked?'→':'🔒'}</span>
+    `;
+    if(!unlocked)item.addEventListener('click',e=>{e.preventDefault();showToast('Complétez le module précédent pour débloquer celui-ci.')});
+    nav.appendChild(item);
+  });
+}
+
+// ── JOURNAL ──
+function getJournalEntries(){
+  try{return JSON.parse(localStorage.getItem('valeur_journal')||'[]')}catch{return[]}
+}
+function saveJournalEntry(){
+  const ta=document.getElementById('journalInput');
+  const text=ta.value.trim();
+  if(!text)return;
+  const entries=getJournalEntries();
+  entries.unshift({text,date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})});
+  localStorage.setItem('valeur_journal',JSON.stringify(entries));
+  ta.value='';
+  renderJournal();
+  showToast('Note sauvegardée ✦');
+}
+function renderJournal(){
+  const entries=getJournalEntries();
+  const container=document.getElementById('journalEntries');
+  const count=document.getElementById('journalCount');
+  count.textContent=entries.length+' note'+(entries.length!==1?'s':'');
+  if(!entries.length){
+    container.innerHTML='<div class="journal-empty">Votre journal est vide.<br>Commencez à écrire ci-dessous…</div>';
+    return;
+  }
+  container.innerHTML=entries.map(e=>`
+    <div class="journal-entry">
+      <div class="entry-date">${e.date}</div>
+      <div class="entry-text">${e.text.replace(/</g,'&lt;')}</div>
+    </div>
+  `).join('');
+}
+
+let journalOpen=false;
+function toggleJournal(){
+  journalOpen=!journalOpen;
+  document.getElementById('journalPanel').classList.toggle('open',journalOpen);
+  document.getElementById('journalFab').classList.toggle('open',journalOpen);
+  document.getElementById('journalFab').textContent=journalOpen?'✕':'📓';
+  if(journalOpen)renderJournal();
+}
+
+// ── SIDEBAR MOBILE ──
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── CONFETTI ──
+function launchConfetti(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const colors=['#e05555','#e07c3a','#d4b84a','#5aaa6a','#4a8fe8','#7c5cbf','#b04fbf','#c9a84c'];
+  const particles=Array.from({length:160},()=>({
+    x:Math.random()*canvas.width,y:-10,
+    vx:(Math.random()-0.5)*4,vy:Math.random()*4+2,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    size:Math.random()*8+4,
+    rot:Math.random()*360,vrot:(Math.random()-0.5)*8,
+    life:1
+  }));
+  let frame;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.vrot;p.life-=0.008;p.vy+=0.05;
+      if(p.life<=0||p.y>canvas.height)return;
+      ctx.save();ctx.globalAlpha=p.life;ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);
+      ctx.restore();
+    });
+    if(particles.some(p=>p.life>0&&p.y<canvas.height))frame=requestAnimationFrame(draw);
+    else{ctx.clearRect(0,0,canvas.width,canvas.height);}
+  }
+  draw();
+}
+
+// ── AUTH CHECK ──
+function doLogout(){
+  localStorage.removeItem('valeur_auth');
+  window.location.href='login.html';
+}
+
+// ── INIT ──
+(function init(){
+  if(!localStorage.getItem('valeur_auth')){
+    window.location.href='login.html';return;
+  }
+  const email=localStorage.getItem('valeur_email')||'';
+  const name=email.split('@')[0]||'';
+  const disp=name.charAt(0).toUpperCase()+name.slice(1);
+  document.getElementById('heroGreeting').textContent='Bienvenue'+( disp?' '+disp:'');
+  document.getElementById('avatarIcon').textContent=disp?disp.charAt(0).toUpperCase():'✦';
+
+  renderModules();
+
+  // Listen for module completions from other pages
+  window.addEventListener('storage',e=>{
+    if(e.key&&e.key.startsWith('VALEUR_module')){
+      renderModules();
+      if(e.newValue==='1')launchConfetti();
+    }
+  });
+
+  // Demo: check if first time → small welcome toast
+  if(!localStorage.getItem('valeur_welcomed')){
+    setTimeout(()=>showToast('Bienvenue dans votre parcours V.A.L.E.U.R© ✦'),800);
+    localStorage.setItem('valeur_welcomed','1');
+  }
+})();
+
+window.addEventListener('resize',()=>{
+  const canvas=document.getElementById('confetti-canvas');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+});
+</script>
+</body>
+</html>
