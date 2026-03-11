@@ -315,6 +315,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
     --glass:rgba(255,255,255,.04); --gb:rgba(255,255,255,.08);
     --muted:#94A3B8; --text:#E2E8F0; --navy3:#0D1525;
     --mod3-glow:rgba(237,137,54,.35);
+    --mc:#E07C3A; --mc-glow:rgba(224,124,58,.45);
   }
 body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:none;}
 /* ══ AURORA ══ */
@@ -1862,10 +1863,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ══ PROTECTION CONTENU ══ */
 document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('selectstart',function(e){if(['TEXTAREA','INPUT','SELECT'].includes(e.target.tagName))return;e.preventDefault();});
+document.addEventListener('dragstart',function(e){e.preventDefault();});
+document.addEventListener('copy',function(e){if(['TEXTAREA','INPUT'].includes(e.target.tagName))return;e.preventDefault();});
 document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&['a','c','u','s','p'].includes(e.key.toLowerCase()))e.preventDefault();
-  if(e.key==='F12'||((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase())))e.preventDefault();
+  if(e.key==='F12')e.preventDefault();
+  if(e.ctrlKey&&['u','s','p','i'].includes(e.key.toLowerCase()))e.preventDefault();
 });
 
 /* ══ SCROLL PROGRESS ══ */
@@ -1955,12 +1958,14 @@ function saveDailyJournal(){showToast('✓ Journal du jour enregistré');}
 
 /* ══ COMPLETE MODULE ══ */
 function completeModule(){
+  try{ localStorage.setItem('valeur_module2_complete','true'); }catch(e){}
+  if(typeof VALEUR_PROGRESS!=='undefined'){ try{ VALEUR_PROGRESS.complete('module2'); }catch(e){} }
   const btn=document.querySelector('.btn-complete');
-  btn.textContent='✦ Félicitations — Module 3 Validé !';
-  btn.style.background='linear-gradient(135deg,#38A169,#68D391)';
-  var _up=document.getElementById('unlock-preview');if(_up)_up.classList.add('show');;
+  if(btn){ btn.textContent='\u2746 F\u00e9licitations \u2014 Module 2 \u2014 ACCUEILLIR \u2014 Valid\u00e9 !';
+    btn.style.background='linear-gradient(135deg,#38A169,#68D391)'; }
+  var _up=document.getElementById('unlock-preview');if(_up)_up.classList.add('show');
   setTimeout(()=>launchConfetti(),300);
-  showToast('🎉 Module 3 complété ! Incroyable travail !');
+  showToast('\uD83C\uDF89 Module 2 \u2014 ACCUEILLIR \u2014 compl\u00e9t\u00e9 ! Module 3 d\u00e9bloqu\u00e9 !');
 }
 
 /* ══ CONFETTI ══ */

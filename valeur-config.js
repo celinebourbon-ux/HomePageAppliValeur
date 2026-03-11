@@ -63,6 +63,7 @@ var VALEUR_PROGRESS = {
 
   /* Vérifie si le Module 0 est complété */
   isM0Done: function(email) {
+    try { if (localStorage.getItem('valeur_module0_complete') === 'true') return true; } catch(e) {}
     try {
       var p = JSON.parse(localStorage.getItem('valeur_' + email + '_progress') || '{}');
       return !!(p.module0_done) || (p.completedSections || []).length >= 4;

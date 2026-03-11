@@ -247,7 +247,7 @@ p{line-height:1.75;font-size:15px;color:var(--text);margin-bottom:12px}
 
 
 /* ══ SHELL V.A.L.E.U.R© ══ */
-:root{--mod:#805AD5;--mod-light:#B794F4;--mod-glow:rgba(128,90,213,.22);--mod-glass:rgba(128,90,213,.06);}
+:root{--mod:#805AD5;--mod-light:#B794F4;--mod-glow:rgba(128,90,213,.22);--mod-glass:rgba(128,90,213,.06);--mc:#8A5CF6;--mc-glow:rgba(138,92,246,.45);}
 body{padding-top:58px;overflow-x:hidden;user-select:none;-webkit-user-select:none;}
 /* ══ AURORA ══ */
 .bg-aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
@@ -1526,32 +1526,7 @@ function toggleCheck(item){
   chk.textContent = chk.classList.contains('checked') ? '✓' : '';
 }
 
-/* ══ COMPLETE MODULE ════════════════════════════════════════ */
-function completeModule(){
-  try{ localStorage.setItem('valeur_module6_complete','true'); }catch(e){}
-  launchConfetti();
-  setTimeout(function(){ document.getElementById('popup-final').classList.add('show'); }, 1200);
-}
-
-/* ══ CONFETTI OR ════════════════════════════════════════════ */
-function launchConfetti(){
-  var colors = ['#D4AF37','#F0D060','#ffffff','#ffe082','#B8941F','#fff9c4'];
-  for(var i=0;i<120;i++){
-    (function(i){setTimeout(function(){
-      var el=document.createElement('div');
-      el.className='confetti-piece';
-      el.style.left=Math.random()*100+'vw';
-      el.style.width=(Math.random()*8+4)+'px';
-      el.style.height=(Math.random()*10+5)+'px';
-      el.style.background=colors[Math.floor(Math.random()*colors.length)];
-      el.style.borderRadius=Math.random()>.5?'50%':'2px';
-      el.style.animationDuration=(Math.random()*2+1.5)+'s';
-      el.style.animationDelay='0s';
-      document.body.appendChild(el);
-      setTimeout(function(){el.remove();},4000);
-    },i*25);})(i);
-  }
-}
+/* [Dédoublonnage — completeModule et launchConfetti définis plus bas] */
 function showMiniConfetti(){
   var colors = ['#D4AF37','#F0D060','#2ECC71'];
   for(var i=0;i<30;i++){
@@ -1606,10 +1581,12 @@ document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el);
 
 /* ══ PROTECTION CONTENU ══ */
 document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('selectstart',function(e){if(['TEXTAREA','INPUT','SELECT'].includes(e.target.tagName))return;e.preventDefault();});
+document.addEventListener('dragstart',function(e){e.preventDefault();});
+document.addEventListener('copy',function(e){if(['TEXTAREA','INPUT'].includes(e.target.tagName))return;e.preventDefault();});
 document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&['a','c','u','s','p'].includes(e.key.toLowerCase()))e.preventDefault();
-  if(e.key==='F12'||((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase())))e.preventDefault();
+  if(e.key==='F12')e.preventDefault();
+  if(e.ctrlKey&&['u','s','p','i'].includes(e.key.toLowerCase()))e.preventDefault();
 });
 
 /* ══ SCROLL PROGRESS ══ */
@@ -1699,12 +1676,15 @@ function saveDailyJournal(){showToast('✓ Journal du jour enregistré');}
 
 /* ══ COMPLETE MODULE ══ */
 function completeModule(){
+  try{ localStorage.setItem('valeur_module6_complete','true'); }catch(e){}
+  if(typeof VALEUR_PROGRESS!=='undefined'){ try{ VALEUR_PROGRESS.complete('module6'); }catch(e){} }
   const btn=document.querySelector('.btn-complete');
-  btn.textContent='✦ Félicitations — Module 3 Validé !';
-  btn.style.background='linear-gradient(135deg,#38A169,#68D391)';
-  var _up=document.getElementById('unlock-preview');if(_up)_up.classList.add('show');;
+  if(btn){ btn.textContent='\u2746 F\u00e9licitations \u2014 Module 6 \u2014 RENFORCER \u2014 Valid\u00e9 !';
+    btn.style.background='linear-gradient(135deg,#38A169,#68D391)'; }
+  var _up=document.getElementById('unlock-preview');if(_up)_up.classList.add('show');
   setTimeout(()=>launchConfetti(),300);
-  showToast('🎉 Module 3 complété ! Incroyable travail !');
+  var pf=document.getElementById('popup-final');if(pf){setTimeout(function(){pf.classList.add('show');},1200);}
+  showToast('\uD83C\uDF89 Module 6 \u2014 RENFORCER \u2014 compl\u00e9t\u00e9 ! F\u00e9licitations !');
 }
 
 /* ══ CONFETTI ══ */
@@ -1796,10 +1776,10 @@ function loadJournalEntries(){
   function injectMaskLabel(){
     var m=localStorage.getItem('valeur_masque_actif')||'vert';
     var names={
-      rouge:'������ Masque Rouge',orange:'������ Masque Orange',
-      jaune:'������ Masque Jaune',vert:'������ Masque Vert',
-      bleu:'������ Masque Bleu',indigo:'������ Masque Indigo',
-      violet:'������ Masque Violet'
+      rouge:'������ Masque Rouge',orange:'������ Masque Orange',
+      jaune:'������ Masque Jaune',vert:'������ Masque Vert',
+      bleu:'������ Masque Bleu',indigo:'������ Masque Indigo',
+      violet:'������ Masque Violet'
     };
     var label=names[m]||m;
     document.querySelectorAll('.valeur-mask-name').forEach(function(el){
