@@ -2,1476 +2,894 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Module 1 — VOIR · Méthode V.A.L.E.U.R©</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<meta name="robots" content="noindex,nofollow">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="valeur-config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="robots" content="noindex, nofollow">
 <style>
-
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:#0a0f1a;font-family:'Segoe UI',system-ui,sans-serif;color:#e2e8f0;-webkit-font-smoothing:antialiased;}
-textarea,input{font-family:inherit;}
-::-webkit-scrollbar{width:5px;}
-::-webkit-scrollbar-track{background:#0a0f1a;}
-::-webkit-scrollbar-thumb{background:#e53e3e;border-radius:3px;}
-@media(max-width:480px){button{min-height:44px;}textarea,input{font-size:16px!important;}}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scaleIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(120vh) rotate(720deg);opacity:0}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.animate-fadeInUp{animation:fadeInUp 0.5s ease both}
-.animate-scaleIn{animation:scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both}
-.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal.delay-1{transition-delay:.1s;}
-.reveal.delay-2{transition-delay:.2s;}
-
-
-/* ══ SHELL V.A.L.E.U.R© ══ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-    --mod:#E53E3E; --mod-light:#FC8181;
-    --mod-glow:rgba(229,62,62,.22); --mod-glass:rgba(229,62,62,.06);
-    --orange:#ED8936; --gold:#C9A84C; --gold-light:#F0D080;
-    --gold-glow:rgba(201,168,76,.18);
-    --glass:rgba(255,255,255,.04); --gb:rgba(255,255,255,.08);
-    --muted:#94A3B8; --text:#E2E8F0; --navy3:#0D1525;
-    --mod3-glow:rgba(229,62,62,.35);
-    --mc:#E05555; --mc-glow:rgba(224,85,85,.45);
-  }
-body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:none;}
-/* ══ AURORA ══ */
+  --gold:#C9A84C;--gold-light:#F0D080;--gold-glow:rgba(201,168,76,.22);
+  --navy:#070D1A;--navy2:#0D1526;--navy3:#131F35;
+  --glass:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);
+  --text:#F2EDE6;--muted:#8A9BB5;
+  --red:#E53E3E;--red-light:#FEB2B2;--red-glow:rgba(229,62,62,.2);
+  --orange:#ED8936;--yellow:#D69E2E;--green:#38A169;--blue:#3182CE;--indigo:#5A67D8;--violet:#805AD5;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden;user-select:none;-webkit-user-select:none;}
+
+/* ── AURORA ── */
 .bg-aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
 .orb{position:absolute;border-radius:50%;filter:blur(130px);animation:drift 22s ease-in-out infinite;}
-.orb1{width:650px;height:650px;background:var(--mod);top:-200px;left:-150px;opacity:.07;}
-.orb2{width:500px;height:500px;background:var(--orange);bottom:-100px;right:-100px;opacity:.06;animation-delay:-8s;}
-.orb3{width:350px;height:350px;background:var(--gold);top:45%;left:55%;opacity:.05;animation-delay:-16s;}
-@keyframes drift{0%,100%{transform:translate(0,0);}33%{transform:translate(35px,-25px);}66%{transform:translate(-20px,35px);}}
+.orb1{width:600px;height:600px;background:var(--red);top:-180px;right:-150px;opacity:.07;}
+.orb2{width:450px;height:450px;background:var(--violet);bottom:-100px;left:-100px;opacity:.06;animation-delay:-9s;}
+.orb3{width:300px;height:300px;background:var(--gold);top:50%;left:40%;opacity:.04;animation-delay:-17s;}
+@keyframes drift{0%,100%{transform:translate(0,0);}33%{transform:translate(30px,-25px);}66%{transform:translate(-20px,30px);}}
 
+/* ── PROGRESS BAR ── */
+#progress-bar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(7,13,26,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(229,62,62,.15);
+  padding:10px 20px;display:flex;align-items:center;gap:12px;
+}
+.pb-back{display:flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--gb);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:12px;letter-spacing:.5px;text-decoration:none;transition:all .3s;white-space:nowrap;flex-shrink:0;}
+.pb-back:hover{background:var(--red-glow);border-color:var(--red);color:var(--red);}
+.pb-steps{display:flex;gap:6px;flex:1;align-items:center;}
+.pb-step{flex:1;height:30px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;transition:all .5s cubic-bezier(.34,1.56,.64,1);}
+.pb-step.done{background:linear-gradient(135deg,var(--gold),var(--gold-light));border-color:var(--gold-light);cursor:pointer;}
+.pb-step.active{background:rgba(229,62,62,.1);border-color:var(--red);animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,62,62,.3);}50%{box-shadow:0 0 0 4px rgba(229,62,62,0);}}
+.pb-letter{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted);}
+.pb-step.done .pb-letter{color:#070D1A;}
+.pb-step.active .pb-letter{color:var(--red);}
+.pb-pct{font-size:13px;font-weight:700;color:var(--gold);min-width:36px;text-align:right;}
+@media(max-width:480px){.pb-letter{font-size:9px;}.pb-step{height:24px;}#progress-bar{padding:8px 12px;gap:8px;}.pb-back span{display:none;}}
 
-/* ══ DOT NAV ══ */
+/* ── SCROLL LINE ── */
+#scroll-line{position:fixed;top:50px;left:0;height:2px;z-index:999;background:linear-gradient(90deg,var(--red),var(--gold-light));width:0%;transition:width .1s linear;}
+
+/* ── DOT NAV ── */
 #dot-nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:10px;}
 .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:all .4s;}
-.dot.active{background:var(--mod);border-color:var(--mod);box-shadow:0 0 8px var(--mod3-glow);transform:scale(1.3);}
-.dot:hover{background:rgba(212,172,13,.5);}
+.dot.active{background:var(--red);border-color:var(--red);box-shadow:0 0 8px rgba(229,62,62,.5);transform:scale(1.3);}
+.dot:hover{background:rgba(229,62,62,.5);}
 @media(max-width:768px){#dot-nav{display:none;}}
 
+/* ── MAIN ── */
+main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px 140px;}
 
-/* ══ TOAST ══ */
-#toast{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
-  z-index:2000;background:rgba(13,21,38,.97);backdrop-filter:blur(16px);
-  border:1px solid rgba(212,172,13,.3);border-radius:14px;
-  padding:14px 24px;font-size:.9rem;color:var(--text);
-  opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);
-  white-space:nowrap;pointer-events:none;
+/* ── SECTIONS ── */
+.section{padding:60px 0;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.section.visible{opacity:1;transform:none;}
+.s-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:10px;font-weight:600;}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;line-height:1.1;color:var(--text);margin-bottom:20px;}
+.s-title em{font-style:italic;color:var(--red);}
+.s-lead{font-size:1.05rem;line-height:1.8;color:var(--muted);font-weight:300;margin-bottom:24px;}
+.divider{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);margin:30px 0;}
+
+/* ── GLASS ── */
+.glass{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--gb);border-radius:20px;padding:28px;position:relative;overflow:hidden;}
+.glass::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 60%);pointer-events:none;}
+.glass-red{border-color:rgba(229,62,62,.2);}
+.glass-red::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);}
+
+/* ── CYCLE ── */
+.cycle-container{margin:28px 0;}
+.cycle-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;position:relative;}
+.cycle-step{background:var(--glass);border:1px solid var(--gb);border-radius:14px;padding:18px 12px;text-align:center;position:relative;transition:all .3s;}
+.cycle-step:hover{border-color:rgba(229,62,62,.3);transform:translateY(-2px);}
+.cycle-step::after{content:'→';position:absolute;right:-14px;top:50%;transform:translateY(-50%);font-size:18px;color:rgba(229,62,62,.4);z-index:2;}
+.cycle-step:last-child::after{display:none;}
+.cycle-num{width:32px;height:32px;border-radius:50%;border:1px solid rgba(229,62,62,.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--red);margin:0 auto 8px;}
+.cycle-title{font-size:.75rem;font-weight:600;color:var(--text);letter-spacing:.5px;margin-bottom:4px;}
+.cycle-desc{font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:300;}
+.cycle-step.voir-step{background:rgba(229,62,62,.08);border-color:rgba(229,62,62,.4);}
+.cycle-step.voir-step .cycle-num{background:var(--red);border-color:var(--red);color:#fff;}
+.voir-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(229,62,62,.1);border:1px solid rgba(229,62,62,.3);border-radius:100px;padding:6px 14px;font-size:.78rem;color:var(--red);margin-top:14px;}
+@media(max-width:560px){.cycle-steps{grid-template-columns:repeat(2,1fr);}.cycle-step::after{display:none;}}
+
+/* ── 3 QUESTIONS ── */
+.questions-block{display:flex;flex-direction:column;gap:14px;margin:24px 0;}
+.q-card{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:22px;position:relative;overflow:hidden;transition:all .3s;}
+.q-card:hover{border-color:rgba(229,62,62,.2);transform:translateX(4px);}
+.q-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red);border-radius:3px 0 0 3px;}
+.q-num{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:6px;font-weight:600;}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-style:italic;color:var(--text);line-height:1.6;margin-bottom:10px;}
+.q-detail{font-size:.83rem;color:var(--muted);line-height:1.65;font-weight:300;}
+
+/* ── MASQUES GRID ── */
+.masques-grid{display:flex;flex-direction:column;gap:8px;margin:24px 0;}
+.masque-card{border-radius:16px;border:1px solid rgba(255,255,255,.07);background:var(--glass);backdrop-filter:blur(16px);overflow:hidden;cursor:pointer;transition:all .4s cubic-bezier(.34,1.2,.64,1);}
+.masque-card:hover{transform:translateX(4px);}
+.masque-header{display:flex;align-items:center;gap:14px;padding:16px 18px;}
+.masque-emoji-box{width:42px;height:42px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(255,255,255,.1);}
+.masque-main{flex:1;}
+.masque-name{font-weight:600;font-size:.92rem;margin-bottom:2px;}
+.masque-peur{font-size:.78rem;color:var(--muted);font-weight:300;}
+.masque-toggle{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);flex-shrink:0;transition:all .3s;}
+.masque-card.open .masque-toggle{transform:rotate(45deg);}
+.masque-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1),padding .3s;padding:0 18px;}
+.masque-card.open .masque-body{max-height:280px;padding:0 18px 16px;}
+.masque-detail{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.md-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:10px 12px;}
+.md-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.md-val{font-size:.8rem;color:var(--text);line-height:1.5;}
+.masque-prediction{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px;}
+.mp-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.mp-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:var(--text);line-height:1.5;}
+@media(max-width:480px){.masque-detail{grid-template-columns:1fr;}}
+
+/* ── DÉCLENCHEURS ── */
+.decl-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.decl-tag{
+  padding:8px 16px;border-radius:100px;font-size:.82rem;font-weight:400;
+  background:rgba(229,62,62,.06);border:1px solid rgba(229,62,62,.18);color:var(--muted);
+  cursor:default;transition:all .3s;
 }
+.decl-tag:hover{background:rgba(229,62,62,.12);border-color:rgba(229,62,62,.35);color:var(--text);}
+.decl-types{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+.decl-type{background:var(--glass);border:1px solid var(--gb);border-radius:14px;padding:18px;}
+.dt-badge{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:8px;font-weight:600;}
+.dt-ext{background:rgba(229,62,62,.1);color:var(--red);border:1px solid rgba(229,62,62,.2);}
+.dt-int{background:rgba(128,90,213,.1);color:#D6BCFA;border:1px solid rgba(128,90,213,.2);}
+.decl-type h4{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:8px;}
+.decl-type ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.decl-type ul li{font-size:.78rem;color:var(--muted);padding-left:12px;position:relative;line-height:1.5;}
+.decl-type ul li::before{content:'•';position:absolute;left:0;color:var(--red);font-size:10px;}
+@media(max-width:480px){.decl-types{grid-template-columns:1fr;}}
+
+/* ── QUIZ ── */
+.quiz-container{margin:24px 0;}
+.quiz-progress-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:24px;overflow:hidden;}
+.qpb-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold-light));border-radius:2px;transition:width .5s ease;}
+.quiz-card{background:var(--glass);border:1px solid var(--gb);border-radius:20px;padding:28px;}
+.quiz-q-num{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.quiz-q-text{font-family:'Cormorant Garamond',serif;font-size:1.12rem;color:var(--text);line-height:1.65;margin-bottom:20px;font-weight:400;}
+.quiz-options{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{
+  width:100%;text-align:left;background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);border-radius:12px;
+  padding:14px 18px;font-family:'Jost',sans-serif;font-size:.88rem;
+  color:var(--muted);cursor:pointer;transition:all .3s;line-height:1.5;
+}
+.quiz-opt:hover:not(:disabled){background:rgba(229,62,62,.06);border-color:rgba(229,62,62,.2);color:var(--text);}
+.quiz-opt.correct{background:rgba(56,161,105,.1);border-color:rgba(56,161,105,.4);color:#68D391;}
+.quiz-opt.wrong{background:rgba(229,62,62,.08);border-color:rgba(229,62,62,.3);color:#FC8181;}
+.quiz-opt:disabled{cursor:default;}
+.quiz-expl{margin-top:14px;padding:14px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;font-size:.85rem;color:var(--muted);line-height:1.65;display:none;}
+.quiz-expl.show{display:block;}
+.quiz-nav{display:flex;justify-content:flex-end;margin-top:16px;}
+.btn-quiz-next{background:linear-gradient(135deg,var(--red),#FC8181);border:none;border-radius:10px;padding:11px 24px;font-family:'Jost',sans-serif;font-size:.88rem;font-weight:600;color:#fff;cursor:pointer;transition:all .3s;display:none;}
+.btn-quiz-next.show{display:block;}
+.btn-quiz-next:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(229,62,62,.4);}
+.quiz-score{text-align:center;padding:32px 20px;display:none;}
+.quiz-score.show{display:block;}
+.score-big{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--red);line-height:1;}
+.score-label{font-size:.85rem;color:var(--muted);margin-top:8px;}
+.score-msg{font-size:1rem;color:var(--text);margin-top:16px;font-weight:300;line-height:1.7;}
+
+/* ── COMPLETE ── */
+.complete-zone{text-align:center;padding:48px 20px;}
+.btn-complete{
+  display:inline-flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,var(--red) 0%,#FC8181 100%);
+  border:none;border-radius:18px;padding:20px 40px;
+  font-family:'Jost',sans-serif;font-size:1.05rem;font-weight:700;
+  color:#fff;cursor:pointer;letter-spacing:.5px;
+  transition:all .5s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 8px 32px rgba(229,62,62,.4);
+}
+.btn-complete:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 16px 50px rgba(229,62,62,.6);}
+.complete-sub{margin-top:14px;font-size:.85rem;color:var(--muted);}
+.unlock-preview{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;padding:14px 24px;border-radius:14px;background:rgba(237,137,54,.06);border:1px solid rgba(237,137,54,.18);font-size:.85rem;color:var(--muted);opacity:0;transform:translateY(10px);transition:all .5s .2s ease;}
+.unlock-preview.show{opacity:1;transform:none;}
+.unlock-dot{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--orange),#FBD38D);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.1rem;color:var(--navy);}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);z-index:2000;background:rgba(13,21,38,.97);backdrop-filter:blur(16px);border:1px solid rgba(229,62,62,.3);border-radius:14px;padding:14px 24px;font-size:.9rem;color:var(--text);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-
-/* ══ JOURNAL FAB ══ */
-#journal-fab{
-  position:fixed;bottom:28px;right:24px;z-index:900;
-  width:56px;height:56px;border-radius:50%;
-  background:linear-gradient(135deg,var(--mod) 0%,var(--mod-light) 100%);
-  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:20px;box-shadow:0 8px 28px rgba(212,172,13,.45);
-  transition:all .4s cubic-bezier(.34,1.56,.64,1);
-  animation:fab-breathe 3s ease-in-out infinite;
-}
+/* ── JOURNAL FAB ── */
+#journal-fab{position:fixed;bottom:28px;right:24px;z-index:900;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--red) 0%,#FC8181 100%);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 28px rgba(229,62,62,.4);transition:all .4s cubic-bezier(.34,1.56,.64,1);animation:fab-breathe 3s ease-in-out infinite;}
 #journal-fab:hover{transform:scale(1.12);}
-@keyframes fab-breathe{
-  0%,100%{box-shadow:0 8px 28px rgba(212,172,13,.45),0 0 0 0 rgba(212,172,13,0);}
-  50%{box-shadow:0 8px 28px rgba(212,172,13,.45),0 0 0 10px rgba(212,172,13,.05);}
-}
+@keyframes fab-breathe{0%,100%{box-shadow:0 8px 28px rgba(229,62,62,.4),0 0 0 0 rgba(229,62,62,0);}50%{box-shadow:0 8px 28px rgba(229,62,62,.4),0 0 0 10px rgba(229,62,62,.05);}}
 
-
-/* ══ JOURNAL DRAWER ══ */
+/* ── JOURNAL DRAWER ── */
 #journal-overlay{position:fixed;inset:0;z-index:1100;background:rgba(7,13,26,.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .4s;}
 #journal-overlay.open{opacity:1;pointer-events:all;}
-#journal-drawer{
-  position:fixed;bottom:0;right:0;left:0;z-index:1200;
-  max-width:560px;margin:0 auto;
-  background:var(--navy3);border:1px solid rgba(212,172,13,.15);
-  border-bottom:none;border-radius:28px 28px 0 0;
-  padding:24px 24px 40px;
-  transform:translateY(100%);transition:transform .5s cubic-bezier(.34,1.2,.64,1);
-  max-height:80vh;overflow-y:auto;
-}
+#journal-drawer{position:fixed;bottom:0;right:0;left:0;z-index:1200;max-width:560px;margin:0 auto;background:var(--navy3);border:1px solid rgba(229,62,62,.15);border-bottom:none;border-radius:28px 28px 0 0;padding:24px 24px 40px;transform:translateY(100%);transition:transform .5s cubic-bezier(.34,1.2,.64,1);max-height:80vh;overflow-y:auto;}
 #journal-drawer.open{transform:translateY(0);}
 .drawer-handle{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.12);margin:0 auto 24px;}
 .drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
 .drawer-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--text);}
-.drawer-title span{color:var(--mod);}
+.drawer-title span{color:var(--red);}
 .drawer-close{width:34px;height:34px;border-radius:50%;background:var(--glass);border:1px solid var(--gb);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
-.drawer-close:hover{background:rgba(255,255,255,.08);color:var(--text);}
-.journal-date-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mod);margin-bottom:10px;}
+.drawer-close:hover{color:var(--text);}
 #journal-textarea{width:100%;min-height:120px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;color:var(--text);font-family:'Jost',sans-serif;font-size:.92rem;font-weight:300;line-height:1.7;resize:vertical;outline:none;transition:border-color .3s;}
-#journal-textarea:focus{border-color:rgba(212,172,13,.35);}
+#journal-textarea:focus{border-color:rgba(229,62,62,.35);}
 #journal-textarea::placeholder{color:var(--muted);opacity:.5;}
-.journal-actions{display:flex;gap:10px;margin-top:12px;}
+.j-date-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.j-actions{display:flex;gap:10px;margin-top:12px;}
 .j-btn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--gb);font-family:'Jost',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .3s;}
-.j-save{background:linear-gradient(135deg,var(--mod),var(--mod-light));color:var(--navy);border-color:transparent;}
-.j-save:hover{box-shadow:0 4px 16px rgba(212,172,13,.4);}
-.j-clear{background:transparent;color:var(--muted);}
-.j-clear:hover{background:rgba(255,255,255,.05);color:var(--text);}
-.journal-entries{margin-top:20px;}
-.journal-entry{
-  padding:14px;border-radius:10px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  margin-bottom:10px;
-}
-.je-date{font-size:.75rem;color:var(--mod);letter-spacing:1px;margin-bottom:6px;}
-.je-text{font-size:.88rem;color:var(--muted);line-height:1.6;}
+.j-save{background:linear-gradient(135deg,var(--red),#FC8181);border-color:var(--red);color:#fff;}
+.j-save:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(229,62,62,.4);}
+.j-clear{background:var(--glass);color:var(--muted);}
+.j-clear:hover{background:rgba(255,255,255,.07);color:var(--text);}
+.j-entries{margin-top:20px;}
+.j-entry{background:var(--glass);border:1px solid var(--gb);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+.j-entry-date{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.j-entry-text{font-size:.85rem;color:var(--muted);line-height:1.6;font-weight:300;white-space:pre-wrap;}
+.j-no-entries{text-align:center;padding:16px;font-size:.83rem;color:var(--muted);font-style:italic;}
 
+/* ── CONFETTI ── */
+#confetti-canvas{position:fixed;inset:0;z-index:9999;pointer-events:none;}
 
-/* ══ CONFETTI ══ */
-#confetti-canvas{position:fixed;inset:0;z-index:3000;pointer-events:none;}
-
-
-/* ══ COPYRIGHT BADGE ══ */
-.copyright-footer{
-  text-align:center;padding:16px;
-  font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;
-  color:rgba(255,255,255,.15);border-top:1px solid rgba(255,255,255,.04);
-}
-
-
+footer{position:relative;z-index:1;text-align:center;padding:24px 20px;border-top:1px solid rgba(255,255,255,.05);}
+footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-transform:uppercase;}
 </style>
 </head>
 <body>
 
-<div class="bg-aurora" aria-hidden="true">
-  <div class="orb orb1" style="background:#E53E3E;"></div>
-  <div class="orb orb2" style="background:#805AD5;"></div>
-  <div class="orb orb3" style="background:#C9A84C;"></div>
+<div class="bg-aurora">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
 </div>
-<canvas id="confetti-canvas"></canvas>
 
+<div id="scroll-line"></div>
 
+<div id="progress-bar">
+  <a href="index.html" class="pb-back">← <span>Accueil</span></a>
+  <div class="pb-steps" id="pb-steps"></div>
+  <span class="pb-pct" id="pb-pct">0%</span>
+</div>
 
-<nav id="dot-nav" aria-label="Navigation par section">
-  <div class="dot active" onclick="scrollToSection(0)" title="Principe"></div>
-  <div class="dot" onclick="scrollToSection(1)" title="Déclencheurs"></div>
-  <div class="dot" onclick="scrollToSection(2)" title="Journal du Masque"></div>
-  <div class="dot" onclick="scrollToSection(3)" title="Fiche personnelle"></div>
+<nav id="dot-nav">
+  <div class="dot active" data-section="0" title="Introduction"></div>
+  <div class="dot" data-section="1" title="Le cycle automatique"></div>
+  <div class="dot" data-section="2" title="3 questions clés"></div>
+  <div class="dot" data-section="3" title="Déclencheurs"></div>
+  <div class="dot" data-section="4" title="Les 7 masques"></div>
+  <div class="dot" data-section="5" title="Quiz"></div>
+  <div class="dot" data-section="6" title="Terminer"></div>
 </nav>
 
 <main>
 
+  <!-- ══ SECTION 0 — HERO ══ -->
+  <section class="section" data-s="0" id="s0">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(229,62,62,.08);border:1px solid rgba(229,62,62,.2);border-radius:100px;padding:6px 18px;margin-bottom:20px;">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:pulse 2.5s infinite;display:inline-block;"></span>
+      <span style="font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);">Module 1 · VOIR</span>
+    </div>
+    <h1 class="s-title">Nommer<br><em>ce qui se passe</em></h1>
+    <div class="divider"></div>
+    <p class="s-lead">Vous ne pouvez pas transformer ce que vous ne pouvez pas voir. La première étape de la méthode V.A.L.E.U.R© est la plus puissante : <strong style="color:var(--text)">créer un espace de conscience</strong> entre le déclencheur et votre réaction.</p>
 
-<!-- ╔═══════════════════════════════════════════════════════╗
-     ║  HERO UNIFIÉ V.A.L.E.U.R© — Module 1               ║
-     ╚═══════════════════════════════════════════════════════╝ -->
-<div class="valeur-hero" id="valeur-hero-m1">
-  <div class="valeur-hero-badge">✶ Étape 1 sur 6 · Méthode V.A.L.E.U.R©</div>
-  <div class="valeur-hero-letter">V</div>
-  <div class="valeur-hero-name">Voir</div>
-  <p class="valeur-hero-quote">Avant de changer quoi que ce soit,<br>il faut d'abord <em>voir ce qui se passe vraiment.</em></p>
-  <div class="valeur-mask-tag">Vous travaillez sur votre <strong class="valeur-mask-name">Masque</strong></div>
-  <button class="valeur-plan-btn" onclick="togglePlan(this)">▼ Plan de séance</button>
-  <div class="valeur-plan-box"><div class="valeur-plan-item"><div class="valeur-plan-num">I</div><div class="valeur-plan-text"><strong>Le principe du masque de défense</strong> · 15 min</div></div><div class="valeur-plan-item"><div class="valeur-plan-num">II</div><div class="valeur-plan-text"><strong>Les 5 questions pour identifier votre masque</strong> · 20 min</div></div><div class="valeur-plan-item"><div class="valeur-plan-num">III</div><div class="valeur-plan-text"><strong>Journal du masque — vos déclencheurs</strong> · 25 min</div></div><div class="valeur-plan-item"><div class="valeur-plan-num">IV</div><div class="valeur-plan-text"><strong>Fiche personnelle — votre portrait</strong> · 15 min</div></div></div>
-  <button class="valeur-cta" onclick="scrollToFirstSection()">Découvrir mon masque →</button>
-</div>
-<!-- ═══ FIN HERO M1 ═══ -->
+    <div class="glass glass-red" style="display:flex;align-items:center;gap:16px;">
+      <div style="font-size:2rem;flex-shrink:0;">🔴</div>
+      <div>
+        <div style="font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;">Durée estimée</div>
+        <div style="font-size:.95rem;color:var(--muted);font-weight:300;">Environ 40 minutes · 5 sections + quiz de validation</div>
+      </div>
+    </div>
 
-<div id="root"></div>
+    <div class="glass" style="margin-top:16px;">
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:var(--text);line-height:1.7;border-left:3px solid var(--red);padding-left:18px;">
+        "Ce que vous voyez consciemment, vous pouvez le transformer.<br>Ce qui reste invisible continue de vous piloter."
+      </p>
+      <p style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(229,62,62,.5);margin-top:12px;">Méthode V.A.L.E.U.R© · Céline Bourbon, Psychologue</p>
+    </div>
+  </section>
 
-<div class="copyright-footer">© Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue · <em>De la peur à la joie d’être soi</em>, Éd. L’Harmattan · Tous droits réservés</div>
+  <!-- ══ SECTION 1 — CYCLE AUTOMATIQUE ══ -->
+  <section class="section" data-s="1" id="s1">
+    <div class="s-label">Ce qui se passe à votre insu</div>
+    <h2 class="s-title">Le cycle<br><em>invisible</em></h2>
+    <p class="s-lead">En moins de 2 secondes, votre système nerveux traverse 4 étapes automatiques. VOIR consiste à s'arrêter à l'étape 4 — et à nommer ce qui s'y passe.</p>
+
+    <div class="cycle-container">
+      <div class="cycle-steps">
+        <div class="cycle-step">
+          <div class="cycle-num">1</div>
+          <div class="cycle-title">DÉCLENCHEUR</div>
+          <div class="cycle-desc">Situation, événement, pensée ou souvenir qui "réveille" le système</div>
+        </div>
+        <div class="cycle-step">
+          <div class="cycle-num">2</div>
+          <div class="cycle-title">SCAN RAPIDE</div>
+          <div class="cycle-desc">Menace ou opportunité ? Le cerveau compare avec la mémoire passée</div>
+        </div>
+        <div class="cycle-step">
+          <div class="cycle-num">3</div>
+          <div class="cycle-title">RÉACTION CORPS</div>
+          <div class="cycle-desc">Le système nerveux autonome s'active. Automatique, involontaire.</div>
+        </div>
+        <div class="cycle-step voir-step">
+          <div class="cycle-num">4</div>
+          <div class="cycle-title">MASQUE ACTIF</div>
+          <div class="cycle-desc">Le comportement de protection s'enclenche. <strong>C'est ici que VOIR intervient.</strong></div>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <div class="voir-badge">🔴 VOIR = Nommer le masque à l'étape 4, avant d'agir depuis lui</div>
+      </div>
+    </div>
+
+    <div class="glass glass-red">
+      <p style="font-size:.95rem;color:var(--muted);line-height:1.8;font-weight:300;">
+        Vous ne pouvez pas empêcher les étapes 1, 2 et 3. C'est neurobiologique.
+        Mais entre l'étape 3 (réaction corporelle) et l'étape 4 (comportement du masque),
+        il existe <strong style="color:var(--text)">une fenêtre de 1 à 3 secondes</strong>.
+        Avec VOIR, vous apprenez à vous glisser dans cette fenêtre.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2 — 3 QUESTIONS CLÉS ══ -->
+  <section class="section" data-s="2" id="s2">
+    <div class="s-label">L'outil fondamental</div>
+    <h2 class="s-title">Les 3 questions<br><em>qui changent tout</em></h2>
+    <p class="s-lead">Dès que vous sentez une réaction forte, une tension, un comportement automatique — posez-vous ces 3 questions. Elles interrompent le cycle et activent votre conscience observatrice.</p>
+
+    <div class="questions-block">
+      <div class="q-card">
+        <div class="q-num">Question 1</div>
+        <div class="q-text">"Quel masque est actif en ce moment ?"</div>
+        <div class="q-detail">Dans quelle situation êtes-vous sorti·e de vous-même ? Quel masque reconnaissez-vous — Rouge, Orange, Jaune, Vert, Bleu, Indigo, Violet ? Ce masque est-il récurrent dans ce type de situation ?</div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Question 2</div>
+        <div class="q-text">"Quel déclencheur l'a activé ?"</div>
+        <div class="q-detail">Était-ce un déclencheur externe (une situation, une personne, un événement) ou interne (une pensée, un souvenir, une image mentale) ? Ce déclencheur est-il lié à une peur passée ou à un danger réel présent ?</div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Question 3</div>
+        <div class="q-text">"Quelle peur universelle se cache derrière ?"</div>
+        <div class="q-detail">De quoi aviez-vous vraiment peur dans cette situation ? Quelle conviction guidait votre réaction ? Cette prédiction est-elle basée sur la réalité d'aujourd'hui — ou sur une blessure passée ?</div>
+      </div>
+    </div>
+
+    <div class="glass" style="margin-top:4px;padding:20px 24px;">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--text);line-height:1.8;text-align:center;">
+        Nommer le masque, même mentalement, en 2 secondes,<br>
+        <em style="color:var(--red);">c'est déjà commencer à s'en libérer.</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 3 — DÉCLENCHEURS ══ -->
+  <section class="section" data-s="3" id="s3">
+    <div class="s-label">Reconnaître les signaux</div>
+    <h2 class="s-title">Les déclencheurs<br><em>de vos masques</em></h2>
+    <p class="s-lead">Un déclencheur est toute situation, personne ou pensée qui "réveille" votre système de défense. Il peut être externe ou interne — et souvent, vous n'avez pas le contrôle sur lui.</p>
+
+    <div class="decl-types">
+      <div class="decl-type">
+        <span class="dt-badge dt-ext">Externe</span>
+        <h4>Vient de l'environnement</h4>
+        <ul>
+          <li>Une critique reçue</li>
+          <li>Un conflit relationnel</li>
+          <li>Un regard perçu comme négatif</li>
+          <li>Une attente non comblée</li>
+          <li>Un silence prolongé</li>
+          <li>Une décision à prendre</li>
+        </ul>
+      </div>
+      <div class="decl-type">
+        <span class="dt-badge dt-int">Interne</span>
+        <h4>Vient de l'intérieur</h4>
+        <ul>
+          <li>Une pensée "et si…"</li>
+          <li>Un souvenir qui surgit</li>
+          <li>Une image mentale</li>
+          <li>Un symptôme physique</li>
+          <li>Une conviction automatique</li>
+          <li>Une anticipation du pire</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="glass glass-red" style="margin-top:4px;">
+      <div style="font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Les 8 déclencheurs les plus fréquents</div>
+      <div class="decl-grid">
+        <span class="decl-tag">Une critique reçue</span>
+        <span class="decl-tag">Une attente déçue</span>
+        <span class="decl-tag">Un symptôme physique</span>
+        <span class="decl-tag">Un conflit relationnel</span>
+        <span class="decl-tag">Une incertitude</span>
+        <span class="decl-tag">Une erreur commise</span>
+        <span class="decl-tag">Un regard perçu</span>
+        <span class="decl-tag">Une décision à prendre</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 4 — LES 7 MASQUES ══ -->
+  <section class="section" data-s="4" id="s4">
+    <div class="s-label">Votre cartographie défensive</div>
+    <h2 class="s-title">Les 7 masques —<br><em>lequel reconnaissez-vous ?</em></h2>
+    <p class="s-lead">Chaque masque répond à une peur universelle. Explorez-les — non pour vous étiqueter, mais pour vous <strong style="color:var(--text)">reconnaître sans vous juger</strong>. Appuyez pour ouvrir chaque masque.</p>
+
+    <div class="masques-grid">
+
+      <!-- ROUGE -->
+      <div class="masque-card" style="border-color:rgba(229,62,62,.2);" onclick="toggleMasque(this)">
+        <div class="masque-header">
+          <div class="masque-emoji-box" style="background:rgba(229,62,62,.1);border-color:rgba(229,62,62,.3);">🔴</div>
+          <div class="masque-main">
+            <div class="masque-name" style="color:#FEB2B2;">Masque Rouge</div>
+            <div class="masque-peur">Peur de la mort / de la maladie · Hypervigilance somatique</div>
+          </div>
+          <div class="masque-toggle" style="border-color:rgba(229,62,62,.2);">+</div>
+        </div>
+        <div class="masque-body">
+          <div class="masque-detail">
+            <div class="md-item"><div class="md-label">Déclencheurs typiques</div><div class="md-val">Symptôme physique · Maladie d'un proche · Information médicale</div></div>
+            <div class="md-item"><div class="md-label">Réaction automatique</div><div class="md-val">Surveiller le corps en permanence, consulter, vérifier, éviter</div></div>
+          </div>
+          <div class="masque-prediction"><div class="mp-label">Prédiction catastrophe</div><div class="mp-text">"Si ce symptôme existe, c'est que quelque chose de grave se passe — et je dois le trouver avant qu'il soit trop tard."</div></div>
+        </div>
+      </div>
+
+      <!-- ORANGE -->
+      <div class="masque-card" style="border-color:rgba(237,137,54,.2);" onclick="toggleMasque(this)">
+        <div class="masque-header">
+          <div class="masque-emoji-box" style="background:rgba(237,137,54,.1);border-color:rgba(237,137,54,.3);">🟠</div>
+          <div class="masque-main">
+            <div class="masque-name" style="color:#FBD38D;">Masque Orange</div>
+            <div class="masque-peur">Peur de la souffrance psychique · Évitement émotionnel</div>
+          </div>
+          <div class="masque-toggle" style="border-color:rgba(237,137,54,.2);">+</div>
+        </div>
+        <div class="masque-body">
+          <div class="masque-detail">
+            <div class="md-item"><div class="md-label">Déclencheurs typiques</div><div class="md-val">Conflit émotionnel · Demande d'intimité · Situation de vulnérabilité</div></div>
+            <div class="md-item"><div class="md-label">Réaction automatique</div><div class="md-val">Minimiser, changer de sujet, s'anesthésier, se distraire</div></div>
+          </div>
+          <div class="masque-prediction"><div class="mp-label">Prédiction catastrophe</div><div class="mp-text">"Si je ressens vraiment cette émotion, elle sera trop forte — et je ne m'en remettrai pas."</div></div>
+        </div>
+      </div>
+
+      <!-- JAUNE -->
+      <div class="masque-card" style="border-color:rgba(214,158,46,.2);" onclick="toggleMasque(this)">
+        <div class="masque-header">
+          <div class="masque-emoji-box" style="background:rgba(214,158,46,.1);border-color:rgba(214,158,46,.3);">🟡</div>
+          <div class="masque-main">
+            <div class="masque-name" style="color:#F6E05E;">Masque Jaune</div>
+            <div class="masque-peur">Peur de l'inconnu / de l'incertitude · Obsession de contrôle</div>
+          </div>
+          <div class="masque-toggle" style="border-color:rgba(214,158,46,.2);">+</div>
+        </div>
+        <div class="masque-body">
+          <div class="masque-detail">
+            <div class="md-item"><div class="md-label">Déclencheurs typiques</div><div class="md-val">Décision à prendre · Changement imprévu · Situation floue</div></div>
+            <div class="md-item"><div class="md-label">Réaction automatique</div><div class="md-val">Tout planifier, tout anticiper, poser des questions en boucle</div></div>
+          </div>
+          <div class="masque-prediction"><div class="mp-label">Prédiction catastrophe</div><div class="mp-text">"Si je ne contrôle pas tout, quelque chose de terrible va arriver et je ne pourrai pas y faire face."</div></div>
+        </div>
+      </div>
+
+      <!-- VERT -->
+      <div class="masque-card" style="border-color:rgba(56,161,105,.2);" onclick="toggleMasque(this)">
+        <div class="masque-header">
+          <div class="masque-emoji-box" style="background:rgba(56,161,105,.1);border-color:rgba(56,161,105,.3);">🟢</div>
+          <div class="masque-main">
+            <div class="masque-name" style="color:#9AE6B4;">Masque Vert</div>
+            <div class="masque-peur">Peur du rejet / de l'abandon · Insécurité relationnelle</div>
+          </div>
+          <div class="masque-toggle" style="border-color:rgba(56,161,105,.2);">+</div>
+        </div>
+        <div class="masque-body">
+          <div class="masque-detail">
+            <div class="md-item"><div class="md-label">Déclencheurs typiques</div><div class="md-val">Silence d'un proche · Désaccord · Distance perçue dans une relation</div></div>
+            <div class="md-item"><div class="md-label">Réaction automatique</div><div class="md-val">Dire oui, s'effacer, chercher à plaire, réparer à tout prix</div></div>
+          </div>
+          <div class="masque-prediction"><div class="mp-label">Prédiction catastrophe</div><div class="mp-text">"Si je m'affirme ou si je déçois l'autre, il va m'abandonner — ou ne plus m'aimer."</div></div>
+        </div>
+      </div>
+
+      <!-- BLEU -->
+      <div class="masque-card" style="border-color:rgba(49,130,206,.2);" onclick="toggleMasque(this)">
+        <div class="masque-header">
+          <div class="masque-emoji-box" style="background:rgba(49,130,206,.1);border-color:rgba(49,130,206,.3);">🔵</div>
+          <div class="masque-main">
+            <div class="masque-name" style="color:#90CDF4;">Masque Bleu</div>
+            <div class="masque-peur">Peur de l'impuissance · Hypercontrôle relationnel</div>
+          </div>
+          <div class="masque-toggle" style="border-color:rgba(49,130,206,.2);">+</div>
+        </div>
+        <div class="masque-body">
+          <div class="masque-detail">
+            <div class="md-item"><div class="md-label">Déclencheurs typiques</div><div class="md-val">Aide proposée · Erreur d'un proche · Décision prise sans vous</div></div>
+            <div class="md-item"><div class="md-label">Réaction automatique</div><div class="md-val">Reprendre le contrôle, s'isoler avec le problème, refuser l'aide</div></div>
+          </div>
+          <div class="masque-prediction"><div class="mp-label">Prédiction catastrophe</div><div class="mp-text">"Si je montre que j'ai besoin d'aide, les autres verront que je ne suis pas à la hauteur."</div></div>
+        </div>
+      </div>
+
+      <!-- INDIGO -->
+      <div class="masque-card" style="border-color:rgba(90,103,216,.2);" onclick="toggleMasque(this)">
+        <div class="masque-header">
+          <div class="masque-emoji-box" style="background:rgba(90,103,216,.1);border-color:rgba(90,103,216,.3);">🟣</div>
+          <div class="masque-main">
+            <div class="masque-name" style="color:#C3DAFE;">Masque Indigo</div>
+            <div class="masque-peur">Peur de l'échec / de l'inadéquation · Anxiété de performance</div>
+          </div>
+          <div class="masque-toggle" style="border-color:rgba(90,103,216,.2);">+</div>
+        </div>
+        <div class="masque-body">
+          <div class="masque-detail">
+            <div class="md-item"><div class="md-label">Déclencheurs typiques</div><div class="md-val">Évaluation · Feedback · Tâche nouvelle · Comparaison implicite</div></div>
+            <div class="md-item"><div class="md-label">Réaction automatique</div><div class="md-val">Procrastiner, abandonner, se noyer dans le perfectionnisme</div></div>
+          </div>
+          <div class="masque-prediction"><div class="mp-label">Prédiction catastrophe</div><div class="mp-text">"Si j'essaie et que j'échoue, cela confirmera définitivement que je ne suis pas assez bien."</div></div>
+        </div>
+      </div>
+
+      <!-- VIOLET -->
+      <div class="masque-card" style="border-color:rgba(128,90,213,.2);" onclick="toggleMasque(this)">
+        <div class="masque-header">
+          <div class="masque-emoji-box" style="background:rgba(128,90,213,.1);border-color:rgba(128,90,213,.3);">💜</div>
+          <div class="masque-main">
+            <div class="masque-name" style="color:#D6BCFA;">Masque Violet</div>
+            <div class="masque-peur">Peur de perdre son identité · Angoisse existentielle</div>
+          </div>
+          <div class="masque-toggle" style="border-color:rgba(128,90,213,.2);">+</div>
+        </div>
+        <div class="masque-body">
+          <div class="masque-detail">
+            <div class="md-item"><div class="md-label">Déclencheurs typiques</div><div class="md-val">Changement majeur · Perte d'un rôle · Invitation à évoluer</div></div>
+            <div class="md-item"><div class="md-label">Réaction automatique</div><div class="md-val">S'accrocher aux anciens rôles, résister au changement, saboter</div></div>
+          </div>
+          <div class="masque-prediction"><div class="mp-label">Prédiction catastrophe</div><div class="mp-text">"Si je change ou si je perds ce rôle, je vais perdre qui je suis — et il n'y aura plus rien à ma place."</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ SECTION 5 — QUIZ ══ -->
+  <section class="section" data-s="5" id="s5">
+    <div class="s-label">Validation des acquis</div>
+    <h2 class="s-title">Quiz —<br><em>avez-vous bien VOIR ?</em></h2>
+    <p class="s-lead">4 questions pour ancrer vos apprentissages. Prenez le temps de réfléchir — ce n'est pas un test, c'est une intégration.</p>
+
+    <div class="quiz-container">
+      <div class="quiz-progress-bar"><div class="qpb-fill" id="qpb" style="width:0%"></div></div>
+      <div class="quiz-card" id="quiz-card">
+        <div class="quiz-q-num" id="q-num">Question 1 / 4</div>
+        <div class="quiz-q-text" id="q-text"></div>
+        <div class="quiz-options" id="q-opts"></div>
+        <div class="quiz-expl" id="q-expl"></div>
+        <div class="quiz-nav"><button class="btn-quiz-next" id="q-next" onclick="nextQ()">Question suivante →</button></div>
+      </div>
+      <div class="quiz-score" id="quiz-score">
+        <div class="score-big" id="score-big"></div>
+        <div class="score-label">bonnes réponses</div>
+        <div class="score-msg" id="score-msg"></div>
+        <button onclick="restartQuiz()" style="margin-top:20px;background:rgba(229,62,62,.1);border:1px solid rgba(229,62,62,.3);border-radius:12px;padding:12px 24px;font-family:'Jost',sans-serif;font-size:.88rem;color:var(--red);cursor:pointer;transition:all .3s;">↺ Recommencer le quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 6 — COMPLÉTER ══ -->
+  <section class="section" data-s="6" id="s6">
+    <div class="s-label">Prêt·e pour la suite</div>
+    <h2 class="s-title"><em>Module 1 maîtrisé —</em><br>cap sur ACCUEILLIR</h2>
+    <p class="s-lead">Voir ses masques en action est le premier acte de transformation. Chaque fois que vous nommez un masque, vous créez un espace de liberté.</p>
+
+    <div class="glass glass-red" style="margin-bottom:36px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center;">
+        <div>
+          <div style="font-size:1.6rem;margin-bottom:6px;">🔄</div>
+          <div style="font-size:.75rem;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Compris</div>
+          <div style="font-size:.82rem;color:var(--muted);font-weight:300;">Le cycle automatique<br>en 4 étapes</div>
+        </div>
+        <div>
+          <div style="font-size:1.6rem;margin-bottom:6px;">❓</div>
+          <div style="font-size:.75rem;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Appris</div>
+          <div style="font-size:.82rem;color:var(--muted);font-weight:300;">Les 3 questions<br>qui changent tout</div>
+        </div>
+        <div>
+          <div style="font-size:1.6rem;margin-bottom:6px;">🎭</div>
+          <div style="font-size:.75rem;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Exploré</div>
+          <div style="font-size:.82rem;color:var(--muted);font-weight:300;">Les 7 masques<br>et leurs peurs</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="complete-zone">
+      <button class="btn-complete" onclick="completeModule()">
+        ✓ Terminer le Module 1 — Débloquer ACCUEILLIR 🟠
+      </button>
+      <p class="complete-sub">Votre progression est sauvegardée automatiquement</p>
+      <div class="unlock-preview" id="unlock-preview">
+        <div class="unlock-dot">A</div>
+        <span>Module 2 — <strong style="color:var(--text)">ACCUEILLIR</strong> · Recevoir sans fuir · débloqué !</span>
+      </div>
+    </div>
+  </section>
 
 </main>
 
-<!-- Toast -->
-<div id="toast"></div>
+<footer>
+  <p>© Céline Bourbon — Méthode V.A.L.E.U.R© — Tous droits réservés · Reproduction interdite</p>
+</footer>
 
-<!-- Journal FAB -->
-<button id="journal-fab" onclick="openJournal()" title="Mon journal de bord">📔</button>
+<button id="journal-fab" onclick="toggleJournal()" aria-label="Journal">✍️</button>
+
 <div id="journal-overlay" onclick="closeJournal()"></div>
 <div id="journal-drawer">
   <div class="drawer-handle"></div>
   <div class="drawer-header">
-    <span class="drawer-title">Journal <span>V.A.L.E.U.R©</span></span>
+    <h2 class="drawer-title">Mon <span>Journal</span></h2>
     <button class="drawer-close" onclick="closeJournal()">✕</button>
   </div>
-  <div class="journal-date-label" id="journal-date-label"></div>
-  <textarea id="journal-textarea" placeholder="Notez vos réflexions, prises de conscience, émotions du moment…&#10;&#10;Ce journal vous appartient."></textarea>
-  <div class="journal-actions">
-    <button class="j-btn j-save" onclick="saveJournalEntry()">💾 Sauvegarder</button>
-    <button class="j-btn j-clear" onclick="clearJournalEntry()">Effacer</button>
+  <p class="j-date-label" id="j-date"></p>
+  <textarea id="journal-textarea" placeholder="Quel masque avez-vous reconnu aujourd'hui ? Dans quelle situation ? Quel déclencheur l'a activé ?"></textarea>
+  <div class="j-actions">
+    <button class="j-btn j-save" onclick="saveEntry()">Enregistrer ✓</button>
+    <button class="j-btn j-clear" onclick="document.getElementById('journal-textarea').value=''">Effacer</button>
   </div>
-  <div class="journal-entries" id="journal-entries"></div>
+  <div class="j-entries" id="j-list"></div>
 </div>
 
+<div id="toast"></div>
+<canvas id="confetti-canvas"></canvas>
+
 <script>
-"use strict";
-/* ============================================================
-   © 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue
-   MODULE 1 — VOIR · Fichier indépendant
-   Tous droits réservés. Reproduction interdite.
-   Basé sur "De la peur à la joie d'être soi" — L'Harmattan
-   ============================================================ */
-
-/* ── POLYFILLS ── */
-function _slicedToArray(r,e){return Array.isArray(r)?r.slice(0,e):r}
-function _toConsumableArray(r){return Array.isArray(r)?r.slice():Array.from(r)}
-function _objectSpread(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{};Object.keys(t).forEach(function(r){e[r]=t[r]})}return e}
-function _defineProperty(e,r,t){e[r]=t;return e}
-
-var _React=React,useState=_React.useState,useRef=_React.useRef,useEffect=_React.useEffect;
+/* ── ANTI-COPY ── */
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&['c','u','s','a','p'].includes(e.key.toLowerCase()))e.preventDefault();
+  if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['i','j'].includes(e.key.toLowerCase())))e.preventDefault();
+});
+document.addEventListener('dragstart',e=>e.preventDefault());
 
 /* ── CONFIG ── */
-var SUPABASE_URL="https://ecetwkusxzbqoztokgtk.supabase.co";
-var SUPABASE_KEY="sb_publishable_OAESsD6hq6D38azq6Pjxuw_28frwX6M";
-var EMAILJS_SERVICE="Questionnaire VALEUR";
-var EMAILJS_TEMPLATE="template_inscription";
-var EMAILJS_PUBLIC_KEY="Qamyb35cCRJ5Pulqs";
-var ADMIN_EMAIL="celine.bourbon@gmail.com";
-var sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const BASE='https://celinebourbon-ux.github.io/HomePageAppliValeur/';
+const MODULES=[
+  {key:'module1',letter:'V',color:'#E53E3E'},
+  {key:'module2',letter:'A',color:'#ED8936'},
+  {key:'module3',letter:'L',color:'#D69E2E'},
+  {key:'module4',letter:'E',color:'#38A169'},
+  {key:'module5',letter:'U',color:'#3182CE'},
+  {key:'module6',letter:'R',color:'#805AD5'},
+];
+const PK='valeur_progress_v2';
+function getP(){try{return JSON.parse(localStorage.getItem(PK))||{};}catch(e){return{};}}
+function isDone(k){return!!getP()[k];}
+function markDone(k){const p=getP();p[k]=true;try{localStorage.setItem(PK,JSON.stringify(p));}catch(e){}}
 
-/* ── COULEURS ── */
-var C={
-  navy:"#0a0f1a",navyMid:"#111827",navyCard:"#1a2235",navyBorder:"#2a3650",
-  rouge:"#e53e3e",rougeLight:"#feb2b2",
-  orange:"#ed8936",orangeLight:"#fbd38d",
-  jaune:"#d69e2e",jauneLight:"#faf089",
-  vert:"#38a169",vertLight:"#9ae6b4",
-  bleu:"#3182ce",bleuLight:"#bee3f8",
-  indigo:"#5a67d8",indigoLight:"#c3dafe",
-  violet:"#805ad5",violetLight:"#d6bcfa",
-  gold:"#c9a84c",cream:"#f7f3ee",
-  textLight:"#e2e8f0",textMuted:"#94a3b8"
-};
-
-/* ── STORAGE HELPERS ── */
-function loadUser(email,key){try{var v=localStorage.getItem("valeur_"+email+"_"+key);return v?JSON.parse(v):null}catch(_){return null}}
-function saveUser(email,key,val){try{localStorage.setItem("valeur_"+email+"_"+key,JSON.stringify(val))}catch(_){}}
-
-/* ── SESSION CHECK ── */
-function getSession(){
-  try{
-    var reg=JSON.parse(localStorage.getItem('valeur_registry')||'[]');
-    for(var i=0;i<reg.length;i++){
-      var u=reg[i];
-      var s=loadUser(u.email,'session');
-      if(s&&s.loginAt){
-        var age=(new Date()-new Date(s.loginAt))/1000/3600/24;
-        if(age<7)return s;
-      }
-    }
-  }catch(e){}
-  return null;
+/* ── PROGRESS BAR ── */
+function renderProgress(){
+  const steps=document.getElementById('pb-steps');
+  const pct=document.getElementById('pb-pct');
+  const done=MODULES.filter(m=>isDone(m.key)).length;
+  pct.textContent=Math.round((done/MODULES.length)*100)+'%';
+  steps.innerHTML=MODULES.map(m=>{
+    const d=isDone(m.key);
+    const active=m.key==='module1';
+    return`<div class="pb-step${d?' done':active?' active':''}" title="${m.letter}"><span class="pb-letter">${m.letter}</span></div>`;
+  }).join('');
 }
 
-/* ── MODULE PROGRESS HELPERS ── */
-function getModule0Progress(email){
-  var prog=loadUser(email,'progress')||{completedSections:[]};
-  return (prog.completedSections||[]).length;
+/* ── SCROLL ── */
+function updateScrollLine(){
+  const el=document.getElementById('scroll-line');
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  el.style.width=(h>0?Math.min(100,(window.scrollY/h)*100):0)+'%';
 }
-function markModule1Done(session){
-  var prog=loadUser(session.email,'progressM1')||{};
-  var updated=_objectSpread(_objectSpread({},prog),{},{done:true,doneAt:new Date().toISOString()});
-  saveUser(session.email,'progressM1',updated);
-  VALEUR_PROGRESS.complete('module1');
-  // Sync Supabase
-  sb.from('user_data').upsert({
-    email:session.email,
-    module1_done:true,
-    module1_done_at:new Date().toISOString(),
-    updated_at:new Date().toISOString()
-  }).then(function(){}).catch(function(){});
-  // Notify Céline
-  if(typeof emailjs!=='undefined'){
-    emailjs.send(EMAILJS_SERVICE,EMAILJS_TEMPLATE,{
-      to_email:ADMIN_EMAIL,
-      patient_email:session.email,
-      patient_name:session.name||session.email,
-      date:new Date().toLocaleDateString('fr-FR'),
-      heure:new Date().toLocaleTimeString('fr-FR'),
-      app_notification:"🔴 MODULE 1 VOIR COMPLÉTÉ\nPrénom : "+(session.name||session.email)+"\nEmail : "+session.email+"\nDate : "+new Date().toLocaleDateString('fr-FR')+" à "+new Date().toLocaleTimeString('fr-FR')+"\n→ Le Module 2 — ACCUEILLIR est maintenant déverrouillé."
-    },EMAILJS_PUBLIC_KEY).catch(function(){});
-  }
-}
-function getM1Progress(email){
-  var prog=loadUser(email,'progressM1')||{completedSections:[]};
-  return prog.completedSections||[];
-}
-function saveM1Progress(email,sections){
-  var prog=loadUser(email,'progressM1')||{};
-  saveUser(email,'progressM1',_objectSpread(_objectSpread({},prog),{},{completedSections:sections,lastVisit:new Date().toISOString()}));
-  sb.from('user_data').upsert({email:email,module1_progress:sections,updated_at:new Date().toISOString()}).then(function(){}).catch(function(){});
-}
-
-/* ── PDF HELPER ── */
-function downloadPDFGuide(filename,title,content){
-  var html='<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>'+title+'</title>'
-    +'<style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;padding:20px;color:#1a1a2e;line-height:1.8;}'
-    +'h1{color:#e53e3e;font-size:24px;border-bottom:2px solid #e53e3e;padding-bottom:10px;margin-bottom:24px;}'
-    +'h2{color:#c03030;font-size:18px;margin-top:28px;margin-bottom:10px;}'
-    +'h3{color:#e53e3e;font-size:15px;margin-top:20px;}'
-    +'p,li{font-size:14px;margin-bottom:8px;}ul{padding-left:20px;}'
-    +'.box{background:#fff5f5;border-left:4px solid #e53e3e;padding:14px 18px;margin:16px 0;border-radius:4px;}'
-    +'.footer{color:#888;font-size:11px;text-align:center;margin-top:40px;border-top:1px solid #ddd;padding-top:16px;}'
-    +'.print-btn{display:block;margin:20px auto;padding:10px 24px;background:#e53e3e;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-family:Georgia,serif;}'
-    +'@media print{.print-btn{display:none!important;}}
-/* ╔══════════════════════════════════════════════════════════════╗
-   ║  V.A.L.E.U.R© — HARMONISATION VISUELLE GLOBALE             ║
-   ╚══════════════════════════════════════════════════════════════╝ */
-
-/* ── HERO UNIFIÉ ────────────────────────────────────────────── */
-.valeur-hero{
-  display:flex;flex-direction:column;align-items:center;
-  justify-content:center;min-height:92vh;text-align:center;
-  padding:90px 20px 48px;position:relative;z-index:2;
-}
-.valeur-hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.5);
-  border-radius:50px;padding:7px 22px;font-size:11px;font-weight:700;
-  letter-spacing:3px;color:#C9A84C;margin-bottom:24px;
-  text-transform:uppercase;font-family:'Jost',sans-serif;
-}
-.valeur-hero-letter{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(5.5rem,20vw,9.5rem);font-weight:700;
-  color:#C9A84C;line-height:.85;margin-bottom:10px;
-  text-shadow:0 0 80px rgba(201,168,76,.4),0 0 160px rgba(201,168,76,.15);
-  animation:letter-glow 4s ease-in-out infinite;
-}
-@keyframes letter-glow{
-  0%,100%{text-shadow:0 0 80px rgba(201,168,76,.4),0 0 160px rgba(201,168,76,.15);}
-  50%{text-shadow:0 0 120px rgba(201,168,76,.6),0 0 200px rgba(201,168,76,.25);}
-}
-.valeur-hero-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.3rem,5vw,2.2rem);font-weight:300;
-  color:#F2EDE6;letter-spacing:.18em;text-transform:uppercase;
-  margin-bottom:18px;
-}
-.valeur-hero-quote{
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:clamp(15px,3vw,19px);color:rgba(242,237,230,.78);
-  max-width:540px;line-height:1.75;margin:0 auto 22px;
-}
-.valeur-mask-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(201,168,76,.35);border-radius:12px;
-  padding:9px 18px;font-size:13px;color:#F2EDE6;
-  margin-bottom:24px;font-family:'Jost',sans-serif;
-}
-.valeur-mask-tag strong{color:#C9A84C;font-weight:700;}
-/* Plan de séance toggle */
-.valeur-plan-btn{
-  background:transparent;border:1px solid rgba(201,168,76,.4);
-  border-radius:50px;padding:8px 22px;font-size:11px;font-weight:700;
-  letter-spacing:2px;color:#C9A84C;cursor:pointer;margin-bottom:12px;
-  font-family:'Jost',sans-serif;text-transform:uppercase;
-  transition:all .3s;
-}
-.valeur-plan-btn:hover{background:rgba(201,168,76,.12);}
-.valeur-plan-box{
-  display:none;background:rgba(13,21,38,.7);
-  border:1px solid rgba(201,168,76,.2);border-radius:16px;
-  padding:20px 24px;text-align:left;max-width:500px;
-  margin:0 auto 24px;backdrop-filter:blur(12px);
-  animation:fade-in .3s ease;
-}
-.valeur-plan-box.open{display:block;}
-.valeur-plan-item{
-  display:flex;align-items:flex-start;gap:12px;
-  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);
-}
-.valeur-plan-item:last-child{border-bottom:none;}
-.valeur-plan-num{
-  width:22px;height:22px;border-radius:50%;
-  background:rgba(201,168,76,.2);color:#C9A84C;
-  font-size:11px;font-weight:700;display:flex;
-  align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
-}
-.valeur-plan-text{font-size:13px;color:rgba(242,237,230,.8);line-height:1.55;font-family:'Jost',sans-serif;}
-.valeur-plan-text strong{color:#F2EDE6;}
-/* CTA or */
-.valeur-cta{
-  background:linear-gradient(135deg,#C9A84C 0%,#F0D080 100%);
-  color:#070D1A;font-family:'Jost',sans-serif;font-weight:700;
-  font-size:15px;border:none;border-radius:50px;
-  padding:15px 44px;cursor:pointer;letter-spacing:.5px;
-  box-shadow:0 4px 28px rgba(201,168,76,.4);transition:all .35s;
-  margin-top:8px;
-}
-.valeur-cta:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 40px rgba(201,168,76,.55);
-}
-
-/* ── SECTION HEADERS UNIFORMES ──────────────────────────────── */
-.v-sec-header{text-align:center;padding:44px 0 28px;}
-.v-sec-divider{
-  width:50px;height:2px;
-  background:linear-gradient(90deg,transparent,var(--mod,#C9A84C),transparent);
-  margin:0 auto 14px;
-}
-.v-sec-num{
-  font-family:'Jost',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:4px;text-transform:uppercase;color:#C9A84C;
-  margin-bottom:6px;
-}
-.v-sec-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.5rem,5vw,2.3rem);font-weight:700;
-  color:#F2EDE6;line-height:1.2;margin-bottom:8px;
-}
-.v-sec-subtitle{
-  font-size:14px;color:#8A9BB5;line-height:1.6;
-  max-width:480px;margin:0 auto;font-family:'Jost',sans-serif;
-}
-/* Bouton continuer */
-.v-sec-next{
-  display:block;width:fit-content;margin:36px auto 8px;
-  background:transparent;border:1px solid var(--mod,#C9A84C);
-  border-radius:50px;padding:11px 30px;font-size:13px;
-  font-weight:600;color:var(--mod,#C9A84C);cursor:pointer;
-  font-family:'Jost',sans-serif;letter-spacing:.5px;
-  transition:all .3s;
-}
-.v-sec-next:hover{background:var(--mod,#C9A84C);color:#070D1A;}
-
-/* ── JOURNAL FAB OR (override universel) ────────────────────── */
-#journal-fab,#journal-fab-btn{
-  background:linear-gradient(135deg,#C9A84C 0%,#F0D080 100%)!important;
-  box-shadow:0 8px 28px rgba(201,168,76,.48)!important;
-  color:#070D1A!important;
-}
-@keyframes fab-gold-breathe{
-  0%,100%{box-shadow:0 8px 28px rgba(201,168,76,.48),0 0 0 0 rgba(201,168,76,.35);}
-  50%{box-shadow:0 8px 28px rgba(201,168,76,.48),0 0 0 10px rgba(201,168,76,0);}
-}
-#journal-fab{animation:fab-gold-breathe 3s ease-in-out infinite!important;}
-
-/* ── MASQUER LES VIEUX HERO DUPLIQUÉS ───────────────────────── */
-.progress-bar-wrap{display:none!important;}
-/* M2 old header */
-header.module-header{display:none!important;}
-/* M4 old hero-wrap canvas : masqué car remplacé */
-#phase-hero .hero-wrap canvas{display:none;}
-/* Enlever ancien module-badge M4 */
-#phase-hero .module-badge{display:none!important;}
-#phase-hero h1.hero-title{display:none!important;}
-#phase-hero .hero-subtitle{display:none!important;}
-#phase-hero .hero-desc{display:none!important;}
-/* M5 ancien hero */
-.hero-canvas-wrap{display:none!important;}
-#hero-lines{display:none!important;}
-.hero-line{display:none!important;}
-/* M6 ancien hero-wrap */
-#phase-0 .hero-wrap{display:none!important;}
-
-/* ── ANCIEN progress-bar M2 interne ────────────────────────── */
-.progress-bar:not(#progress-bar){display:none!important;}
-
-
-/* ── FIXUP COMPLÉMENTAIRE ──────────────────────────────────── */
-#phase-hero .hero-wrap{display:none!important;}
-#phase-hero .hero-content{display:none!important;}
-/* M5: remove hero gradient overlay */
-#phase-0 .hero-canvas-wrap{display:none!important;}
-#phase-0 .hero-text-over{display:none!important;}
-/* M1: ensure root doesn't overlap hero */
-#valeur-hero-m1{margin-bottom:0;}
-</style></head>'
-    +'<body><button class="print-btn" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>'
-    +content
-    +'<div class="footer">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue | <em>De la peur à la joie d\'être soi</em> — Éditions L\'Harmattan | Tous droits réservés. Reproduction interdite.</div>'
-    +'</body></html>';
-  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var win=window.open(url,'_blank');
-  if(!win){var a=document.createElement('a');a.href=url;a.download=filename+'.html';a.click();}
-  setTimeout(function(){URL.revokeObjectURL(url)},10000);
-}
-
-/* ── DATA ── */
-var SECTION_LABELS_M1=["Le Cycle","Déclencheurs","Journal","Guide PDF"];
-
-var CYCLE_STEPS=[{
-  num:1,color:"#ed8936",emoji:"⚡",title:"DÉCLENCHEUR",sub:"L'événement qui fait tout démarrer",
-  body:"Un stimulus externe (une critique, un email, un regard, un silence) ou interne (une pensée qui surgit, un souvenir, une sensation physique) vient heurter une zone sensible. Votre cerveau le capte en premier — bien avant votre conscience.",
-  exemples:["Externe : quelqu'un vous coupe la parole en réunion, un email de votre chef","Externe : un silence prolongé, une remarque en apparence anodine","Interne : la pensée « et si j'échouais ? » qui arrive sans prévenir","Interne : un souvenir douloureux qui ressurgit brusquement"],
-  important:"Vous ne contrôlez pas le déclencheur. Mais vous pouvez apprendre à le reconnaître — et c'est déjà tout."
-},{
-  num:2,color:"#d69e2e",emoji:"🔍",title:"SCAN AUTOMATIQUE",sub:"Évaluation inconsciente en 0,2 secondes",
-  body:"Avant même que vous en ayez conscience, votre cerveau fait un balayage ultra-rapide. Il consulte votre mémoire émotionnelle et décide instantanément : menace ou opportunité ?",
-  exemples:["Il consulte votre mémoire : « Ai-je déjà vécu quelque chose de similaire ? »","Il consulte vos croyances : « Est-ce grave ou pas grave pour moi ? »","Il consulte votre fenêtre de tolérance : « Puis-je gérer ça en ce moment ? »"],
-  important:"Ce scan est entièrement inconscient. Il se produit bien avant que vous puissiez réfléchir. Ce n'est pas irrationnel — c'est humain."
-},{
-  num:3,color:"#e53e3e",emoji:"💥",title:"RÉACTION CORPORELLE",sub:"Le corps réagit avant la tête",
-  body:"Si le scan dit « menace », votre système nerveux autonome s'active instantanément. Ce n'est pas un choix — c'est une réaction biologique automatique, héritée de 200 000 ans d'évolution. Votre corps prend les commandes.",
-  exemples:["Cœur qui s'accélère, gorge serrée, muscles qui se contractent","Vague de chaleur, nœud à l'estomac, souffle qui se raccourcit","Envie irrépressible de fuir, de contrôler, ou de disparaître mentalement"],
-  important:"Ce n'est pas vous qui réagissez — c'est votre système de survie. Ce n'est pas votre faute."
-},{
-  num:4,color:"#805ad5",emoji:"🎭",title:"MASQUE ACTIVÉ",sub:"Le comportement défensif automatique",
-  body:"Pour gérer la réaction corporelle, votre masque de défense entre en scène. Construit dans l'enfance pour vous protéger, il agit à votre place — souvent en moins d'une seconde, sans que vous l'ayez décidé.",
-  exemples:["Vous dites oui alors que vous pensez non (Masque Vert — peur du rejet)","Vous reprenez tout en charge sans qu'on vous le demande (Masque Bleu)","Vous quittez mentalement la conversation (Masque Orange — peur de souffrir)"],
-  important:"VOIR, c'est s'arrêter ici — nommer ce masque avant d'agir depuis lui. C'est le premier acte de liberté."
-}];
-
-var MASK_TRIGGERS=[{
-  id:"rouge",color:"#e53e3e",light:"#feb2b2",bg:"#2d1515",emoji:"🔴",name:"Masque Rouge",
-  peur:"Peur de la mort / de la maladie",
-  declencheurs:["Une sensation corporelle inhabituelle (même bénigne)","Lecture d'un article médical ou d'une actualité santé","Maladie ou hospitalisation d'un proche"],
-  reaction:"Surveiller son corps en permanence, consulter internet à tout moment, éviter certains lieux ou aliments",
-  prediction:"« Si je ne surveille pas chaque symptôme, je vais manquer quelque chose de grave — et il sera trop tard. »"
-},{
-  id:"orange",color:"#ed8936",light:"#fbd38d",bg:"#2d1a0a",emoji:"🟠",name:"Masque Orange",
-  peur:"Peur de la douleur / de la souffrance",
-  declencheurs:["Un conflit émotionnel avec un proche","Un film ou récit particulièrement bouleversant","Une invitation à plus d'intimité ou de proximité émotionnelle"],
-  reaction:"Changer de sujet, rendre service, fuir la situation physiquement ou mentalement",
-  prediction:"« Si je laisse entrer cette émotion jusqu'au bout, elle va m'engloutir — et je ne m'en remetterai pas. »"
-},{
-  id:"jaune",color:"#d69e2e",light:"#faf089",bg:"#2d2200",emoji:"🟡",name:"Masque Jaune",
-  peur:"Peur de l'inconnu / de l'incertitude",
-  declencheurs:["Un changement imprévu dans un planning ou un projet","Un délai non respecté ou une absence de réponse","Une décision à prendre sans toutes les informations"],
-  reaction:"Sur-planifier, poser des questions excessives, chercher à maîtriser chaque détail",
-  prediction:"« Si je ne contrôle pas tout ce qui pourrait arriver, quelque chose va forcément mal tourner. »"
-},{
-  id:"vert",color:"#38a169",light:"#9ae6b4",bg:"#0d2010",emoji:"🟢",name:"Masque Vert",
-  peur:"Peur du rejet / de l'abandon",
-  declencheurs:["Un silence inhabituel de la part d'un proche","Un désaccord ou une critique, même légère","Quelqu'un qui semble distant ou préoccupé"],
-  reaction:"Dire oui, s'effacer, chercher à plaire ou à réparer à tout prix",
-  prediction:"« Si je m'affirme ou si je déçois l'autre, il va m'abandonner ou ne plus m'aimer. »"
-},{
-  id:"bleu",color:"#3182ce",light:"#bee3f8",bg:"#0d1a2d",emoji:"🔵",name:"Masque Bleu",
-  peur:"Peur de l'impuissance",
-  declencheurs:["Quelqu'un qui vous propose de l'aide (vécu comme une menace)","Une erreur d'un proche dans un domaine que vous gérez","Une décision prise sans vous consulter"],
-  reaction:"Reprendre le contrôle, s'isoler avec le problème, refuser l'aide",
-  prediction:"« Si je montre que j'ai besoin d'aide, les autres verront que je ne suis pas à la hauteur. »"
-},{
-  id:"indigo",color:"#5a67d8",light:"#c3dafe",bg:"#120d2d",emoji:"🔷",name:"Masque Indigo",
-  peur:"Peur de l'échec / de l'inadéquation",
-  declencheurs:["Une évaluation ou un feedback d'une personne que vous estimez","Une tâche nouvelle ou un projet qui vous dépasse","Une comparaison implicite avec quelqu'un perçu comme plus compétent"],
-  reaction:"Procrastiner, abandonner le projet, se noyer dans le perfectionnisme",
-  prediction:"« Si j'essaie et que j'échoue, cela confirmera définitivement que je ne suis pas assez bien. »"
-},{
-  id:"violet",color:"#805ad5",light:"#d6bcfa",bg:"#1a0d2d",emoji:"💜",name:"Masque Violet",
-  peur:"Peur de perdre son identité",
-  declencheurs:["Un changement majeur de vie (séparation, retraite, déménagement)","La perte d'un rôle qui vous définissait (parent, responsable, expert)","Une invitation à évoluer ou à vous remettre en question"],
-  reaction:"S'accrocher aux anciens rôles, résister au changement même positif, saboter",
-  prediction:"« Si je change ou si je perds ce rôle, je vais perdre qui je suis — et il n'y aura plus rien à ma place. »"
-}];
-
-var M1_QUIZ=[{
-  q:"Vous êtes en réunion. Votre collègue prend la parole sur votre sujet sans vous prévenir. Vous sentez une bouffée de chaleur — puis vous commencez aussitôt à tout réexpliquer à l'assemblée. À quelle étape du cycle êtes-vous intervenu·e ?",
-  opts:[
-    {t:"Étape 1 — Le déclencheur",ok:false,exp:"Le déclencheur, c'est l'action de votre collègue. Il s'est produit indépendamment de vous."},
-    {t:"Étape 2 — Le scan automatique",ok:false,exp:"Le scan s'est fait à votre insu, en 0,2 secondes, avant même la bouffée de chaleur."},
-    {t:"Étape 3 — La réaction corporelle",ok:false,exp:"La bouffée de chaleur, c'est bien la réaction corporelle — mais vous n'avez rien décidé là non plus."},
-    {t:"Étape 4 — Le masque activé ✓",ok:true,exp:"✓ Exact ! En reprenant la parole pour tout réexpliquer, vous avez agi depuis votre masque. C'est précisément là que VOIR intervient : nommer ce masque avant d'agir depuis lui."}
-  ]
-},{
-  q:"Lequel de ces éléments est un déclencheur INTERNE ?",
-  opts:[
-    {t:"Un email critique de votre responsable",ok:false,exp:"C'est un déclencheur externe — il vient de l'extérieur."},
-    {t:"La pensée soudaine « et si je n'étais pas à la hauteur ? »",ok:true,exp:"✓ Exact ! Une pensée qui surgit spontanément est un déclencheur interne — tout comme un souvenir ou une image mentale."},
-    {t:"Un silence prolongé lors d'un dîner",ok:false,exp:"C'est un déclencheur externe — la situation vient de l'environnement."},
-    {t:"Une critique d'un ami",ok:false,exp:"C'est un déclencheur externe — il vient d'une autre personne."}
-  ]
-},{
-  q:"Pourquoi ne pouvez-vous pas « empêcher » votre réaction corporelle (étape 3) ?",
-  opts:[
-    {t:"Parce que vous êtes trop sensible",ok:false,exp:"La sensibilité n'est pas une faiblesse — et ce n'est pas la raison. Toute personne a des réactions corporelles automatiques."},
-    {t:"Parce que c'est une réaction biologique involontaire du système nerveux autonome",ok:true,exp:"✓ Exact ! La réaction corporelle est pilotée par votre système nerveux autonome — elle se produit avant que votre cortex préfrontal (la pensée consciente) puisse intervenir."},
-    {t:"Parce que vous ne faites pas assez d'efforts",ok:false,exp:"Les efforts n'ont rien à voir ici. C'est neurobiologique, pas une question de volonté."},
-    {t:"Parce que vous n'avez pas encore assez travaillé sur vous",ok:false,exp:"Le travail sur soi ne supprime pas les réactions automatiques — il vous apprend à les nommer, les traverser, puis choisir votre réponse."}
-  ]
-},{
-  q:"VOIR (la 1ère étape de la méthode V.A.L.E.U.R©) consiste à :",
-  opts:[
-    {t:"Supprimer la réaction émotionnelle",ok:false,exp:"L'objectif n'est pas de supprimer quoi que ce soit. La méthode ne combat pas les émotions — elle les traverse."},
-    {t:"Ignorer le déclencheur et passer à autre chose",ok:false,exp:"Ignorer n'est pas VOIR. C'est le contraire — c'est éviter, ce qui renforce le masque."},
-    {t:"Nommer le masque activé avant d'agir depuis lui",ok:true,exp:"✓ Exact ! VOIR, c'est créer un espace de conscience entre le déclencheur et la réponse. Cette nomination — même de 2 secondes — change tout."},
-    {t:"Analyser le passé pour comprendre l'origine du masque",ok:false,exp:"L'exploration de l'origine vient plus tard (étape EXPLORER). VOIR est ancré dans le moment présent."}
-  ]
-},{
-  q:"Quel masque correspond à la peur de l'impuissance, avec une réaction d'hypercontrôle ?",
-  opts:[
-    {t:"Masque Rouge",ok:false,exp:"Le Masque Rouge correspond à la peur de la mort/maladie avec une hypervigilance somatique."},
-    {t:"Masque Vert",ok:false,exp:"Le Masque Vert correspond à la peur du rejet/abandon avec une insécurité relationnelle."},
-    {t:"Masque Bleu",ok:true,exp:"✓ Exact ! Le Masque Bleu — peur de l'impuissance — se manifeste par un hypercontrôle relationnel et une grande difficulté à déléguer ou à demander de l'aide."},
-    {t:"Masque Violet",ok:false,exp:"Le Masque Violet correspond à la peur de perdre son identité — il tend à absorber et intensifier tous les autres."}
-  ]
-}];
-
-/* ── COMPONENTS ── */
-function Copyright(){
-  return React.createElement("p",{style:{color:C.textMuted,fontSize:"10px",textAlign:"center",marginTop:"20px",lineHeight:1.6}},
-    "© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés",React.createElement("br",null),
-    "Contenu protégé · Reproduction interdite · ",React.createElement("em",null,"De la peur à la joie d'être soi"),", Éditions L'Harmattan");
-}
-
-function Confetti(){
-  var pieces=[];
-  var colors=["#c9a84c","#38a169","#805ad5","#5a67d8","#ed8936","#fff","#e53e3e","#3182ce"];
-  for(var i=0;i<60;i++){
-    pieces.push(React.createElement("div",{key:i,style:{
-      position:"fixed",left:(Math.random()*100)+"%",top:"-20px",
-      width:(6+Math.random()*8)+"px",height:(6+Math.random()*8)+"px",
-      background:colors[Math.floor(Math.random()*colors.length)],
-      borderRadius:Math.random()>0.5?"50%":"2px",
-      animation:"confettiFall "+(2+Math.random()*2)+"s "+(Math.random()*2)+"s ease-in both",
-      zIndex:10000,pointerEvents:"none"
-    }}));
-  }
-  return React.createElement("div",{style:{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999}},pieces);
-}
-
-function Card(p){
-  return React.createElement("div",{style:_objectSpread({background:C.navyCard,border:"1px solid "+C.navyBorder,borderRadius:"16px",padding:"20px"},p.style)},p.children);
-}
-
-function PedaVignette(p){
-  var col=p.color||C.rouge;
-  return React.createElement("div",{style:{background:col+"11",border:"2px solid "+col+"33",borderRadius:"16px",padding:"20px",marginBottom:"16px"}},
-    React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"12px"}},
-      React.createElement("span",{style:{fontSize:"24px"}},p.emoji),
-      React.createElement("p",{style:{color:col,fontWeight:800,fontSize:"15px",margin:0}},p.title)),
-    p.children);
-}
-
-function PDFBtn(p){
-  return React.createElement("button",{onClick:p.onClick,style:{
-    display:"flex",alignItems:"center",gap:"10px",background:"linear-gradient(135deg,#1a2235,#0d1117)",
-    border:"1px solid "+C.rouge+"44",borderRadius:"12px",padding:"12px 20px",cursor:"pointer",
-    width:"100%",marginTop:"16px",transition:"border-color 0.2s"
-  },
-  onMouseEnter:function(e){e.currentTarget.style.borderColor=C.rouge},
-  onMouseLeave:function(e){e.currentTarget.style.borderColor=C.rouge+"44"}},
-    React.createElement("span",{style:{fontSize:"24px"}},"📄"),
-    React.createElement("div",{style:{textAlign:"left"}},
-      React.createElement("p",{style:{color:C.rouge,fontWeight:700,fontSize:"14px",margin:0}},p.label),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"12px",margin:0}},p.sublabel)));
-}
-
-/* ── M1 PROGRESS BAR ── */
-function M1ProgressBar(p){
-  return React.createElement("div",{style:{background:C.navyMid,borderBottom:"1px solid #2a3650",padding:"10px 16px"}},
-    React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"center",gap:"4px",maxWidth:"700px",margin:"0 auto"}},
-      SECTION_LABELS_M1.map(function(s,i){
-        var isActive=i===p.step,isDone=p.completed.includes(i);
-        return React.createElement("div",{key:i,style:{display:"flex",alignItems:"center",flex:1}},
-          React.createElement("button",{
-            onClick:function(){(isDone||isActive)&&p.setStep(i)},
-            style:{display:"flex",flexDirection:"column",alignItems:"center",gap:"3px",background:"none",border:"none",cursor:isDone||isActive?"pointer":"default",padding:"0",flex:1}},
-            React.createElement("div",{style:{
-              width:"28px",height:"28px",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",
-              background:isActive?C.rouge:isDone?"#3d1010":C.navyCard,
-              border:"2px solid "+(isActive?C.rouge:isDone?C.rouge+"88":C.navyBorder),
-              color:isActive?"#fff":isDone?C.rougeLight:C.textMuted,
-              fontSize:"11px",fontWeight:700,flexShrink:0
-            }},isDone?"✓":i+1),
-            React.createElement("span",{style:{fontSize:"9px",color:isActive?C.rouge:C.textMuted,lineHeight:1.2,textAlign:"center"}},s)),
-          i<SECTION_LABELS_M1.length-1&&React.createElement("div",{style:{height:"2px",flex:1,background:isDone?C.rouge+"66":C.navyBorder,margin:"0 2px",borderRadius:"2px"}}));
-      })));
-}
-
-/* ── GLOBAL NAV M1 ── */
-function TopNav(p){
-  var m0done=p.session?getModule0Progress(p.session.email)>=4:false;
-  return React.createElement("div",{style:{position:"sticky",top:"62px",zIndex:100,background:C.navy,borderBottom:"1px solid "+C.navyBorder}},
-    React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 16px",maxWidth:"800px",margin:"0 auto"}},
-      React.createElement("a",{href:"https://celinebourbon-ux.github.io/HomePageAppliValeur/",style:{textDecoration:"none"}},
-        React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.gold+",#a07830)",width:"28px",height:"28px",borderRadius:"8px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"14px",fontWeight:900,color:"#000"}},"V")),
-      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"8px"}},
-        React.createElement("div",{style:{background:C.rouge+"22",border:"1px solid "+C.rouge+"44",borderRadius:"20px",padding:"4px 12px"}},
-          React.createElement("span",{style:{color:C.rouge,fontSize:"11px",fontWeight:700,letterSpacing:"1px"}},"🔴 MODULE 1 — VOIR"))),
-      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"8px"}},
-        p.session&&React.createElement("span",{style:{color:C.textMuted,fontSize:"12px"}},p.session.name),
-        React.createElement("a",{href:"https://celinebourbon-ux.github.io/HomePageAppliValeur/",title:"Tableau de bord",style:{background:"none",border:"1px solid "+C.navyBorder,color:C.textMuted,borderRadius:"8px",padding:"6px 10px",cursor:"pointer",fontSize:"12px",textDecoration:"none"}},"🏠"))));
-}
-
-/* ── ACCESS DENIED ── */
-function AccessDenied(){
-  return React.createElement("div",{style:{minHeight:"100vh",background:C.navy,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}},
-    React.createElement("div",{style:{textAlign:"center",maxWidth:"420px"}},
-      React.createElement("div",{style:{fontSize:"60px",marginBottom:"20px"}},"🔒"),
-      React.createElement("h2",{style:{fontFamily:"Georgia,serif",color:C.cream,fontSize:"22px",marginBottom:"12px"}},"Module 1 verrouillé"),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"14px",lineHeight:1.7,marginBottom:"24px"}},"Pour accéder au Module 1 — VOIR, vous devez d'abord compléter les 4 sections du Module 0 — COMPRENDRE."),
-      React.createElement("a",{href:"https://celinebourbon-ux.github.io/HomePageAppliValeur/",style:{display:"inline-block",background:"linear-gradient(135deg,"+C.gold+",#a07830)",color:"#000",borderRadius:"50px",padding:"14px 32px",fontSize:"15px",fontWeight:700,textDecoration:"none"}},"← Retourner au Module 0")));
-}
-
-/* ── SECTION 1 — INTRO VOIR ── */
-function Section1_Voir(p){
-  var _u1=useState(null),_s1=_slicedToArray(_u1,2),openStep=_s1[0],setOpenStep=_s1[1];
-  var _u2=useState(null),_s2=_slicedToArray(_u2,2),quizAnswer=_s2[0],setQuizAnswer=_s2[1];
-  var quiz=M1_QUIZ[0];
-
-  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
-    /* HEADER */
-    React.createElement("div",{style:{textAlign:"center",marginBottom:"28px",animation:"fadeInUp 0.5s ease"}},
-      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,"+C.rouge+"22,transparent)",border:"1px solid "+C.rouge,borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
-        React.createElement("span",{style:{color:C.rouge,fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 1 sur 4")),
-      React.createElement("h1",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(22px,5vw,34px)",color:C.cream,lineHeight:1.2,marginBottom:"12px"}},
-        "Vous avez réagi avant même de savoir pourquoi.",React.createElement("br",null),
-        React.createElement("span",{style:{color:C.rouge}},"Voici ce qui s'est passé.")),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"clamp(14px,3.5vw,16px)",lineHeight:1.7,maxWidth:"560px",margin:"0 auto"}},
-        "VOIR, c'est la première étape de votre liberté. Pas agir différemment — juste ",
-        React.createElement("strong",{style:{color:C.cream}},"nommer ce qui vient de se passer"),". C'est déjà transformer.")),
-    /* ACCROCHE */
-    React.createElement(Card,{style:{marginBottom:"24px",borderColor:C.rouge+"44"}},
-      React.createElement("p",{style:{color:C.rouge,fontWeight:800,fontSize:"15px",marginBottom:"14px"}},"Vous vous reconnaissez ?"),
-      [{t:"Vous avez dit oui alors que tout votre corps criait non",s:"Et vous ne savez toujours pas pourquoi vous l'avez fait."},
-       {t:"Vous avez tout pris en charge — encore une fois",s:"Sans qu'on vous le demande. Comme si vous ne pouviez pas faire autrement."},
-       {t:"Vous avez agi sur le pilote automatique — et vous l'avez regretté",s:"Après coup : « Pourquoi j'ai encore réagi comme ça ? »"},
-       {t:"Vous êtes épuisé·e de tourner en boucle dans les mêmes schémas",s:"Vous savez que quelque chose se passe. Mais quoi, exactement ?"}
-      ].map(function(item,i){
-        return React.createElement("div",{key:i,style:{display:"flex",gap:"10px",padding:"10px",background:C.navyMid,borderRadius:"10px",marginBottom:"8px",alignItems:"flex-start"}},
-          React.createElement("span",{style:{color:C.rouge,fontWeight:700,flexShrink:0,marginTop:"2px"}},"›"),
-          React.createElement("div",null,
-            React.createElement("p",{style:{color:C.cream,fontSize:"14px",fontWeight:600,margin:"0 0 2px"}},item.t),
-            React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",margin:0,lineHeight:1.5}},item.s)));
-      }),
-      React.createElement("div",{style:{marginTop:"14px",background:"#2d1515",border:"2px solid "+C.rouge,borderRadius:"12px",padding:"14px 18px",textAlign:"center"}},
-        React.createElement("p",{style:{color:C.rougeLight,fontWeight:800,fontSize:"14px",margin:0}},
-          "Ce n'est pas vous le problème. C'est un cycle automatique — et il a un nom."))),
-    /* LE CYCLE */
-    React.createElement(PedaVignette,{emoji:"🔄",title:"Le Cycle Déclencheur → Masque : 4 étapes en moins d'une seconde",color:C.rouge},
-      React.createElement("p",{style:{color:C.textLight,fontSize:"14px",lineHeight:1.8,marginBottom:"16px"}},
-        "Chaque fois que vous « réagissez automatiquement », ce cycle complet s'est produit ",
-        React.createElement("strong",{style:{color:C.rouge}},"avant même que vous en ayez conscience"),
-        ". Comprendre ces 4 étapes, c'est déjà reprendre les rênes."),
-      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"3px",marginBottom:"20px"}},
-        CYCLE_STEPS.map(function(step,i){
-          var isOpen=openStep===i;
-          return React.createElement("div",{key:i},
-            React.createElement("button",{onClick:function(){setOpenStep(isOpen?null:i)},style:{
-              width:"100%",display:"flex",alignItems:"center",gap:"12px",
-              background:isOpen?step.color+"22":C.navyCard,
-              border:"2px solid "+(isOpen?step.color:C.navyBorder),
-              borderRadius:isOpen?"12px 12px 0 0":"12px",padding:"14px 16px",cursor:"pointer",textAlign:"left",transition:"all 0.3s"
-            }},
-              React.createElement("div",{style:{width:"36px",height:"36px",borderRadius:"50%",background:step.color,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:"16px"}},step.emoji),
-              React.createElement("div",{style:{flex:1}},
-                React.createElement("p",{style:{color:step.color,fontWeight:700,fontSize:"13px",margin:"0 0 1px",letterSpacing:"0.5px"}},step.num,". ",step.title),
-                React.createElement("p",{style:{color:C.textMuted,fontSize:"12px",margin:0}},step.sub)),
-              React.createElement("span",{style:{color:step.color,fontSize:"18px",transform:isOpen?"rotate(45deg)":"none",transition:"transform 0.3s",flexShrink:0}},"+")
-            ),
-            isOpen&&React.createElement("div",{style:{background:step.color+"11",border:"2px solid "+step.color+"44",borderTop:"none",borderRadius:"0 0 12px 12px",padding:"16px 18px",animation:"fadeInUp 0.2s ease"}},
-              React.createElement("p",{style:{color:C.textLight,fontSize:"14px",lineHeight:1.8,marginBottom:"12px"}},step.body),
-              step.exemples.map(function(ex,j){
-                return React.createElement("div",{key:j,style:{display:"flex",gap:"8px",alignItems:"flex-start",marginBottom:"6px"}},
-                  React.createElement("span",{style:{color:step.color,flexShrink:0,fontWeight:700,marginTop:"2px"}},"›"),
-                  React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.6,margin:0,fontStyle:"italic"}},ex));
-              }),
-              React.createElement("div",{style:{background:step.color+"22",border:"1px solid "+step.color+"44",borderRadius:"8px",padding:"10px 14px",marginTop:"10px"}},
-                React.createElement("p",{style:{color:step.color,fontWeight:700,fontSize:"13px",lineHeight:1.6,margin:0}},"💡 ",step.important))),
-            i<CYCLE_STEPS.length-1&&React.createElement("div",{style:{display:"flex",justifyContent:"center",padding:"2px 0"}},
-              React.createElement("span",{style:{color:C.textMuted,fontSize:"16px"}},"↓")));
-        })),
-      React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.rouge+"22,"+C.violet+"11)",border:"2px solid "+C.rouge+"44",borderRadius:"12px",padding:"16px",textAlign:"center"}},
-        React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"15px",margin:"0 0 6px"}},"VOIR = s'arrêter à l'étape 4"),
-        React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.7,margin:0}},
-          "Pas supprimer la réaction — juste la nommer. Cette nomination crée un espace entre le stimulus et la réponse. ",
-          React.createElement("strong",{style:{color:C.gold}},"Cet espace, c'est votre liberté.")),
-        React.createElement("p",{style:{color:C.textMuted,fontSize:"11px",marginTop:"8px",fontStyle:"italic"}},
-          "Source : ",React.createElement("em",null,"De la peur à la joie d'être soi")," — Céline Bourbon · Fondements : théorie polyvagale (Porges) & défusion cognitive (ACT)"))),
-    /* QUIZ */
-    React.createElement(Card,{style:{borderColor:C.rouge+"44",marginBottom:"24px"}},
-      React.createElement("p",{style:{color:C.rougeLight,fontWeight:800,fontSize:"15px",marginBottom:"16px"}},"🧠 Testez votre compréhension"),
-      React.createElement("p",{style:{color:C.cream,fontSize:"clamp(14px,3.5vw,15px)",lineHeight:1.7,marginBottom:"16px",fontWeight:600}},quiz.q),
-      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"8px"}},
-        quiz.opts.map(function(opt,i){
-          var revealed=quizAnswer!==null;
-          var isSel=quizAnswer===i;
-          var bg=C.navyMid,border=C.navyBorder,col=C.textLight;
-          if(revealed){if(opt.ok){bg="#0d2010";border=C.vert;col=C.vertLight}else if(isSel){bg="#2d1515";border=C.rouge;col=C.rougeLight}}
-          else if(isSel){border=C.gold}
-          return React.createElement("button",{key:i,onClick:function(){if(!revealed)setQuizAnswer(i)},
-            style:{background:bg,border:"2px solid "+border,borderRadius:"10px",padding:"12px 16px",color:col,cursor:revealed?"default":"pointer",textAlign:"left",fontSize:"14px",lineHeight:1.5}},
-            opt.ok&&revealed?"✓ ":isSel&&!opt.ok&&revealed?"✗ ":"",opt.t);
-        })),
-      quizAnswer!==null&&React.createElement("div",{style:{background:quiz.opts[quizAnswer].ok?"#0d2010":"#1a1525",border:"1px solid "+(quiz.opts[quizAnswer].ok?C.vert:"#5a67d8"),borderRadius:"10px",padding:"14px",marginTop:"12px"}},
-        React.createElement("p",{style:{color:quiz.opts[quizAnswer].ok?C.vertLight:"#c3dafe",fontSize:"13px",lineHeight:1.7,margin:0}},
-          "💡 ",quiz.opts[quizAnswer].exp))),
-    React.createElement("div",{style:{textAlign:"center",marginTop:"28px"}},
-      React.createElement("button",{onClick:p.onComplete,style:{background:"linear-gradient(135deg,"+C.rouge+",#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 36px",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(229,62,62,0.35)"}},"Explorer mes déclencheurs →")),
-    React.createElement(Copyright,null));
-}
-
-/* ── SECTION 2 — DÉCLENCHEURS ── */
-function Section2_Voir(p){
-  var _u1=useState(null),_s1=_slicedToArray(_u1,2),selectedMask=_s1[0],setSelectedMask=_s1[1];
-
-  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
-    React.createElement("div",{style:{textAlign:"center",marginBottom:"28px"}},
-      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,"+C.rouge+"22,transparent)",border:"1px solid "+C.rouge,borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
-        React.createElement("span",{style:{color:C.rouge,fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 2 sur 4")),
-      React.createElement("h2",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(20px,5vw,30px)",color:C.cream,lineHeight:1.2,marginBottom:"10px"}},"Les 7 masques — leurs déclencheurs typiques"),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"14px",lineHeight:1.7,maxWidth:"560px",margin:"0 auto"}},
-        "Chaque masque a ses propres déclencheurs. Les identifier, c'est les voir venir — et gagner en liberté.")),
-    React.createElement(PedaVignette,{emoji:"🎯",title:"Pourquoi identifier VOS déclencheurs ?",color:"#ed8936"},
-      React.createElement("p",{style:{color:C.textLight,fontSize:"14px",lineHeight:1.8,marginBottom:"14px"}},
-        "Un déclencheur n'est pas universel — il est ",React.createElement("strong",{style:{color:C.gold}},"profondément personnel"),". Deux personnes dans la même situation vont activer des masques totalement différents. Votre travail : reconnaître VOS déclencheurs spécifiques."),
-      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"10px"}},
-        React.createElement("div",{style:{background:C.navyCard,border:"1px solid "+C.orange+"33",borderRadius:"10px",padding:"12px"}},
-          React.createElement("p",{style:{color:C.orange,fontWeight:700,fontSize:"13px",margin:"0 0 6px"}},"⚡ Déclencheurs externes"),
-          React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.5,margin:0}},"Quelqu'un, un événement, une situation, un environnement particulier.")),
-        React.createElement("div",{style:{background:C.navyCard,border:"1px solid "+C.violet+"33",borderRadius:"10px",padding:"12px"}},
-          React.createElement("p",{style:{color:C.violetLight,fontWeight:700,fontSize:"13px",margin:"0 0 6px"}},"🧠 Déclencheurs internes"),
-          React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.5,margin:0}},"Une pensée, un souvenir, une sensation physique, une image mentale qui surgit.")))),
-    React.createElement("div",{style:{marginBottom:"24px"}},
-      React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"15px",marginBottom:"6px",textAlign:"center"}},"Cliquez sur chaque masque pour révéler ses déclencheurs"),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",marginBottom:"16px",textAlign:"center"}},"Notez mentalement ceux que vous reconnaissez dans votre vie"),
-      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"8px"}},
-        MASK_TRIGGERS.map(function(mask,i){
-          var isOpen=selectedMask===i;
-          return React.createElement("div",{key:i,style:{border:"2px solid "+(isOpen?mask.color:C.navyBorder),borderRadius:"16px",overflow:"hidden",transition:"border-color 0.3s"}},
-            React.createElement("button",{onClick:function(){setSelectedMask(isOpen?null:i)},style:{width:"100%",background:isOpen?mask.bg:C.navyCard,border:"none",cursor:"pointer",textAlign:"left",padding:"16px 18px",display:"flex",alignItems:"center",gap:"12px"}},
-              React.createElement("div",{style:{width:"44px",height:"44px",borderRadius:"50%",background:mask.color+"22",border:"2px solid "+mask.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px",flexShrink:0}},mask.emoji),
-              React.createElement("div",{style:{flex:1}},
-                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"15px",margin:"0 0 2px"}},mask.name),
-                React.createElement("p",{style:{color:C.textMuted,fontSize:"12px",margin:0}},mask.peur)),
-              React.createElement("span",{style:{color:mask.color,fontSize:"18px",transform:isOpen?"rotate(45deg)":"none",transition:"transform 0.3s",flexShrink:0}},"+")
-            ),
-            isOpen&&React.createElement("div",{style:{background:mask.bg,padding:"20px",borderTop:"1px solid "+mask.color+"44",animation:"fadeInUp 0.2s ease"}},
-              React.createElement("div",{style:{marginBottom:"14px"}},
-                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"12px",marginBottom:"8px",textTransform:"uppercase",letterSpacing:"1px"}},"⚡ Déclencheurs typiques"),
-                mask.declencheurs.map(function(d,j){
-                  return React.createElement("div",{key:j,style:{display:"flex",gap:"8px",alignItems:"flex-start",marginBottom:"6px"}},
-                    React.createElement("div",{style:{width:"6px",height:"6px",borderRadius:"50%",background:mask.color,flexShrink:0,marginTop:"7px"}}),
-                    React.createElement("p",{style:{color:C.textLight,fontSize:"13px",lineHeight:1.6,margin:0}},d));
-                })),
-              React.createElement("div",{style:{background:C.navyCard,border:"1px solid "+mask.color+"33",borderRadius:"10px",padding:"12px",marginBottom:"12px"}},
-                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"12px",marginBottom:"6px",textTransform:"uppercase",letterSpacing:"1px"}},"🎭 Réaction automatique"),
-                React.createElement("p",{style:{color:C.textLight,fontSize:"13px",lineHeight:1.6,margin:0}},mask.reaction)),
-              React.createElement("div",{style:{background:mask.color+"11",border:"1px solid "+mask.color+"44",borderRadius:"10px",padding:"12px"}},
-                React.createElement("p",{style:{color:mask.color,fontWeight:700,fontSize:"12px",marginBottom:"6px",textTransform:"uppercase",letterSpacing:"1px"}},"💭 Prédiction catastrophe"),
-                React.createElement("p",{style:{color:mask.light,fontSize:"13px",lineHeight:1.7,margin:0,fontStyle:"italic"}},mask.prediction)),
-              React.createElement("p",{style:{color:C.textMuted,fontSize:"11px",marginTop:"12px",textAlign:"right"}},"Source : ",React.createElement("em",null,"De la peur à la joie d'être soi")," — Céline Bourbon, L'Harmattan")));
-        }))),
-    React.createElement("div",{style:{textAlign:"center",marginTop:"28px"}},
-      React.createElement("button",{onClick:p.onComplete,style:{background:"linear-gradient(135deg,"+C.rouge+",#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 36px",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(229,62,62,0.35)"}},"Commencer le Journal du Masque →")),
-    React.createElement(Copyright,null));
-}
-
-/* ── SECTION 3 — JOURNAL DU MASQUE ── */
-function Section3_Voir(p){
-  var MC={rouge:"#e53e3e",orange:"#ed8936",jaune:"#d69e2e",vert:"#38a169",bleu:"#3182ce",indigo:"#5a67d8",violet:"#805ad5"};
-  var ME={rouge:"🔴",orange:"🟠",jaune:"🟡",vert:"🟢",bleu:"🔵",indigo:"🔷",violet:"💜"};
-  var _u1=useState([]),_s1=_slicedToArray(_u1,2),entries=_s1[0],setEntries=_s1[1];
-  var _u2=useState({situation:'',type:'externe',intensity:5,masque:'vert',reaction:'',peur:''}),_s2=_slicedToArray(_u2,2),form=_s2[0],setForm=_s2[1];
-  var _u3=useState(false),_s3=_slicedToArray(_u3,2),showForm=_s3[0],setShowForm=_s3[1];
-  var _u4=useState(false),_s4=_slicedToArray(_u4,2),showCelebration=_s4[0],setShowCelebration=_s4[1];
-
-  useEffect(function(){
-    var stored=loadUser(p.session.email,'journalMasque');
-    if(stored&&Array.isArray(stored))setEntries(stored);
-  },[]);
-
-  function setField(k,v){setForm(function(prev){var n=_objectSpread({},prev);n[k]=v;return n})}
-
-  function handleSave(){
-    if(!form.situation.trim()||!form.reaction.trim())return;
-    var newEntry=_objectSpread(_objectSpread({},form),{},{id:Date.now(),date:new Date().toISOString()});
-    var updated=_toConsumableArray(entries).concat([newEntry]);
-    setEntries(updated);
-    saveUser(p.session.email,'journalMasque',updated);
-    sb.from('user_data').upsert({email:p.session.email,journal_masque:updated,updated_at:new Date().toISOString()}).then(function(){}).catch(function(){});
-    setForm({situation:'',type:'externe',intensity:5,masque:'vert',reaction:'',peur:''});
-    setShowForm(false);
-    if(updated.length===3)setShowCelebration(true);
-  }
-
-  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
-    showCelebration&&React.createElement("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.8)",zIndex:9000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px",animation:"fadeIn 0.3s ease"}},
-      React.createElement(Confetti,null),
-      React.createElement("div",{className:"animate-scaleIn",style:{background:"linear-gradient(135deg,#1a2235,#0d1117)",border:"2px solid "+C.rouge,borderRadius:"24px",padding:"36px 28px",maxWidth:"400px",width:"100%",textAlign:"center",boxShadow:"0 24px 80px rgba(0,0,0,0.7)"}},
-        React.createElement("div",{style:{fontSize:"60px",marginBottom:"16px",animation:"float 2s ease-in-out infinite"}},"🔴"),
-        React.createElement("p",{style:{color:C.rouge,fontWeight:800,fontSize:"20px",marginBottom:"12px"}},"3 observations — vous maîtrisez l'outil !"),
-        React.createElement("p",{style:{color:C.textMuted,fontSize:"14px",lineHeight:1.8,marginBottom:"20px"}},"Vous venez de cartographier 3 déclencheurs de masques. Cette conscience — c'est VOIR en action. C'est la compétence la plus précieuse de tout le parcours."),
-        React.createElement("button",{onClick:function(){setShowCelebration(false)},style:{background:"linear-gradient(135deg,"+C.rouge+",#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 32px",fontSize:"15px",fontWeight:800,cursor:"pointer",width:"100%"}},"Continuer →"))),
-    React.createElement("div",{style:{textAlign:"center",marginBottom:"24px"}},
-      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,"+C.rouge+"22,transparent)",border:"1px solid "+C.rouge,borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
-        React.createElement("span",{style:{color:C.rouge,fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 3 sur 4")),
-      React.createElement("h2",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(20px,5vw,28px)",color:C.cream,lineHeight:1.2,marginBottom:"10px"}},"Journal du Masque"),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"14px",lineHeight:1.7,maxWidth:"500px",margin:"0 auto"}},"L'exercice qui transforme la compréhension intellectuelle en conscience réelle. Une observation à la fois.")),
-    React.createElement(PedaVignette,{emoji:"📓",title:"Comment utiliser le Journal du Masque ?",color:C.rouge},
-      React.createElement("p",{style:{color:C.textLight,fontSize:"14px",lineHeight:1.8,marginBottom:"12px"}},
-        "Dès que vous remarquez une réaction automatique — passée ou présente — notez-la ici en 5 étapes. L'objectif n'est pas de vous juger, mais de ",React.createElement("strong",{style:{color:C.gold}},"cartographier vos patterns"),"."),
-      React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"6px"}},
-        ["Décrivez la situation concrète : qu'est-ce qui s'est passé ? (déclencheur)",
-         "Évaluez l'intensité émotionnelle de 0 à 10",
-         "Identifiez quel masque s'est activé (ou vous a semblé présent)",
-         "Nommez votre réaction automatique : qu'avez-vous fait ou voulu faire ?",
-         "Cherchez la peur sous-jacente : de quoi aviez-vous vraiment peur ?"
-        ].map(function(l,i){
-          return React.createElement("div",{key:i,style:{display:"flex",gap:"10px",alignItems:"flex-start"}},
-            React.createElement("div",{style:{width:"22px",height:"22px",borderRadius:"50%",background:C.rouge,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:"11px",fontWeight:700,flexShrink:0}},i+1),
-            React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.5,margin:0,paddingTop:"3px"}},l));
-        }))),
-    /* COMPTEUR + BTN */
-    React.createElement("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"16px",flexWrap:"wrap",gap:"10px"}},
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",margin:0}},
-        React.createElement("span",{style:{color:C.rouge,fontWeight:700,fontSize:"18px"}},entries.length),
-        " observation",entries.length!==1?"s":"",
-        entries.length<3&&React.createElement("span",{style:{color:C.textMuted}}," · objectif : 3 minimum")),
-      React.createElement("button",{onClick:function(){setShowForm(!showForm)},style:{
-        display:"flex",alignItems:"center",gap:"8px",background:"linear-gradient(135deg,"+C.rouge+",#c03030)",
-        color:"#fff",border:"none",borderRadius:"50px",padding:"10px 20px",cursor:"pointer",fontWeight:700,fontSize:"13px"
-      }},React.createElement("span",{style:{fontSize:"16px",lineHeight:1}},showForm?"−":"+"),showForm?"Fermer":"Ajouter une observation")),
-    /* FORMULAIRE */
-    showForm&&React.createElement(Card,{style:{marginBottom:"20px",borderColor:C.rouge+"44",animation:"fadeInUp 0.3s ease"}},
-      React.createElement("p",{style:{color:C.rouge,fontWeight:800,fontSize:"15px",marginBottom:"16px"}},"🎭 Nouvelle observation"),
-      /* Situation */
-      React.createElement("div",{style:{marginBottom:"14px"}},
-        React.createElement("label",{style:{color:C.textMuted,fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},"1. La situation (déclencheur)"),
-        React.createElement("textarea",{value:form.situation,onChange:function(e){setField('situation',e.target.value)},
-          placeholder:"Qu'est-ce qui s'est passé ? Décrivez la situation concrètement...",rows:3,
-          style:{width:"100%",background:C.navyMid,border:"1px solid "+C.navyBorder,borderRadius:"10px",padding:"12px",color:C.textLight,fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none"}}),
-        React.createElement("div",{style:{display:"flex",gap:"8px",marginTop:"8px"}},
-          ["externe","interne"].map(function(t){
-            var isSel=form.type===t,col=t==='externe'?C.orange:C.violet;
-            return React.createElement("button",{key:t,onClick:function(){setField('type',t)},style:{
-              flex:1,background:isSel?col+"22":C.navyMid,border:"2px solid "+(isSel?col:C.navyBorder),
-              borderRadius:"8px",padding:"8px",cursor:"pointer",color:isSel?col:C.textMuted,fontSize:"13px",fontWeight:isSel?700:400
-            }},t==='externe'?"⚡ Déclencheur externe":"🧠 Déclencheur interne");
-          }))),
-      /* Intensité */
-      React.createElement("div",{style:{marginBottom:"14px"}},
-        React.createElement("label",{style:{color:C.textMuted,fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},
-          "2. Intensité : ",React.createElement("span",{style:{color:C.rouge,fontWeight:700,fontSize:"14px"}},form.intensity,"/10")),
-        React.createElement("input",{type:"range",min:0,max:10,value:form.intensity,onChange:function(e){setField('intensity',parseInt(e.target.value))},style:{width:"100%",accentColor:C.rouge}})),
-      /* Masque */
-      React.createElement("div",{style:{marginBottom:"14px"}},
-        React.createElement("label",{style:{color:C.textMuted,fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"8px"}},"3. Masque activé"),
-        React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:"6px"}},
-          Object.keys(MC).map(function(m){
-            var isSel=form.masque===m;
-            return React.createElement("button",{key:m,onClick:function(){setField('masque',m)},style:{
-              display:"flex",alignItems:"center",gap:"6px",background:isSel?MC[m]+"22":C.navyMid,
-              border:"2px solid "+(isSel?MC[m]:C.navyBorder),borderRadius:"50px",padding:"6px 14px",cursor:"pointer",
-              color:isSel?MC[m]:C.textMuted,fontSize:"13px",fontWeight:isSel?700:400,transition:"all 0.2s"
-            }},ME[m]," ",m.charAt(0).toUpperCase()+m.slice(1));
-          }))),
-      /* Réaction */
-      React.createElement("div",{style:{marginBottom:"14px"}},
-        React.createElement("label",{style:{color:C.textMuted,fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},"4. Ma réaction automatique"),
-        React.createElement("textarea",{value:form.reaction,onChange:function(e){setField('reaction',e.target.value)},
-          placeholder:"Qu'est-ce que j'ai fait ou voulu faire automatiquement ?",rows:2,
-          style:{width:"100%",background:C.navyMid,border:"1px solid "+C.navyBorder,borderRadius:"10px",padding:"12px",color:C.textLight,fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none"}})),
-      /* Peur */
-      React.createElement("div",{style:{marginBottom:"20px"}},
-        React.createElement("label",{style:{color:C.textMuted,fontSize:"12px",letterSpacing:"1px",textTransform:"uppercase",display:"block",marginBottom:"6px"}},"5. La peur sous-jacente (optionnel — mais puissant)"),
-        React.createElement("textarea",{value:form.peur,onChange:function(e){setField('peur',e.target.value)},
-          placeholder:"De quoi avais-je vraiment peur, au fond ?",rows:2,
-          style:{width:"100%",background:C.navyMid,border:"1px solid "+C.navyBorder,borderRadius:"10px",padding:"12px",color:C.textLight,fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none"}})),
-      React.createElement("button",{onClick:handleSave,disabled:!form.situation.trim()||!form.reaction.trim(),style:{
-        width:"100%",background:form.situation.trim()&&form.reaction.trim()?"linear-gradient(135deg,"+C.rouge+",#c03030)":"#333",
-        color:form.situation.trim()&&form.reaction.trim()?"#fff":"#666",border:"none",borderRadius:"10px",
-        padding:"14px",fontSize:"15px",fontWeight:800,cursor:form.situation.trim()&&form.reaction.trim()?"pointer":"not-allowed"
-      }},"💾 Enregistrer cette observation")),
-    /* ENTRÉES */
-    entries.length>0&&React.createElement("div",null,
-      React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"14px",marginBottom:"12px"}},"📋 Vos observations (",entries.length,")"),
-      _toConsumableArray(entries).reverse().map(function(entry){
-        var mc=MC[entry.masque]||C.rouge,me=ME[entry.masque]||"🎭";
-        return React.createElement("div",{key:entry.id,style:{background:C.navyCard,border:"1px solid "+mc+"44",borderRadius:"14px",padding:"16px",marginBottom:"10px"}},
-          React.createElement("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"10px",flexWrap:"wrap",gap:"8px"}},
-            React.createElement("span",{style:{background:mc+"22",color:mc,fontSize:"12px",padding:"3px 10px",borderRadius:"20px",fontWeight:600}},me," Masque ",entry.masque.charAt(0).toUpperCase()+entry.masque.slice(1)),
-            React.createElement("div",{style:{display:"flex",gap:"8px",alignItems:"center"}},
-              React.createElement("span",{style:{background:C.rouge+"22",color:C.rougeLight,fontSize:"11px",padding:"2px 8px",borderRadius:"10px"}},"Intensité : ",entry.intensity,"/10"),
-              React.createElement("span",{style:{color:C.textMuted,fontSize:"11px"}},"⚡ ",entry.type))),
-          [
-            {l:"Situation",v:entry.situation,c:C.cream},
-            {l:"Réaction automatique",v:entry.reaction,c:C.textLight},
-            entry.peur?{l:"Peur sous-jacente",v:entry.peur,c:mc}:null
-          ].filter(Boolean).map(function(f,i){
-            return React.createElement("div",{key:i,style:{marginBottom:i<2?"8px":0}},
-              React.createElement("p",{style:{color:C.textMuted,fontSize:"11px",margin:"0 0 2px",textTransform:"uppercase",letterSpacing:"1px"}},f.l),
-              React.createElement("p",{style:{color:f.c,fontSize:"13px",lineHeight:1.6,margin:0}},f.v));
-          }));
-      })),
-    React.createElement("div",{style:{textAlign:"center",marginTop:"28px"}},
-      React.createElement("button",{onClick:p.onComplete,style:{background:"linear-gradient(135deg,"+C.rouge+",#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 36px",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(229,62,62,0.35)"}},"Télécharger mon guide PDF →")),
-    React.createElement(Copyright,null));
-}
-
-/* ── SECTION 4 — GUIDE PDF + QUIZ FINAL + COMPLÉTION ── */
-function Section4_Voir(p){
-  var _u1=useState(false),_s1=_slicedToArray(_u1,2),downloaded=_s1[0],setDownloaded=_s1[1];
-  var _u2=useState(''),_s2=_slicedToArray(_u2,2),journalText=_s2[0],setJournalText=_s2[1];
-  var _u3=useState(false),_s3=_slicedToArray(_u3,2),journalSaved=_s3[0],setJournalSaved=_s3[1];
-  var _u4=useState(false),_s4=_slicedToArray(_u4,2),showQuiz=_s4[0],setShowQuiz=_s4[1];
-  var _u5=useState(0),_s5=_slicedToArray(_u5,2),quizIdx=_s5[0],setQuizIdx=_s5[1];
-  var _u6=useState(null),_s6=_slicedToArray(_u6,2),quizSel=_s6[0],setQuizSel=_s6[1];
-  var _u7=useState([]),_s7=_slicedToArray(_u7,2),quizResults=_s7[0],setQuizResults=_s7[1];
-  var _u8=useState(false),_s8=_slicedToArray(_u8,2),quizDone=_s8[0],setQuizDone=_s8[1];
-
-  useEffect(function(){
-    var allEntries=loadUser(p.session.email,'journal')||[];
-    var ex=allEntries.find(function(e){return e.key==='module1_voir'});
-    if(ex){setJournalText(ex.text);setJournalSaved(true);}
-  },[]);
-
-  function saveJournal(){
-    if(!journalText.trim())return;
-    var all=(loadUser(p.session.email,'journal')||[]).filter(function(e){return e.key!=='module1_voir'});
-    var entry={key:'module1_voir',sectionLabel:'Module 1 — VOIR',text:journalText.trim(),date:new Date().toISOString()};
-    saveUser(p.session.email,'journal',_toConsumableArray(all).concat([entry]));
-    sb.from('user_data').upsert({email:p.session.email,journal:_toConsumableArray(all).concat([entry]),updated_at:new Date().toISOString()}).then(function(){}).catch(function(){});
-    setJournalSaved(true);
-  }
-
-  function downloadGuide(){
-    var content='<h1>Identifier mon masque en 3 questions</h1>'
-      +'<p class="box"><em>Guide pratique — Module 1 — VOIR · Méthode V.A.L.E.U.R©</em></p>'
-      +'<h2>Le principe</h2><p>Dès qu\'une situation vous affecte, posez-vous ces 3 questions. Elles interrompent le cycle automatique et activent votre conscience observatrice.</p>'
-      +'<div class="box"><strong>Le cycle invisible :</strong> Déclencheur → Scan automatique → Réaction corporelle → Masque activé<br><strong>VOIR = s\'arrêter à l\'étape 4 et nommer ce masque.</strong></div>'
-      +'<h2>Question 1 — Quel est mon masque et quand s\'active-t-il ?</h2>'
-      +'<ul><li>Dans quelle situation êtes-vous sorti·e de vous-même ?</li><li>Était-ce un déclencheur externe ou interne ?</li>'
-      +'<li>Quel masque reconnaissez-vous ? 🔴 Rouge · 🟠 Orange · 🟡 Jaune · 🟢 Vert · 🔵 Bleu · 🔷 Indigo · 💜 Violet</li></ul>'
-      +'<h2>Question 2 — Quel comportement automatique lui est associé ?</h2>'
-      +'<ul><li>Qu\'avez-vous fait ou voulu faire immédiatement ?</li><li>Est-ce un comportement que vous répétez dans des situations similaires ?</li><li>Ce comportement vous a-t-il aidé à long terme ?</li></ul>'
-      +'<h2>Question 3 — Quelle prédiction catastrophe le sous-tend ?</h2>'
-      +'<ul><li>De quoi aviez-vous vraiment peur dans cette situation ?</li><li>Quelle conviction guidait votre réaction ? (« Si je ne fais pas X, alors Y va arriver »)</li><li>Cette prédiction est-elle basée sur la réalité d\'aujourd\'hui — ou sur une blessure passée ?</li></ul>'
-      +'<h2>Ma fiche personnelle</h2>'
-      +'<p><strong>Mon masque principal :</strong> _______________</p>'
-      +'<p><strong>Ses déclencheurs typiques :</strong><br>1. _______________<br>2. _______________<br>3. _______________</p>'
-      +'<p><strong>Ma réaction automatique :</strong> _______________</p>'
-      +'<p><strong>Ma prédiction catastrophe :</strong><br>« Si je ne fais pas _______________, alors _______________ »</p>';
-    downloadPDFGuide('Guide_Module1_VOIR_VALEUR','Identifier mon masque en 3 questions — Module 1 VOIR — Méthode V.A.L.E.U.R©',content);
-    setDownloaded(true);
-  }
-
-  function handleQuizSelect(i){
-    if(quizSel!==null)return;
-    setQuizSel(i);
-    var res=_toConsumableArray(quizResults).concat([i===M1_QUIZ[quizIdx].opts.findIndex(function(o){return o.ok})]);
-    setQuizResults(res);
-    if(quizIdx===M1_QUIZ.length-1)setQuizDone(true);
-  }
-
-  var curQ=M1_QUIZ[quizIdx];
-  var score=quizResults.filter(Boolean).length;
-
-  return React.createElement("div",{style:{padding:"28px 16px",maxWidth:"720px",margin:"0 auto"}},
-    React.createElement("div",{style:{textAlign:"center",marginBottom:"24px"}},
-      React.createElement("div",{style:{display:"inline-block",background:"linear-gradient(135deg,"+C.rouge+"22,transparent)",border:"1px solid "+C.rouge,borderRadius:"20px",padding:"8px 20px",marginBottom:"16px"}},
-        React.createElement("span",{style:{color:C.rouge,fontSize:"13px",letterSpacing:"2px",fontWeight:600}},"MODULE 1 — VOIR · Section 4 sur 4")),
-      React.createElement("h2",{style:{fontFamily:"Georgia,serif",fontSize:"clamp(20px,5vw,28px)",color:C.cream,lineHeight:1.2,marginBottom:"10px"}},"Votre guide pratique + Quiz final"),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"14px",lineHeight:1.7,maxWidth:"500px",margin:"0 auto"}},"Un outil à garder avec vous pour les moments de déclenchement — et 5 questions pour valider votre compréhension.")),
-    /* PDF */
-    React.createElement("div",{style:{background:"linear-gradient(135deg,#1a2235,#111827)",border:"2px solid "+(downloaded?C.vert:C.rouge),borderRadius:"16px",padding:"24px",marginBottom:"24px",textAlign:"center"}},
-      React.createElement("div",{style:{fontSize:"48px",marginBottom:"16px"}},downloaded?"✅":"📄"),
-      React.createElement("p",{style:{color:downloaded?C.vert:C.rouge,fontWeight:800,fontSize:"17px",marginBottom:"8px"}},downloaded?"Guide téléchargé !":"Télécharger le guide PDF"),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.7,marginBottom:"16px"}},"Identifier mon masque en 3 questions · Format imprimable · Méthode V.A.L.E.U.R©"),
-      React.createElement("button",{onClick:downloadGuide,style:{
-        background:downloaded?"none":"linear-gradient(135deg,"+C.rouge+",#c03030)",
-        color:downloaded?C.vert:"#fff",border:downloaded?"2px solid "+C.vert:"none",
-        borderRadius:"14px",padding:"16px 32px",fontWeight:800,fontSize:"16px",cursor:"pointer",width:"100%",
-        boxShadow:downloaded?"none":"0 6px 30px rgba(229,62,62,0.4)"
-      }},downloaded?"✓ Guide enregistré — retrouvez-le dans vos téléchargements":"📄 Télécharger mon guide PDF →")),
-    /* JOURNAL */
-    React.createElement("div",{style:{background:"linear-gradient(135deg,#1a2535,#111827)",border:"2px solid "+C.gold+"44",borderRadius:"16px",padding:"20px",marginBottom:"24px"}},
-      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"12px"}},
-        React.createElement("span",{style:{fontSize:"20px"}},"📓"),
-        React.createElement("div",null,
-          React.createElement("p",{style:{color:C.gold,fontWeight:700,fontSize:"14px",margin:0}},"Journal de bord — Module 1 · VOIR"),
-          journalSaved&&React.createElement("p",{style:{color:C.vert,fontSize:"12px",margin:0}},"✓ Entrée sauvegardée"))),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",lineHeight:1.7,marginBottom:"12px",fontStyle:"italic"}},
-        "✍️ Quelle situation récente reconnaissez-vous maintenant comme un déclencheur de masque ? Lequel s'est activé ? Qu'avez-vous fait automatiquement — et qu'auriez-vous voulu faire à la place ?"),
-      React.createElement("textarea",{value:journalText,onChange:function(e){setJournalText(e.target.value);setJournalSaved(false)},
-        placeholder:"Écrivez librement...",rows:4,
-        style:{width:"100%",background:C.navyCard,border:"1px solid "+C.navyBorder,borderRadius:"10px",padding:"12px",color:C.textLight,fontSize:"14px",lineHeight:1.7,resize:"vertical",fontFamily:"inherit",outline:"none",marginBottom:"10px"}}),
-      React.createElement("button",{onClick:saveJournal,disabled:!journalText.trim(),style:{
-        background:journalText.trim()?"linear-gradient(135deg,"+C.gold+",#a07830)":"#333",
-        color:journalText.trim()?"#000":"#666",border:"none",borderRadius:"8px",padding:"10px 20px",
-        cursor:journalText.trim()?"pointer":"not-allowed",fontWeight:700,fontSize:"14px"
-      }},"💾 Sauvegarder")),
-    /* QUIZ FINAL 5 QUESTIONS */
-    React.createElement("div",{style:{background:"linear-gradient(135deg,"+C.rouge+"22,transparent)",border:"2px solid "+C.rouge,borderRadius:"16px",padding:"20px",marginBottom:"24px"}},
-      React.createElement("p",{style:{color:C.rouge,fontWeight:800,fontSize:"17px",marginBottom:"8px"}},"🏆 Quiz — Ai-je bien retenu ?"),
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",marginBottom:"16px"}},"5 questions pour valider votre maîtrise du Module 1 — VOIR."),
-      !showQuiz&&React.createElement("button",{onClick:function(){setShowQuiz(true)},style:{background:"linear-gradient(135deg,"+C.rouge+",#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"12px 28px",cursor:"pointer",fontWeight:700,fontSize:"15px"}},"Commencer le quiz →"),
-      showQuiz&&!quizDone&&React.createElement("div",null,
-        React.createElement("div",{style:{display:"flex",gap:"4px",marginBottom:"16px"}},
-          M1_QUIZ.map(function(_,i){return React.createElement("div",{key:i,style:{flex:1,height:"4px",borderRadius:"2px",background:i<quizIdx?C.rouge:i===quizIdx?C.rouge+"88":C.navyBorder}})})),
-        React.createElement("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"14px"}},
-          React.createElement("span",{style:{color:C.rouge,fontWeight:700,fontSize:"13px"}},"Question ",quizIdx+1,"/",M1_QUIZ.length),
-          React.createElement("span",{style:{color:C.vert,fontSize:"13px"}},quizResults.filter(Boolean).length," ✓")),
-        React.createElement("p",{style:{color:C.cream,fontSize:"clamp(14px,4vw,16px)",fontWeight:700,lineHeight:1.5,marginBottom:"16px"}},curQ.q),
-        React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:"8px",marginBottom:"16px"}},
-          curQ.opts.map(function(opt,i){
-            var ok=i===curQ.opts.findIndex(function(o){return o.ok});
-            var revealed=quizSel!==null;
-            var isSel=quizSel===i;
-            var bg=C.navyCard,border=C.navyBorder,col=C.textLight;
-            if(revealed){if(ok){bg="#0d2010";border=C.vert;col=C.vertLight}else if(isSel){bg="#2d1515";border=C.rouge;col=C.rougeLight}}
-            else if(isSel){border=C.gold}
-            return React.createElement("button",{key:i,onClick:function(){handleQuizSelect(i)},style:{background:bg,border:"2px solid "+border,borderRadius:"12px",padding:"14px 18px",color:col,cursor:revealed?"default":"pointer",textAlign:"left",fontSize:"clamp(13px,3.5vw,15px)",lineHeight:1.5}},
-              ok&&revealed?"✓ ":isSel&&!ok&&revealed?"✗ ":"",opt.t);
-          })),
-        quizSel!==null&&React.createElement("div",null,
-          React.createElement("div",{style:{background:"#0d2010",border:"1px solid "+C.vert,borderRadius:"10px",padding:"12px",marginBottom:"12px"}},
-            React.createElement("p",{style:{color:C.vertLight,fontSize:"13px",lineHeight:1.7,margin:0}},"💡 ",curQ.opts[quizSel].exp)),
-          quizIdx<M1_QUIZ.length-1&&React.createElement("button",{onClick:function(){setQuizIdx(quizIdx+1);setQuizSel(null)},style:{width:"100%",background:"linear-gradient(135deg,"+C.rouge+",#c03030)",border:"none",borderRadius:"12px",padding:"14px",color:"#fff",fontWeight:700,fontSize:"15px",cursor:"pointer"}},"Question suivante →"))),
-      showQuiz&&quizDone&&React.createElement("div",{style:{textAlign:"center",padding:"16px 0"}},
-        React.createElement("div",{style:{fontSize:"48px",marginBottom:"12px"}},score>=4?"🌟":score>=3?"💪":"🌱"),
-        React.createElement("p",{style:{color:score>=4?C.gold:score>=3?C.orange:C.bleuLight,fontWeight:800,fontSize:"28px",marginBottom:"8px"}},score,"/",M1_QUIZ.length),
-        React.createElement("p",{style:{color:C.cream,fontWeight:700,fontSize:"16px",marginBottom:"12px"}},score>=4?"Module 1 parfaitement maîtrisé !":score>=3?"Bonne compréhension — quelques notions à revoir":"Relisez le module à votre rythme — c'est tout à fait normal !"))),
-    /* BTN VALIDATION */
-    React.createElement("div",{style:{textAlign:"center",marginTop:"28px"}},
-      React.createElement("button",{onClick:p.onComplete,style:{
-        background:"linear-gradient(135deg,"+C.rouge+",#c03030)",color:"#fff",border:"none",
-        borderRadius:"50px",padding:"16px 40px",fontSize:"17px",fontWeight:800,cursor:"pointer",
-        boxShadow:"0 6px 30px rgba(229,62,62,0.4)",animation:"pulse 2s ease-in-out infinite"
-      }},"✓ Valider le Module 1 — VOIR 🔴")),
-    React.createElement(Copyright,null));
-}
-
-/* ── MODULE 1 WRAPPER ── */
-function Module1(p){
-  var email=p.session.email;
-  var _u1=useState(function(){return getM1Progress(email)}),_s1=_slicedToArray(_u1,2),completed=_s1[0],setCompleted=_s1[1];
-  var _u2=useState(function(){var cs=getM1Progress(email);return Math.min(cs.length||0,3)}),_s2=_slicedToArray(_u2,2),step=_s2[0],setStep=_s2[1];
-  var _u3=useState(null),_s3=_slicedToArray(_u3,2),celebrating=_s3[0],setCelebrating=_s3[1];
-  var _u4=useState(false),_s4=_slicedToArray(_u4,2),showFinal=_s4[0],setShowFinal=_s4[1];
-  var topRef=useRef(null);
-
-  var CELEBRATIONS=[
-    {emoji:"⚡",title:"Le cycle — vous le voyez !",msg:"Vous comprenez maintenant les 4 étapes automatiques qui précèdent chaque réaction. Cette compréhension est déjà une forme de liberté.",next:"Explorer vos déclencheurs",color:C.orange},
-    {emoji:"🎭",title:"Vos déclencheurs cartographiés !",msg:"Vous savez maintenant ce qui active chacun de vos masques. C'est une connaissance rare et précieuse.",next:"Commencer le Journal du Masque",color:C.rouge},
-    {emoji:"📓",title:"Journal du Masque activé !",msg:"Vous avez commencé à observer vos patterns en temps réel. C'est l'exercice le plus transformateur de tout le parcours.",next:"Télécharger votre guide PDF",color:C.violet},
-    {emoji:"🔴",title:"Module 1 — VOIR complété !",msg:"Félicitations ! Vous avez la compétence VOIR. Dans le Module 2, vous allez apprendre à ACCUEILLIR l'émotion que votre masque dissimule.",next:"Retourner au tableau de bord",color:C.rouge}
-  ];
-
-  function complete(i){
-    var newCompleted=_toConsumableArray(new Set(_toConsumableArray(completed).concat([i])));
-    saveM1Progress(email,newCompleted);
-    setCompleted(newCompleted);
-    if(i===3){
-      markModule1Done(p.session);
-      setShowFinal(true);
-    } else {
-      setCelebrating(i);
-    }
-  }
-
-  function afterCelebration(){
-    var next=(celebrating||0)+1;
-    setCelebrating(null);
-    setStep(next);
-    topRef.current&&topRef.current.scrollIntoView({behavior:"smooth"});
-  }
-
-  var cel=CELEBRATIONS[celebrating!==null?celebrating:0];
-
-  if(showFinal){
-    return React.createElement("div",{style:{minHeight:"100vh",background:C.navy,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}},
-      React.createElement(Confetti,null),
-      React.createElement("div",{className:"animate-scaleIn",style:{maxWidth:"480px",width:"100%",textAlign:"center"}},
-        React.createElement("div",{style:{fontSize:"80px",marginBottom:"24px",animation:"float 2s ease-in-out infinite"}},"🔴"),
-        React.createElement("div",{style:{display:"inline-block",background:C.rouge+"22",border:"1px solid "+C.rouge+"44",borderRadius:"20px",padding:"6px 18px",marginBottom:"16px"}},
-          React.createElement("span",{style:{color:C.rouge,fontSize:"12px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase"}},"Module 1 complété ✓")),
-        React.createElement("h1",{style:{fontFamily:"Georgia,serif",fontSize:"28px",color:C.cream,lineHeight:1.2,marginBottom:"16px"}},"Vous savez maintenant ",React.createElement("span",{style:{color:C.rouge}},"VOIR"),"."),
-        React.createElement("p",{style:{color:C.textMuted,fontSize:"15px",lineHeight:1.8,marginBottom:"24px"}},"Le Module 2 — ACCUEILLIR est maintenant déverrouillé. Vous allez apprendre à recevoir l'émotion cachée sous votre masque, sans la fuir."),
-        React.createElement("div",{style:{background:C.gold+"11",border:"1px solid "+C.gold+"33",borderRadius:"12px",padding:"14px",marginBottom:"24px"}},
-          React.createElement("p",{style:{color:C.gold,fontWeight:700,fontSize:"13px",margin:"0 0 4px"}},"Prochaine étape"),
-          React.createElement("p",{style:{color:C.textMuted,fontSize:"13px",margin:0}},"Module 2 — ACCUEILLIR · Recevoir l'émotion sans résistance")),
-        React.createElement("a",{href:"https://celinebourbon-ux.github.io/HomePageAppliValeur/",style:{display:"block",background:"linear-gradient(135deg,"+C.gold+",#a07830)",color:"#000",border:"none",borderRadius:"50px",padding:"16px 40px",fontSize:"17px",fontWeight:800,cursor:"pointer",textDecoration:"none",boxShadow:"0 6px 30px rgba(201,168,76,0.4)"}},"✓ Terminer le Module 1 — Débloquer ACCUEILLIR 🟠"),
-        React.createElement(Copyright,null)));
-  }
-
-  return React.createElement("div",{ref:topRef},
-    celebrating!==null&&React.createElement("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:9000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px",animation:"fadeIn 0.3s ease"}},
-      React.createElement(Confetti,null),
-      React.createElement("div",{className:"animate-scaleIn",style:{background:"linear-gradient(135deg,#1a2235,#0d1117)",border:"2px solid "+cel.color,borderRadius:"24px",padding:"36px 28px",maxWidth:"420px",width:"100%",textAlign:"center",boxShadow:"0 24px 80px rgba(0,0,0,0.7)"}},
-        React.createElement("div",{style:{fontSize:"64px",marginBottom:"16px",animation:"float 2s ease-in-out infinite"}},cel.emoji),
-        React.createElement("div",{style:{display:"inline-block",background:cel.color+"22",border:"1px solid "+cel.color+"44",borderRadius:"20px",padding:"4px 14px",marginBottom:"14px"}},
-          React.createElement("span",{style:{color:cel.color,fontSize:"11px",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase"}},"Section complétée ✓")),
-        React.createElement("h2",{style:{fontFamily:"Georgia,serif",color:C.cream,fontSize:"22px",lineHeight:1.3,marginBottom:"14px"}},cel.title),
-        React.createElement("p",{style:{color:C.textMuted,fontSize:"14px",lineHeight:1.8,marginBottom:"24px"}},cel.msg),
-        React.createElement("div",{style:{background:cel.color+"11",border:"1px solid "+cel.color+"33",borderRadius:"12px",padding:"12px",marginBottom:"20px"}},
-          React.createElement("p",{style:{color:C.textMuted,fontSize:"12px",margin:"0 0 4px",textTransform:"uppercase",letterSpacing:"1px"}},"Prochaine étape"),
-          React.createElement("p",{style:{color:cel.color,fontWeight:700,fontSize:"14px",margin:0}},"→ ",cel.next)),
-        React.createElement("button",{onClick:afterCelebration,style:{background:"linear-gradient(135deg,"+cel.color+",#c03030)",color:"#fff",border:"none",borderRadius:"50px",padding:"14px 32px",fontSize:"16px",fontWeight:800,cursor:"pointer",width:"100%"}},"Continuer →"))),
-    React.createElement(M1ProgressBar,{step:step,setStep:setStep,completed:completed}),
-    React.createElement("div",{style:{background:C.navyMid,borderBottom:"1px solid "+C.navyBorder,padding:"6px 16px",textAlign:"center"}},
-      React.createElement("span",{style:{color:C.rouge,fontSize:"12px",fontWeight:700}},
-        "🔴 ~30 min · Module 1 — VOIR · ",SECTION_LABELS_M1[step]," · ",completed.length,"/4 sections complétées")),
-    step===0&&React.createElement(Section1_Voir,{onComplete:function(){complete(0)},session:p.session}),
-    step===1&&React.createElement(Section2_Voir,{onComplete:function(){complete(1)},session:p.session}),
-    step===2&&React.createElement(Section3_Voir,{onComplete:function(){complete(2)},session:p.session}),
-    step===3&&React.createElement(Section4_Voir,{onComplete:function(){complete(3)},session:p.session}));
-}
-
-/* ── APP ── */
-function App(){
-  var _u1=useState(null),_s1=_slicedToArray(_u1,2),session=_s1[0],setSession=_s1[1];
-  var _u2=useState('loading'),_s2=_slicedToArray(_u2,2),status=_s2[0],setStatus=_s2[1];
-
-  useEffect(function(){
-    var s=getSession();
-    if(!s){setStatus('no-session');return;}
-    var m0=getModule0Progress(s.email);
-    if(m0<4){setStatus('locked');setSession(s);return;}
-    setSession(s);setStatus('ok');
-  },[]);
-
-  if(status==='loading')return React.createElement("div",{style:{minHeight:"100vh",background:C.navy,display:"flex",alignItems:"center",justifyContent:"center"}},
-    React.createElement("p",{style:{color:C.textMuted,fontSize:"16px"}},"Chargement..."));
-
-  if(status==='no-session'){
-    window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html';
-    return React.createElement("div",{style:{minHeight:"100vh",background:C.navy,display:"flex",alignItems:"center",justifyContent:"center"}},
-      React.createElement("p",{style:{color:C.textMuted}},"Redirection..."));
-  }
-
-  if(status==='locked')return React.createElement("div",{style:{background:C.navy,minHeight:"100vh"}},
-    React.createElement(TopNav,{session:session}),
-    React.createElement(AccessDenied,null));
-
-  return React.createElement("div",{style:{background:C.navy,minHeight:"100vh"}},
-    React.createElement(TopNav,{session:session}),
-    React.createElement(Module1,{session:session}),
-    React.createElement("div",{style:{position:"fixed",bottom:"6px",right:"10px",opacity:0.2,pointerEvents:"none"}},
-      React.createElement("p",{style:{color:C.textMuted,fontSize:"9px",margin:0}},"© V.A.L.E.U.R© — C. Bourbon")));
-}
-
-ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
-VALEUR_PROGRESS.render('module1');
-
-// Scroll reveal — init après le rendu React
-function initScrollReveal() {
-  var targets = document.querySelectorAll('[data-reveal],.card,.highlight-box,.peda-vignette,.mask-card');
-  targets.forEach(function(el, i) {
-    el.classList.add('reveal');
-    if (i % 3 === 1) el.classList.add('delay-1');
-    if (i % 3 === 2) el.classList.add('delay-2');
-  });
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  targets.forEach(function(el) { obs.observe(el); });
-}
-setTimeout(initScrollReveal, 800);
-</script>
-
-<script>
-
-/* ══ PROTECTION CONTENU ══ */
-document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('selectstart',function(e){if(['TEXTAREA','INPUT','SELECT'].includes(e.target.tagName))return;e.preventDefault();});
-document.addEventListener('dragstart',function(e){e.preventDefault();});
-document.addEventListener('copy',function(e){if(['TEXTAREA','INPUT'].includes(e.target.tagName))return;e.preventDefault();});
-document.addEventListener('keydown',e=>{
-  if(e.key==='F12')e.preventDefault();
-  if(e.ctrlKey&&['u','s','p','i'].includes(e.key.toLowerCase()))e.preventDefault();
-});
-
-/* ══ SCROLL PROGRESS ══ */
-function updateScrollProgress(){
-  const doc=document.documentElement;
-  const pct=(doc.scrollTop||document.body.scrollTop)/(doc.scrollHeight-doc.clientHeight)*100;
-  document.getElementById('scroll-line').style.width=Math.min(pct,100)+'%';
-}
-window.addEventListener('scroll',updateScrollProgress,{passive:true});
-
-/* ══ INTERSECTION OBSERVER ══ */
 const sections=document.querySelectorAll('.section');
 const dots=document.querySelectorAll('.dot');
-var observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      const idx=parseInt(e.target.dataset.section)||0;
-      dots.forEach(d=>d.classList.remove('active'));
-      if(dots[idx])dots[idx].classList.add('active');
-    }
-  });
-},{threshold:.15,rootMargin:'-50px 0px'});
-sections.forEach(s=>observer.observe(s));
+function onScroll(){
+  updateScrollLine();
+  sections.forEach(s=>{if(s.getBoundingClientRect().top<window.innerHeight*.82)s.classList.add('visible');});
+  let active=0;
+  sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<=window.innerHeight/2)active=i;});
+  dots.forEach((d,i)=>d.classList.toggle('active',i===active));
+}
+dots.forEach(d=>d.addEventListener('click',()=>{sections[+d.dataset.section]?.scrollIntoView({behavior:'smooth',block:'start'});}));
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',onScroll);
 
-function scrollToSection(idx){
-  const s=document.querySelector(`[data-section="${idx}"]`);
-  if(s)s.scrollIntoView({behavior:'smooth',block:'start'});
+/* ── MASQUES TOGGLE ── */
+function toggleMasque(el){
+  const was=el.classList.contains('open');
+  document.querySelectorAll('.masque-card.open').forEach(m=>m.classList.remove('open'));
+  if(!was)el.classList.add('open');
 }
 
-/* ══ EMOTION CARDS ══ */
-function toggleEmotion(card){
-  const wasOpen=card.classList.contains('open');
-  document.querySelectorAll('.emotion-card.open').forEach(c=>{
-    c.classList.remove('open');
-    c.querySelector('.emotion-body').style.maxHeight='0';
-  });
-  if(!wasOpen){
-    card.classList.add('open');
+/* ── QUIZ ── */
+const QUIZ=[
+  {
+    q:"Vous êtes en réunion. Votre collègue prend la parole sur votre sujet sans vous prévenir. Vous sentez une bouffée de chaleur, puis vous commencez aussitôt à tout réexpliquer à l'assemblée. À quelle étape du cycle êtes-vous intervenu·e ?",
+    opts:[
+      {t:"Étape 1 — Le déclencheur",ok:false,exp:"Le déclencheur, c'est l'action de votre collègue. Il s'est produit indépendamment de vous."},
+      {t:"Étape 2 — Le scan automatique",ok:false,exp:"Le scan s'est fait à votre insu, en 0,2 secondes, avant même la bouffée de chaleur."},
+      {t:"Étape 3 — La réaction corporelle",ok:false,exp:"La bouffée de chaleur, c'est la réaction corporelle — mais vous n'avez rien décidé là non plus."},
+      {t:"Étape 4 — Le masque activé",ok:true,exp:"Exact ! En reprenant la parole pour tout réexpliquer, vous avez agi depuis votre masque. C'est là que VOIR intervient : nommer ce masque avant d'agir depuis lui."},
+    ]
+  },{
+    q:"Lequel de ces éléments est un déclencheur interne ?",
+    opts:[
+      {t:"Un email critique de votre responsable",ok:false,exp:"C'est un déclencheur externe — il vient de l'extérieur."},
+      {t:"La pensée soudaine « et si je n'étais pas à la hauteur ? »",ok:true,exp:"Exact ! Une pensée qui surgit spontanément est un déclencheur interne — tout comme un souvenir ou une image mentale."},
+      {t:"Un silence prolongé lors d'un dîner",ok:false,exp:"C'est un déclencheur externe — la situation vient de l'environnement."},
+      {t:"Une critique d'un ami",ok:false,exp:"C'est un déclencheur externe — il vient d'une autre personne."},
+    ]
+  },{
+    q:"Pourquoi ne pouvez-vous pas empêcher votre réaction corporelle (étape 3) ?",
+    opts:[
+      {t:"Parce que vous êtes trop sensible",ok:false,exp:"La sensibilité n'est pas une faiblesse — et ce n'est pas la raison. Toute personne a des réactions automatiques."},
+      {t:"Parce que c'est une réaction biologique involontaire du système nerveux autonome",ok:true,exp:"Exact ! La réaction corporelle est pilotée par votre système nerveux autonome — elle se produit avant que votre cortex préfrontal puisse intervenir."},
+      {t:"Parce que vous ne faites pas assez d'efforts",ok:false,exp:"Les efforts n'ont rien à voir ici. C'est neurobiologique, pas une question de volonté."},
+      {t:"Parce que vous n'avez pas assez travaillé sur vous",ok:false,exp:"Le travail sur soi ne supprime pas les réactions automatiques — il vous apprend à les nommer et à choisir votre réponse."},
+    ]
+  },{
+    q:"VOIR (la 1re étape de la méthode V.A.L.E.U.R©) consiste à :",
+    opts:[
+      {t:"Supprimer la réaction émotionnelle",ok:false,exp:"L'objectif n'est pas de supprimer quoi que ce soit. La méthode traverse les émotions, elle ne les combat pas."},
+      {t:"Ignorer le déclencheur et passer à autre chose",ok:false,exp:"Ignorer n'est pas VOIR. C'est le contraire — c'est éviter, ce qui renforce le masque."},
+      {t:"Nommer le masque activé avant d'agir depuis lui",ok:true,exp:"Exact ! VOIR, c'est créer un espace de conscience entre le déclencheur et la réponse. Cette nomination — même en 2 secondes — change tout."},
+      {t:"Analyser le passé pour comprendre l'origine du masque",ok:false,exp:"L'exploration de l'origine vient plus tard (étape EXPLORER). VOIR est ancré dans le moment présent."},
+    ]
   }
-}
-
-/* ══ BREATHING ANIMATION ══ */
-var breathPhase=0,breathTimer=null,breathRunning=false;
-var breathTexts=[
-  ['Inspirez…','4 secondes · « Je reconnais cette émotion »','inhale'],
-  ['Retenez…','2 secondes · « Elle est là, c\'est OK »','hold'],
-  ['Expirez…','4 secondes · « Je la laisse circuler »','exhale']
 ];
-function startBreathing(){
-  if(breathRunning){
-    clearTimeout(breathTimer);
-    breathRunning=false;
-    const c=document.getElementById('breathing-circle');
-    c.className='breathing-circle';
-    document.getElementById('breath-text').textContent='Cliquez pour recommencer';
-    document.getElementById('breath-detail').textContent='Outil d\'accueil émotionnel · 3 à 5 cycles';
-    return;
+let qIdx=0,score=0,answered=false;
+
+function renderQ(){
+  const q=QUIZ[qIdx];
+  document.getElementById('q-num').textContent=`Question ${qIdx+1} / ${QUIZ.length}`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('qpb').style.width=(qIdx/QUIZ.length*100)+'%';
+  document.getElementById('q-expl').className='quiz-expl';
+  document.getElementById('q-expl').textContent='';
+  document.getElementById('q-next').className='btn-quiz-next';
+  answered=false;
+  document.getElementById('q-opts').innerHTML=q.opts.map((o,i)=>
+    `<button class="quiz-opt" onclick="answerQ(${i})">${o.t}</button>`
+  ).join('');
+}
+
+function answerQ(i){
+  if(answered)return;
+  answered=true;
+  const q=QUIZ[qIdx];
+  const btns=document.querySelectorAll('.quiz-opt');
+  btns.forEach((b,j)=>{b.disabled=true;if(q.opts[j].ok)b.classList.add('correct');else if(j===i&&!q.opts[j].ok)b.classList.add('wrong');});
+  const expl=document.getElementById('q-expl');
+  expl.textContent=(q.opts[i].ok?'✓ ':'✗ ')+q.opts[i].exp;
+  expl.classList.add('show');
+  if(q.opts[i].ok)score++;
+  document.getElementById('q-next').classList.add('show');
+}
+
+function nextQ(){
+  qIdx++;
+  if(qIdx<QUIZ.length){renderQ();}
+  else{
+    document.getElementById('quiz-card').style.display='none';
+    const sc=document.getElementById('quiz-score');
+    sc.classList.add('show');
+    document.getElementById('score-big').textContent=score+'/'+QUIZ.length;
+    const msgs=['Continuez à explorer — relisez les sections et retentez !','Bonne base ! Encore un peu d\'entraînement.','Très bien ! Vous avez bien assimilé les fondamentaux.','Parfait ! Vous maîtrisez VOIR — prêt·e pour ACCUEILLIR 🟠'];
+    document.getElementById('score-msg').textContent=msgs[Math.min(score,3)];
+    document.getElementById('qpb').style.width='100%';
   }
-  breathRunning=true;
-  breathPhase=0;
-  runBreathPhase();
-}
-function runBreathPhase(){
-  if(!breathRunning)return;
-  const[text,detail,cls]=breathTexts[breathPhase%3];
-  const c=document.getElementById('breathing-circle');
-  c.className='breathing-circle '+cls;
-  document.getElementById('breath-text').textContent=text;
-  document.getElementById('breath-detail').textContent=detail;
-  const durations=[4000,2000,4000];
-  breathTimer=setTimeout(()=>{
-    breathPhase++;
-    runBreathPhase();
-  },durations[(breathPhase)%3]);
 }
 
-/* ══ SAVE FORMS ══ */
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
+function restartQuiz(){
+  qIdx=0;score=0;answered=false;
+  document.getElementById('quiz-card').style.display='block';
+  document.getElementById('quiz-score').classList.remove('show');
+  renderQ();
 }
-function saveBodyScan(){showToast('✓ Scan corporel enregistré dans votre journal');}
-function saveMapping(){showToast('✓ Mappage personnel sauvegardé');}
-function saveDailyJournal(){showToast('✓ Journal du jour enregistré');}
 
-/* ══ COMPLETE MODULE ══ */
+/* ── COMPLETE ── */
 function completeModule(){
-  try{ localStorage.setItem('valeur_module1_complete','true'); }catch(e){}
-  if(typeof VALEUR_PROGRESS!=='undefined'){ try{ VALEUR_PROGRESS.complete('module1'); }catch(e){} }
-  const btn=document.querySelector('.btn-complete');
-  if(btn){ btn.textContent='\u2746 F\u00e9licitations \u2014 Module 1 \u2014 VOIR \u2014 Valid\u00e9 !';
-    btn.style.background='linear-gradient(135deg,#38A169,#68D391)'; }
-  var _up=document.getElementById('unlock-preview');if(_up)_up.classList.add('show');
-  setTimeout(()=>launchConfetti(),300);
-  showToast('\uD83C\uDF89 Module 1 \u2014 VOIR \u2014 compl\u00e9t\u00e9 ! Module 2 d\u00e9bloqu\u00e9 !');
+  markDone('module1');
+  renderProgress();
+  document.getElementById('unlock-preview').classList.add('show');
+  launchConfetti();
+  showToast('🎉 Module 1 complété ! ACCUEILLIR 🟠 débloqué !');
+  setTimeout(()=>{
+    if(confirm('Excellent ! Passer au Module 2 — ACCUEILLIR maintenant ?')){
+      window.location.href=BASE+'module2.html';
+    }
+  },3500);
 }
 
-/* ══ CONFETTI ══ */
-function launchConfetti(){
-  const canvas=document.getElementById('confetti-canvas');
-  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-  const ctx=canvas.getContext('2d');
-  const colors=['#D4AC0D','#F6E05E','#E53E3E','#ED8936','#38A169','#3182CE','#805AD5','#C9A84C'];
-  const particles=Array.from({length:180},()=>({
-    x:Math.random()*canvas.width,y:-20,
-    vx:(Math.random()-.5)*4,vy:Math.random()*4+2,
-    color:colors[Math.floor(Math.random()*colors.length)],
-    size:Math.random()*8+4,
-    rot:Math.random()*360,rv:(Math.random()-.5)*8,
-    shape:Math.random()>.5?'rect':'circle'
-  }));
-  let frame=0;
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;p.vy+=.06;
-      if(p.y>canvas.height+20)return;
-      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
-      ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,1-frame/200);
-      if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/3,p.size,p.size/1.5);}
-      else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill();}
-      ctx.restore();
-    });
-    frame++;
-    if(frame<200)requestAnimationFrame(draw);
-    else ctx.clearRect(0,0,canvas.width,canvas.height);
+/* ── TOAST ── */
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+/* ── JOURNAL ── */
+const JK='valeur_journal_v2';
+function getJournal(){try{return JSON.parse(localStorage.getItem(JK))||[];}catch(e){return[];}}
+function saveJournal(a){try{localStorage.setItem(JK,JSON.stringify(a));}catch(e){}}
+function toggleJournal(){
+  const o=document.getElementById('journal-overlay');
+  const d=document.getElementById('journal-drawer');
+  if(d.classList.contains('open')){closeJournal();}
+  else{
+    o.classList.add('open');d.classList.add('open');
+    document.getElementById('j-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    renderJournal();
+    document.getElementById('journal-textarea').focus();
   }
-  draw();
-}
-
-/* ══ JOURNAL ══ */
-function openJournal(){
-  document.getElementById('journal-overlay').classList.add('open');
-  document.getElementById('journal-drawer').classList.add('open');
-  const now=new Date();
-  document.getElementById('journal-date-label').textContent=
-    now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  loadJournalEntries();
 }
 function closeJournal(){
   document.getElementById('journal-overlay').classList.remove('open');
   document.getElementById('journal-drawer').classList.remove('open');
 }
-function saveJournalEntry(){
-  const text=document.getElementById('journal-textarea').value.trim();
-  if(!text)return;
-  const entries=JSON.parse(sessionStorage.getItem('valeur_journal')||'[]');
-  entries.unshift({date:new Date().toLocaleString('fr-FR'),text});
-  sessionStorage.setItem('valeur_journal',JSON.stringify(entries.slice(0,20)));
-  document.getElementById('journal-textarea').value='';
-  loadJournalEntries();
-  showToast('✓ Entrée sauvegardée');
+function saveEntry(){
+  const ta=document.getElementById('journal-textarea');
+  const text=ta.value.trim();if(!text)return;
+  const e=getJournal();
+  e.unshift({date:new Date().toISOString(),text,module:'Module 1 — VOIR'});
+  saveJournal(e);ta.value='';
+  renderJournal();showToast('✍️ Entrée sauvegardée');
 }
-function clearJournalEntry(){document.getElementById('journal-textarea').value='';}
-function loadJournalEntries(){
-  const entries=JSON.parse(sessionStorage.getItem('valeur_journal')||'[]');
-  const container=document.getElementById('journal-entries');
-  container.innerHTML=entries.length?entries.map(e=>`
-    <div class="journal-entry">
-      <div class="je-date">${e.date}</div>
-      <div class="je-text">${e.text.replace(/\n/g,'<br>')}</div>
-    </div>`).join(''):'';
+function renderJournal(){
+  const entries=getJournal();
+  const list=document.getElementById('j-list');
+  if(!entries.length){list.innerHTML='<p class="j-no-entries">Votre journal est vide. Notez votre premier masque reconnu ✨</p>';return;}
+  list.innerHTML='<p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Entrées précédentes</p>'+
+    entries.slice(0,6).map(e=>{
+      const d=new Date(e.date);
+      return`<div class="j-entry"><div class="j-entry-date">${d.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})} · ${e.module||''}</div><div class="j-entry-text">${e.text.slice(0,200)}${e.text.length>200?'…':''}</div></div>`;
+    }).join('');
 }
 
+/* ── CONFETTI ── */
+const canvas=document.getElementById('confetti-canvas');
+const ctx=canvas.getContext('2d');
+let particles=[];
+const COLORS=['#E53E3E','#ED8936','#D69E2E','#38A169','#3182CE','#5A67D8','#805AD5','#C9A84C'];
+function launchConfetti(){
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  particles=Array.from({length:150},()=>({
+    x:Math.random()*canvas.width,y:Math.random()*-canvas.height*.3,
+    vx:(Math.random()-.5)*4,vy:Math.random()*4+2,
+    r:Math.random()*7+3,color:COLORS[Math.floor(Math.random()*COLORS.length)],
+    spin:Math.random()*Math.PI*2,spinV:(Math.random()-.5)*.3,
+    shape:Math.random()>.5?'rect':'circle',opacity:1,
+  }));
+  animateConfetti();
+}
+function animateConfetti(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  let alive=false;
+  particles.forEach(p=>{
+    if(p.y>canvas.height+20)return;
+    alive=true;
+    p.x+=p.vx;p.y+=p.vy;p.vy+=.06;p.vx*=.99;p.spin+=p.spinV;
+    p.opacity=Math.max(0,1-p.y/canvas.height);
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.spin);
+    ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;
+    if(p.shape==='rect'){ctx.fillRect(-p.r/2,-p.r*1.8,p.r,p.r*2);}
+    else{ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}
+    ctx.restore();
+  });
+  if(alive)requestAnimationFrame(animateConfetti);
+  else ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderProgress();
+  renderQ();
+  onScroll();
+  setTimeout(onScroll,100);
+});
 </script>
-<script>
-
-/* ══ HARMONY JS — Module 1 ══ */
-(function(){
-  // 1. scrollToFirstSection
-  window.scrollToFirstSection=function(){
-    document.getElementById('valeur-hero-m1')?.scrollIntoView({behavior:'smooth'});setTimeout(()=>document.querySelector('main .section,[data-section="1"],#root')?.scrollIntoView({behavior:'smooth'}),400);
-  };
-
-  // 2. Plan de séance toggle
-  window.togglePlan=function(btn){
-    var box=btn.nextElementSibling;
-    var open=box.classList.contains('open');
-    box.classList.toggle('open',!open);
-    btn.textContent=open?'▼ Plan de séance':'▲ Masquer le plan';
-  };
-
-  // 3. Mask label injection dans hero
-  function injectMaskLabel(){
-    var m=localStorage.getItem('valeur_masque_actif')||'vert';
-    var names={
-      rouge:'������ Masque Rouge',orange:'������ Masque Orange',
-      jaune:'������ Masque Jaune',vert:'������ Masque Vert',
-      bleu:'������ Masque Bleu',indigo:'������ Masque Indigo',
-      violet:'������ Masque Violet'
-    };
-    var label=names[m]||m;
-    document.querySelectorAll('.valeur-mask-name').forEach(function(el){
-      el.textContent=label;
-    });
-  }
-  document.addEventListener('DOMContentLoaded',function(){
-    injectMaskLabel();
-    // Fade-in hero on load
-    var h=document.querySelector('.valeur-hero');
-    if(h){h.style.opacity='0';h.style.transform='translateY(20px)';
-    setTimeout(function(){h.style.transition='opacity .8s ease,transform .8s ease';h.style.opacity='
+</body>
+</html>
