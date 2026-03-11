@@ -640,7 +640,7 @@ function doLogout(){
 
   // Listen for module completions from other pages
   window.addEventListener('storage',e=>{
-    if(e.key&&e.key.startsWith('VALEUR_module')){
+    if(e.key&&e.key.startsWith('valeur_module')){
       renderModules();
       if(e.newValue==='1')launchConfetti();
     }
