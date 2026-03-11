@@ -186,7 +186,10 @@ img{pointer-events:none}
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('keydown',e=>{if(e.ctrlKey&&['c','u','s','a','p'].includes(e.key))e.preventDefault()});
 document.addEventListener('dragstart',e=>e.preventDefault());
-document.addEventListener('selectstart',e=>e.preventDefault());
+document.addEventListener('selectstart',e=>{
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    e.preventDefault();
+  });
 
 function doLogin(){
   const email=document.getElementById('email').value.trim();
@@ -195,6 +198,15 @@ function doLogin(){
   if(code==='VALEUR2025'&&email.includes('@')){
     localStorage.setItem('valeur_email',email);
     localStorage.setItem('valeur_auth','1');
+    // Pont de compatibilité : alimenter le système session des modules
+    var sessionObj = { email: email, loginAt: new Date().toISOString() };
+    localStorage.setItem('valeur_' + email + '_session', JSON.stringify(sessionObj));
+    var registry = [];
+    try { registry = JSON.parse(localStorage.getItem('valeur_registry') || '[]'); } catch(e) {}
+    if (!registry.find(function(r){ return r.email === email; })) {
+      registry.push({ email: email });
+      localStorage.setItem('valeur_registry', JSON.stringify(registry));
+    }
     document.querySelector('.btn').textContent='Bienvenue ✦';
     document.querySelector('.btn').style.background='linear-gradient(135deg,#4caf50,#2e7d32)';
     setTimeout(()=>window.location.href='dashboard.html',700);
