@@ -584,7 +584,7 @@ header.module-header{display:none!important;}
     <div style="font-size:52px;margin-bottom:14px;">🔒</div>
     <h2 style="font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:24px;margin-bottom:10px;">Module non encore déverrouillé</h2>
     <p style="color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:24px;">Vous devez d'abord compléter le <strong style="color:var(--bleu-light);">Module 4 — EXPLORER</strong> pour accéder à cette étape.</p>
-    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" style="display:block;background:linear-gradient(135deg,var(--bleu),var(--bleu-dark));color:#fff;text-decoration:none;border-radius:50px;padding:14px 20px;font-weight:700;text-align:center;">← Retour au tableau de bord</a>
+    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html" style="display:block;background:linear-gradient(135deg,var(--bleu),var(--bleu-dark));color:#fff;text-decoration:none;border-radius:50px;padding:14px 20px;font-weight:700;text-align:center;">← Retour au tableau de bord</a>
   </div>
 </div>
 
@@ -1008,7 +1008,7 @@ header.module-header{display:none!important;}
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;max-width:400px;margin:24px auto 0;">
       <button class="btn-primary" onclick="goToModule6()">→ Commencer RENFORCER 💜</button>
-      <button class="btn-secondary" onclick="window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/'">⌂ Retour à l'accueil</button>
+      <button class="btn-secondary" onclick="window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html'">⌂ Retour au tableau de bord</button>
     </div>
   </div>
   <div class="copyright-footer">
@@ -1095,7 +1095,7 @@ function isModule4Done(email){
 }
 function checkAccess(){
   var s=getSession();
-  if(!s){window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/';return;}
+  if(!s){window.location.href='https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html';return;}
   if(!isModule4Done(s.email)){
     document.getElementById('screen-loading').classList.remove('show');
     document.getElementById('screen-denied').classList.add('show');return;

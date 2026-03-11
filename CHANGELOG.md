@@ -1,6 +1,53 @@
 # CHANGELOG — App V.A.L.E.U.R©
 
-## Audit & Correction — 2026-03-11
+## Audit & Correction — Passe 2 — 2026-03-11
+
+---
+
+### module2.html — 5 bugs critiques corrigés
+
+**Bug 1 — Barre de progression orpheline** : les éléments `.pb-step` (L, E, U, R) flottaient sans parent et la lettre V était absente. Remplacement complet du bloc par un `<div id="progress-bar"><div class="pb-steps">` avec les 6 étapes V·A·L·E·U·R correctement structurées (done/active/locked). Progression affichée à 33% (module 2 = 2e sur 6).
+
+**Bug 2 — `id="scroll-line"` manquant** : ajout de `<div id="scroll-line">` fixe en haut du `<body>` avant le progress-bar. Le JS à la ligne 1850 (`document.getElementById('scroll-line').style.width`) ne provoquait plus d'erreur null.
+
+**Bug 3 — Double déclaration `var breathPhase`** : la seconde déclaration (ligne 1920, `var breathPhase=0,breathTimer=null,breathRunning=false`) contenait `breathPhase` qui était déjà déclaré ligne 1450. Suppression du `var breathPhase=0,` de la seconde déclaration.
+
+**Bug 4 — Double définition `launchConfetti()`** : deux versions coexistaient — une DOM-based (ligne 1847, `confetti-piece` divs) et une canvas-based (ligne 1977). La canvas-based écrasait l'autre silencieusement. Remplacement de la première par un commentaire `/* [launchConfetti() définie dans le bloc suivant] */`.
+
+**Bug 5 — `VALEUR_PROGRESS.render('module2')` dans le template PDF** : l'appel était dans un HTML généré ouvert dans une nouvelle fenêtre (sans `valeur-config.js` chargé). Ajout d'une garde `if(typeof VALEUR_PROGRESS!=='undefined'){...}` pour éviter `ReferenceError`.
+
+**Bonus — `<header class="module-header">` supprimé** : cet élément était caché via `display:none!important` mais occupait du DOM. Remplacé par un commentaire. La hero `.valeur-hero` prend le relais.
+
+**Bonus — Dot navigation corrigée** : les `onclick="scrollToSection(n)"` utilisaient un scroll basé sur `data-section` alors que module2 gère la navigation par show/hide. Mis à jour en `jumpSection(1-4)` compatible avec `goToSection()`.
+
+**Bonus — Bouton "Terminer" dupliqué** : le bouton dans `.quiz-results` appelait `VALEUR_PROGRESS.complete('module2'); showCelebration()`. Le bouton dans `.section-nav` appelait uniquement `showCelebration()`. Suppression du bouton dans quiz-results, mise à jour du bouton section-nav en `completeModule();showCelebration()` (complète le localStorage + VALEUR_PROGRESS + célébration).
+
+**Bonus — Typographie** : `body{font-family:'Segoe UI',system-ui}` → `'Jost', sans-serif; font-weight:300; font-size:16px`. Ajout de `h1,h2,h3 { font-family:'Cormorant Garamond',serif }`.
+
+### Navigation — Standardisation des URLs de retour
+
+Uniformisation vers `https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html` :
+- **module2.html** : 3 occurrences de `HomePageAppliValeur/"` → `/dashboard.html"`
+- **module5.html** : bouton "Retour à l'accueil" et redirect auth → `/dashboard.html`
+- **module6.html** : bouton ⌂ progress bar + lien popup-final → `/dashboard.html`
+- **module1.html** : redirect `window.location.href` (no-session) → `/dashboard.html`
+
+### valeur-design-system.css — Ajouts
+
+**Section 18 — Typographie premium** : tailles minimales appliquées globalement :
+- Corps `.acc-body`, `p`, `li`, etc. → `font-size: 16px`
+- Labels `.p-label`, `.pb-name` → `12px`
+- Copyright → `11px`
+- Boutons `.btn-prev/.btn-next` → `font-size: 16px; padding: 14px 32px`
+- Headings → `font-family: 'Cormorant Garamond', serif`
+
+**Section 19 — Composant `#progress-bar` (`.pb-steps`)** : styles unifiés pour la barre V·A·L·E·U·R en-tête de chaque module. États `done` (or), `active` (couleur `--mc`), `locked` (muted). Fond glassmorphism sticky.
+
+**Section 20 — `#scroll-line`** : élément de progression du scroll, gradient or, z-index 9999.
+
+---
+
+## Audit & Correction — Passe 1 — 2026-03-11
 
 ---
 
