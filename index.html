@@ -1,501 +1,659 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#060b14">
-  <meta name="description" content="Méthode V.A.L.E.U.R© — Les 7 peurs qui empêchent d'être soi. Par Céline Bourbon, Psychologue.">
-  <title>V.A.L.E.U.R© — Mon Parcours</title>
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Design System -->
-  <link rel="stylesheet" href="assets/css/design-system.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V.A.L.E.U.R© — Mon Parcours</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none}
+:root{
+  --gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:rgba(201,168,76,0.15);
+  --navy:#0a0d14;--navy2:#0f1320;--navy3:#141828;
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(201,168,76,0.18);
+  --text:#f0ead8;--text-dim:rgba(240,234,216,0.5);--text-muted:rgba(240,234,216,0.3);
+  --sidebar-w:260px;
+  --c0:#9b9b9b;--c1:#e05555;--c2:#e07c3a;--c3:#d4b84a;--c4:#5aaa6a;--c5:#4a8fe8;--c6:#7c5cbf;--c7:#b04fbf;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--navy);font-family:'Jost',sans-serif;color:var(--text);display:flex;flex-direction:column}
 
-  <style>
-    /* ── HERO ─────────────────────────────────────────────────────── */
-    .hero {
-      text-align: center;
-      padding: 3rem 1rem 2rem;
-    }
-    .hero-badge {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid var(--border-gold);
-      padding: 0.4rem 1.2rem;
-      border-radius: 100px;
-      margin-bottom: 1.5rem;
-      background: rgba(201,168,76,0.06);
-    }
-    .hero-title {
-      font-size: clamp(2.2rem, 7vw, 4rem);
-      font-family: var(--font-display);
-      font-weight: 300;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-    }
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
-    .hero-sub {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(1rem, 2.5vw, 1.35rem);
-      color: var(--text-secondary);
-      max-width: 520px;
-      margin: 0 auto 2rem;
-      line-height: 1.6;
-    }
+/* ANTI COPY */
+img{pointer-events:none}
 
-    /* ── PROGRESS RING ─────────────────────────────────────────────── */
-    .progress-ring-section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-      padding: 2rem 1.5rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      margin-bottom: 2rem;
-    }
-    .ring-wrap {
-      position: relative;
-      width: 120px; height: 120px;
-      flex-shrink: 0;
-    }
-    .ring-wrap svg { transform: rotate(-90deg); }
-    .ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 8; }
-    .ring-fill {
-      fill: none;
-      stroke: url(#goldGrad);
-      stroke-width: 8;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1);
-    }
-    .ring-label {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .ring-pct {
-      font-family: var(--font-display);
-      font-size: 1.9rem;
-      font-weight: 300;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-    }
-    .ring-sub {
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-    }
-    .ring-stats { display: flex; flex-direction: column; gap: 0.8rem; flex: 1; min-width: 160px; }
-    .ring-stat {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-    }
-    .ring-stat-label { color: var(--text-muted); }
-    .ring-stat-val {
-      font-weight: 600;
-      color: var(--text-primary);
-    }
+/* BG */
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.12;animation:drift 14s ease-in-out infinite}
+.orb1{width:600px;height:600px;background:radial-gradient(#4a0080,transparent);top:-150px;left:-100px}
+.orb2{width:400px;height:400px;background:radial-gradient(#c9a84c,transparent);bottom:-100px;right:0;animation-delay:-6s}
+.orb3{width:350px;height:350px;background:radial-gradient(#003066,transparent);top:40%;left:40%;animation-delay:-10s}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(25px,-18px)}}
+.grid-tex{position:fixed;inset:0;background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
 
-    /* ── MODULE LIST ───────────────────────────────────────────────── */
-    .modules-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-    }
+/* ── TOP BAR ── */
+.topbar{
+  position:relative;z-index:100;flex-shrink:0;
+  display:flex;align-items:center;gap:16px;
+  padding:0 24px;height:64px;
+  background:rgba(10,13,20,0.85);
+  border-bottom:1px solid rgba(201,168,76,0.12);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+}
+.menu-btn{
+  display:none;background:none;border:1px solid rgba(201,168,76,0.25);
+  border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--gold);font-size:1rem;
+}
+.topbar-logo{
+  font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;
+  color:var(--gold);letter-spacing:0.15em;white-space:nowrap;
+}
+.topbar-sep{width:1px;height:20px;background:rgba(201,168,76,0.2)}
+.topbar-sub{font-size:0.7rem;color:var(--text-dim);letter-spacing:0.1em;font-weight:300;font-style:italic}
 
-    /* ── CARTE MASQUE DOMINANT ────────────────────────────────────── */
-    .masque-card {
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .masque-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--cm-glow, rgba(201,168,76,0.08)), transparent 70%);
-      pointer-events: none;
-    }
+/* GLOBAL PROGRESS */
+.progress-wrap{flex:1;display:flex;align-items:center;gap:12px;max-width:400px;margin-left:auto}
+.progress-label{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.progress-bar-outer{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:99px;transition:width 1s cubic-bezier(0.4,0,0.2,1);width:0%}
+.progress-pct{font-size:0.7rem;color:var(--gold);font-weight:500;min-width:30px;text-align:right}
 
-    /* ── INSIGHTS ─────────────────────────────────────────────────── */
-    .quote-block {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(1.05rem, 3vw, 1.4rem);
-      line-height: 1.65;
-      color: var(--text-primary);
-      text-align: center;
-      padding: 2rem 1.5rem;
-      position: relative;
-    }
-    .quote-block::before,
-    .quote-block::after {
-      content: '"';
-      font-size: 4rem;
-      color: var(--gold);
-      opacity: 0.25;
-      position: absolute;
-      line-height: 1;
-    }
-    .quote-block::before { top: 0.5rem; left: 1rem; }
-    .quote-block::after  { content: '"'; bottom: 0; right: 1rem; }
+.topbar-user{display:flex;align-items:center;gap:10px;margin-left:16px}
+.avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-dim),rgba(201,168,76,0.08));
+  border:1px solid rgba(201,168,76,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:var(--gold);
+}
+.user-name{font-size:0.75rem;color:var(--text-dim);display:none}
+.logout-btn{
+  background:none;border:none;cursor:pointer;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-muted);padding:4px 8px;border-radius:6px;
+  transition:color 0.2s;font-family:'Jost',sans-serif;
+}
+.logout-btn:hover{color:var(--gold)}
 
-    @keyframes cm-glow {
-      0%,100% { filter: drop-shadow(0 0 12px var(--cm-color, #22C55E)); }
-      50%      { filter: drop-shadow(0 0 30px var(--cm-color, #22C55E)); }
-    }
-  </style>
+/* ── LAYOUT ── */
+.layout{display:flex;flex:1;overflow:hidden;position:relative;z-index:10}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:rgba(10,13,20,0.7);
+  border-right:1px solid rgba(201,168,76,0.1);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;
+  overflow-y:auto;transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  z-index:50;
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);border-radius:99px}
+
+.sidebar-section{padding:20px 16px 8px;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted)}
+.nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;margin:2px 8px;
+  border-radius:12px;cursor:pointer;
+  transition:all 0.2s ease;text-decoration:none;
+  border:1px solid transparent;position:relative;
+  overflow:hidden;
+}
+.nav-item::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  transition:opacity 0.3s;border-radius:12px;
+}
+.nav-item:hover::before{opacity:1}
+.nav-item:hover{border-color:rgba(201,168,76,0.15)}
+.nav-item.active{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.25)}
+.nav-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:2px solid currentColor;position:relative}
+.nav-dot.done{border:none}
+.nav-dot.done::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff}
+.nav-label{font-size:0.8rem;font-weight:400;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-step{font-size:0.6rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;font-weight:300}
+.nav-status{margin-left:auto;font-size:0.6rem;padding:2px 7px;border-radius:99px;font-weight:500;white-space:nowrap}
+.nav-status.done{background:rgba(90,170,106,0.15);color:#5aaa6a}
+.nav-status.active-s{background:rgba(201,168,76,0.15);color:var(--gold)}
+.nav-status.locked{background:rgba(255,255,255,0.04);color:var(--text-muted)}
+
+.sidebar-footer{margin-top:auto;padding:20px 16px;border-top:1px solid rgba(201,168,76,0.08)}
+.book-badge{
+  background:var(--gold-dim);border:1px solid rgba(201,168,76,0.2);
+  border-radius:12px;padding:14px;font-size:0.72rem;line-height:1.6;
+  color:var(--text-dim);text-align:center;
+}
+.book-badge strong{display:block;color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:0.9rem;margin-bottom:4px}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:32px 28px 120px;scrollbar-width:thin;scrollbar-color:rgba(201,168,76,0.2) transparent}
+.main::-webkit-scrollbar{width:4px}
+.main::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);border-radius:99px}
+
+/* HERO */
+.hero{margin-bottom:40px;animation:fadeUp 0.6s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.hero-greeting{font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:300;line-height:1.3;color:var(--text)}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{margin-top:12px;font-size:0.85rem;color:var(--text-dim);font-weight:300;max-width:560px;line-height:1.7}
+
+/* MODULES GRID */
+.modules-title{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;animation:fadeUp 0.7s 0.1s ease both}
+
+/* MODULE CARD */
+.card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:20px;padding:28px 24px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  animation:cardIn 0.5s ease both;
+}
+.card::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  background:radial-gradient(ellipse at top left,var(--mask-color-dim,rgba(201,168,76,0.08)),transparent 70%);
+  transition:opacity 0.4s;
+}
+.card:hover::before{opacity:1}
+.card:hover{transform:translateY(-4px);border-color:var(--mask-color,rgba(201,168,76,0.3));box-shadow:0 16px 48px rgba(0,0,0,0.4),0 0 0 1px var(--mask-color-dim,transparent)}
+.card.locked{opacity:0.5;cursor:not-allowed}
+.card.locked:hover{transform:none;box-shadow:none}
+@keyframes cardIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:none}}
+
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.card-icon{
+  width:48px;height:48px;border-radius:14px;
+  background:var(--mask-color-dim,var(--gold-dim));
+  border:1px solid var(--mask-color-border,rgba(201,168,76,0.2));
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  box-shadow:0 4px 20px var(--mask-color-shadow,rgba(201,168,76,0.15));
+}
+.card-badge{
+  font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
+  padding:4px 10px;border-radius:99px;
+}
+.badge-done{background:rgba(90,170,106,0.15);color:#5aaa6a;border:1px solid rgba(90,170,106,0.25)}
+.badge-active{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
+.badge-locked{background:rgba(255,255,255,0.04);color:var(--text-muted);border:1px solid rgba(255,255,255,0.06)}
+
+.card-step{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--mask-color,var(--gold));margin-bottom:6px;opacity:0.8}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--text);margin-bottom:8px}
+.card-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.65;font-weight:300}
+
+.card-footer{margin-top:20px;display:flex;align-items:center;justify-content:space-between}
+.card-progress{flex:1;margin-right:16px}
+.card-prog-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
+.card-prog-fill{height:100%;border-radius:99px;background:var(--mask-color,var(--gold));transition:width 1.2s ease}
+.card-prog-text{font-size:0.65rem;color:var(--text-muted);margin-top:6px}
+.card-arrow{color:var(--mask-color,var(--gold));font-size:1.1rem;opacity:0.6;transition:all 0.2s}
+.card:hover .card-arrow{opacity:1;transform:translateX(4px)}
+
+/* LOCK OVERLAY */
+.lock-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.5rem;opacity:0.3}
+
+/* ── JOURNAL ── */
+.journal-fab{
+  position:fixed;bottom:28px;right:24px;z-index:200;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#a8792a);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  box-shadow:0 8px 32px rgba(201,168,76,0.4);
+  transition:all 0.3s ease;
+}
+.journal-fab:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(201,168,76,0.5)}
+.journal-fab.open{border-radius:12px;background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.3);box-shadow:none}
+
+.journal-panel{
+  position:fixed;bottom:92px;right:24px;z-index:199;
+  width:min(380px,calc(100vw - 32px));
+  background:rgba(10,13,20,0.95);
+  border:1px solid rgba(201,168,76,0.2);border-radius:20px;
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  box-shadow:0 24px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(201,168,76,0.06);
+  transform:translateY(20px) scale(0.95);opacity:0;pointer-events:none;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  display:flex;flex-direction:column;max-height:70vh;
+}
+.journal-panel.open{transform:none;opacity:1;pointer-events:all}
+.journal-header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.journal-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold)}
+.journal-count{font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em}
+.journal-entries{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.journal-entries::-webkit-scrollbar{width:3px}
+.journal-entries::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);border-radius:99px}
+.journal-entry{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.1);
+  border-radius:12px;padding:12px 14px;
+}
+.entry-date{font-size:0.62rem;color:var(--text-muted);margin-bottom:6px;letter-spacing:0.05em}
+.entry-text{font-size:0.82rem;color:var(--text-dim);line-height:1.6;font-weight:300}
+.journal-compose{padding:16px 20px;border-top:1px solid rgba(201,168,76,0.08);flex-shrink:0}
+.journal-textarea{
+  width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.15);
+  border-radius:12px;padding:12px 14px;resize:none;
+  font-family:'Jost',sans-serif;font-size:0.82rem;color:var(--text);
+  outline:none;line-height:1.6;min-height:80px;font-weight:300;
+  transition:border-color 0.2s;
+}
+.journal-textarea::placeholder{color:rgba(240,234,216,0.2)}
+.journal-textarea:focus{border-color:rgba(201,168,76,0.35);user-select:text;-webkit-user-select:text}
+.journal-send{
+  margin-top:10px;width:100%;padding:10px;
+  background:linear-gradient(135deg,var(--gold),#a8792a);
+  border:none;border-radius:10px;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;color:#0a0d14;
+  transition:opacity 0.2s;
+}
+.journal-send:hover{opacity:0.9}
+.journal-empty{text-align:center;padding:24px;font-size:0.8rem;color:var(--text-muted);font-style:italic}
+
+/* ── CONFETTI ── */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+/* ── SIDEBAR OVERLAY (mobile) ── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:49;backdrop-filter:blur(4px)}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .menu-btn{display:flex}
+  .topbar-sub{display:none}
+  .user-name{display:none}
+  .progress-label{display:none}
+  .sidebar{
+    position:fixed;left:0;top:64px;bottom:0;transform:translateX(-100%);
+    border-right:1px solid rgba(201,168,76,0.15);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{padding:20px 16px 120px}
+  .grid{grid-template-columns:1fr}
+  .hero-title{font-size:1.5rem}
+}
+@media(min-width:769px){
+  .menu-btn{display:none!important}
+}
+
+/* TOAST */
+.toast{
+  position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);
+  background:rgba(10,13,20,0.95);border:1px solid rgba(201,168,76,0.3);
+  border-radius:12px;padding:12px 24px;
+  font-size:0.8rem;color:var(--gold);letter-spacing:0.05em;
+  z-index:500;opacity:0;pointer-events:none;
+  transition:all 0.4s ease;box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  backdrop-filter:blur(20px);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* COPYRIGHT */
+.copyright-watermark{
+  position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
+  font-size:0.6rem;letter-spacing:0.15em;color:rgba(201,168,76,0.2);
+  pointer-events:none;z-index:1000;white-space:nowrap;
+}
+</style>
 </head>
 <body>
 
-<!-- Background -->
-<div class="bg-gradient"></div>
-<div class="orbe orbe-1"></div>
-<div class="orbe orbe-2"></div>
+<div class="bg-layer">
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+</div>
+<div class="grid-tex"></div>
+<canvas id="confetti-canvas"></canvas>
+<div class="toast" id="toast"></div>
 
-<!-- Progress Bar VALEUR -->
-<div id="valeur-progress-bar"></div>
-
-<!-- Header -->
-<header class="glass-header">
-  <div class="header-content">
-    <a href="index.html" class="logo-text">V.A.L.E.U.R©</a>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-    <nav id="nav-menu">
-      <a href="index.html" class="active">🏠 Accueil</a>
-      <a href="module-0.html">📚 Modules</a>
-      <a href="journal.html">📓 Journal</a>
-      <a href="questionnaire.html">🎯 Questionnaire</a>
-    </nav>
+<!-- TOP BAR -->
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()">☰</button>
+  <span class="logo-title">V.A.L.E.U.R©</span>
+  <div class="topbar-sep"></div>
+  <span class="topbar-sub">Les 7 peurs qui empêchent d'être soi</span>
+  <div class="progress-wrap">
+    <span class="progress-label">Progression</span>
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="globalBar"></div></div>
+    <span class="progress-pct" id="globalPct">0%</span>
+  </div>
+  <div class="topbar-user">
+    <div class="avatar" id="avatarIcon">✦</div>
+    <button class="logout-btn" onclick="doLogout()">Déconnexion</button>
   </div>
 </header>
 
-<main>
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR OVERLAY -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-  <!-- HERO -->
-  <section class="hero animate-up">
-    <div class="hero-badge">Méthode V.A.L.E.U.R© par Céline Bourbon</div>
-    <h1 class="hero-title">Les <em>7 peurs</em> qui empêchent d'être soi</h1>
-    <p class="hero-sub">Un parcours transformateur pour identifier vos masques de défense et retrouver votre nature authentique</p>
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-      <a href="questionnaire.html" class="btn-primary">🎯 Faire le questionnaire →</a>
-      <a href="module-0.html" class="btn-secondary">📚 Commencer le parcours</a>
-    </div>
-  </section>
-
-  <hr class="gold-divider">
-
-  <!-- PROGRESSION GLOBALE -->
-  <section class="glass-card gold-border section animate-up delay-1">
-    <h4>Ma Progression</h4>
-    <div class="progress-ring-section" style="border:none;background:none;padding:1.5rem 0 0;">
-      <div class="ring-wrap">
-        <svg width="120" height="120" viewBox="0 0 120 120">
-          <defs>
-            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#c9a84c"/>
-              <stop offset="100%" stop-color="#f0d080"/>
-            </linearGradient>
-          </defs>
-          <circle class="ring-bg" cx="60" cy="60" r="50"/>
-          <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="50"
-            stroke-dasharray="314.16"
-            stroke-dashoffset="314.16"/>
-        </svg>
-        <div class="ring-label">
-          <span class="ring-pct" id="pct-display">0%</span>
-          <span class="ring-sub">terminé</span>
-        </div>
-      </div>
-      <div class="ring-stats">
-        <div class="ring-stat">
-          <span class="ring-stat-label">Modules complétés</span>
-          <span class="ring-stat-val" id="modules-done">0 / 6</span>
-        </div>
-        <div class="ring-stat">
-          <span class="ring-stat-label">Entrées journal</span>
-          <span class="ring-stat-val" id="journal-count">0</span>
-        </div>
-        <div class="ring-stat">
-          <span class="ring-stat-label">Masque actif</span>
-          <span class="ring-stat-val" id="masque-actif-short">—</span>
-        </div>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">Navigation</div>
+    <div id="sidebarNav"></div>
+    <div class="sidebar-footer">
+      <div class="book-badge">
+        <strong>"De la peur à la joie d'être soi"</strong>
+        Céline Bourbon — Éd. L'Harmattan<br>
+        <span style="color:var(--gold);font-size:0.65rem">Méthode V.A.L.E.U.R©</span>
       </div>
     </div>
-  </section>
+  </nav>
 
-  <!-- QUESTIONNAIRE BANNER (si pas fait) -->
-  <div class="questionnaire-banner animate-up delay-2" id="quest-banner" style="display:none;">
-    <div>
-      <p style="font-size:0.9rem;color:var(--text-primary);margin:0;">
-        🎯 <strong style="color:var(--gold)">Étape 1 essentielle :</strong> révélez votre masque dominant
-      </p>
-      <p style="font-size:0.8rem;color:var(--text-muted);margin:0.3rem 0 0;">Le questionnaire cartographie chirurgicalement la source de votre anxiété</p>
+  <!-- MAIN -->
+  <main class="main" id="mainContent">
+    <div class="hero">
+      <div class="hero-greeting" id="heroGreeting">Bienvenue</div>
+      <h1 class="hero-title">Votre parcours vers <em>être vraiment vous</em></h1>
+      <p class="hero-sub">Chaque module vous rapproche de votre nature authentique. Suivez la méthode V.A.L.E.U.R© à votre rythme, un pas transformateur à la fois.</p>
     </div>
-    <a href="questionnaire.html" class="btn-primary" style="white-space:nowrap;font-size:0.82rem;padding:0.7rem 1.4rem;">
-      Découvrir mon masque →
-    </a>
+
+    <div class="modules-title">Vos 7 modules — Parcours V.A.L.E.U.R©</div>
+    <div class="grid" id="modulesGrid"></div>
+  </main>
+</div>
+
+<!-- JOURNAL FAB -->
+<button class="journal-fab" id="journalFab" onclick="toggleJournal()" title="Mon Journal">📓</button>
+
+<!-- JOURNAL PANEL -->
+<div class="journal-panel" id="journalPanel">
+  <div class="journal-header">
+    <span class="journal-title">✦ Mon Journal</span>
+    <span class="journal-count" id="journalCount">0 note</span>
   </div>
-
-  <!-- CARTE MASQUE DOMINANT -->
-  <section class="glass-card masque-card section animate-up delay-2" id="masque-section">
-    <div id="masque-no-data">
-      <h4>Ma Carte Intérieure</h4>
-      <div style="padding:2rem 0;">
-        <span style="font-size:3rem;display:block;margin-bottom:1rem;">🎭</span>
-        <h3 style="font-weight:300;margin-bottom:0.6rem;">Votre masque dominant vous attend</h3>
-        <p style="max-width:340px;margin:0 auto 1.5rem;">Faites le questionnaire V.A.L.E.U.R© pour révéler la peur qui pilote vos comportements — souvent à votre insu.</p>
-        <a href="questionnaire.html" class="btn-primary">Révéler mon masque →</a>
-      </div>
-    </div>
-
-    <div id="masque-data" style="display:none;">
-      <h4>Mon Masque Dominant</h4>
-      <span id="cm-emoji" style="font-size:clamp(3.5rem,14vw,5.5rem);display:block;margin:1rem 0 0.5rem;line-height:1;animation:cm-glow 3.5s ease-in-out infinite;"></span>
-      <div style="font-size:0.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:500;opacity:0.75;margin-bottom:0.6rem;">Masque dominant</div>
-      <h2 id="cm-nom" style="margin-bottom:0.5rem;font-size:clamp(1.4rem,5vw,2.2rem);"></h2>
-      <p id="cm-tagline" style="font-family:var(--font-display);font-style:italic;font-size:1.1rem;color:var(--text-secondary);margin-bottom:1.5rem;"></p>
-
-      <div style="display:grid;gap:0.8rem;text-align:left;margin-bottom:1.5rem;">
-        <div class="content-block" style="padding:1rem 1.2rem;">
-          <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.4rem;">Peur profonde</div>
-          <p style="color:var(--text-primary);font-size:0.9rem;margin:0;" id="cm-peur"></p>
-        </div>
-        <div class="content-block" style="padding:1rem 1.2rem;">
-          <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:0.4rem;">Ce miroir vous est tendu</div>
-          <p style="font-family:var(--font-display);font-style:italic;color:var(--text-primary);font-size:0.95rem;margin:0;" id="cm-mirror"></p>
-        </div>
-      </div>
-      <a href="module-0.html" class="btn-primary">Commencer ma transformation →</a>
-    </div>
-  </section>
-
-  <!-- LES 7 MODULES -->
-  <section class="section animate-up delay-3">
-    <div class="modules-header">
-      <div>
-        <h4>Le Parcours</h4>
-        <h2 style="margin-top:0.3rem;">6 Étapes de Transformation</h2>
-      </div>
-      <a href="module-0.html" class="btn-ghost">Voir tout →</a>
-    </div>
-
-    <div class="module-grid" id="module-grid">
-      <!-- Rendered by JS -->
-    </div>
-  </section>
-
-  <!-- JOURNAL RÉCENT -->
-  <section class="section animate-up delay-4">
-    <div class="modules-header">
-      <div>
-        <h4>Journal</h4>
-        <h2 style="margin-top:0.3rem;">Mes Dernières Observations</h2>
-      </div>
-      <a href="journal.html" class="btn-ghost">Tout voir →</a>
-    </div>
-    <div id="journal-preview"></div>
-  </section>
-
-  <!-- CITATION -->
-  <section class="glass-card gold-border section animate-up delay-5">
-    <div class="quote-block">
-      Votre anxiété n'est pas une anomalie. C'est une peur déguisée — et sous chaque peur, il y a une nature authentique qui attend d'être libérée.
-    </div>
-    <div style="text-align:center;padding-bottom:0.5rem;">
-      <p style="font-size:0.8rem;color:var(--text-muted);">Céline Bourbon — <em>"De la peur à la joie d'être soi"</em>, Éditions L'Harmattan</p>
-    </div>
-  </section>
-
-</main>
-
-<!-- FAB -->
-<button class="fab" id="fab-journal" title="Journal V.A.L.E.U.R©">📓</button>
-
-<!-- Journal Modal -->
-<div id="journal-modal" class="modal-overlay" style="display:none;">
-  <div class="glass-card modal-content">
-    <button class="modal-close" onclick="closeJournalModal()">✕</button>
-    <h4 style="margin-bottom:0.3rem;">Journal V.A.L.E.U.R©</h4>
-    <h3 style="margin-bottom:1.5rem;font-weight:300;">Observer un masque maintenant</h3>
-    <form id="quick-journal-form">
-      <div class="form-group">
-        <select name="masque" required>
-          <option value="">🎭 Quel masque détectez-vous ?</option>
-          <option value="rouge">🔴 Rouge — Mort / Maladie</option>
-          <option value="orange">🟠 Orange — Souffrance psychique</option>
-          <option value="jaune">🟡 Jaune — Inconnu / Incertitude</option>
-          <option value="vert">🟢 Vert — Rejet / Abandon</option>
-          <option value="bleu">🔵 Bleu — Impuissance</option>
-          <option value="indigo">🟣 Indigo — Échec / Inadéquation</option>
-          <option value="violet">💜 Violet — Perte d'identité</option>
-        </select>
-      </div>
-      <div class="valeur-steps">
-        <div class="step-item">
-          <label><span class="step-letter">V</span> VOIR — le déclencheur</label>
-          <textarea name="V" placeholder="Quelle situation a activé ce masque ?" rows="2"></textarea>
-        </div>
-        <div class="step-item">
-          <label><span class="step-letter">A</span> ACCUEILLIR — l'émotion</label>
-          <textarea name="A" placeholder="Quelle émotion ressentez-vous ?" rows="2"></textarea>
-        </div>
-        <div class="step-item">
-          <label><span class="step-letter">L</span> LOCALISER — dans le corps</label>
-          <textarea name="L" placeholder="Où ressentez-vous ça dans votre corps ?" rows="2"></textarea>
-        </div>
-        <div class="step-item">
-          <label><span class="step-letter">E</span> EXPLORER — le conflit</label>
-          <textarea name="E" placeholder="Conflit entre masque et valeur profonde ?" rows="2"></textarea>
-        </div>
-        <div class="step-item">
-          <label><span class="step-letter">U</span> UNIFIER — la conscience</label>
-          <textarea name="U" placeholder="Action consciente choisie ?" rows="2"></textarea>
-        </div>
-        <div class="step-item">
-          <label><span class="step-letter">R</span> RENFORCER — l'ancrage</label>
-          <textarea name="R" placeholder="Comment ancrer cette prise de conscience ?" rows="2"></textarea>
-        </div>
-      </div>
-      <button type="submit" class="btn-primary full-width" style="margin-top:0.5rem;">💾 Sauvegarder</button>
-    </form>
+  <div class="journal-entries" id="journalEntries"></div>
+  <div class="journal-compose">
+    <textarea class="journal-textarea" id="journalInput" placeholder="Notez vos ressentis, prises de conscience, émotions du moment…" maxlength="1000"></textarea>
+    <button class="journal-send" onclick="saveJournalEntry()">Sauvegarder cette note →</button>
   </div>
 </div>
 
-<div class="copyright-bar">
-  © Céline Bourbon — Méthode V.A.L.E.U.R© — Tous droits réservés — "De la peur à la joie d'être soi", L'Harmattan — Reproduction interdite
-</div>
-
-<!-- Scripts -->
-<script src="valeur-config.js"></script>
-<script src="assets/js/valeur-core.js"></script>
+<div class="copyright-watermark">© V.A.L.E.U.R — Céline Bourbon — Méthode propriétaire — Tous droits réservés</div>
 
 <script>
-/* ── DASHBOARD DATA — © Méthode V.A.L.E.U.R© ── */
-var MASQUE_DATA = {
-  rouge:  { emoji:'🔴', nom:'Masque Rouge',   couleur:'#e53e3e', tagline:'Vous espionnez votre propre corps.', peur:'Peur de la mort / de la maladie', mirror:'Et si votre corps n\'était pas votre ennemi — mais le seul endroit où votre peur a trouvé à s\'exprimer ?' },
-  orange: { emoji:'🟠', nom:'Masque Orange',  couleur:'#ed8936', tagline:'Vous êtes fort·e pour les autres — mais vous fuyez vos propres émotions.', peur:'Peur de la douleur / de la souffrance', mirror:'Et si la force que vous montrez au monde était la cage construite pour ne plus jamais souffrir ?' },
-  jaune:  { emoji:'🟡', nom:'Masque Jaune',   couleur:'#d69e2e', tagline:'L\'imprévu vous angoisse. Vous devez tout maîtriser.', peur:'Peur de l\'inconnu / de l\'incertitude', mirror:'Et si le contrôle que vous exercez sur tout vous privait de la vie ?' },
-  vert:   { emoji:'🟢', nom:'Masque Vert',    couleur:'#38a169', tagline:'Vous vous adaptez à tout le monde sauf à vous-même.', peur:'Peur du rejet / de l\'abandon', mirror:'Et si la peur d\'être quitté·e vous faisait disparaître avant même que l\'autre parte ?' },
-  bleu:   { emoji:'🔵', nom:'Masque Bleu',    couleur:'#3182ce', tagline:'Vous ne pouvez pas vous permettre de montrer votre faiblesse.', peur:'Peur de l\'impuissance / de perdre le contrôle', mirror:'Et si votre force était devenue la prison qui vous empêche de vraiment recevoir l\'amour que vous méritez ?' },
-  indigo: { emoji:'🟣', nom:'Masque Indigo',  couleur:'#805ad5', tagline:'Parfait — ou rien.', peur:'Peur de l\'échec / de l\'inadéquation', mirror:'Qu\'avez-vous abandonné ou jamais commencé, par peur de ne pas être assez bon·ne ?' },
-  violet: { emoji:'💜', nom:'Masque Violet',  couleur:'#b83280', tagline:'Qui êtes-vous sans vos rôles ?', peur:'Peur de perdre son identité', mirror:'Vous avez déjà traversé des changements — et vous êtes encore vous. Votre identité est plus profonde que vos rôles.' }
-};
-
-var MODULE_DEFS = [
-  { key:'module1', letter:'V', name:'VOIR',       sub:'Identifier le masque actif',     emoji:'👁',  color:'#e53e3e', url:'module1.html' },
-  { key:'module2', letter:'A', name:'ACCUEILLIR', sub:'Recevoir l\'émotion sans la fuir', emoji:'🫁', color:'#ed8936', url:'module2.html' },
-  { key:'module3', letter:'L', name:'LOCALISER',  sub:'Trouver où ça se manifeste',     emoji:'📍',  color:'#d69e2e', url:'module3.html' },
-  { key:'module4', letter:'E', name:'EXPLORER',   sub:'Explorer le conflit intérieur',  emoji:'🔍',  color:'#38a169', url:'module4.html' },
-  { key:'module5', letter:'U', name:'UNIFIER',    sub:'Réconcilier les parties',         emoji:'🤝',  color:'#3182ce', url:'module5.html' },
-  { key:'module6', letter:'R', name:'RENFORCER',  sub:'Ancrer la nouvelle posture',      emoji:'💪',  color:'#805ad5', url:'module6.html' }
-];
-
-function renderDashboard() {
-  // Progress ring
-  var pct = (typeof VALEUR_PROGRESS !== 'undefined') ? VALEUR_PROGRESS.getPercent() : 0;
-  var done = MODULE_DEFS.filter(function(m) {
-    try { return !!localStorage.getItem(m.key === 'module1' ? 'valeur_module1_complete' : 'valeur_'+m.key+'_complete'); } catch(e) { return false; }
-  }).length;
-
-  var ringFill = document.getElementById('ring-fill');
-  var circumference = 314.16;
-  if (ringFill) {
-    var offset = circumference - (pct / 100) * circumference;
-    ringFill.style.strokeDashoffset = offset;
-  }
-  var pctEl = document.getElementById('pct-display');
-  if (pctEl) pctEl.textContent = pct + '%';
-  var donEl = document.getElementById('modules-done');
-  if (donEl) donEl.textContent = done + ' / 6';
-  var jcEl = document.getElementById('journal-count');
-  if (jcEl) jcEl.textContent = ValeurJournal.getCount();
-
-  // Masque actif
-  var masqueId = ValeurJournal.getActiveMasque();
-  var masShort = document.getElementById('masque-actif-short');
-  if (masShort) masShort.textContent = masqueId ? MASQUE_DATA[masqueId].nom : '—';
-
-  // Quest banner
-  var banner = document.getElementById('quest-banner');
-  if (banner) banner.style.display = masqueId ? 'none' : 'flex';
-
-  // Masque card
-  var noData = document.getElementById('masque-no-data');
-  var withData = document.getElementById('masque-data');
-  if (masqueId && MASQUE_DATA[masqueId]) {
-    var d = MASQUE_DATA[masqueId];
-    if (noData) noData.style.display = 'none';
-    if (withData) {
-      withData.style.display = 'block';
-      document.getElementById('cm-emoji').textContent = d.emoji;
-      document.getElementById('cm-nom').textContent   = d.nom;
-      document.getElementById('cm-tagline').textContent = d.tagline;
-      document.getElementById('cm-peur').textContent  = d.peur;
-      document.getElementById('cm-mirror').textContent = d.mirror;
-      var nomEl = document.getElementById('cm-nom');
-      if (nomEl) { nomEl.style.color = d.couleur; }
-      var section = document.querySelector('.masque-card');
-      if (section) section.style.setProperty('--cm-glow', d.couleur + '22');
-    }
-  }
-
-  // Module grid
-  var grid = document.getElementById('module-grid');
-  if (grid) {
-    grid.innerHTML = MODULE_DEFS.map(function(m) {
-      var isDone = false;
-      try { isDone = !!localStorage.getItem('valeur_' + m.key + '_complete'); } catch(e){}
-      return '<a href="'+m.url+'" class="module-card'+(isDone?' done':'')+'" style="--accent:'+m.color+'">' +
-        '<div class="module-letter" style="color:'+m.color+'">'+m.letter+'</div>' +
-        '<div class="module-info">' +
-          '<strong>'+m.name+'</strong>' +
-          '<small>'+m.sub+'</small>' +
-        '</div>' +
-        '<span class="module-arrow">→</span>' +
-        '</a>';
-    }).join('');
-  }
-
-  // Journal preview
-  var recent = ValeurJournal.getRecent(3);
-  ValeurJournal.renderEntries('journal-preview', recent);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  VALEUR_PROGRESS.render('');
-  renderDashboard();
-  // Animate ring with delay
-  setTimeout(renderDashboard, 200);
+// ── ANTI-COPY ──
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&['c','u','s','a','p','i'].includes(e.key.toLowerCase()))e.preventDefault();
+  if(e.key==='F12')e.preventDefault();
+});
+document.addEventListener('dragstart',e=>e.preventDefault());
+document.addEventListener('selectstart',e=>{
+  if(e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='INPUT')e.preventDefault();
 });
 
-window.renderDashboard = renderDashboard;
+// ── DATA ──
+const MODULES = [
+  {
+    id:0, slug:'module0',
+    step:'Fondations', label:'Comprendre',
+    icon:'🧠', color:'#9b9b9b',
+    desc:'L\'anxiété : d\'où vient-elle vraiment ? Découvrez les 7 peurs universelles et vos masques de protection.',
+    url:'module0.html', always_open:true
+  },
+  {
+    id:1, slug:'module1',
+    step:'V — Voir', label:'Identifier le masque',
+    icon:'👁', color:'#e05555',
+    desc:'Reconnaître quel masque est activé en vous. Le premier pas vers la liberté est de voir ce qui se passe vraiment.',
+    url:'module1.html'
+  },
+  {
+    id:2, slug:'module2',
+    step:'A — Accueillir', label:'Recevoir l\'émotion',
+    icon:'🤲', color:'#e07c3a',
+    desc:'Recevoir l\'émotion sans la fuir ni la combattre. L\'accueil est le début de la transformation.',
+    url:'module2.html'
+  },
+  {
+    id:3, slug:'module3',
+    step:'L — Localiser', label:'Ressentir le corps',
+    icon:'🫀', color:'#d4b84a',
+    desc:'Trouver où l\'émotion vit dans votre corps. Le corps sait toujours avant la tête.',
+    url:'module3.html'
+  },
+  {
+    id:4, slug:'module4',
+    step:'E — Explorer', label:'Le conflit intérieur',
+    icon:'🔍', color:'#5aaa6a',
+    desc:'Explorer le conflit entre votre nature authentique et la peur qui la retient. La clé de tout.',
+    url:'module4.html'
+  },
+  {
+    id:5, slug:'module5',
+    step:'U — Unifier', label:'Réconcilier les parties',
+    icon:'☯', color:'#4a8fe8',
+    desc:'Réconcilier les parties en conflit en vous. L\'unification est la paix intérieure retrouvée.',
+    url:'module5.html'
+  },
+  {
+    id:6, slug:'module6',
+    step:'R — Renforcer', label:'Ancrer la transformation',
+    icon:'✨', color:'#b04fbf',
+    desc:'Ancrer la nouvelle posture avec des comportements choisis. Vous devenez enfin vous-même.',
+    url:'module6.html'
+  }
+];
+
+// ── STATE ──
+function getCompleted(){
+  const arr=[];
+  MODULES.forEach(m=>{
+    if(localStorage.getItem('VALEUR_module'+m.id+'_complete')==='1')arr.push(m.id);
+  });
+  return arr;
+}
+function isUnlocked(id){
+  if(id===0)return true;
+  return localStorage.getItem('VALEUR_module'+(id-1)+'_complete')==='1';
+}
+function getProgress(id){
+  const p=localStorage.getItem('valeur_module'+id+'_progress');
+  return p?parseInt(p):0;
+}
+
+// ── RENDER ──
+function hexToRgb(h){
+  const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+function renderModules(){
+  const completed=getCompleted();
+  const grid=document.getElementById('modulesGrid');
+  grid.innerHTML='';
+  MODULES.forEach((m,i)=>{
+    const done=completed.includes(m.id);
+    const unlocked=isUnlocked(m.id);
+    const prog=getProgress(m.id);
+    const rgb=hexToRgb(m.color);
+    const card=document.createElement('div');
+    card.className='card'+(unlocked?'':' locked');
+    card.style.cssText=`--mask-color:${m.color};--mask-color-dim:rgba(${rgb},0.08);--mask-color-border:rgba(${rgb},0.2);--mask-color-shadow:rgba(${rgb},0.15);animation-delay:${i*0.06}s`;
+    card.innerHTML=`
+      <div class="card-header">
+        <div class="card-icon">${m.icon}</div>
+        <span class="card-badge ${done?'badge-done':unlocked?'badge-active':'badge-locked'}">${done?'✓ Complété':unlocked?'En cours':'🔒 Verrouillé'}</span>
+      </div>
+      <div class="card-step">${m.step}</div>
+      <div class="card-title">${m.label}</div>
+      <div class="card-desc">${m.desc}</div>
+      <div class="card-footer">
+        <div class="card-progress">
+          <div class="card-prog-bar"><div class="card-prog-fill" style="width:${done?100:prog}%"></div></div>
+          <div class="card-prog-text">${done?'Module complété':prog>0?prog+'% accompli':'Prêt à commencer'}</div>
+        </div>
+        ${unlocked?`<span class="card-arrow">→</span>`:'<span class="card-arrow" style="opacity:0.2">🔒</span>'}
+      </div>
+      ${!unlocked?'<div class="lock-icon">🔒</div>':''}
+    `;
+    if(unlocked){
+      card.addEventListener('click',()=>{
+        window.location.href=m.url;
+      });
+    }
+    grid.appendChild(card);
+  });
+  updateGlobalProgress();
+  renderSidebar();
+}
+
+function updateGlobalProgress(){
+  const completed=getCompleted();
+  const pct=Math.round((completed.length/MODULES.length)*100);
+  document.getElementById('globalBar').style.width=pct+'%';
+  document.getElementById('globalPct').textContent=pct+'%';
+}
+
+function renderSidebar(){
+  const completed=getCompleted();
+  const nav=document.getElementById('sidebarNav');
+  nav.innerHTML='';
+  MODULES.forEach(m=>{
+    const done=completed.includes(m.id);
+    const unlocked=isUnlocked(m.id);
+    const item=document.createElement('a');
+    item.className='nav-item'+(unlocked?'':' locked-nav');
+    item.href=unlocked?m.url:'#';
+    item.innerHTML=`
+      <div class="nav-dot ${done?'done':''}" style="color:${m.color};background:${done?m.color:'transparent'}"></div>
+      <div style="flex:1;min-width:0">
+        <div class="nav-label">${m.label}</div>
+        <div class="nav-step">${m.step}</div>
+      </div>
+      <span class="nav-status ${done?'done':unlocked?'active-s':'locked'}">${done?'✓':unlocked?'→':'🔒'}</span>
+    `;
+    if(!unlocked)item.addEventListener('click',e=>{e.preventDefault();showToast('Complétez le module précédent pour débloquer celui-ci.')});
+    nav.appendChild(item);
+  });
+}
+
+// ── JOURNAL ──
+function getJournalEntries(){
+  try{return JSON.parse(localStorage.getItem('valeur_journal')||'[]')}catch{return[]}
+}
+function saveJournalEntry(){
+  const ta=document.getElementById('journalInput');
+  const text=ta.value.trim();
+  if(!text)return;
+  const entries=getJournalEntries();
+  entries.unshift({text,date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})});
+  localStorage.setItem('valeur_journal',JSON.stringify(entries));
+  ta.value='';
+  renderJournal();
+  showToast('Note sauvegardée ✦');
+}
+function renderJournal(){
+  const entries=getJournalEntries();
+  const container=document.getElementById('journalEntries');
+  const count=document.getElementById('journalCount');
+  count.textContent=entries.length+' note'+(entries.length!==1?'s':'');
+  if(!entries.length){
+    container.innerHTML='<div class="journal-empty">Votre journal est vide.<br>Commencez à écrire ci-dessous…</div>';
+    return;
+  }
+  container.innerHTML=entries.map(e=>`
+    <div class="journal-entry">
+      <div class="entry-date">${e.date}</div>
+      <div class="entry-text">${e.text.replace(/</g,'&lt;')}</div>
+    </div>
+  `).join('');
+}
+
+let journalOpen=false;
+function toggleJournal(){
+  journalOpen=!journalOpen;
+  document.getElementById('journalPanel').classList.toggle('open',journalOpen);
+  document.getElementById('journalFab').classList.toggle('open',journalOpen);
+  document.getElementById('journalFab').textContent=journalOpen?'✕':'📓';
+  if(journalOpen)renderJournal();
+}
+
+// ── SIDEBAR MOBILE ──
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── CONFETTI ──
+function launchConfetti(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const colors=['#e05555','#e07c3a','#d4b84a','#5aaa6a','#4a8fe8','#7c5cbf','#b04fbf','#c9a84c'];
+  const particles=Array.from({length:160},()=>({
+    x:Math.random()*canvas.width,y:-10,
+    vx:(Math.random()-0.5)*4,vy:Math.random()*4+2,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    size:Math.random()*8+4,
+    rot:Math.random()*360,vrot:(Math.random()-0.5)*8,
+    life:1
+  }));
+  let frame;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.vrot;p.life-=0.008;p.vy+=0.05;
+      if(p.life<=0||p.y>canvas.height)return;
+      ctx.save();ctx.globalAlpha=p.life;ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);
+      ctx.restore();
+    });
+    if(particles.some(p=>p.life>0&&p.y<canvas.height))frame=requestAnimationFrame(draw);
+    else{ctx.clearRect(0,0,canvas.width,canvas.height);}
+  }
+  draw();
+}
+
+// ── AUTH CHECK ──
+function doLogout(){
+  localStorage.removeItem('valeur_auth');
+  window.location.href='login.html';
+}
+
+// ── INIT ──
+(function init(){
+  if(!localStorage.getItem('valeur_auth')){
+    window.location.href='login.html';return;
+  }
+  const email=localStorage.getItem('valeur_email')||'';
+  const name=email.split('@')[0]||'';
+  const disp=name.charAt(0).toUpperCase()+name.slice(1);
+  document.getElementById('heroGreeting').textContent='Bienvenue'+( disp?' '+disp:'');
+  document.getElementById('avatarIcon').textContent=disp?disp.charAt(0).toUpperCase():'✦';
+
+  renderModules();
+
+  // Listen for module completions from other pages
+  window.addEventListener('storage',e=>{
+    if(e.key&&e.key.startsWith('VALEUR_module')){
+      renderModules();
+      if(e.newValue==='1')launchConfetti();
+    }
+  });
+
+  // Demo: check if first time → small welcome toast
+  if(!localStorage.getItem('valeur_welcomed')){
+    setTimeout(()=>showToast('Bienvenue dans votre parcours V.A.L.E.U.R© ✦'),800);
+    localStorage.setItem('valeur_welcomed','1');
+  }
+})();
+
+window.addEventListener('resize',()=>{
+  const canvas=document.getElementById('confetti-canvas');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+});
 </script>
 </body>
 </html>
