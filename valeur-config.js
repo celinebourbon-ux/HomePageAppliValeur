@@ -108,9 +108,10 @@ var VALEUR_PROGRESS = {
   /* Détecte si on est sur index.html (React GlobalNav gère la navigation) */
   isHomePage: function() {
     var p = window.location.pathname;
-    return p === '/' || p === '/index.html' ||
-           p.endsWith('/HomePageAppliValeur/') ||
-           p.endsWith('/HomePageAppliValeur/index.html');
+    return (p === '/' || p === '/index.html' ||
+          p.endsWith('/HomePageAppliValeur/') ||
+          p.endsWith('/HomePageAppliValeur/index.html'))
+         && p.indexOf('dashboard') === -1;
   },
 
   /* Marque un module comme complété + re-render */
