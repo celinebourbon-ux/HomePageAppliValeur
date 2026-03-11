@@ -38,7 +38,8 @@
   --radius: 16px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--navy);color:var(--text-light);line-height:1.7;-webkit-font-smoothing:antialiased;}
+body{font-family:'Jost',sans-serif;font-weight:300;font-size:16px;background:var(--navy);color:var(--text-light);line-height:1.7;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,.section-title,.valeur-hero-letter,.valeur-hero-name{font-family:'Cormorant Garamond',serif;}
 textarea,input{font-family:inherit;}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--navy);}
@@ -426,19 +427,24 @@ body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:non
 </div>
 <canvas id="confetti-canvas"></canvas>
 
-<div class="pb-step active"><span class="pb-letter">A</span></div>
-    <div class="pb-step"><span class="pb-letter">L</span></div>
-    <div class="pb-step"><span class="pb-letter">E</span></div>
-    <div class="pb-step"><span class="pb-letter">U</span></div>
-    <div class="pb-step"><span class="pb-letter">R</span></div>
+<div id="scroll-line" style="position:fixed;top:0;left:0;height:3px;background:var(--gold);z-index:9999;width:0;transition:width .1s;pointer-events:none;"></div>
+
+<div id="progress-bar">
+  <div class="pb-steps">
+    <div class="pb-step done"   data-module="1"><span class="pb-letter">V</span><span class="pb-name">Voir</span></div>
+    <div class="pb-step active" data-module="2"><span class="pb-letter">A</span><span class="pb-name">Accueillir</span></div>
+    <div class="pb-step locked" data-module="3"><span class="pb-letter">L</span><span class="pb-name">Localiser</span></div>
+    <div class="pb-step locked" data-module="4"><span class="pb-letter">E</span><span class="pb-name">Examiner</span></div>
+    <div class="pb-step locked" data-module="5"><span class="pb-letter">U</span><span class="pb-name">Unifier</span></div>
+    <div class="pb-step locked" data-module="6"><span class="pb-letter">R</span><span class="pb-name">Rayonner</span></div>
   </div>
-  <span class="pb-pct" id="pb-pct">16%</span>
+  <span class="pb-pct" id="pb-pct">33%</span>
 </div>
 <nav id="dot-nav" aria-label="Navigation par section">
-  <div class="dot active" onclick="scrollToSection(0)" title="Introduction"></div>
-  <div class="dot" onclick="scrollToSection(1)" title="Les 4 Familles"></div>
-  <div class="dot" onclick="scrollToSection(2)" title="Protocole ACCUEIL"></div>
-  <div class="dot" onclick="scrollToSection(3)" title="Quiz & Mémo"></div>
+  <div class="dot active" onclick="jumpSection(1)" title="Introduction"></div>
+  <div class="dot" onclick="jumpSection(2)" title="Les 4 Familles"></div>
+  <div class="dot" onclick="jumpSection(3)" title="Protocole ACCUEIL"></div>
+  <div class="dot" onclick="jumpSection(4)" title="Quiz & Mémo"></div>
 </nav>
 
 <main>
@@ -462,7 +468,7 @@ body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:non
     <h2 style="font-family:Georgia,serif;color:var(--cream);font-size:22px;margin-bottom:10px;">Module non encore déverrouillé</h2>
     <p style="color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:20px;">Vous devez d'abord compléter le <strong style="color:var(--orange);">Module 1 — VOIR</strong> pour accéder à ce module.</p>
     <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px;">La progression est sauvegardée — revenez dès que le Module 1 sera terminé.</p>
-    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" style="display:block;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:#fff;text-decoration:none;border-radius:10px;padding:14px 20px;font-weight:700;text-align:center;">← Retour au tableau de bord</a>
+    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html" style="display:block;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:#fff;text-decoration:none;border-radius:10px;padding:14px 20px;font-weight:700;text-align:center;">← Retour au tableau de bord</a>
   </div>
 </div>
 
@@ -487,24 +493,7 @@ body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:non
 <!-- ═══ FIN HERO M2 ═══ -->
 
 
-<!-- HEADER -->
-<header class="module-header">
-  <div class="header-inner">
-    <div class="header-top">
-      <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" class="back-btn">← Tableau de bord</a>
-      <div class="module-badge">🟠 Module 2</div>
-    </div>
-    <div class="header-content">
-      <h1>A — <span>ACCUEILLIR</span></h1>
-      <p>Recevoir vos émotions sans les fuir — et découvrir le message qu'elles portent pour vous.</p>
-      <div class="header-meta">
-        <span>⏱ <strong>~35 min</strong> au total</span>
-        <span>📂 <strong>4 sections</strong></span>
-        <span>📓 <strong>Journal + Quiz</strong></span>
-      </div>
-    </div>
-  </div>
-</header>
+<!-- [header.module-header supprimé — remplacé par .valeur-hero] -->
 
 <!-- BARRE DE PROGRESSION -->
 <div class="progress-bar">
@@ -667,7 +656,7 @@ body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:non
   </div>
 
   <div class="section-nav">
-    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" class="btn-prev" style="text-decoration:none;">← Tableau de bord</a>
+    <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html" class="btn-prev" style="text-decoration:none;">← Tableau de bord</a>
     <button class="btn-next" onclick="nextSection(1)">Les 4 familles →</button>
   </div>
 
@@ -1167,9 +1156,8 @@ body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:non
 
     <div class="quiz-results" id="quiz-results">
       <div class="quiz-score" id="quiz-score">0/6</div>
-      <div style="font-size:22px;font-weight:700;color:var(--cream);margin-bottom:8px;" id="quiz-title">Résultats</div>
+      <div style="font-size:22px;font-weight:700;color:var(--cream);margin-bottom:8px;" id="quiz-title">R\u00e9sultats</div>
       <div style="color:var(--text-muted);font-size:15px;line-height:1.7;margin-bottom:24px;" id="quiz-message"></div>
-      <button class="btn-next" onclick="VALEUR_PROGRESS.complete('module2'); showCelebration()">✓ Terminer le Module 2 — Débloquer LOCALISER 🟡</button>
     </div>
   </div>
 
@@ -1185,7 +1173,7 @@ body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:non
 
   <div class="section-nav">
     <button class="btn-prev" onclick="prevSection(4)">← Protocole</button>
-    <button class="btn-next" onclick="showCelebration()">✓ Terminer le Module 2 — Débloquer LOCALISER 🟡</button>
+    <button class="btn-next" onclick="completeModule();showCelebration();">\u2713 Terminer le Module 2 \u2014 D\u00e9bloquer LOCALISER \uD83D\uDFE1</button>
   </div>
 
   <div class="copyright">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue — Tous droits réservés<br>Contenu protégé · Reproduction interdite · <em>De la peur à la joie d'être soi</em>, Éditions L'Harmattan</div>
@@ -1207,7 +1195,7 @@ body{padding-top:62px;overflow-x:hidden;user-select:none;-webkit-user-select:non
     </div>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
       <a href="module3.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--green),#276749);color:#fff;text-decoration:none;border-radius:50px;padding:14px 24px;font-weight:700;font-size:14px;">✅ Module 3 — LOCALISER →</a>
-      <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/" style="display:inline-flex;align-items:center;gap:8px;background:var(--navy-card);border:1px solid var(--navy-border);color:var(--text-muted);text-decoration:none;border-radius:50px;padding:14px 20px;font-size:14px;">🏠 Tableau de bord</a>
+      <a href="https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--navy-card);border:1px solid var(--navy-border);color:var(--text-muted);text-decoration:none;border-radius:50px;padding:14px 20px;font-size:14px;">🏠 Tableau de bord</a>
     </div>
   </div>
 </div>
@@ -1291,7 +1279,7 @@ function isModule1Done(email) {
 function checkAccess() {
   const session = getSession();
   if (!session) {
-    window.location.href = 'https://celinebourbon-ux.github.io/HomePageAppliValeur/';
+    window.location.href = 'https://celinebourbon-ux.github.io/HomePageAppliValeur/dashboard.html';
     return;
   }
   if (!isModule1Done(session.email)) {
@@ -1805,9 +1793,7 @@ D = Souffrance · e = Émotion · r² = Résistance au carré<br>
 <div class="step"><div class="num">4</div><p><strong>Agir avec justesse</strong> — Une réponse consciente au besoin, pas une réaction automatique du masque.</p></div>
 <div class="footer">© 2025 Méthode V.A.L.E.U.R© — Céline Bourbon, Psychologue · <em>De la peur à la joie d'être soi</em> — Éditions L'Harmattan · Tous droits réservés. Reproduction interdite.</div>
 <script>
-<\/script>
-<script>
-VALEUR_PROGRESS.render('module2');
+if(typeof VALEUR_PROGRESS!=='undefined'){try{VALEUR_PROGRESS.render('module2');}catch(e){}}
 <\/script>
 </body></html>`;
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -1838,21 +1824,7 @@ function initScrollReveal() {
   targets.forEach(el => obs.observe(el));
 }
 
-// ── CONFETTI AMÉLIORÉ ───────────────────────────────────────────
-function launchConfetti() {
-  const colors = ['#ED8936','#c9a84c','#38a169','#3182ce','#805ad5','#e53e3e','#fff','#fbd38d'];
-  const shapes = ['50%','4px','0%'];
-  for (let i = 0; i < 90; i++) {
-    setTimeout(() => {
-      const p = document.createElement('div');
-      p.className = 'confetti-piece';
-      const size = 5 + Math.random() * 10;
-      p.style.cssText = `left:${Math.random()*100}vw;top:-10px;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${shapes[Math.floor(Math.random()*shapes.length)]};animation-duration:${2.5+Math.random()*2}s;animation-delay:${Math.random()*0.3}s;animation-name:confettiFall;animation-timing-function:linear;animation-fill-mode:both;transform:rotate(${Math.random()*360}deg);`;
-      document.body.appendChild(p);
-      setTimeout(() => p.remove(), 5500);
-    }, i * 25);
-  }
-}
+/* [launchConfetti() définie dans le bloc suivant — version canvas] */
 
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initScrollReveal, 500);
@@ -1912,7 +1884,7 @@ function toggleEmotion(card){
 }
 
 /* ══ BREATHING ANIMATION ══ */
-var breathPhase=0,breathTimer=null,breathRunning=false;
+var breathTimer=null,breathRunning=false;
 var breathTexts=[
   ['Inspirez…','4 secondes · « Je reconnais cette émotion »','inhale'],
   ['Retenez…','2 secondes · « Elle est là, c\'est OK »','hold'],

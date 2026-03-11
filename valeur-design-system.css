@@ -621,3 +621,118 @@ img { pointer-events: none; }
   from { opacity:0; transform: scale(.96); }
   to   { opacity:1; transform: none; }
 }
+
+/* ══════════════════════════════════════════════════
+   18. TYPOGRAPHIE PREMIUM — TAILLES MINIMALES
+══════════════════════════════════════════════════ */
+body {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+h1, h2, h3,
+.section-title,
+.valeur-hero-letter,
+.valeur-hero-name,
+.hero-letter,
+.hero-word,
+.module-title {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Corps texte — minimum 16px */
+.acc-body, .strat-desc, .step-info p, .widget-step p,
+.formula-item, .emo-signal, .summary-signal,
+p, li, .card-text { font-size: 16px; }
+
+/* Labels — minimum 12px */
+.p-label, .pb-name, label { font-size: 12px; }
+
+/* Copyright footer — minimum 11px */
+.copyright-footer, .v-copyright, .copyright { font-size: 11px; }
+
+/* Boutons navigation — premium sizing */
+.btn-prev, .btn-next, .btn-primary, .btn-cta, .btn-complete {
+  font-size: 16px;
+  padding: 14px 32px;
+}
+
+/* ══════════════════════════════════════════════════
+   19. BARRE VALEUR (pb-steps) — Composant unifié
+══════════════════════════════════════════════════ */
+#progress-bar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(7,13,26,.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  padding: 10px 16px;
+  gap: 12px;
+}
+
+.pb-steps {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.pb-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: default;
+  transition: all .25s;
+}
+
+.pb-step .pb-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pb-step .pb-name {
+  font-size: 9px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+
+.pb-step.done .pb-letter   { color: var(--gold); }
+.pb-step.done .pb-name     { color: var(--gold); opacity: .7; }
+.pb-step.active             { background: rgba(255,255,255,.06); }
+.pb-step.active .pb-letter  { color: var(--mc, var(--mod, var(--gold))); }
+.pb-step.active .pb-name    { color: var(--mc, var(--mod, var(--gold))); opacity: 1; }
+.pb-step.locked .pb-letter  { color: rgba(255,255,255,.2); }
+.pb-step.locked .pb-name    { color: rgba(255,255,255,.15); }
+
+.pb-pct {
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════════
+   20. SCROLL LINE
+══════════════════════════════════════════════════ */
+#scroll-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  z-index: 9999;
+  width: 0;
+  transition: width .1s linear;
+  pointer-events: none;
+}
