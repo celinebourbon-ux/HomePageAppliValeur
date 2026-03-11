@@ -8,7 +8,7 @@ var VALEUR_BASE = 'https://celinebourbon-ux.github.io/HomePageAppliValeur/';
 
 var MODULE_URLS = {
   home:    VALEUR_BASE,
-  module0: VALEUR_BASE + 'index.html',
+  module0: VALEUR_BASE + 'module0.html',
   module1: VALEUR_BASE + 'module1.html',
   module2: VALEUR_BASE + 'module2.html',
   module3: VALEUR_BASE + 'module3.html',
@@ -187,7 +187,7 @@ var VALEUR_PROGRESS = {
 
       /* Navigation au clic : uniquement si module terminé (et pas l'actif) */
       var navAttr = '';
-      if (isDone && !isActive) {
+      if ((isDone && !isActive) || (i === 0 && !isActive)) {
         navAttr = ' onclick="window.location.href=\'' + s.url + '\'" style="cursor:pointer"';
       }
       var title = isDone ? s.name + ' ✓ (terminé)' :
@@ -305,7 +305,7 @@ var VALEUR_PROGRESS = {
     'white-space:nowrap;min-width:28px;text-align:right;flex-shrink:0;}',
 
     /* ── SCROLL TO TOP ─────────────────────────────────── */
-    '#vpb-scroll-top{position:fixed;bottom:22px;right:16px;',
+    '#vpb-scroll-top{position:fixed;bottom:22px;right:90px;',
     'width:40px;height:40px;border-radius:50%;',
     'background:linear-gradient(135deg,#c9a84c,#8a6820);',
     'color:#000;border:none;cursor:pointer;font-size:20px;font-weight:700;',
@@ -360,11 +360,12 @@ var VALEUR_PROGRESS = {
 /* ── PROTECTION ANTI-COPIE (universelle) ──────────────────────── */
 (function() {
   document.addEventListener('contextmenu',  function(e) { e.preventDefault(); });
-  document.addEventListener('selectstart',  function(e) { e.preventDefault(); });
-  document.addEventListener('copy',         function(e) { e.preventDefault(); });
-  document.addEventListener('cut',          function(e) { e.preventDefault(); });
+  document.addEventListener('selectstart',  function(e) { if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return; e.preventDefault(); });
+  document.addEventListener('copy',         function(e) { if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return; e.preventDefault(); });
+  document.addEventListener('cut',          function(e) { if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return; e.preventDefault(); });
   document.addEventListener('dragstart',    function(e) { e.preventDefault(); });
   document.addEventListener('keydown', function(e) {
+    if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return;
     if ((e.ctrlKey || e.metaKey) && ['s','a','u','p','c'].includes(e.key.toLowerCase()))
       e.preventDefault();
     if (e.key === 'F12') e.preventDefault();
