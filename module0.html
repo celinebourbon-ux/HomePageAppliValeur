@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Module 0 — Comprendre · Méthode V.A.L.E.U.R©</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <meta name="robots" content="noindex, nofollow">
 <style>
 /* ══════════════════════════════════════════
@@ -739,47 +740,43 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
     </div>
   </section>
 
-  <!-- ══ SECTION 5 — QUESTIONNAIRE ══ -->
+  <!-- ══ SECTION 5 — MASQUE PRIORITAIRE + JOURNAL ══ -->
   <section class="section" data-s="5" id="s5">
-    <div class="s-label">L'étape clé</div>
-    <h2 class="s-title">Le Questionnaire<br><em>V.A.L.E.U.R©</em></h2>
+    <div class="s-label">Votre priorité de travail</div>
+    <h2 class="s-title">Votre masque<br><em>à traiter en premier</em></h2>
     <p class="s-lead">
-      Maintenant que vous comprenez les 7 masques, il est temps de
-      <strong style="color:var(--text)">découvrir lesquels dominent votre profil</strong>.
+      Le questionnaire a cartographié vos défenses. Voici le masque qui structure le plus votre anxiété
+      — celui sur lequel tout le parcours V.A.L.E.U.R© va se concentrer.
     </p>
 
-    <div class="q-card">
-      <span class="q-icon">🎭</span>
-      <h3>Révélez vos masques dominants</h3>
-      <p>
-        Ce questionnaire unique cartographie avec précision la source de votre anxiété.
-        Il ne prend que 15 minutes et vous révèle une vérité que peu de personnes connaissent sur elles-mêmes.
-        C'est une vraie révélation.
-      </p>
-      <div class="q-code">
-        <span class="q-code-label">Code d'accès</span>
-        <span class="q-code-val">VALEUR2025</span>
-      </div>
-      <a href="https://questionnaire-valeur-psyh.netlify.app" target="_blank" rel="noopener" class="btn-cta">
-        Accéder au questionnaire →
-      </a>
-      <span class="btn-cta-sub">Résultats envoyés directement · Confidentiel</span>
+    <!-- CARTE MASQUE DOMINANT — remplie dynamiquement -->
+    <div id="mp-loading" class="glass" style="text-align:center;padding:32px;color:var(--muted);font-size:.88rem;">
+      Chargement de votre profil…
     </div>
 
-    <div class="glass" style="margin-top:16px;">
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Comment lire vos résultats</div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <div style="width:24px;height:24px;border-radius:6px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">1</div>
-          <p style="font-size:.85rem;color:var(--muted);line-height:1.6;font-weight:300;">Votre masque dominant (score le plus élevé) est votre stratégie de protection principale.</p>
+    <div id="mp-card" style="display:none;">
+      <!-- Rempli par renderMasqueCard() -->
+    </div>
+
+    <!-- JOURNAL GUIDÉ — questions spécifiques au masque -->
+    <div id="mp-journal" style="display:none;margin-top:24px;">
+      <div class="glass" style="padding:28px 24px;">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">✍️ Journal de bord — Entrée 1</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--text);margin-bottom:16px;line-height:1.4;">
+          Première prise de conscience
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <div style="width:24px;height:24px;border-radius:6px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">2</div>
-          <p style="font-size:.85rem;color:var(--muted);line-height:1.6;font-weight:300;">Plusieurs masques peuvent être actifs simultanément — c'est normal et courant.</p>
+        <div id="mp-questions" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+          <!-- Questions injectées par renderJournalGuide() -->
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <div style="width:24px;height:24px;border-radius:6px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">3</div>
-          <p style="font-size:.85rem;color:var(--muted);line-height:1.6;font-weight:300;">Ce n'est pas un diagnostic — c'est une carte de votre monde intérieur unique.</p>
+        <textarea id="mp-journal-ta"
+          style="width:100%;min-height:130px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;color:var(--text);font-family:'Jost',sans-serif;font-size:.9rem;font-weight:300;line-height:1.7;resize:vertical;outline:none;transition:border-color .3s;"
+          placeholder="Écrivez ici vos premières réflexions…"></textarea>
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+          <button onclick="saveJournalGuide()" class="j-btn j-save">Enregistrer dans mon journal ✓</button>
+          <button onclick="document.getElementById('mp-journal-ta').value=''" class="j-btn j-clear">Effacer</button>
+        </div>
+        <div id="mp-journal-saved" style="display:none;margin-top:12px;font-size:.8rem;color:#4aab7a;padding:10px 14px;background:rgba(74,171,122,.08);border-radius:8px;border:1px solid rgba(74,171,122,.2);">
+          ✓ Première entrée sauvegardée dans votre journal
         </div>
       </div>
     </div>
@@ -809,7 +806,7 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
         <div>
           <div style="font-size:1.6rem;margin-bottom:6px;">🗺️</div>
           <div style="font-size:.75rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Cartographié</div>
-          <div style="font-size:.82rem;color:var(--muted);font-weight:300;">Votre profil<br>avec le questionnaire</div>
+          <div style="font-size:.82rem;color:var(--muted);font-weight:300;">Votre masque<br>prioritaire identifié</div>
         </div>
       </div>
     </div>
@@ -831,6 +828,23 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
 <footer>
   <p>© Céline Bourbon — Méthode V.A.L.E.U.R© — Tous droits réservés · Reproduction interdite</p>
 </footer>
+
+<!-- MODAL ÉGALITÉ DE SCORES -->
+<div id="tie-overlay" style="display:none;position:fixed;inset:0;z-index:1200;background:rgba(7,13,26,.88);backdrop-filter:blur(14px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#0d1526;border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:36px 28px;max-width:480px;width:100%;animation:fadeUp .45s cubic-bezier(.34,1.1,.64,1) both;">
+    <div style="font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">✦ Égalité de scores</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:300;line-height:1.3;margin-bottom:10px;">
+      Plusieurs masques sont à <em style="color:var(--gold-light)">égalité</em> dans votre profil
+    </div>
+    <p style="font-size:.84rem;color:var(--muted);line-height:1.75;margin-bottom:24px;">
+      Lequel vous pèse le plus au quotidien&nbsp;? Choisissez instinctivement — votre première réaction est toujours la plus juste.
+    </p>
+    <div id="tie-choices" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <p style="font-size:.72rem;color:rgba(138,155,181,.4);margin-top:16px;text-align:center;">
+      Ce choix peut être modifié à tout moment depuis votre espace.
+    </p>
+  </div>
+</div>
 
 <!-- JOURNAL FAB -->
 <button id="journal-fab" onclick="toggleJournal()" aria-label="Journal">✍️</button>
