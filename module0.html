@@ -111,6 +111,36 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .key-insight{border-radius:18px;padding:26px;margin:20px 0;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);text-align:center;}
 .key-insight p{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--text);line-height:1.7;}
 .key-insight em{color:var(--gold);}
+/* Mirror phrases */
+.mirror-grid{display:flex;flex-direction:column;gap:10px;margin:24px 0;}
+.mirror-phrase{border-radius:12px;padding:16px 20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-left:3px solid rgba(201,168,76,.4);font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;color:var(--text);line-height:1.5;transition:all .3s;}
+.mirror-phrase:hover{background:rgba(201,168,76,.05);border-left-color:var(--gold);}
+.mirror-revelation{text-align:center;margin:32px 0;padding:28px;border-radius:20px;background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.25);}
+.mirror-revelation-text{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;color:var(--text);line-height:1.6;}
+.mirror-revelation-text em{color:var(--gold);font-style:italic;}
+/* Nature duality */
+.nature-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0;}
+@media(max-width:480px){.nature-grid{grid-template-columns:1fr;}}
+.nature-card{border-radius:18px;padding:24px;text-align:center;}
+.nc-nature{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.25);}
+.nc-masque{background:rgba(128,90,213,.06);border:1px solid rgba(128,90,213,.2);}
+.nc-icon{font-size:2.2rem;margin-bottom:12px;display:block;}
+.nc-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;margin-bottom:10px;}
+.nc-nature .nc-title{color:var(--gold);}
+.nc-masque .nc-title{color:#C084FC;}
+.nc-desc{font-size:.82rem;color:var(--muted);line-height:1.7;font-weight:300;}
+/* Vignettes */
+.vignette-grid{display:flex;flex-direction:column;gap:12px;margin:24px 0;}
+.vignette{border-radius:14px;padding:18px 20px;background:var(--glass);border:1px solid rgba(255,255,255,.07);display:flex;gap:14px;align-items:flex-start;}
+.vignette-dot{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.vignette-body{flex:1;}
+.vignette-situation{font-size:.9rem;color:var(--text);line-height:1.6;font-weight:300;margin-bottom:8px;}
+.vignette-reveal{font-size:.8rem;font-weight:600;letter-spacing:.3px;padding:6px 12px;border-radius:20px;display:inline-block;}
+/* Confusion block */
+.confusion-block{border-radius:20px;padding:28px;margin:24px 0;background:rgba(229,62,62,.04);border:1px solid rgba(229,62,62,.15);border-top:3px solid rgba(229,62,62,.4);}
+.confusion-line{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--muted);line-height:1.9;font-weight:300;padding-left:16px;border-left:2px solid rgba(229,62,62,.3);margin-bottom:8px;}
+.confusion-line s{opacity:.4;}
+.confusion-answer{margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06);font-size:.92rem;color:var(--text);line-height:1.8;font-weight:300;}
 /* Step cards */
 .two-steps{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0;}
 @media(max-width:560px){.two-steps{grid-template-columns:1fr;}}
@@ -203,9 +233,8 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
   <div class="dot" data-section="2" title="Vid&#233;o anxiet&#233;"></div>
   <div class="dot" data-section="3" title="Cerveau archa&#239;que"></div>
   <div class="dot" data-section="4" title="La r&#233;sistance"></div>
-  <div class="dot" data-section="5" title="Le Personnage"></div>
-  <div class="dot" data-section="6" title="Naissance du masque"></div>
-  <div class="dot" data-section="7" title="Les 7 masques"></div>
+  <div class="dot" data-section="5" title="Vraie nature &amp; masques"></div>
+  <div class="dot" data-section="7" title="Les 7 visages"></div>
   <div class="dot" data-section="8" title="Votre masque prioritaire"></div>
   <div class="dot" data-section="9" title="Terminer"></div>
 </nav>
@@ -235,7 +264,6 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
     <div class="accroche">&#171;&#160;Vous vous adaptez &#224; tout le monde &#8212; sauf &#224; vous-m&#234;me.&#160;&#187;</div>
     <div class="accroche">&#171;&#160;Vous savez exactement ce que vous devriez faire&#8230; mais quelque chose en vous r&#233;siste.&#160;&#187;</div>
     <div class="accroche">&#171;&#160;Vous avez l&#8217;impression de jouer un r&#244;le dans votre propre vie.&#160;&#187;</div>
-    <div class="accroche">&#171;&#160;Et si votre anxi&#233;t&#233; n&#8217;&#233;tait pas un probl&#232;me, mais une peur d&#233;guis&#233;e&#160;?&#160;&#187;</div>
   </div>
   <div class="glass glass-gold" style="margin-top:28px;">
     <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--text);line-height:1.7;">
@@ -252,7 +280,7 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
   <p class="s-lead">Avant de parler de masques, comprenez ce qui se passe biologiquement quand la peur s&#8217;active. Cette vid&#233;o pose les fondations de tout ce qui suit dans le parcours.</p>
   <div class="video-badge">&#9654;&#65039; Vid&#233;o &middot; L&#8217;anxi&#233;t&#233; expliqu&#233;e</div>
   <div class="video-wrap">
-    <iframe src="https://www.youtube.com/embed/HVVpa_-pLkE?rel=0&modestbranding=1" title="L'anxiet&#233; expliqu&#233;e" allowfullscreen loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/HVVpa_-pLkE?si=qtYQo_EYTnk2Su5i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
   </div>
   <div class="glass">
     <p style="font-size:.9rem;color:var(--muted);line-height:1.75;font-weight:300;">Ce que vous venez de voir n&#8217;est pas th&#233;orique. C&#8217;est ce que votre corps traverse, souvent plusieurs fois par jour &#8212; sans que vous en ayez conscience. <strong style="color:var(--text)">La suite de ce module vous explique pourquoi, et surtout comment en sortir.</strong></p>
@@ -274,7 +302,7 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
     <div class="brain-card" style="--bc1:#D69E2E;--bc2:#F6E05E;">
       <span class="brain-icon">&#127965;&#65039;</span>
       <div class="brain-title">L&#8217;autoroute neuronale &#8212; <span>La violence OU la r&#233;p&#233;tition</span></div>
-      <p class="brain-text">Chaque exp&#233;rience intense grave une trace dans votre syst&#232;me nerveux. La <strong style="color:var(--text)">violence d&#8217;une exp&#233;rience</strong> (trauma) ou sa <strong style="color:var(--text)">r&#233;p&#233;tition</strong> (messages r&#233;currents de l&#8217;enfance) cr&#233;ent des autoroutes neuronales&#160;: des r&#233;flexes automatiques qui s&#8217;activent seuls, en quelques millisecondes, d&#233;cennies plus tard. Plus l&#8217;exp&#233;rience fut pr&#233;coce et douloureuse, plus l&#8217;autoroute est large, rapide &#8212; et difficile &#224; contourner.</p>
+      <p class="brain-text">Chaque exp&#233;rience intense grave une trace dans votre syst&#232;me nerveux. La <strong style="color:var(--text)">violence d&#8217;une exp&#233;rience</strong> (trauma) ou sa <strong style="color:var(--text)">r&#233;p&#233;tition</strong> (messages r&#233;currents de l&#8217;enfance) cr&#233;ent des autoroutes neuronales&#160;: des r&#233;flexes automatiques qui s&#8217;activent seuls, en quelques millisecondes, des d&#233;cennies plus tard. Plus l&#8217;exp&#233;rience fut pr&#233;coce et douloureuse, plus l&#8217;autoroute est large, rapide &#8212; et difficile &#224; contourner.</p>
       <span class="brain-badge">Neuroplasticit&#233; &middot; M&#233;moire implicite &middot; Conditionnement</span>
     </div>
     <div class="brain-card" style="--bc1:#38A169;--bc2:#68D391;">
@@ -333,86 +361,161 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
   </div>
 </section>
 
-<!-- S5 LE PERSONNAGE -->
+<!-- S5 VRAIE NATURE vs MASQUES -->
 <section class="section" data-s="5" id="s5">
-  <div class="s-label">Votre double int&#233;rieur</div>
-  <h2 class="s-title">Le Personnage &#8212;<br><em>votre double automatique</em></h2>
-  <p class="s-lead">Il y a deux versions de vous. L&#8217;une que vous connaissez &#8212; et l&#8217;autre qui agit souvent &#224; votre place, sans vous demander la permission.</p>
-  <div class="double-visual">
-    <div class="double-card dc-vous">
-      <span class="dc-icon">&#129505;</span>
-      <div class="dc-name">Vous</div>
-      <p class="dc-desc">La conscience qui lit ces mots en ce moment. Curieuse, vivante, capable de changement. Votre nature profonde et authentique.</p>
-    </div>
-    <div class="double-card dc-perso">
-      <span class="dc-icon">&#127917;</span>
-      <div class="dc-name">Le Personnage</div>
-      <p class="dc-desc">La somme de toutes vos d&#233;fenses construites. Il agit &#224; votre place, automatiquement. Il a appris &#224; prot&#233;ger il y a longtemps &#8212; et il ne sait pas que le danger a chang&#233;.</p>
-    </div>
-  </div>
-  <div class="glass" style="margin-bottom:20px;">
-    <p style="font-size:.93rem;color:var(--muted);line-height:1.8;font-weight:300;">Le Personnage n&#8217;est pas votre ennemi. Il est la somme de toutes les strat&#233;gies que votre psych&#233; a construites pour faire face &#224; des exp&#233;riences trop intenses &#8212; ou r&#233;p&#233;t&#233;es &#8212; pour &#234;tre assimil&#233;es consciemment. Il est <strong style="color:var(--text)">inconscient, automatique, et sinc&#232;rement convaincu</strong> de vous prot&#233;ger.</p>
-    <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);">
-      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--text);line-height:1.6;">&#171;&#160;Sans &#233;clairage conscient, le Personnage pilote. Avec V.A.L.E.U.R&#169;, vous reprenez le volant.&#160;&#187;</p>
-      <div style="margin-top:8px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);opacity:.6;">C&#233;line Bourbon &middot; Psychologue</div>
-    </div>
-  </div>
-  <div class="story-card">
-    <div class="story-label">&#10024; Histoire &#8212; comment un masque na&#238;t</div>
-    <p class="story-text">
-      &#192; 6 ans, L&#233;a pleure apr&#232;s une blessure. On lui dit&#160;: <em>&#171;&#160;Arr&#234;te, c&#8217;est pas grave, t&#8217;es trop sensible.&#160;&#187;</em>
-      Elle apprend en quelques secondes&#160;: <em>ressentir = faiblesse = danger.</em><br><br>
-      Le Masque Orange est n&#233;. Trente ans plus tard, L&#233;a ne sait plus ce qu&#8217;elle ressent.
-      Elle fonctionne, elle performe, elle sourit &#8212; et elle ne comprend pas pourquoi elle se sent si vide.
-    </p>
-    <div class="story-conclusion">Ce n&#8217;est pas L&#233;a le probl&#232;me. C&#8217;est le m&#233;canisme inconscient construit le long de son histoire &#8212; et actif depuis, sans rel&#226;che.</div>
-  </div>
-  <div style="margin-top:36px;">
-    <div class="s-label" style="margin-bottom:8px;">Pour comprendre en profondeur</div>
-    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--text);margin-bottom:10px;line-height:1.3;">Comment les exp&#233;riences douloureuses<br><em style="color:var(--gold);">deviennent des parties autonomes en nous</em></h3>
-    <p style="font-size:.88rem;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:14px;">Cette vid&#233;o explique avec pr&#233;cision comment les traumas se fragmentent en parties qui agissent de fa&#231;on autonome &#8212; exactement ce que la m&#233;thode V.A.L.E.U.R&#169; appelle les masques.</p>
-    <div class="video-badge">&#9654;&#65039; Vid&#233;o &middot; Traumas et parties int&#233;rieures</div>
-    <div class="video-wrap">
-      <iframe src="https://www.youtube.com/embed/yg4KV4J-hUg?rel=0&modestbranding=1" title="Traumas et parties int&#233;rieures" allowfullscreen loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-    </div>
-  </div>
-  <div class="key-insight" style="margin-top:8px;">
-    <p>Ce que vous venez de voir, c&#8217;est <em>vous</em>.<br>Ces parties autonomes &#8212; la m&#233;thode V.A.L.E.U.R&#169; les appelle <em>les 7 masques</em>.</p>
-  </div>
-</section>
 
-<!-- S6 NAISSANCE DU MASQUE -->
-<section class="section" data-s="6" id="s6">
-  <div class="s-label">Le m&#233;canisme</div>
-  <h2 class="s-title">Comment na&#238;t<br><em>un masque</em></h2>
-  <p class="s-lead">Lorsqu&#8217;une exp&#233;rience d&#233;passe notre capacit&#233; d&#8217;int&#233;gration consciente, la psych&#233; forge un masque protecteur. Ce processus s&#8217;op&#232;re en deux temps.</p>
-  <div class="two-steps">
-    <div class="step-card step1">
-      <div class="step-num">01</div>
-      <h4>L&#8217;isolation de la blessure</h4>
-      <p>L&#8217;ego isole l&#8217;exp&#233;rience douloureuse pour qu&#8217;elle ne perturbe pas l&#8217;&#233;quilibre global. L&#8217;exp&#233;rience se fige dans une m&#233;moire &#233;motionnelle qui conserve toute sa charge &#8212; intacte, gel&#233;e dans le temps.</p>
-    </div>
-    <div class="step-card step2">
-      <div class="step-num">02</div>
-      <h4>La strat&#233;gie d&#233;fensive</h4>
-      <p>Simultan&#233;ment, le masque d&#233;veloppe une d&#233;fense sp&#233;cifique&#160;: &#233;vitement, contr&#244;le, perfection&#8230; Ce r&#233;flexe conditionn&#233; s&#8217;active automatiquement dans les situations similaires &#8212; m&#234;me des d&#233;cennies plus tard.</p>
+  <!-- Phrases-miroir -->
+  <div class="s-label">La premi&#232;re prise de conscience</div>
+  <h2 class="s-title">Vous l&#8217;avez d&#233;j&#224;<br><em>ressenti.</em></h2>
+  <p class="s-lead">Pas une question. Une affirmation. Lisez chaque phrase lentement &#8212; et remarquez ce qui se passe en vous.</p>
+
+  <div class="mirror-grid">
+    <div class="mirror-phrase">&#171;&#160;C&#8217;est plus fort que moi.&#160;&#187;</div>
+    <div class="mirror-phrase">&#171;&#160;Je ne me suis pas reconnu&#183;e dans cette r&#233;action &#8212; d&#8217;o&#249; &#231;a venait&#160;?&#160;&#187;</div>
+    <div class="mirror-phrase">&#171;&#160;J&#8217;avais d&#233;cid&#233; de ne plus faire &#231;a. Et je l&#8217;ai refait.&#160;&#187;</div>
+    <div class="mirror-phrase">&#171;&#160;J&#8217;ai encore dit oui &#8212; alors que tout en moi criait non.&#160;&#187;</div>
+    <div class="mirror-phrase">&#171;&#160;Je savais exactement ce que je voulais dire. Ma bouche a dit autre chose.&#160;&#187;</div>
+    <div class="mirror-phrase">&#171;&#160;Je m&#8217;en veux apr&#232;s. Sur le moment, je n&#8217;ai pas pu faire autrement.&#160;&#187;</div>
+  </div>
+
+  <div class="mirror-revelation">
+    <div class="mirror-revelation-text">
+      Ce n&#8217;&#233;tait pas un d&#233;faut de caract&#232;re.<br>
+      Ce n&#8217;&#233;tait pas un manque de volont&#233;.<br><br>
+      <em>C&#8217;&#233;tait votre masque &#8212;<br>et vous ne saviez pas encore qu&#8217;il existait.</em>
     </div>
   </div>
-  <div class="glass glass-gold" style="margin-top:16px;text-align:center;">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--gold);margin-bottom:12px;">1 + 1 = 3</div>
-    <p style="font-size:.9rem;color:var(--muted);line-height:1.7;font-weight:300;">Conscience authentique (1) + R&#233;sistance de l&#8217;ego (1) = Le masque (3)<br><em style="color:var(--text);">Un troisi&#232;me &#233;l&#233;ment &#233;merge &#8212; qui n&#8217;&#233;tait ni voulu, ni choisi.</em></p>
+
+  <!-- Révélation anxiété — condensée -->
+  <div class="glass" style="margin:28px 0;">
+    <div class="s-label" style="margin-bottom:10px;">Ce que personne ne vous a expliqu&#233;</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--text);line-height:1.7;margin-bottom:14px;">
+      L&#8217;anxi&#233;t&#233; n&#8217;est pas une peur sans objet.<br>
+      <em style="color:var(--gold);">L&#8217;objet existe &#8212; il est simplement enfoui.</em>
+    </p>
+    <p style="font-size:.9rem;color:var(--muted);line-height:1.8;font-weight:300;">
+      Cet objet, c&#8217;est une blessure ancienne que votre syst&#232;me nerveux n&#8217;a jamais pu digérer.
+      Et autour de cette blessure, votre cerveau a construit un <strong style="color:var(--text)">gardien automatique</strong> &#8212;
+      qui r&#233;pond &#224; votre place, sans vous demander la permission.
+      Ce gardien, c&#8217;est votre masque.
+    </p>
   </div>
+
+  <!-- Vraie nature vs Masques -->
+  <div class="s-label">Deux fa&#231;ons d&#8217;exister</div>
+  <h2 class="s-title" style="font-size:1.7rem;">Votre vraie nature.<br><em>Vos masques.</em></h2>
+
+  <div class="nature-grid">
+    <div class="nature-card nc-nature">
+      <span class="nc-icon">&#10024;</span>
+      <div class="nc-title">Votre vraie nature</div>
+      <p class="nc-desc">Celle qui lit ces mots en ce moment.<br>Curieuse. Vivante. Capable de changer.<br><br>Celle qui se demande parfois&#160;:<br><em style="color:var(--gold)">&#171;&#160;Mais qui suis-je vraiment&#160;?&#160;&#187;</em></p>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(201,168,76,.2);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);">Vit dans le moment pr&#233;sent</div>
+    </div>
+    <div class="nature-card nc-masque">
+      <span class="nc-icon">&#127917;</span>
+      <div class="nc-title">Vos masques</div>
+      <p class="nc-desc">Ce qui r&#233;pond &#224; votre place.<br>Ce qui a appris &#224; prot&#233;ger il y a longtemps.<br><br>Ce qui ne sait pas<br><em style="color:#C084FC;">que le danger n&#8217;existe plus.</em></p>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(128,90,213,.2);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C084FC;">Vivent dans le pass&#233;</div>
+    </div>
+  </div>
+
+  <!-- 3 vignettes -->
+  <div class="s-label" style="margin-top:32px;">Quand le masque prend les commandes</div>
+  <p class="s-lead">Reconnaissez-vous l&#8217;un de ces moments&#160;?</p>
+
+  <div class="vignette-grid">
+    <div class="vignette">
+      <div class="vignette-dot" style="background:rgba(237,137,54,.12);border:1px solid rgba(237,137,54,.3);">&#128992;</div>
+      <div class="vignette-body">
+        <div class="vignette-situation">On vous demande comment vous allez. Vous dites &#171;&#160;bien&#160;&#187; &#8212; m&#234;me quand rien ne va. M&#234;me quand vous &#234;tes seul&#183;e. <em style="color:#FBD38D;">Ce n&#8217;est pas du mensonge &#8212; c&#8217;est votre masque qui a appris que ressentir &#233;tait dangereux.</em></div>
+      </div>
+    </div>
+    <div class="vignette">
+      <div class="vignette-dot" style="background:rgba(56,161,105,.12);border:1px solid rgba(56,161,105,.3);">&#128994;</div>
+      <div class="vignette-body">
+        <div class="vignette-situation">Vous donnez, aidez, vous rendez indispensable &#8212; et au fond, vous attendez. Sans oser demander. <em style="color:#9AE6B4;">Ce n&#8217;est pas de la g&#233;n&#233;rosit&#233; &#8212; c&#8217;est votre masque qui ach&#232;te la s&#233;curit&#233; d&#8217;&#234;tre aim&#233;&#183;e.</em></div>
+      </div>
+    </div>
+    <div class="vignette">
+      <div class="vignette-dot" style="background:rgba(90,103,216,.12);border:1px solid rgba(90,103,216,.3);">&#128996;</div>
+      <div class="vignette-body">
+        <div class="vignette-situation">Vous r&#233;ussissez. Imm&#233;diatement&#160;: &#171;&#160;oui mais c&#8217;est pas encore assez.&#160;&#187; Vous n&#8217;avez jamais le droit de vous reposer. <em style="color:#C084FC;">Ce n&#8217;est pas de l&#8217;ambition &#8212; c&#8217;est votre masque qui croit que votre valeur se prouve.</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Histoire — humiliation en classe -->
+  <div class="story-card" style="margin-top:28px;">
+    <div class="story-label">&#128161; Comment un masque na&#238;t</div>
+    <p class="story-text">
+      Thomas a 9 ans. Il lève la main en classe.<br>
+      Il donne sa r&#233;ponse &#8212; et toute la classe rit.<br>
+      Le professeur ne dit rien.<br><br>
+      En quelques secondes, son cerveau enregistre une r&#232;gle de survie&#160;:<br>
+      <em>prendre de la place = danger. Se montrer = humiliation.</em><br><br>
+      Le Masque Indigo est n&#233;.<br><br>
+      Thomas a 38 ans aujourd&#8217;hui.<br>
+      Il ne prend plus jamais la parole en r&#233;union &#8212; m&#234;me quand il a raison.<br>
+      Il pr&#233;pare tout deux fois plus que les autres &#8212; pour ne jamais &#234;tre pris en d&#233;faut.<br>
+      Il pense que c&#8217;est de la rigueur.<br>
+      Il pense que c&#8217;est <em>lui</em>.
+    </p>
+    <div class="story-conclusion">
+      Ce n&#8217;est pas lui.<br>
+      C&#8217;est son masque &#8212; toujours au poste, trente ans apr&#232;s.<br>
+      Prot&#233;geant un enfant de 9 ans d&#8217;une humiliation qui n&#8217;existe plus.
+    </div>
+  </div>
+
+  <!-- Formule fusionnée depuis S6 -->
+  <div class="glass glass-gold" style="margin-top:24px;text-align:center;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--text);line-height:1.8;margin-bottom:14px;">
+      Vous<br>
+      <span style="color:var(--gold);font-size:1.2rem;">+</span><br>
+      Une douleur fig&#233;e dans le temps<br>
+      <span style="color:var(--gold);font-size:1.2rem;">=</span><br>
+      <span style="color:var(--gold);">Une version de vous construite pour survivre</span>
+    </div>
+    <p style="font-size:.88rem;color:var(--muted);line-height:1.8;font-weight:300;">
+      Pas pour vivre. Pour survivre.<br>
+      Le probl&#232;me&#160;: cette version ne sait pas que vous avez grandi.<br>
+      <strong style="color:var(--text)">Elle fait encore son travail &#8212; dans un monde qui a chang&#233;.</strong>
+    </p>
+  </div>
+
   <div class="glass" style="margin-top:14px;">
-    <p style="font-size:.9rem;font-style:italic;color:var(--muted);line-height:1.8;border-left:2px solid var(--gold);padding-left:16px;">&#171;&#160;Le masque devient &#224; la fois la prison et le gardien de la souffrance originelle. D&#8217;un c&#244;t&#233;, il contient et isole la part bless&#233;e. De l&#8217;autre, il surveille l&#8217;environnement pour d&#233;tecter toute situation qui pourrait la r&#233;veiller.&#160;&#187;</p>
-    <div style="margin-top:12px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);opacity:.6;">M&#233;thode V.A.L.E.U.R&#169; &middot; C&#233;line Bourbon, Psychologue</div>
+    <p style="font-size:.9rem;font-style:italic;color:var(--muted);line-height:1.8;border-left:2px solid var(--gold);padding-left:16px;">
+      &#171;&#160;Un masque n&#8217;est jamais une faute.<br>
+      C&#8217;est la preuve que vous avez trouv&#233; une fa&#231;on de traverser ce qui &#233;tait trop grand pour vous.<br>
+      La m&#233;thode V.A.L.E.U.R&#169; ne le combat pas &#8212; elle lui parle.&#160;&#187;
+    </p>
+    <div style="margin-top:12px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);opacity:.7;">M&#233;thode V.A.L.E.U.R&#169; &middot; C&#233;line Bourbon, Psychologue</div>
+  </div>
+
+  <!-- Vidéo -->
+  <div style="margin-top:32px;">
+    <div class="s-label" style="margin-bottom:8px;">Pour aller plus loin</div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--text);margin-bottom:10px;line-height:1.4;">Comment les exp&#233;riences douloureuses<br><em style="color:var(--gold);">deviennent des automatismes qui parlent &#224; notre place</em></h3>
+    <div class="video-badge">&#9654;&#65039; Vid&#233;o &middot; Blessures et automatismes</div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/yg4KV4J-hUg?rel=0&modestbranding=1" title="Blessures et automatismes" allowfullscreen loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    </div>
+  </div>
+
+  <div class="key-insight" style="margin-top:20px;">
+    <p>
+      Si ce n&#8217;est pas vous &#8212; qui &#234;tes-vous vraiment&#160;?<br><br>
+      <em>Ce parcours r&#233;pond &#224; cette question &#8212;<br>que personne ne vous a jamais pos&#233;e.</em>
+    </p>
   </div>
 </section>
 
 <!-- S7 LES 7 MASQUES -->
 <section class="section" data-s="7" id="s7">
-  <div class="s-label">Les 7 peurs universelles</div>
-  <h2 class="s-title">Les <em>7 Masques</em><br>du Personnage</h2>
-  <p class="masks-intro">Comme la lumi&#232;re se d&#233;compose en 7 couleurs, notre psych&#233; rec&#232;le 7 peurs primordiales. Chaque masque est forg&#233; dans le creuset d&#8217;une peur originelle &#8212; universelle, humaine, normale. Appuyez sur un masque pour en apprendre plus.</p>
+  <div class="s-label">Votre carte d&#8217;identit&#233; int&#233;rieure</div>
+  <h2 class="s-title">Les <em>7 visages</em><br>de votre anxi&#233;t&#233;</h2>
+  <p class="masks-intro">Chacun de ces masques cache une peur profonde et universelle. Appuyez sur celui qui vous parle &#8212; vous reconnaîtrez peut-être quelqu&#8217;un que vous connaissez bien.</p>
   <div class="masks-grid">
     <div class="mask-row" style="border-color:rgba(229,62,62,.25);" onclick="toggleMask(this)">
       <div class="mask-header"><div class="mask-dot" style="background:rgba(229,62,62,.12);border-color:rgba(229,62,62,.3);">&#128308;</div><div class="mask-info"><div class="mask-name" style="color:#FC8181;">Masque Rouge &#8212; La Vigilance</div><div class="mask-fear">Peur de la mort / de la maladie</div></div><div class="mask-toggle">+</div></div>
@@ -431,11 +534,11 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
       <div class="mask-body"><p><strong>Manifestation&#160;:</strong> Hypersensibilit&#233; relationnelle, besoin d&#8217;approbation, incapacit&#233; &#224; dire non, fusion affective, faux moi.</p><p style="margin-top:8px;">Vous vous adaptez &#224; tout le monde sauf &#224; vous-m&#234;me. Si je m&#8217;affirme, l&#8217;autre va me rejeter &#8212; cette peur dicte chaque interaction.</p><span class="mask-tag" style="border-color:rgba(56,161,105,.2);color:#9AE6B4;">Anxi&#233;t&#233; relationnelle</span></div>
     </div>
     <div class="mask-row" style="border-color:rgba(49,130,206,.25);" onclick="toggleMask(this)">
-      <div class="mask-header"><div class="mask-dot" style="background:rgba(49,130,206,.12);border-color:rgba(49,130,206,.3);">&#128995;</div><div class="mask-info"><div class="mask-name" style="color:#63B3ED;">Masque Bleu &#8212; L&#8217;Hypercontr&#244;le</div><div class="mask-fear">Peur de l&#8217;impuissance</div></div><div class="mask-toggle">+</div></div>
+      <div class="mask-header"><div class="mask-dot" style="background:rgba(49,130,206,.12);border-color:rgba(49,130,206,.3);">&#128309;</div><div class="mask-info"><div class="mask-name" style="color:#63B3ED;">Masque Bleu &#8212; L&#8217;Hypercontr&#244;le</div><div class="mask-fear">Peur de l&#8217;impuissance</div></div><div class="mask-toggle">+</div></div>
       <div class="mask-body"><p><strong>Manifestation&#160;:</strong> Hypercontr&#244;le relationnel, comportements autoritaires ou dominants, incapacit&#233; &#224; d&#233;l&#233;guer.</p><p style="margin-top:8px;">Vous reprenez tout en charge sans qu&#8217;on vous le demande. Laisser le contr&#244;le &#224; l&#8217;autre signifie &#234;tre vuln&#233;rable &#8212; et c&#8217;est insupportable.</p><span class="mask-tag" style="border-color:rgba(49,130,206,.2);color:#63B3ED;">Anxi&#233;t&#233; de pouvoir</span></div>
     </div>
     <div class="mask-row" style="border-color:rgba(90,103,216,.25);" onclick="toggleMask(this)">
-      <div class="mask-header"><div class="mask-dot" style="background:rgba(90,103,216,.12);border-color:rgba(90,103,216,.3);">&#128996;</div><div class="mask-info"><div class="mask-name" style="color:#A3BFFA;">Masque Indigo &#8212; La Perfection</div><div class="mask-fear">Peur de l&#8217;&#233;chec / de l&#8217;inad&#233;quation</div></div><div class="mask-toggle">+</div></div>
+      <div class="mask-header"><div class="mask-dot" style="background:rgba(90,103,216,.12);border-color:rgba(90,103,216,.3);">&#128995;</div><div class="mask-info"><div class="mask-name" style="color:#A3BFFA;">Masque Indigo &#8212; La Perfection</div><div class="mask-fear">Peur de l&#8217;&#233;chec / de l&#8217;inad&#233;quation</div></div><div class="mask-toggle">+</div></div>
       <div class="mask-body"><p><strong>Manifestation&#160;:</strong> Perfectionnisme excessif, procrastination paralysante, autocritique s&#233;v&#232;re, syndrome de l&#8217;imposteur.</p><p style="margin-top:8px;">Si je ne suis pas parfait&middot;e, je vais &#233;chouer &#8212; et si j&#8217;&#233;choue, je ne vaux rien. Cette &#233;quation silencieuse gouverne vos ambitions.</p><span class="mask-tag" style="border-color:rgba(90,103,216,.2);color:#A3BFFA;">Anxi&#233;t&#233; de performance</span></div>
     </div>
     <div class="mask-row" style="border-color:rgba(128,90,213,.25);" onclick="toggleMask(this)">
@@ -451,11 +554,52 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
   </div>
 </section>
 
+<!-- PROMESSE — entre S7 et S8 -->
+<section class="section" data-s="75" id="s75" style="padding-top:0;">
+  <div class="s-label">Ce qui vous attend</div>
+  <h2 class="s-title">Ce que vous allez<br><em>retrouver</em></h2>
+  <p class="s-lead">Pas des promesses vagues. Des changements concrets &#8212; v&#233;cus par celles et ceux qui ont travaill&#233; leurs masques.</p>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin:24px 0;">
+    <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);">
+      <span style="font-size:1.2rem;flex-shrink:0;">&#127981;</span>
+      <p style="font-size:.92rem;color:var(--text);line-height:1.6;font-weight:300;margin:0;">Pouvoir dire non &#8212; <em style="color:var(--gold);">sans vous effondrer de culpabilit&#233; apr&#232;s.</em></p>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);">
+      <span style="font-size:1.2rem;flex-shrink:0;">&#127981;</span>
+      <p style="font-size:.92rem;color:var(--text);line-height:1.6;font-weight:300;margin:0;">Comprendre d&#8217;o&#249; vient la tension dans votre corps &#8212; <em style="color:var(--gold);">avant qu&#8217;elle explose.</em></p>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);">
+      <span style="font-size:1.2rem;flex-shrink:0;">&#127981;</span>
+      <p style="font-size:.92rem;color:var(--text);line-height:1.6;font-weight:300;margin:0;">Arr&#234;ter de rejouer les m&#234;mes sc&#232;nes avec les m&#234;mes personnes &#8212; <em style="color:var(--gold);">sans comprendre pourquoi.</em></p>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);">
+      <span style="font-size:1.2rem;flex-shrink:0;">&#127981;</span>
+      <p style="font-size:.92rem;color:var(--text);line-height:1.6;font-weight:300;margin:0;">Ressentir sans &#234;tre submerg&#233;&#183;e &#8212; <em style="color:var(--gold);">ni coup&#233;&#183;e de vous-m&#234;me.</em></p>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);">
+      <span style="font-size:1.2rem;flex-shrink:0;">&#127981;</span>
+      <p style="font-size:.92rem;color:var(--text);line-height:1.6;font-weight:300;margin:0;">Choisir votre r&#233;action &#8212; <em style="color:var(--gold);">au lieu de la subir.</em></p>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);">
+      <span style="font-size:1.2rem;flex-shrink:0;">&#127981;</span>
+      <p style="font-size:.92rem;color:var(--text);line-height:1.6;font-weight:300;margin:0;">Vous reconna&#238;tre dans un miroir &#8212; <em style="color:var(--gold);">vous, pas le masque.</em></p>
+    </div>
+  </div>
+
+  <div class="glass glass-gold" style="text-align:center;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--text);line-height:1.7;">
+      Le point de d&#233;part, c&#8217;est votre masque dominant.<br>
+      <em style="color:var(--gold);">Il vous attend juste en dessous.</em>
+    </p>
+  </div>
+</section>
+
 <!-- S8 MASQUE PRIORITAIRE -->
 <section class="section" data-s="8" id="s8">
-  <div class="s-label">Votre priorit&#233; de travail</div>
-  <h2 class="s-title">Votre masque<br><em>&#224; traiter en premier</em></h2>
-  <p class="s-lead">Le questionnaire a cartographi&#233; vos d&#233;fenses. Voici le masque qui structure le plus votre anxi&#233;t&#233; &#8212; celui sur lequel tout le parcours V.A.L.E.U.R&#169; va se concentrer.</p>
+  <div class="s-label">Votre point de d&#233;part</div>
+  <h2 class="s-title">Le masque le plus actif<br><em>en ce moment</em></h2>
+  <p class="s-lead">Ce n&#8217;est pas un verdict &#8212; c&#8217;est une boussole. Ce masque est celui qui structure le plus votre anxi&#233;t&#233;, vos ruminations et vos automatismes <strong style="color:var(--text)">en ce moment</strong>. Rien n&#8217;est fig&#233;. Le parcours V.A.L.E.U.R&#169; est pr&#233;cis&#233;ment con&#231;u pour révéler ces m&#233;canismes invisibles &#8212; et vous rendre ce qui vous appartient&#160;: votre vraie nature, la joie et la s&#233;r&#233;nit&#233; d&#8217;&#234;tre enfin vous-m&#234;me.</p>
   <div id="mp-loading" class="glass" style="text-align:center;padding:32px;color:var(--muted);font-size:.88rem;">Chargement de votre profil&#8230;</div>
   <div id="mp-card" style="display:none;"></div>
   <div id="mp-journal" style="display:none;margin-top:24px;">
@@ -477,7 +621,7 @@ footer p{font-size:10px;letter-spacing:1.5px;color:rgba(138,155,181,.4);text-tra
 <section class="section" data-s="9" id="s9">
   <div class="s-label">Pr&#234;t&middot;e pour la suite</div>
   <h2 class="s-title"><em>F&#233;licitations</em> &#8212;<br>vous &#234;tes pr&#234;t&middot;e</h2>
-  <p class="s-lead">Vous venez de poser les fondations. Vous comprenez maintenant pourquoi votre anxi&#233;t&#233; existe, comment elle fonctionne, qui est le Personnage &#8212; et quels masques le composent.</p>
+  <p class="s-lead">Vous venez de poser les fondations. Vous comprenez maintenant d&#8217;o&#249; vient votre anxi&#233;t&#233;, comment elle fonctionne &#8212; et surtout&#160;: vous allez vous en lib&#233;rer.</p>
   <div class="glass glass-gold" style="margin-bottom:36px;">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center;">
       <div><div style="font-size:1.6rem;margin-bottom:6px;">&#129504;</div><div style="font-size:.75rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Compris</div><div style="font-size:.82rem;color:var(--muted);font-weight:300;">Le m&#233;canisme<br>de l&#8217;anxi&#233;t&#233;</div></div>
@@ -590,6 +734,14 @@ function toggleMask(el){
 }
 
 function getScores(){
+  // Priorité : profil Supabase (source de vérité)
+  if(SB_PROFILE&&SB_PROFILE.score_rouge!==undefined){
+    return{rouge:SB_PROFILE.score_rouge||0,orange:SB_PROFILE.score_orange||0,
+      jaune:SB_PROFILE.score_jaune||0,vert:SB_PROFILE.score_vert||0,
+      bleu:SB_PROFILE.score_bleu||0,indigo:SB_PROFILE.score_indigo||0,
+      violet:SB_PROFILE.score_violet||0};
+  }
+  // Fallback localStorage
   const keys=['rouge','orange','jaune','vert','bleu','indigo','violet'];
   const stored={};
   try{const raw=localStorage.getItem('valeur_questionnaire_scores');if(raw)Object.assign(stored,JSON.parse(raw));}catch(e){}
@@ -599,7 +751,8 @@ function getScores(){
 }
 
 function getMasqueDominant(scores){
-  const saved=localStorage.getItem('valeur_masque_dominant');
+  // Priorité : masque_dominant stocké dans Supabase
+  const saved=(SB_PROFILE&&SB_PROFILE.masque_dominant)||localStorage.getItem('valeur_masque_dominant');
   if(saved&&MD[saved])return{key:saved,tie:false};
   const keys=Object.keys(scores);
   const maxVal=Math.max(...keys.map(k=>scores[k]));
@@ -722,8 +875,24 @@ function animateConfetti(){
 }
 window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
 
-document.addEventListener('DOMContentLoaded',()=>{
-  renderProgress();onScroll();setTimeout(onScroll,100);setTimeout(renderMasqueCard,300);
+/* ── Supabase client ── */
+const SB=supabase.createClient(
+  'https://ecetwkusxzbqoztokgtk.supabase.co',
+  'sb_publishable_OAESsD6hq6D38azq6Pjxuw_28frwX6M'
+);
+let SB_PROFILE=null;
+
+document.addEventListener('DOMContentLoaded',async()=>{
+  renderProgress();onScroll();setTimeout(onScroll,100);
+  // Charge le profil Supabase puis affiche la carte masque
+  try{
+    const {data:{session}}=await SB.auth.getSession();
+    if(session){
+      const {data}=await SB.from('user_profiles').select('*').eq('id',session.user.id).single();
+      if(data)SB_PROFILE=data;
+    }
+  }catch(e){}
+  renderMasqueCard();
 });
 </script>
 </body>
