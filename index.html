@@ -18,303 +18,236 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  background:var(--navy);color:var(--text);
-  font-family:'Jost',sans-serif;font-weight:300;
-  min-height:100vh;overflow-x:hidden;
-  -webkit-user-select:none;-moz-user-select:none;user-select:none;
-}
+body{background:var(--navy);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;-webkit-user-select:none;-moz-user-select:none;user-select:none}
 
 /* ── LOADER ── */
-#loader{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .55s}
+#loader{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .6s}
 #loader.out{opacity:0;pointer-events:none}
-.ld-logo{font-family:'Cormorant Garamond',serif;font-size:1.9rem;letter-spacing:.3em;background:linear-gradient(135deg,var(--gold),var(--gold-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.ld-bar{width:180px;height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden}
-.ld-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:1px;animation:ldf 1.3s ease-out both}
+.ld-logo{font-family:'Cormorant Garamond',serif;font-size:2rem;letter-spacing:.3em;background:linear-gradient(135deg,var(--gold),var(--gold-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ld-bar{width:200px;height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden}
+.ld-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));animation:ldf 1.4s ease-out both}
 @keyframes ldf{from{width:0}to{width:100%}}
 
 /* ── AURORA ── */
 .aurora{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .orb{position:absolute;border-radius:50%;filter:blur(130px);animation:drift 22s ease-in-out infinite}
-.o1{width:650px;height:650px;background:var(--violet);top:-180px;left:-180px;opacity:.15;animation-delay:0s}
-.o2{width:550px;height:550px;background:var(--blue);bottom:-180px;right:-120px;opacity:.13;animation-delay:-8s}
-.o3{width:400px;height:400px;background:var(--gold);top:40%;left:50%;opacity:.07;animation-delay:-16s}
-.o-mask{width:700px;height:700px;top:-150px;right:-150px;opacity:.17;animation-delay:-4s;display:none}
-@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(55px,-45px) scale(1.07)}66%{transform:translate(-35px,58px) scale(.94)}}
+.o1{width:650px;height:650px;background:var(--violet);top:-200px;left:-180px;opacity:.14}
+.o2{width:550px;height:550px;background:var(--blue);bottom:-180px;right:-130px;opacity:.12;animation-delay:-8s}
+.o3{width:400px;height:400px;background:var(--gold);top:38%;left:48%;opacity:.07;animation-delay:-15s}
+.o-dyn{width:750px;height:750px;top:-200px;right:-180px;opacity:.16;display:none;animation-delay:-4s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(55px,-44px) scale(1.07)}66%{transform:translate(-36px,56px) scale(.94)}}
 
 /* ── HEADER ── */
-header{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  background:rgba(7,13,26,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-  border-bottom:1px solid var(--gb);
-  padding:13px 24px;display:flex;align-items:center;gap:14px;
-}
+header{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(7,13,26,.92);backdrop-filter:blur(22px);border-bottom:1px solid var(--gb);padding:13px 24px;display:flex;align-items:center;gap:14px}
 .h-logo{font-family:'Cormorant Garamond',serif;font-size:.95rem;letter-spacing:.22em;color:var(--gold);flex-shrink:0}
 .h-spacer{flex:1}
 .h-user{display:flex;align-items:center;gap:10px}
-.h-av{
-  width:34px;height:34px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--gold),var(--violet));
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:#080d1a;
-}
+.h-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--violet));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:#080d1a;flex-shrink:0}
+.h-info{}
 .h-name{font-size:.82rem;color:var(--text)}
-.h-prog{font-size:.68rem;color:var(--muted)}
-.h-prog-bar{width:90px;height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:3px;overflow:hidden}
-.h-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:2px;transition:width .8s ease}
-.btn-logout{background:transparent;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:5px 14px;color:var(--muted);font-family:'Jost',sans-serif;font-size:.73rem;cursor:pointer;transition:all .22s;flex-shrink:0}
+.h-steps{font-size:.67rem;color:var(--muted)}
+.h-pbar{width:80px;height:2px;background:rgba(255,255,255,.07);border-radius:1px;margin-top:3px;overflow:hidden}
+.h-pfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));transition:width .9s ease}
+.btn-logout{background:transparent;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:5px 14px;color:var(--muted);font-family:'Jost',sans-serif;font-size:.72rem;cursor:pointer;transition:all .22s;flex-shrink:0}
 .btn-logout:hover{border-color:rgba(229,62,62,.38);color:#FC8181}
-@media(max-width:500px){.h-name,.h-prog,.h-prog-bar{display:none}}
+@media(max-width:520px){.h-info,.h-pbar{display:none}}
 
 /* ── MAIN ── */
 main{padding-top:68px;position:relative;z-index:1}
 
-/* ══════════════════════════════════════════
-   VUE A : QUESTIONNAIRE (première connexion)
-   ══════════════════════════════════════════ */
-#v-quest{
-  display:none;min-height:calc(100vh - 68px);
-  padding:56px 20px 80px;
-  flex-direction:column;align-items:center;justify-content:center;
-}
-#v-quest.on{display:flex}
+/* ════════════════════════════════════════
+   VUE 1 · QUESTIONNAIRE
+════════════════════════════════════════ */
+#v1{display:none;min-height:calc(100vh - 68px);padding:60px 20px 80px;flex-direction:column;align-items:center;justify-content:center}
+#v1.on{display:flex}
 
-.q-hero{text-align:center;max-width:620px;margin:0 auto 52px}
-.q-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.28);
-  border-radius:30px;padding:8px 20px;margin-bottom:22px;
-  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
-}
-.q-title{
-  font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,3.8rem);
-  font-weight:300;line-height:1.15;margin-bottom:16px;
-}
-.q-title em{color:var(--gold-l);font-style:italic}
-.q-sub{font-size:.92rem;color:var(--muted);line-height:1.8;max-width:500px;margin:0 auto 22px}
-.q-sep{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto}
+.v1-hero{text-align:center;max-width:620px;margin:0 auto 48px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.28);border-radius:30px;padding:8px 20px;margin-bottom:22px;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.v1-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:300;line-height:1.15;margin-bottom:16px}
+.v1-title em{color:var(--gold-l);font-style:italic}
+.v1-sub{font-size:.92rem;color:var(--muted);line-height:1.8;max-width:500px;margin:0 auto 20px}
+.v1-sep{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto}
 
 /* CTA CARD */
-.q-cta{
-  max-width:600px;width:100%;margin:0 auto 40px;
-  background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(128,90,213,.05));
-  border:1px solid rgba(201,168,76,.25);border-radius:24px;padding:40px;
-  text-align:center;position:relative;overflow:hidden;
-}
-.q-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.09),transparent 65%);pointer-events:none}
-.q-cta-icon{font-size:3.4rem;display:block;margin-bottom:14px;animation:float 4.5s ease-in-out infinite}
+.q-card{max-width:600px;width:100%;margin:0 auto 40px;background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(128,90,213,.05));border:1px solid rgba(201,168,76,.24);border-radius:24px;padding:40px;text-align:center;position:relative;overflow:hidden}
+.q-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.09),transparent 65%);pointer-events:none}
+.q-icon{font-size:3.4rem;display:block;margin-bottom:14px;animation:float 4.5s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.q-cta-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--gold-l);margin-bottom:8px}
-.q-cta-desc{font-size:.87rem;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto 22px}
-
-/* CODE BOX */
-.q-code{
-  display:inline-flex;align-items:center;gap:12px;
-  background:rgba(0,0,0,.28);border:1px dashed rgba(201,168,76,.38);
-  border-radius:10px;padding:10px 22px;margin-bottom:24px;cursor:pointer;
-  transition:background .2s;
-}
-.q-code:hover{background:rgba(201,168,76,.05)}
-.q-code-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:2px}
-.q-code-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;letter-spacing:.22em;color:var(--gold-l)}
-.q-code-icon{font-size:.9rem;color:var(--muted)}
-
-/* BIG BUTTON */
-.btn-quest{
-  display:inline-flex;align-items:center;gap:12px;
-  background:linear-gradient(135deg,#c98a30,var(--gold),var(--gold-l));
-  border:none;border-radius:50px;padding:18px 44px;
-  color:#07100a;font-family:'Jost',sans-serif;font-size:.95rem;font-weight:600;letter-spacing:.07em;
-  cursor:pointer;box-shadow:0 8px 32px rgba(201,168,76,.38);transition:all .3s;text-decoration:none;
-}
-.btn-quest:hover{transform:translateY(-3px);box-shadow:0 14px 44px rgba(201,168,76,.55)}
-.q-meta{font-size:.75rem;color:rgba(138,155,181,.55);margin-top:12px}
+.q-card-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--gold-l);margin-bottom:8px}
+.q-card-desc{font-size:.86rem;color:var(--muted);line-height:1.75;max-width:420px;margin:0 auto 22px}
+.code-box{display:inline-flex;align-items:center;gap:12px;background:rgba(0,0,0,.28);border:1px dashed rgba(201,168,76,.36);border-radius:10px;padding:10px 22px;margin-bottom:24px;cursor:pointer;transition:background .2s}
+.code-box:hover{background:rgba(201,168,76,.05)}
+.code-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:2px}
+.code-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;letter-spacing:.22em;color:var(--gold-l)}
+.btn-big{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#c98a30,var(--gold),var(--gold-l));border:none;border-radius:50px;padding:18px 44px;color:#07100a;font-family:'Jost',sans-serif;font-size:.95rem;font-weight:600;letter-spacing:.07em;cursor:pointer;box-shadow:0 8px 32px rgba(201,168,76,.38);transition:all .3s;text-decoration:none}
+.btn-big:hover{transform:translateY(-3px);box-shadow:0 14px 44px rgba(201,168,76,.55)}
+.q-meta{font-size:.74rem;color:rgba(138,155,181,.5);margin-top:12px}
 
 /* 3 ÉTAPES */
-.q-steps{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
-  max-width:600px;width:100%;margin:0 auto;
-}
-@media(max-width:560px){.q-steps{grid-template-columns:1fr}}
-.q-step{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:20px;text-align:center}
-.q-step-n{font-family:'Cormorant Garamond',serif;font-size:2.1rem;color:rgba(201,168,76,.35);line-height:1;margin-bottom:7px}
-.q-step-t{font-size:.82rem;color:var(--text);margin-bottom:4px;font-weight:500}
-.q-step-d{font-size:.74rem;color:var(--muted);line-height:1.55}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:600px;width:100%;margin:0 auto}
+@media(max-width:560px){.steps3{grid-template-columns:1fr}}
+.step{background:var(--glass);border:1px solid var(--gb);border-radius:16px;padding:20px;text-align:center}
+.step-n{font-family:'Cormorant Garamond',serif;font-size:2rem;color:rgba(201,168,76,.32);line-height:1;margin-bottom:7px}
+.step-t{font-size:.82rem;color:var(--text);margin-bottom:4px;font-weight:500}
+.step-d{font-size:.73rem;color:var(--muted);line-height:1.55}
 
-/* MANUAL ENTRY LINK */
-.q-manual{text-align:center;margin-top:32px}
-.q-manual p{font-size:.76rem;color:rgba(138,155,181,.5);margin-bottom:10px}
-.q-manual-btn{
-  background:transparent;border:1px solid rgba(255,255,255,.09);border-radius:24px;
-  padding:9px 22px;color:var(--muted);font-family:'Jost',sans-serif;font-size:.81rem;cursor:pointer;transition:all .22s;
-}
-.q-manual-btn:hover{border-color:rgba(201,168,76,.38);color:var(--gold-l)}
+/* RÉSULTATS CTA */
+.results-cta{text-align:center;margin-top:32px}
+.results-cta p{font-size:.76rem;color:rgba(138,155,181,.5);margin-bottom:10px}
+.btn-ghost-sm{background:transparent;border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:10px 24px;color:var(--muted);font-family:'Jost',sans-serif;font-size:.82rem;cursor:pointer;transition:all .22s}
+.btn-ghost-sm:hover{border-color:rgba(201,168,76,.38);color:var(--gold-l)}
 
-/* ══════════════════════════════════════════
-   VUE B : DASHBOARD
-   ══════════════════════════════════════════ */
-#v-dash{display:none;padding:36px 20px 90px}
-#v-dash.on{display:block}
-.dash{max-width:880px;margin:0 auto}
+/* ════════════════════════════════════════
+   VUE 2 · CARTE PERSONNAGE (plein écran)
+════════════════════════════════════════ */
+#v2{display:none;min-height:calc(100vh - 68px);padding:48px 20px 80px;flex-direction:column;align-items:center;justify-content:center}
+#v2.on{display:flex}
 
-/* ── BIENVENUE ── */
-.welcome-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:28px;flex-wrap:wrap;gap:12px;
-}
-.welcome-txt{}
-.welcome-salut{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
-.welcome-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300}
-.welcome-sub{font-size:.8rem;color:var(--muted)}
-.prog-global{text-align:right}
-.prog-pct{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold)}
-.prog-lbl{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.carte{max-width:720px;width:100%;margin:0 auto}
+.carte-intro{text-align:center;margin-bottom:40px}
+.carte-intro .badge2{display:inline-flex;align-items:center;gap:8px;border-radius:30px;padding:8px 20px;margin-bottom:16px;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+.carte-intro h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:300;line-height:1.2;margin-bottom:10px}
+.carte-intro p{font-size:.88rem;color:var(--muted);line-height:1.7}
 
-/* ── MASQUE HERO CARD ── */
-.mc{
-  border-radius:24px;padding:36px;margin-bottom:28px;
-  position:relative;overflow:hidden;
-  animation:fadeUp .7s cubic-bezier(.34,1.1,.64,1) both;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
-.mc::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 50%,rgba(255,255,255,.055),transparent 55%);pointer-events:none}
+/* CARTE PRINCIPALE */
+.carte-main{border-radius:28px;padding:44px;position:relative;overflow:hidden;margin-bottom:24px;animation:fadeUp .7s cubic-bezier(.34,1.1,.64,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.carte-main::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(255,255,255,.06),transparent 60%);pointer-events:none}
 
-.mc-grid{display:grid;grid-template-columns:180px 1fr;gap:28px;margin-bottom:24px}
-@media(max-width:600px){.mc-grid{grid-template-columns:1fr}}
+/* TOP : emoji + nom */
+.carte-top{display:flex;align-items:center;gap:24px;margin-bottom:32px}
+@media(max-width:540px){.carte-top{flex-direction:column;text-align:center}}
+.carte-emoji-wrap{flex-shrink:0;text-align:center}
+.carte-emoji{font-size:5rem;display:block;animation:float 5s ease-in-out infinite}
+.carte-masque-badge{display:inline-block;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-top:8px;font-weight:500}
+.carte-nom-wrap{}
+.carte-label{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-bottom:4px}
+.carte-nom{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;line-height:1.1;margin-bottom:6px}
+.carte-peur{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;opacity:.75;line-height:1.5}
 
-.mc-left{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-.mc-emoji{font-size:4.5rem;animation:float 5s ease-in-out infinite;display:block}
-.mc-badge{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;font-weight:500;display:inline-block}
-.mc-scores-mini{display:flex;flex-direction:column;gap:5px;width:100%;max-width:140px}
-.mc-smrow{display:grid;grid-template-columns:20px 1fr 28px;align-items:center;gap:6px}
-.mc-smrow-emoji{font-size:.75rem;text-align:center}
-.mc-smtrack{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
-.mc-smfill{height:100%;border-radius:3px;transition:width 1.1s ease}
-.mc-smval{font-size:.62rem;color:var(--muted);text-align:right}
+/* 3 LIGNES */
+.carte-lignes{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.carte-ligne{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;background:rgba(0,0,0,.24);border-radius:14px;border:1px solid rgba(255,255,255,.06)}
+.cl-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.cl-body{}
+.cl-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;opacity:.55;margin-bottom:2px}
+.cl-val{font-size:.9rem;line-height:1.6}
 
-.mc-right{}
-.mc-lbl{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;opacity:.6;margin-bottom:3px}
-.mc-nom{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1.1;margin-bottom:18px}
-.mc-rows{display:flex;flex-direction:column;gap:10px}
-.mc-row{
-  display:flex;align-items:flex-start;gap:11px;
-  padding:11px 14px;background:rgba(0,0,0,.22);border-radius:12px;
-  border:1px solid rgba(255,255,255,.055);
-}
-.mc-row-icon{font-size:.9rem;flex-shrink:0;margin-top:1px}
-.mc-row-body{}
-.mc-row-rl{font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-bottom:1px}
-.mc-row-rv{font-size:.85rem;color:var(--text);line-height:1.5}
-.mc-divider{height:1px;background:rgba(255,255,255,.09);margin:18px 0}
-.mc-question{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;line-height:1.75;opacity:.88;text-align:center;padding:0 6px}
-.mc-edit{
-  position:absolute;top:18px;right:18px;
-  background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;padding:5px 12px;
-  font-family:'Jost',sans-serif;font-size:.7rem;color:var(--muted);
-  cursor:pointer;transition:all .22s;
-}
-.mc-edit:hover{border-color:rgba(201,168,76,.4);color:var(--gold-l)}
+/* SCORES MINI */
+.carte-scores{margin-bottom:28px}
+.cs-title{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.cs-bars{display:flex;flex-direction:column;gap:8px}
+.cs-row{display:grid;grid-template-columns:22px 1fr 34px;align-items:center;gap:10px}
+.cs-emoji{font-size:.85rem;text-align:center}
+.cs-track{height:7px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;position:relative}
+.cs-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.cs-val{font-size:.72rem;color:var(--muted);text-align:right}
+.cs-dominant .cs-fill{box-shadow:0 0 8px currentColor}
 
-/* ── MODULES ── */
+/* DIVIDER + QUESTION */
+.carte-div{height:1px;background:rgba(255,255,255,.1);margin:0 0 20px}
+.carte-question{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;line-height:1.8;text-align:center;padding:0 8px}
+
+/* CTA COMMENCER */
+.carte-cta{text-align:center}
+.btn-commencer{display:inline-flex;align-items:center;gap:14px;background:linear-gradient(135deg,#c98a30,var(--gold),var(--gold-l));border:none;border-radius:50px;padding:20px 52px;color:#07100a;font-family:'Jost',sans-serif;font-size:1rem;font-weight:600;letter-spacing:.07em;cursor:pointer;box-shadow:0 8px 36px rgba(201,168,76,.42);transition:all .3s}
+.btn-commencer:hover{transform:translateY(-3px);box-shadow:0 14px 48px rgba(201,168,76,.58)}
+.carte-cta-sub{font-size:.75rem;color:rgba(138,155,181,.5);margin-top:12px}
+
+/* ════════════════════════════════════════
+   VUE 3 · DASHBOARD PARCOURS
+════════════════════════════════════════ */
+#v3{display:none;padding:40px 20px 90px}
+#v3.on{display:block}
+.dash{max-width:900px;margin:0 auto}
+
+/* BIENVENUE */
+.welcome{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+.welcome-left{}
+.w-over{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.w-name{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:4px}
+.w-masque{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;font-size:.8rem;cursor:pointer;transition:opacity .2s;border:1px solid transparent}
+.w-masque:hover{opacity:.75}
+.welcome-right{text-align:right}
+.w-pct{font-family:'Cormorant Garamond',serif;font-size:3rem;line-height:1;color:var(--gold)}
+.w-pct-lbl{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.w-pct-bar{width:120px;height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin:8px 0 0 auto;overflow:hidden}
+.w-pct-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));transition:width .9s ease}
+
+/* MODULES GRID */
 .mods-head{margin-bottom:20px}
-.mods-lbl{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.mods-over{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
 .mods-title{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:300}
-.mods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-@media(max-width:540px){.mods-grid{grid-template-columns:1fr}}
+.mods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}
+@media(max-width:560px){.mods-grid{grid-template-columns:1fr}}
 
-/* MODULE CARD */
-.mod-card{
-  background:var(--glass);border:1px solid var(--gb);border-radius:18px;
-  padding:22px;position:relative;overflow:hidden;
-  transition:all .3s;text-decoration:none;display:block;
-}
-.mod-card:not(.mod-locked):hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,.3)}
-.mod-card.mod-locked{opacity:.42;cursor:default}
-.mod-top-line{position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0}
-.mod-top{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-.mod-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;opacity:.45;line-height:1}
+.mod{background:var(--glass);border:1px solid var(--gb);border-radius:18px;padding:22px;position:relative;overflow:hidden;text-decoration:none;display:block;transition:all .3s}
+.mod:not(.mod-lock):hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,.3)}
+.mod.mod-lock{opacity:.38;cursor:default}
+.mod-top-bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0}
+.mod-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.mod-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;opacity:.4;line-height:1}
 .mod-letter{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;flex-shrink:0}
-.mod-lbl{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.mod-over{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .mod-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;margin-bottom:5px}
 .mod-desc{font-size:.77rem;color:var(--muted);line-height:1.55;margin-bottom:14px}
 .mod-foot{display:flex;align-items:center;justify-content:space-between}
-.mod-status{font-size:.72rem;display:flex;align-items:center;gap:5px}
-.mod-lock-icon{position:absolute;top:16px;right:16px;font-size:.95rem;opacity:.38}
+.mod-status{font-size:.72rem}
+.mod-lock-ico{position:absolute;top:16px;right:16px;font-size:.9rem;opacity:.35}
 
-/* ── FAB ── */
-#fab{
-  position:fixed;bottom:26px;right:26px;z-index:600;
-  width:50px;height:50px;border-radius:50%;
-  background:linear-gradient(135deg,var(--gold),var(--gold-l));
-  border:none;cursor:pointer;font-size:1.1rem;
-  box-shadow:0 6px 24px rgba(201,168,76,.35);transition:all .3s;display:none;
-}
-#fab:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(201,168,76,.5)}
-
-/* ── TOAST ── */
-#toast{
-  position:fixed;bottom:30px;left:50%;
-  transform:translateX(-50%) translateY(18px);
-  background:rgba(11,19,35,.96);border:1px solid rgba(201,168,76,.32);
-  backdrop-filter:blur(20px);border-radius:30px;
-  padding:12px 24px;font-size:.84rem;color:var(--gold-l);
-  opacity:0;transition:all .38s;z-index:700;pointer-events:none;white-space:nowrap;
-}
-#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ── MODAL ── */
-.mo-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:800;display:none;align-items:center;justify-content:center;padding:20px}
+/* ── MODAL SCORES ── */
+.mo-bg{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(12px);z-index:800;display:none;align-items:center;justify-content:center;padding:20px}
 .mo-bg.on{display:flex}
-.mo{background:rgba(11,19,34,.98);border:1px solid var(--gb);border-radius:24px;padding:36px;max-width:480px;width:100%;animation:fadeUp .4s cubic-bezier(.34,1.2,.64,1) both;max-height:90vh;overflow-y:auto}
-.mo-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-bottom:6px}
-.mo-sub{font-size:.82rem;color:var(--muted);line-height:1.68;margin-bottom:22px}
-.mo-section{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-.picker{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
-.pick{padding:8px 15px;border-radius:22px;border:1.5px solid var(--gb);background:transparent;color:var(--muted);font-family:'Jost',sans-serif;font-size:.8rem;cursor:pointer;transition:all .22s;display:flex;align-items:center;gap:6px}
-.pick:hover{border-color:rgba(255,255,255,.18);color:var(--text)}
-.pick.sel{font-weight:500}
-.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
-.sg-field{}
-.sg-field label{display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.sg-field input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--gb);border-radius:9px;padding:9px 12px;color:var(--text);font-family:'Jost',sans-serif;font-size:.88rem;outline:none;transition:border .28s;-webkit-appearance:none}
-.sg-field input:focus{border-color:rgba(201,168,76,.4)}
+.mo{background:rgba(10,17,32,.98);border:1px solid var(--gb);border-radius:24px;padding:36px;max-width:500px;width:100%;animation:fadeUp .4s cubic-bezier(.34,1.2,.64,1) both;max-height:90vh;overflow-y:auto}
+.mo h2{font-family:'Cormorant Garamond',serif;font-size:1.7rem;margin-bottom:6px}
+.mo-sub{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:24px}
+.mo-sec{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.sc-field label{display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.sc-field input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--gb);border-radius:9px;padding:10px 12px;color:var(--text);font-family:'Jost',sans-serif;font-size:.9rem;outline:none;transition:border .25s;-webkit-appearance:none}
+.sc-field input:focus{border-color:rgba(201,168,76,.42)}
+.sc-hint{font-size:.73rem;color:rgba(138,155,181,.45);margin-bottom:22px;line-height:1.5}
+/* PREVIEW MASQUE CALCULÉ */
+.sc-preview{border-radius:14px;padding:14px 18px;margin-bottom:20px;display:none;align-items:center;gap:14px;border:1px solid}
+.sc-preview.show{display:flex}
+.sc-preview-emoji{font-size:1.8rem;flex-shrink:0}
+.sc-preview-body{}
+.sc-preview-lbl{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:2px}
+.sc-preview-nom{font-family:'Cormorant Garamond',serif;font-size:1.2rem}
 .mo-btns{display:flex;gap:10px;flex-wrap:wrap}
 .btn-p{background:linear-gradient(135deg,var(--gold),#B7881C);border:none;border-radius:50px;padding:13px 30px;color:#07100a;font-family:'Jost',sans-serif;font-size:.87rem;font-weight:600;cursor:pointer;transition:all .28s;box-shadow:0 5px 20px rgba(201,168,76,.28)}
 .btn-p:hover{transform:translateY(-2px);box-shadow:0 9px 28px rgba(201,168,76,.42)}
-.btn-p:disabled{opacity:.55;cursor:default;transform:none}
+.btn-p:disabled{opacity:.5;cursor:default;transform:none}
 .btn-g{background:transparent;border:1px solid var(--gb);border-radius:50px;padding:12px 22px;color:var(--muted);font-family:'Jost',sans-serif;font-size:.84rem;cursor:pointer;transition:all .22s}
 .btn-g:hover{border-color:rgba(255,255,255,.18);color:var(--text)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(18px);background:rgba(10,18,33,.96);border:1px solid rgba(201,168,76,.32);backdrop-filter:blur(20px);border-radius:30px;padding:12px 26px;font-size:.84rem;color:var(--gold-l);opacity:0;transition:all .38s;z-index:900;pointer-events:none;white-space:nowrap}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── FAB ── */
+#fab{position:fixed;bottom:26px;right:26px;z-index:600;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-l));border:none;cursor:pointer;font-size:1.1rem;box-shadow:0 6px 24px rgba(201,168,76,.35);transition:all .3s;display:none;align-items:center;justify-content:center}
+#fab:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(201,168,76,.5)}
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="ld-logo">V·A·L·E·U·R©</div>
-  <div class="ld-bar"><div class="ld-fill"></div></div>
-</div>
+<div id="loader"><div class="ld-logo">V·A·L·E·U·R©</div><div class="ld-bar"><div class="ld-fill"></div></div></div>
 
-<!-- AURORA -->
 <div class="aurora">
-  <div class="orb o1"></div>
-  <div class="orb o2"></div>
-  <div class="orb o3"></div>
-  <div class="orb o-mask" id="o-mask"></div>
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+  <div class="orb o-dyn" id="o-dyn"></div>
 </div>
 
-<!-- HEADER -->
 <header>
   <div class="h-logo">V.A.L.E.U.R©</div>
   <div class="h-spacer"></div>
   <div class="h-user">
     <div class="h-av" id="h-av">?</div>
-    <div>
+    <div class="h-info">
       <div class="h-name" id="h-name"></div>
-      <div class="h-prog">
-        <div id="h-prog-txt"></div>
-        <div class="h-prog-bar"><div class="h-prog-fill" id="h-prog-fill" style="width:0%"></div></div>
-      </div>
+      <div class="h-steps" id="h-steps"></div>
+      <div class="h-pbar"><div class="h-pfill" id="h-pfill" style="width:0%"></div></div>
     </div>
     <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
   </div>
@@ -322,234 +255,229 @@ main{padding-top:68px;position:relative;z-index:1}
 
 <main>
 
-  <!-- ══ VUE A : QUESTIONNAIRE ══ -->
-  <div id="v-quest">
-    <div class="q-hero">
-      <div class="q-badge">✦ Première étape · Indispensable</div>
-      <h1 class="q-title">Découvrez<br><em>votre masque dominant</em></h1>
-      <p class="q-sub">Avant d&rsquo;entrer dans le parcours V.A.L.E.U.R©, le questionnaire cartographie avec précision la source de votre anxiété parmi les 7 peurs universelles.</p>
-      <div class="q-sep"></div>
-    </div>
-
-    <div class="q-cta">
-      <span class="q-cta-icon">🎭</span>
-      <div class="q-cta-title">Le Questionnaire V.A.L.E.U.R©</div>
-      <div class="q-cta-desc">Fondé sur 7 échelles psychométriques validées (SHAI, TAS-20, IUS-12, ECR-R, LOC+NPI, FMPS, MSI), il révèle votre masque dominant avec une précision clinique — en langage accessible.</div>
-      <div class="q-code" onclick="copyCode()">
-        <div>
-          <span class="q-code-lbl">Code d&rsquo;accès</span>
-          <div class="q-code-val">VALEUR2025</div>
-        </div>
-        <span class="q-code-icon">📋</span>
-      </div>
-      <br>
-      <a class="btn-quest" href="https://celinebourbon-ux.github.io/Questionnaire-Valeur-V4/" target="_blank" rel="noopener">
-        Passer le questionnaire &nbsp;→
-      </a>
-      <div class="q-meta">⏱ ~15 minutes · Résultats par email · Gratuit</div>
-    </div>
-
-    <div class="q-steps">
-      <div class="q-step">
-        <div class="q-step-n">01</div>
-        <div class="q-step-t">Passez le questionnaire</div>
-        <div class="q-step-d">Répondez honnêtement. Il cartographie votre profil psycho-émotionnel avec précision.</div>
-      </div>
-      <div class="q-step">
-        <div class="q-step-n">02</div>
-        <div class="q-step-t">Recevez vos résultats</div>
-        <div class="q-step-d">Un email détaille votre masque dominant et vos scores sur les 7 peurs universelles.</div>
-      </div>
-      <div class="q-step">
-        <div class="q-step-n">03</div>
-        <div class="q-step-t">Entamez le parcours</div>
-        <div class="q-step-d">Votre espace se personnalise. Le parcours V.A.L.E.U.R© commence ici, adapté à vous.</div>
-      </div>
-    </div>
-
-    <div class="q-manual">
-      <p>Vous avez déjà passé le questionnaire et reçu vos résultats ?</p>
-      <button class="q-manual-btn" onclick="openModal()">Saisir mes résultats manuellement →</button>
-    </div>
+<!-- ══════════════════════════════════
+     VUE 1 · QUESTIONNAIRE
+══════════════════════════════════ -->
+<div id="v1">
+  <div class="v1-hero">
+    <div class="badge">✦ Première étape · Indispensable</div>
+    <h1 class="v1-title">Découvrez<br><em>votre masque dominant</em></h1>
+    <p class="v1-sub">Avant d&rsquo;entrer dans le parcours V.A.L.E.U.R©, le questionnaire cartographie avec précision la source de votre anxiété parmi les 7 peurs universelles.</p>
+    <div class="v1-sep"></div>
   </div>
 
-  <!-- ══ VUE B : DASHBOARD ══ -->
-  <div id="v-dash">
-    <div class="dash">
+  <div class="q-card">
+    <span class="q-icon">🎭</span>
+    <div class="q-card-title">Le Questionnaire V.A.L.E.U.R©</div>
+    <div class="q-card-desc">Fondé sur 7 échelles psychométriques validées — SHAI, TAS-20, IUS-12, ECR-R, LOC+NPI, FMPS, MSI — il révèle votre masque dominant avec précision clinique en langage accessible.</div>
+    <div class="code-box" onclick="copyCode()">
+      <div>
+        <span class="code-lbl">Code d&rsquo;accès</span>
+        <div class="code-val">VALEUR2025</div>
+      </div>
+      <span style="color:var(--muted);font-size:.9rem">📋</span>
+    </div><br>
+    <a class="btn-big" href="https://celinebourbon-ux.github.io/Questionnaire-Valeur-V4/" target="_blank" rel="noopener">Passer le questionnaire &nbsp;→</a>
+    <div class="q-meta">⏱ ~15 min · Résultats par email · Gratuit</div>
+  </div>
 
-      <!-- BIENVENUE -->
-      <div class="welcome-bar">
-        <div class="welcome-txt">
-          <div class="welcome-salut">✦ Votre espace</div>
-          <div class="welcome-name" id="w-name">Bonjour</div>
-          <div class="welcome-sub" id="w-sub"></div>
+  <div class="steps3">
+    <div class="step"><div class="step-n">01</div><div class="step-t">Passez le questionnaire</div><div class="step-d">Répondez honnêtement. Il cartographie votre profil psycho-émotionnel avec précision.</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-t">Recevez vos résultats</div><div class="step-d">Un email détaille vos scores sur les 7 masques. Notez-les — vous en aurez besoin ici.</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-t">Saisissez vos scores</div><div class="step-d">Entrez les 7 scores reçus par email. Votre masque dominant est calculé automatiquement.</div></div>
+  </div>
+
+  <div class="results-cta">
+    <p>Vous avez déjà reçu vos résultats par email ?</p>
+    <button class="btn-ghost-sm" onclick="openModal()">Saisir mes scores maintenant →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     VUE 2 · CARTE PERSONNAGE
+══════════════════════════════════ -->
+<div id="v2">
+  <div class="carte">
+    <div class="carte-intro">
+      <div class="badge2" id="c-badge2">✦ Votre masque révélé</div>
+      <h1 id="c-title">Votre cartographie<br>psycho-émotionnelle</h1>
+      <p id="c-intro-sub">Voici ce qui se cache derrière votre anxiété — et la clé de votre transformation.</p>
+    </div>
+
+    <div class="carte-main" id="carte-main">
+      <div class="carte-top">
+        <div class="carte-emoji-wrap">
+          <span class="carte-emoji" id="c-emoji">🎭</span>
+          <span class="carte-masque-badge" id="c-mbadge"></span>
         </div>
-        <div class="prog-global">
-          <div class="prog-pct" id="prog-pct">0%</div>
-          <div class="prog-lbl">du parcours</div>
+        <div class="carte-nom-wrap">
+          <div class="carte-label">Votre masque dominant</div>
+          <div class="carte-nom" id="c-nom">—</div>
+          <div class="carte-peur" id="c-peur"></div>
         </div>
       </div>
 
-      <!-- MASQUE CARD -->
-      <div class="mc" id="masque-card">
-        <button class="mc-edit" onclick="openModal()">✏ Modifier</button>
-        <div class="mc-grid">
-          <div class="mc-left">
-            <span class="mc-emoji" id="mc-emoji">🎭</span>
-            <span class="mc-badge" id="mc-badge"></span>
-            <div class="mc-scores-mini" id="mc-scores-mini"></div>
-          </div>
-          <div class="mc-right">
-            <div class="mc-lbl">Votre masque dominant</div>
-            <div class="mc-nom" id="mc-nom">—</div>
-            <div class="mc-rows" id="mc-rows"></div>
-          </div>
-        </div>
-        <div class="mc-divider"></div>
-        <div class="mc-question" id="mc-question"></div>
+      <div class="carte-lignes" id="c-lignes"></div>
+
+      <div class="carte-scores">
+        <div class="cs-title">Cartographie des 7 masques</div>
+        <div class="cs-bars" id="c-scores-bars"></div>
       </div>
 
-      <!-- MODULES -->
-      <div class="mods-head">
-        <div class="mods-lbl">Votre parcours</div>
-        <div class="mods-title">Les 7 étapes V.A.L.E.U.R©</div>
-      </div>
-      <div class="mods-grid" id="mods-grid"></div>
+      <div class="carte-div"></div>
+      <div class="carte-question" id="c-question"></div>
+    </div>
 
+    <div class="carte-cta">
+      <button class="btn-commencer" onclick="goToDash()">
+        Commencer mon parcours &nbsp;→
+      </button>
+      <div class="carte-cta-sub">Le parcours V.A.L.E.U.R© en 7 étapes vous attend</div>
     </div>
   </div>
+</div>
+
+<!-- ══════════════════════════════════
+     VUE 3 · DASHBOARD PARCOURS
+══════════════════════════════════ -->
+<div id="v3">
+  <div class="dash">
+    <div class="welcome">
+      <div class="welcome-left">
+        <div class="w-over">✦ Mon espace V.A.L.E.U.R©</div>
+        <div class="w-name" id="w-name">Bonjour</div>
+        <div class="w-masque" id="w-masque" onclick="showView(2)"></div>
+      </div>
+      <div class="welcome-right">
+        <div class="w-pct" id="w-pct">0%</div>
+        <div class="w-pct-lbl">du parcours</div>
+        <div class="w-pct-bar"><div class="w-pct-fill" id="w-pct-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="mods-head">
+      <div class="mods-over">Votre parcours</div>
+      <div class="mods-title">Les 7 étapes V.A.L.E.U.R©</div>
+    </div>
+    <div class="mods-grid" id="mods-grid"></div>
+  </div>
+</div>
 
 </main>
 
-<button id="fab" onclick="openModal()" title="Mettre à jour mes résultats">✏</button>
+<button id="fab" onclick="openModal()" title="Mettre à jour mes scores">✏</button>
 <div id="toast"></div>
 
-<!-- MODAL : SAISIE RÉSULTATS -->
+<!-- MODAL SAISIE SCORES -->
 <div class="mo-bg" id="modal">
   <div class="mo">
-    <div class="mo-title" id="modal-title">Mes résultats de masque</div>
-    <div class="mo-sub">Renseignez votre masque dominant (score le plus élevé dans les résultats reçus par email) et, si vous le souhaitez, vos scores pour les 7 masques.</div>
+    <h2>Mes résultats du questionnaire</h2>
+    <div class="mo-sub">Entrez les scores reçus par email pour chacun des 7 masques. Votre masque dominant est calculé automatiquement — c&rsquo;est le score le plus élevé.</div>
 
-    <div class="mo-section">Masque dominant *</div>
-    <div class="picker" id="picker"></div>
+    <div class="mo-sec">Scores des 7 masques *</div>
+    <div class="sc-grid" id="sc-grid"></div>
+    <div class="sc-hint">💡 Les chiffres se trouvent dans l&rsquo;email de résultats reçu après le questionnaire.</div>
 
-    <div class="mo-section">Scores des 7 masques <span style="font-size:.65rem;text-transform:none;letter-spacing:0;color:rgba(138,155,181,.5)">(optionnel — chiffres de l'email)</span></div>
-    <div class="score-grid" id="score-grid"></div>
+    <div class="sc-preview" id="sc-preview">
+      <span class="sc-preview-emoji" id="sp-emoji"></span>
+      <div class="sc-preview-body">
+        <div class="sc-preview-lbl">Masque dominant calculé</div>
+        <div class="sc-preview-nom" id="sp-nom"></div>
+      </div>
+    </div>
 
     <div class="mo-btns">
-      <button class="btn-p" id="btn-save" onclick="saveResults()">Enregistrer</button>
+      <button class="btn-p" id="btn-save" onclick="saveScores()">Enregistrer et découvrir →</button>
       <button class="btn-g" onclick="closeModal()">Annuler</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    SUPABASE
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 const SB = supabase.createClient(
   'https://ecetwkusxzbqoztokgtk.supabase.co',
   'sb_publishable_OAESsD6hq6D38azq6Pjxuw_28frwX6M'
 );
 
-/* ═══════════════════════════════════════════════════
-   DATA : MASQUES + MODULES
-═══════════════════════════════════════════════════ */
-const MASQUES = {
-  rouge:{
-    emoji:'🔴', nom:'Le Masque Rouge', couleur:'#E53E3E',
-    bg:'rgba(229,62,62,.09)', border:'rgba(229,62,62,.26)',
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const MK = ['rouge','orange','jaune','vert','bleu','indigo','violet'];
+const ML = {rouge:'Rouge',orange:'Orange',jaune:'Jaune',vert:'Vert',bleu:'Bleu',indigo:'Indigo',violet:'Violet'};
+
+const MD = {
+  rouge:{emoji:'🔴',nom:'Le Masque Rouge',couleur:'#E53E3E',bg:'rgba(229,62,62,.09)',border:'rgba(229,62,62,.26)',
     peur:'La peur de la mort et de la maladie',
     fait:'Surveiller son corps en permanence, vérifier les symptômes, éviter tout risque physique',
     aspire:'La sécurité corporelle profonde et la confiance inconditionnelle en la vie',
-    question:'Et si votre corps savait se réguler, même sans votre surveillance constante\u00A0?'
-  },
-  orange:{
-    emoji:'🟠', nom:'Le Masque Orange', couleur:'#ED8936',
-    bg:'rgba(237,137,54,.08)', border:'rgba(237,137,54,.26)',
+    question:'Et si votre corps savait se réguler, même sans votre surveillance constante\u00A0?'},
+  orange:{emoji:'🟠',nom:'Le Masque Orange',couleur:'#ED8936',bg:'rgba(237,137,54,.08)',border:'rgba(237,137,54,.26)',
     peur:'La peur de la souffrance psychique',
     fait:'Minimiser ses émotions, s\u2019anesthésier, intellectualiser, éviter tout conflit',
-    aspire:'La paix émotionnelle et la capacité de ressentir sans être submergé·e',
-    question:'Et si vos émotions n\u2019étaient pas des ennemies, mais des messagères qui attendent d\u2019être entendues\u00A0?'
-  },
-  jaune:{
-    emoji:'🟡', nom:'Le Masque Jaune', couleur:'#D69E2E',
-    bg:'rgba(214,158,46,.08)', border:'rgba(214,158,46,.26)',
+    aspire:'La paix émotionnelle et la capacité de ressentir pleinement sans être submergé·e',
+    question:'Et si vos émotions n\u2019étaient pas des ennemies, mais des messagères qui attendent d\u2019être entendues\u00A0?'},
+  jaune:{emoji:'🟡',nom:'Le Masque Jaune',couleur:'#D69E2E',bg:'rgba(214,158,46,.08)',border:'rgba(214,158,46,.26)',
     peur:'La peur de l\u2019inconnu et de l\u2019incertitude',
     fait:'Tout lister, anticiper, ruminer les \u00AB et si \u00BB, exiger des certitudes avant d\u2019agir',
     aspire:'La confiance dans le flux de la vie et la liberté de naviguer dans l\u2019incertitude',
-    question:'Et si l\u2019imprévu portait en lui des opportunités que vous n\u2019auriez jamais pu planifier\u00A0?'
-  },
-  vert:{
-    emoji:'🟢', nom:'Le Masque Vert', couleur:'#38A169',
-    bg:'rgba(56,161,105,.08)', border:'rgba(56,161,105,.26)',
+    question:'Et si l\u2019imprévu portait en lui des opportunités que vous n\u2019auriez jamais pu planifier\u00A0?'},
+  vert:{emoji:'🟢',nom:'Le Masque Vert',couleur:'#38A169',bg:'rgba(56,161,105,.08)',border:'rgba(56,161,105,.26)',
     peur:'La peur du rejet et de l\u2019abandon',
     fait:'Se rendre indispensable, nier ses propres besoins, sur-donner pour ne pas être quitté·e',
     aspire:'Des liens authentiques fondés sur votre vraie valeur, inconditionnelle',
-    question:'Et si vous étiez aimé·e pour qui vous êtes réellement, non pour ce que vous faites pour les autres\u00A0?'
-  },
-  bleu:{
-    emoji:'🔵', nom:'Le Masque Bleu', couleur:'#3182CE',
-    bg:'rgba(49,130,206,.08)', border:'rgba(49,130,206,.26)',
+    question:'Et si vous étiez aimé·e pour qui vous êtes réellement, non pour ce que vous faites\u00A0?'},
+  bleu:{emoji:'🔵',nom:'Le Masque Bleu',couleur:'#3182CE',bg:'rgba(49,130,206,.08)',border:'rgba(49,130,206,.26)',
     peur:'La peur de l\u2019impuissance',
     fait:'Diriger, décider à la place des autres, contrôler les situations et les personnes',
     aspire:'La confiance en votre force intérieure, indépendante de votre capacité de contrôle',
-    question:'Et si lâcher le contrôle était la preuve de votre force, et non le signe de votre faiblesse\u00A0?'
-  },
-  indigo:{
-    emoji:'🔷', nom:'Le Masque Indigo', couleur:'#5A67D8',
-    bg:'rgba(90,103,216,.08)', border:'rgba(90,103,216,.26)',
+    question:'Et si lâcher le contrôle était la preuve de votre force, et non le signe de votre faiblesse\u00A0?'},
+  indigo:{emoji:'🔷',nom:'Le Masque Indigo',couleur:'#5A67D8',bg:'rgba(90,103,216,.08)',border:'rgba(90,103,216,.26)',
     peur:'La peur de l\u2019échec et de l\u2019inadéquation',
     fait:'Sur-préparer, procrastiner, comparer, se critiquer sans relâche, ne jamais se sentir \u00AB assez \u00BB',
-    aspire:'La liberté d\u2019être imparfait·e et suffisant·e tel·le que vous êtes, sans performance à prouver',
-    question:'Et si votre valeur ne dépendait d\u2019aucune performance, d\u2019aucun résultat, d\u2019aucun regard extérieur\u00A0?'
-  },
-  violet:{
-    emoji:'💜', nom:'Le Masque Violet', couleur:'#805AD5',
-    bg:'rgba(128,90,213,.08)', border:'rgba(128,90,213,.26)',
+    aspire:'La liberté d\u2019être imparfait·e et suffisant·e, sans performance à prouver',
+    question:'Et si votre valeur ne dépendait d\u2019aucune performance, d\u2019aucun résultat, d\u2019aucun regard\u00A0?'},
+  violet:{emoji:'💜',nom:'Le Masque Violet',couleur:'#805AD5',bg:'rgba(128,90,213,.08)',border:'rgba(128,90,213,.26)',
     peur:'La peur de la perte d\u2019identité',
     fait:'Se conformer au groupe, perdre ses propres contours, ne pas savoir qui l\u2019on est vraiment',
     aspire:'L\u2019ancrage dans une identité profonde, stable et singulière, à nulle autre pareille',
-    question:'Et si votre singularité, au lieu de vous isoler, était précisément ce qui vous connecte vraiment aux autres\u00A0?'
-  }
+    question:'Et si votre singularité, au lieu de vous isoler, était précisément ce qui vous connecte aux autres\u00A0?'}
 };
-const MASQUE_KEYS = ['rouge','orange','jaune','vert','bleu','indigo','violet'];
-const MASQUE_LABELS = {rouge:'Rouge',orange:'Orange',jaune:'Jaune',vert:'Vert',bleu:'Bleu',indigo:'Indigo',violet:'Violet'};
 
 const MODULES = [
-  {id:0, lettre:'', nom:'Comprendre', sous:'Module 0', couleur:'#C9A84C',
+  {id:0,lettre:'',nom:'Comprendre',sous:'Module 0',couleur:'#C9A84C',
    desc:'Psychoéducation : l\u2019anxiété, les 7 peurs universelles, naissance des masques de défense.',
-   file:'module0.html', reqKey:null},
-  {id:1, lettre:'V', nom:'Voir', sous:'Module 1', couleur:'#E53E3E',
+   file:'module0.html',req:null},
+  {id:1,lettre:'V',nom:'Voir',sous:'Module 1',couleur:'#E53E3E',
    desc:'Identifier le déclencheur avec précision — sans être pris·e par surprise.',
-   file:'module1.html', reqKey:'module0_complete'},
-  {id:2, lettre:'A', nom:'Accueillir', sous:'Module 2', couleur:'#ED8936',
+   file:'module1.html',req:'module0_complete'},
+  {id:2,lettre:'A',nom:'Accueillir',sous:'Module 2',couleur:'#ED8936',
    desc:'Réguler le système nerveux. Ni éviter, ni être submergé·e. La voie du milieu.',
-   file:'module2.html', reqKey:'module1_complete'},
-  {id:3, lettre:'L', nom:'Localiser', sous:'Module 3', couleur:'#D69E2E',
+   file:'module2.html',req:'module1_complete'},
+  {id:3,lettre:'L',nom:'Localiser',sous:'Module 3',couleur:'#D69E2E',
    desc:'Trouver où le masque vit dans le corps. Le corps ne ment jamais.',
-   file:'module3.html', reqKey:'module2_complete'},
-  {id:4, lettre:'E', nom:'Explorer', sous:'Module 4', couleur:'#38A169',
+   file:'module3.html',req:'module2_complete'},
+  {id:4,lettre:'E',nom:'Explorer',sous:'Module 4',couleur:'#38A169',
    desc:'Comprendre le conflit masque-valeur. Découvrir ce qui compte vraiment.',
-   file:'module4.html', reqKey:'module3_complete'},
-  {id:5, lettre:'U', nom:'Unifier', sous:'Module 5', couleur:'#3182CE',
+   file:'module4.html',req:'module3_complete'},
+  {id:5,lettre:'U',nom:'Unifier',sous:'Module 5',couleur:'#3182CE',
    desc:'Créer une alliance entre sécurité et authenticité. L\u2019union fait la force.',
-   file:'module5.html', reqKey:'module4_complete'},
-  {id:6, lettre:'R', nom:'Renforcer', sous:'Module 6', couleur:'#805AD5',
+   file:'module5.html',req:'module4_complete'},
+  {id:6,lettre:'R',nom:'Renforcer',sous:'Module 6',couleur:'#805AD5',
    desc:'Ancrer le changement par la répétition intentionnelle. 90 jours vers la liberté.',
-   file:'module6.html', reqKey:'module5_complete'}
+   file:'module6.html',req:'module5_complete'}
 ];
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    STATE
-═══════════════════════════════════════════════════ */
-let USER = null;
-let PROFILE = null;
-let SELECTED_MASQUE = null;
+═══════════════════════════════════════════ */
+let USER = null, PROFILE = null;
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    INIT
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
   const { data:{ session } } = await SB.auth.getSession();
   if (!session) { window.location.href = 'login.html'; return; }
@@ -562,7 +490,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadProfile() {
   const { data, error } = await SB.from('user_profiles').select('*').eq('id', USER.id).single();
   if (error || !data) {
-    // Crée le profil s'il n'existe pas encore
     const prenom = USER.user_metadata?.prenom || '';
     await SB.from('user_profiles').upsert({ id:USER.id, email:USER.email, prenom }, { onConflict:'id' });
     PROFILE = { id:USER.id, email:USER.email, prenom, questionnaire_done:false };
@@ -570,266 +497,267 @@ async function loadProfile() {
     PROFILE = data;
   }
   renderHeader();
-  if (PROFILE.questionnaire_done && PROFILE.masque_dominant) {
-    renderDashboard();
+  // ROUTAGE
+  if (!PROFILE.questionnaire_done || !PROFILE.masque_dominant) {
+    showView(1); // → Questionnaire
+  } else if (!PROFILE.module0_complete) {
+    showView(2); // → Carte personnage (première découverte)
   } else {
-    showView('quest');
+    showView(3); // → Dashboard parcours
   }
 }
 
 function hideLoader() {
   const l = document.getElementById('loader');
   l.classList.add('out');
-  setTimeout(() => l.remove(), 600);
+  setTimeout(() => l.remove(), 650);
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
+   VUES
+═══════════════════════════════════════════ */
+function showView(n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('v'+i);
+    el.classList.toggle('on', i === n);
+  });
+  document.getElementById('fab').style.display = n === 3 ? 'flex' : 'none';
+  if (n === 2) renderCarte();
+  if (n === 3) renderDash();
+}
+
+function goToDash() { showView(3); }
+
+/* ═══════════════════════════════════════════
    HEADER
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 function renderHeader() {
   const prenom = PROFILE.prenom || USER.email.split('@')[0];
-  const initial = prenom.charAt(0).toUpperCase();
-  document.getElementById('h-av').textContent = initial;
+  document.getElementById('h-av').textContent = prenom.charAt(0).toUpperCase();
   document.getElementById('h-name').textContent = prenom;
   const done = MODULES.filter(m => PROFILE['module'+m.id+'_complete']).length;
   const pct = Math.round(done / MODULES.length * 100);
-  document.getElementById('h-prog-txt').textContent = done + ' / ' + MODULES.length + ' modules';
-  document.getElementById('h-prog-fill').style.width = pct + '%';
+  document.getElementById('h-steps').textContent = done + ' / ' + MODULES.length + ' modules';
+  document.getElementById('h-pfill').style.width = pct + '%';
 }
 
-/* ═══════════════════════════════════════════════════
-   VIEWS
-═══════════════════════════════════════════════════ */
-function showView(name) {
-  document.getElementById('v-quest').className = name === 'quest' ? 'on' : '';
-  document.getElementById('v-dash').className = 'on' === (name==='dash'?'on':'') ? '' : (name==='dash'?'on':'');
-  // Fix: proper toggle
-  document.getElementById('v-quest').style.display = name==='quest' ? 'flex' : 'none';
-  document.getElementById('v-dash').style.display = name==='dash' ? 'block' : 'none';
-  document.getElementById('fab').style.display = name==='dash' ? 'flex' : 'none';
+/* ═══════════════════════════════════════════
+   VUE 2 — CARTE PERSONNAGE
+═══════════════════════════════════════════ */
+function renderCarte() {
+  const key = PROFILE.masque_dominant;
+  const m = MD[key]; if (!m) return;
+
+  // Dynamic orb
+  const orb = document.getElementById('o-dyn');
+  orb.style.background = m.couleur; orb.style.display = 'block';
+
+  // Carte style
+  const card = document.getElementById('carte-main');
+  card.style.background = 'linear-gradient(135deg,' + m.bg + ',rgba(0,0,0,.2))';
+  card.style.border = '1px solid ' + m.border;
+
+  // Badge intro
+  const b2 = document.getElementById('c-badge2');
+  b2.style.background = m.bg; b2.style.border = '1px solid ' + m.border; b2.style.color = m.couleur;
+
+  document.getElementById('c-emoji').textContent = m.emoji;
+  document.getElementById('c-nom').textContent = m.nom;
+  document.getElementById('c-peur').textContent = m.peur;
+  document.getElementById('c-peur').style.color = m.couleur;
+  document.getElementById('c-question').textContent = m.question;
+  document.getElementById('c-question').style.color = m.couleur;
+
+  const mbadge = document.getElementById('c-mbadge');
+  mbadge.textContent = 'Masque ' + ML[key];
+  mbadge.style.background = m.bg; mbadge.style.border = '1px solid ' + m.border; mbadge.style.color = m.couleur;
+
+  // 3 lignes
+  document.getElementById('c-lignes').innerHTML = [
+    {icon:'🎭', label:'Ce que ce masque vous fait faire', val: m.fait},
+    {icon:'✨', label:'Votre aspiration profonde', val: m.aspire}
+  ].map(r => `
+    <div class="carte-ligne">
+      <div class="cl-icon">${r.icon}</div>
+      <div class="cl-body">
+        <div class="cl-label">${r.label}</div>
+        <div class="cl-val">${r.val}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Scores bars
+  const scores = MK.map(k => ({ k, v: PROFILE['score_'+k] || 0 }));
+  const max = Math.max(...scores.map(s => s.v), 1);
+  document.getElementById('c-scores-bars').innerHTML = scores.map(s => {
+    const dm = MD[s.k];
+    const isDom = s.k === key;
+    return `
+      <div class="cs-row ${isDom ? 'cs-dominant' : ''}">
+        <span class="cs-emoji">${dm.emoji}</span>
+        <div class="cs-track">
+          <div class="cs-fill" style="width:0%;background:${dm.couleur};opacity:${isDom?1:.55};color:${dm.couleur}"></div>
+        </div>
+        <span class="cs-val">${s.v || '—'}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Animate bars after paint
+  setTimeout(() => {
+    const fills = document.querySelectorAll('#c-scores-bars .cs-fill');
+    fills.forEach((el, i) => {
+      const v = scores[i].v;
+      el.style.width = (v / max * 100) + '%';
+    });
+  }, 120);
 }
 
-/* ═══════════════════════════════════════════════════
-   DASHBOARD
-═══════════════════════════════════════════════════ */
-function renderDashboard() {
-  showView('dash');
-  const m = MASQUES[PROFILE.masque_dominant];
+/* ═══════════════════════════════════════════
+   VUE 3 — DASHBOARD
+═══════════════════════════════════════════ */
+function renderDash() {
+  const key = PROFILE.masque_dominant;
+  const m = MD[key];
   const prenom = PROFILE.prenom || USER.email.split('@')[0];
   const done = MODULES.filter(mod => PROFILE['module'+mod.id+'_complete']).length;
   const pct = Math.round(done / MODULES.length * 100);
 
-  // Welcome
-  document.getElementById('w-name').textContent = 'Bonjour ' + prenom + ' ✦';
-  document.getElementById('w-sub').textContent = m ? 'Masque dominant : ' + m.nom : '';
-  document.getElementById('prog-pct').textContent = pct + '%';
-
-  // Orb couleur masque
+  document.getElementById('w-name').textContent = 'Bonjour ' + prenom;
   if (m) {
-    const orb = document.getElementById('o-mask');
-    orb.style.background = m.couleur;
-    orb.style.display = 'block';
+    const wm = document.getElementById('w-masque');
+    wm.textContent = m.emoji + ' ' + m.nom;
+    wm.style.background = m.bg; wm.style.borderColor = m.border; wm.style.color = m.couleur;
+    const orb = document.getElementById('o-dyn');
+    orb.style.background = m.couleur; orb.style.display = 'block';
   }
+  document.getElementById('w-pct').textContent = pct + '%';
+  document.getElementById('w-pct-fill').style.width = pct + '%';
 
-  renderMasqueCard();
-  renderModulesGrid();
-}
-
-function renderMasqueCard() {
-  const key = PROFILE.masque_dominant;
-  const m = MASQUES[key];
-  if (!m) return;
-
-  const card = document.getElementById('masque-card');
-  card.style.background = 'linear-gradient(135deg,' + m.bg + ',rgba(0,0,0,.18))';
-  card.style.border = '1px solid ' + m.border;
-
-  document.getElementById('mc-emoji').textContent = m.emoji;
-  document.getElementById('mc-nom').textContent = m.nom;
-  document.getElementById('mc-question').textContent = m.question;
-  document.getElementById('mc-question').style.color = m.couleur;
-
-  const badge = document.getElementById('mc-badge');
-  badge.textContent = 'Masque ' + MASQUE_LABELS[key];
-  badge.style.background = m.bg;
-  badge.style.border = '1px solid ' + m.border;
-  badge.style.color = m.couleur;
-
-  document.getElementById('mc-rows').innerHTML = [
-    {icon:'😨', label:'La peur qui se cache derrière', val: m.peur},
-    {icon:'🎭', label:'Ce qu\u2019elle vous fait faire', val: m.fait},
-    {icon:'✨', label:'Votre aspiration profonde', val: m.aspire}
-  ].map(r => `
-    <div class="mc-row">
-      <div class="mc-row-icon">${r.icon}</div>
-      <div class="mc-row-body">
-        <div class="mc-row-rl">${r.label}</div>
-        <div class="mc-row-rv">${r.val}</div>
-      </div>
-    </div>
-  `).join('');
-
-  // Mini scores
-  const scores = MASQUE_KEYS.map(k => ({ k, v: PROFILE['score_'+k] || 0, m: MASQUES[k] }));
-  const max = Math.max(...scores.map(s => s.v), 1);
-  document.getElementById('mc-scores-mini').innerHTML = scores.map(s => `
-    <div class="mc-smrow">
-      <span class="mc-smrow-emoji">${s.m.emoji}</span>
-      <div class="mc-smtrack">
-        <div class="mc-smfill" style="width:${s.v/max*100}%;background:${s.m.couleur}${s.k===key?'':'99'}"></div>
-      </div>
-      <span class="mc-smval">${s.v||'–'}</span>
-    </div>
-  `).join('');
-
-  // Animate fills
-  setTimeout(() => {
-    document.querySelectorAll('.mc-smfill').forEach(el => {
-      const w = el.style.width; el.style.width = '0';
-      requestAnimationFrame(() => setTimeout(() => { el.style.width = w; }, 40));
-    });
-  }, 200);
-}
-
-function renderModulesGrid() {
   document.getElementById('mods-grid').innerHTML = MODULES.map(mod => {
-    const done = !!PROFILE['module'+mod.id+'_complete'];
-    const locked = mod.reqKey && !PROFILE[mod.reqKey];
-    const bc = done ? mod.couleur : locked ? 'rgba(255,255,255,.05)' : 'rgba(255,255,255,.08)';
+    const isDone = !!PROFILE['module'+mod.id+'_complete'];
+    const isLocked = mod.req && !PROFILE[mod.req];
     const ml = mod.lettre || '✦';
     const mlBg = mod.lettre ? mod.couleur + '22' : 'rgba(201,168,76,.14)';
     const mlC = mod.lettre ? mod.couleur : 'var(--gold)';
-    const statusIcon = done ? '✓' : locked ? '🔒' : '→';
-    const statusLbl = done ? 'Complété' : locked ? 'Verrouillé' : mod.id===0 ? 'Commencer ici' : 'Commencer';
-    const statusColor = done ? mod.couleur : locked ? 'var(--muted)' : 'rgba(255,255,255,.5)';
+    const sIcon = isDone ? '✓' : isLocked ? '🔒' : '→';
+    const sLbl = isDone ? 'Complété' : isLocked ? 'Verrouillé' : mod.id === 0 ? 'Commencer ici' : 'Commencer';
+    const sColor = isDone ? mod.couleur : isLocked ? 'var(--muted)' : 'rgba(255,255,255,.5)';
+    const bc = isDone ? mod.couleur : isLocked ? 'rgba(255,255,255,.04)' : 'rgba(255,255,255,.08)';
     return `
-      <a class="mod-card${locked?' mod-locked':''}"
-         href="${locked ? '#' : mod.file}"
+      <a class="mod${isLocked ? ' mod-lock' : ''}"
+         href="${isLocked ? '#' : mod.file}"
          style="border-color:${bc}"
-         ${locked ? 'onclick="event.preventDefault();toast(\'Terminez d\'abord le module précédent.\')"' : ''}
+         ${isLocked ? 'onclick="event.preventDefault();toast(\'Terminez le module précédent d\'abord.\')"' : ''}
       >
-        <div class="mod-top-line" style="background:${done?mod.couleur:'transparent'}"></div>
-        ${locked ? '<div class="mod-lock-icon">🔒</div>' : ''}
+        <div class="mod-top-bar" style="background:${isDone ? mod.couleur : 'transparent'}"></div>
+        ${isLocked ? '<div class="mod-lock-ico">🔒</div>' : ''}
         <div class="mod-top">
           <div class="mod-num">${mod.id}</div>
           <div class="mod-letter" style="background:${mlBg};color:${mlC}">${ml}</div>
         </div>
-        <div class="mod-lbl">${mod.sous}</div>
+        <div class="mod-over">${mod.sous}</div>
         <div class="mod-name">${mod.nom}</div>
         <div class="mod-desc">${mod.desc}</div>
         <div class="mod-foot">
-          <div class="mod-status" style="color:${statusColor}">${statusIcon} ${statusLbl}</div>
+          <div class="mod-status" style="color:${sColor}">${sIcon} ${sLbl}</div>
         </div>
       </a>
     `;
   }).join('');
 }
 
-/* ═══════════════════════════════════════════════════
-   MODAL SAISIE RÉSULTATS
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   MODAL SCORES — AUTO-CALCUL MASQUE DOMINANT
+═══════════════════════════════════════════ */
 function initModal() {
-  // Picker
-  document.getElementById('picker').innerHTML = MASQUE_KEYS.map(k => {
-    const m = MASQUES[k];
-    return `<button class="pick" data-key="${k}" onclick="pickMasque('${k}',this)">${m.emoji} ${MASQUE_LABELS[k]}</button>`;
-  }).join('');
-
-  // Score grid
-  document.getElementById('score-grid').innerHTML = MASQUE_KEYS.map(k => {
-    const m = MASQUES[k];
+  document.getElementById('sc-grid').innerHTML = MK.map(k => {
+    const m = MD[k];
     return `
-      <div class="sg-field">
-        <label>${m.emoji} ${MASQUE_LABELS[k]}</label>
-        <input type="number" id="sc-${k}" min="0" max="999" placeholder="0"/>
+      <div class="sc-field">
+        <label>${m.emoji} Masque ${ML[k]}</label>
+        <input type="number" id="sc-${k}" min="0" max="999" placeholder="0"
+               oninput="autoCalcDominant()" onchange="autoCalcDominant()"/>
       </div>
     `;
   }).join('');
 }
 
-function openModal() {
-  // Pré-remplir si données existantes
-  if (PROFILE?.masque_dominant) {
-    const el = document.querySelector('[data-key="'+PROFILE.masque_dominant+'"]');
-    if (el) pickMasque(PROFILE.masque_dominant, el);
+function autoCalcDominant() {
+  let max = -1, dominant = null;
+  MK.forEach(k => {
+    const v = parseInt(document.getElementById('sc-'+k)?.value) || 0;
+    if (v > max) { max = v; dominant = k; }
+  });
+  const preview = document.getElementById('sc-preview');
+  if (dominant && max > 0) {
+    const m = MD[dominant];
+    preview.classList.add('show');
+    preview.style.background = m.bg;
+    preview.style.borderColor = m.couleur;
+    document.getElementById('sp-emoji').textContent = m.emoji;
+    document.getElementById('sp-nom').textContent = m.nom;
+    document.getElementById('sp-nom').style.color = m.couleur;
+  } else {
+    preview.classList.remove('show');
   }
-  MASQUE_KEYS.forEach(k => {
+}
+
+function openModal() {
+  // Pré-remplir si scores existants
+  MK.forEach(k => {
     const v = PROFILE?.['score_'+k] || 0;
     const inp = document.getElementById('sc-'+k);
     if (inp && v > 0) inp.value = v;
   });
+  autoCalcDominant();
   document.getElementById('modal').classList.add('on');
 }
-function closeModal() {
-  document.getElementById('modal').classList.remove('on');
-  SELECTED_MASQUE = null;
-  document.querySelectorAll('.pick').forEach(b => {
-    b.classList.remove('sel'); b.style.cssText='';
-  });
-}
+function closeModal() { document.getElementById('modal').classList.remove('on'); }
 
-function pickMasque(key, el) {
-  SELECTED_MASQUE = key;
-  document.querySelectorAll('.pick').forEach(b => {
-    b.classList.remove('sel'); b.style.background=''; b.style.borderColor=''; b.style.color='';
-  });
-  const m = MASQUES[key];
-  el.classList.add('sel');
-  el.style.background = m.bg;
-  el.style.borderColor = m.couleur;
-  el.style.color = m.couleur;
-}
-
-async function saveResults() {
-  if (!SELECTED_MASQUE) { toast('Sélectionnez votre masque dominant'); return; }
-  const btn = document.getElementById('btn-save');
-  btn.disabled = true; btn.textContent = 'Enregistrement…';
-
-  const update = {
-    masque_dominant: SELECTED_MASQUE,
-    questionnaire_done: true
-  };
-  MASQUE_KEYS.forEach(k => {
+async function saveScores() {
+  // Auto-calcul masque dominant
+  let max = -1, dominant = null;
+  const update = { questionnaire_done: true };
+  MK.forEach(k => {
     const v = parseInt(document.getElementById('sc-'+k)?.value) || 0;
     update['score_'+k] = v;
+    if (v > max) { max = v; dominant = k; }
   });
+  if (!dominant || max === 0) { toast('Entrez au moins un score pour continuer'); return; }
+  update.masque_dominant = dominant;
 
+  const btn = document.getElementById('btn-save');
+  btn.disabled = true; btn.textContent = 'Enregistrement…';
   const { error } = await SB.from('user_profiles').update(update).eq('id', USER.id);
-  btn.disabled = false; btn.textContent = 'Enregistrer';
+  btn.disabled = false; btn.textContent = 'Enregistrer et découvrir →';
 
   if (error) { toast('Erreur : ' + error.message); return; }
   Object.assign(PROFILE, update);
   closeModal();
   renderHeader();
-  renderDashboard();
-  toast('✓ Votre masque a été enregistré avec succès');
+  showView(2); // → Carte personnage
+  toast('✓ Votre masque dominant : ' + MD[dominant].emoji + ' ' + MD[dominant].nom);
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    UTILS
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 function copyCode() {
-  navigator.clipboard.writeText('VALEUR2025')
-    .then(() => toast('✓ Code copié : VALEUR2025'));
+  navigator.clipboard.writeText('VALEUR2025').then(() => toast('✓ Code copié : VALEUR2025'));
 }
-
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('on');
-  setTimeout(() => t.classList.remove('on'), 3500);
+  setTimeout(() => t.classList.remove('on'), 3600);
 }
+async function doLogout() { await SB.auth.signOut(); window.location.href = 'login.html'; }
 
-async function doLogout() {
-  await SB.auth.signOut();
-  window.location.href = 'login.html';
-}
-
-/* Modal : fermer en cliquant l'arrière-plan */
 document.getElementById('modal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-/* ── ANTI-COPY ── */
+/* ANTI-COPY */
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
   if (e.ctrlKey && ['c','u','s','p','a'].includes(e.key.toLowerCase())) e.preventDefault();
