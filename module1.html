@@ -12,7 +12,7 @@
   --gold:#C9A84C;--gold-light:#F0D080;--gold-glow:rgba(201,168,76,.22);
   --navy:#070D1A;--navy2:#0D1526;--navy3:#131F35;
   --glass:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);
-  --text:#F2EDE6;--muted:#8A9BB5;
+  --text:#F2EDE6;--text2:#C8D6E8;--muted:#8A9BB5;
   --red:#E53E3E;--red-light:#FEB2B2;--red-glow:rgba(229,62,62,.2);
   --orange:#ED8936;--yellow:#D69E2E;--green:#38A169;--blue:#3182CE;--indigo:#5A67D8;--violet:#805AD5;
 }
@@ -61,7 +61,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .s-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:10px;font-weight:600;}
 .s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;line-height:1.1;color:var(--text);margin-bottom:20px;}
 .s-title em{font-style:italic;color:var(--red);}
-.s-lead{font-size:1.05rem;line-height:1.8;color:var(--muted);font-weight:300;margin-bottom:24px;}
+.s-lead{font-size:1.05rem;line-height:1.88;color:var(--text2);font-weight:300;margin-bottom:24px;}
 .divider{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);margin:30px 0;}
 .divider-gold{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:30px 0;}
 
@@ -483,7 +483,50 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
 .qd-score-big{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--red);line-height:1;}
 .qd-score-msg{font-size:.9rem;color:var(--muted);margin-top:12px;line-height:1.7;}
 
-/* ── JOURNAL PROMPT ── */
+/* ── BTN NEXT ── */
+.btn-next{display:flex;align-items:center;justify-content:center;gap:10px;margin:36px auto 0;width:100%;max-width:420px;background:linear-gradient(135deg,rgba(229,62,62,.12),rgba(229,62,62,.05));border:1px solid rgba(229,62,62,.3);border-radius:14px;padding:16px 28px;font-family:'Jost',sans-serif;font-size:.97rem;font-weight:500;color:var(--red);cursor:pointer;transition:all .4s cubic-bezier(.34,1.2,.64,1);}
+.btn-next:hover{background:rgba(229,62,62,.18);transform:translateY(-2px) scale(1.02);box-shadow:0 8px 24px rgba(229,62,62,.2);}
+.btn-next .bn-arrow{transition:transform .3s;font-size:1.1rem;}
+.btn-next:hover .bn-arrow{transform:translateX(4px);}
+
+/* ── JOURNAL MODULE ── */
+.journal-module{margin:40px 0 0;border-radius:22px;overflow:hidden;border:1px solid rgba(229,62,62,.2);background:rgba(255,255,255,.02);}
+.jm-header{background:linear-gradient(135deg,rgba(229,62,62,.08),rgba(229,62,62,.03));border-bottom:1px solid rgba(229,62,62,.12);padding:22px 28px;display:flex;align-items:center;gap:14px;}
+.jm-header-icon{font-size:1.5rem;}
+.jm-header-text h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--text);margin-bottom:3px;}
+.jm-header-text p{font-size:.8rem;color:var(--muted);letter-spacing:.5px;}
+.jm-memo{border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-memo-toggle{width:100%;background:none;border:none;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'Jost',sans-serif;font-size:.85rem;font-weight:600;color:var(--text2);letter-spacing:.5px;text-align:left;}
+.jm-memo-toggle span{display:flex;align-items:center;gap:10px;}
+.jm-memo-chevron{font-size:.75rem;color:var(--muted);transition:transform .3s;}
+.jm-memo.open .jm-memo-chevron{transform:rotate(180deg);}
+.jm-memo-body{display:none;padding:0 28px 22px;}
+.jm-memo.open .jm-memo-body{display:block;}
+.jm-memo-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.jm-memo-item:last-child{border-bottom:none;}
+.jm-memo-num{width:26px;height:26px;border-radius:50%;background:rgba(229,62,62,.1);border:1px solid rgba(229,62,62,.2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--red);flex-shrink:0;}
+.jm-memo-text{font-size:.88rem;color:var(--text2);line-height:1.65;}
+.jm-memo-text strong{color:var(--text);}
+.jm-questions{padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-q-label{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:18px;font-weight:600;}
+.jm-q-item{margin-bottom:18px;}
+.jm-q-item:last-child{margin-bottom:0;}
+.jm-q-text{font-size:.88rem;color:var(--text2);line-height:1.6;margin-bottom:8px;font-style:italic;}
+.jm-q-textarea{width:100%;min-height:72px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;font-family:'Jost',sans-serif;font-size:.88rem;color:var(--text);resize:none;outline:none;transition:border-color .3s;line-height:1.6;}
+.jm-q-textarea:focus{border-color:rgba(229,62,62,.3);}
+.jm-q-textarea::placeholder{color:rgba(255,255,255,.18);}
+.jm-libre{padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-libre-label{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:600;}
+.jm-libre-textarea{width:100%;min-height:100px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;font-family:'Jost',sans-serif;font-size:.88rem;color:var(--text);resize:none;outline:none;transition:border-color .3s;line-height:1.65;}
+.jm-libre-textarea:focus{border-color:rgba(201,168,76,.25);}
+.jm-libre-textarea::placeholder{color:rgba(255,255,255,.15);}
+.jm-actions{padding:20px 28px;display:flex;align-items:center;gap:12px;}
+.jm-save-btn{flex:1;background:linear-gradient(135deg,rgba(229,62,62,.15),rgba(229,62,62,.06));border:1px solid rgba(229,62,62,.3);border-radius:12px;padding:14px 20px;font-family:'Jost',sans-serif;font-size:.9rem;font-weight:600;color:var(--red);cursor:pointer;transition:all .3s;}
+.jm-save-btn:hover{background:rgba(229,62,62,.22);}
+.jm-saved{display:none;padding:12px 28px 18px;font-size:.85rem;color:#4aab7a;background:rgba(74,171,122,.06);border-top:1px solid rgba(74,171,122,.15);}
+.jm-saved.show{display:flex;align-items:center;gap:8px;}
+
+
 .journal-prompt-block{margin:28px 0;border-radius:18px;overflow:hidden;}
 .jpb-header{background:rgba(229,62,62,.05);border:1px solid rgba(229,62,62,.15);border-radius:18px 18px 0 0;padding:16px 22px;display:flex;align-items:center;gap:12px;}
 .jpb-icon{font-size:1.4rem;}
@@ -582,6 +625,9 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
         <div style="display:flex;align-items:flex-start;gap:12px;font-size:.9rem;color:var(--muted);line-height:1.6;"><span style="color:var(--red);flex-shrink:0;margin-top:2px;">→</span> Les 3 questions qui créent un espace de liberté dans vos réactions</div>
       </div>
     </div>
+    <button class="btn-next" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})">
+      La question fondamentale <span class="bn-arrow">→</span>
+    </button>
   </section>
 
   <!-- ══ S1 — LA QUESTION FONDAMENTALE ══ -->
@@ -630,6 +676,9 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
       <span class="ki-icon">💡</span>
       <div class="ki-text">Ces deux formulations vivent la même émotion — mais depuis deux endroits radicalement différents. La première vous <strong>fusionne</strong> avec le masque. La seconde crée l'espace de <strong>VOIR</strong>. Cet espace, c'est le début de tout.</div>
     </div>
+    <button class="btn-next" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'})">
+      Observateur vs Observé <span class="bn-arrow">→</span>
+    </button>
   </section>
 
   <!-- ══ S2 — OBSERVATEUR VS OBSERVÉ ══ -->
@@ -827,6 +876,9 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
       <div style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:600;">À retenir</div>
       <p style="font-size:.9rem;color:var(--muted);line-height:1.75;">La fusion n'est pas un échec — c'est simplement un signal. Le simple fait de remarquer <em>"ah, je suis en train de fusionner"</em> est déjà un premier acte de conscience observatrice. <strong style="color:var(--text)">La reconnaissance, c'est déjà VOIR.</strong></p>
     </div>
+    <button class="btn-next" onclick="document.getElementById('s3b').scrollIntoView({behavior:'smooth'})">
+      Votre masque dort <span class="bn-arrow">→</span>
+    </button>
   </section>
 
   <!-- ══ S3b — VOTRE MASQUE DORT ══ -->
@@ -1285,6 +1337,9 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
         <div class="vm-text">Vous <em>observez</em> votre masque. Un espace s'ouvre entre le déclencheur et votre réponse. Vous choisissez — ou vous choisissez de ne pas choisir. Ce n'est plus automatique. C'est le début de la liberté.</div>
       </div>
     </div>
+    <button class="btn-next" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'})">
+      Les 3 questions de l'observateur <span class="bn-arrow">→</span>
+    </button>
   </section>
 
   <!-- ══ S5 — LES 3 QUESTIONS DE L'OBSERVATEUR ══ -->
@@ -1423,6 +1478,9 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
       <p style="font-size:.88rem;color:var(--muted);line-height:1.75;margin-bottom:12px;">Tout au long de la journée — quand une émotion surgit — posez-vous cette seule question : <em style="color:var(--text);">"Qu'est-ce que je remarque en moi en ce moment ?"</em></p>
       <p style="font-size:.88rem;color:var(--muted);line-height:1.75;">Nommez ce que vous remarquez. Une pensée. Une sensation. Un masque. Le simple fait de nommer crée la distance. C'est suffisant pour commencer.</p>
     </div>
+    <button class="btn-next" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'})">
+      Quiz — valider les acquis <span class="bn-arrow">→</span>
+    </button>
   </section>
 
   <!-- ══ S7 — QUIZ ══ -->
@@ -1476,6 +1534,78 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
     <div class="quote-block" style="margin:28px 0;">
       <div class="qb-text">"Chaque fois que vous remarquez que vous êtes fusionné — et que vous revenez à l'observation — vous renforcez la capacité la plus précieuse que vous puissiez développer."</div>
       <div class="qb-source">Méthode V.A.L.E.U.R© — Conscience Observatrice</div>
+    </div>
+
+    <!-- ══ JOURNAL DE BORD UNIFIÉ — MODULE 1 ══ -->
+    <div class="journal-module" id="jm-module1">
+      <div class="jm-header">
+        <span class="jm-header-icon">📓</span>
+        <div class="jm-header-text">
+          <h3>Mon Journal de bord — VOIR</h3>
+          <p>Sauvegardé dans votre parcours complet · Exportable en PDF en fin de parcours</p>
+        </div>
+      </div>
+
+      <!-- Mémo accordéon -->
+      <div class="jm-memo" id="jm-memo-m1">
+        <button class="jm-memo-toggle" onclick="toggleMemo('jm-memo-m1')">
+          <span>🗂 Mémo — Les 5 concepts essentiels de VOIR</span>
+          <span class="jm-memo-chevron">▾</span>
+        </button>
+        <div class="jm-memo-body">
+          <div class="jm-memo-item">
+            <div class="jm-memo-num">1</div>
+            <div class="jm-memo-text"><strong>La fusion cognitive</strong> — quand vous devenez votre pensée et croyez qu'elle est la réalité. Le langage trahit la fusion : "je suis anxieux" vs "je remarque de l'anxiété".</div>
+          </div>
+          <div class="jm-memo-item">
+            <div class="jm-memo-num">2</div>
+            <div class="jm-memo-text"><strong>L'Observateur vs l'Observé</strong> — en vous, il y a ce qui passe (pensées, émotions, masques) et ce qui regarde passer (stable, permanent, votre vraie nature).</div>
+          </div>
+          <div class="jm-memo-item">
+            <div class="jm-memo-num">3</div>
+            <div class="jm-memo-text"><strong>Le cycle invisible en 4 étapes</strong> — déclencheur → scan automatique (0,2s) → réaction corporelle → comportement du masque. Vous n'êtes responsable d'aucune des 3 premières.</div>
+          </div>
+          <div class="jm-memo-item">
+            <div class="jm-memo-num">4</div>
+            <div class="jm-memo-text"><strong>L'espace de Frankl</strong> — entre le stimulus et la réponse, il y a toujours un espace. Même infime. VOIR consiste à habiter cet espace avant d'agir depuis le masque.</div>
+          </div>
+          <div class="jm-memo-item">
+            <div class="jm-memo-num">5</div>
+            <div class="jm-memo-text"><strong>Les 3 questions de l'observateur</strong> — "Qu'est-ce que je fais là ?", "Quel masque parle ?", "Y a-t-il une part de moi qui observe ?" Ces questions créent l'espace à elles seules.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 questions M1 -->
+      <div class="jm-questions">
+        <div class="jm-q-label">✍️ Mon bilan — Module 1 · VOIR</div>
+        <div class="jm-q-item">
+          <div class="jm-q-text">Mon déclencheur principal cette semaine était…</div>
+          <textarea class="jm-q-textarea" id="jm-q1-m1" placeholder="Une situation, un mot, un silence, une sensation précise…"></textarea>
+        </div>
+        <div class="jm-q-item">
+          <div class="jm-q-text">Ce que mon masque m'a fait faire automatiquement…</div>
+          <textarea class="jm-q-textarea" id="jm-q2-m1" placeholder="Fuir, contrôler, plaire, vérifier, me justifier, m'effacer…"></textarea>
+        </div>
+        <div class="jm-q-item">
+          <div class="jm-q-text">Ce que j'ai observé en moi pour la première fois…</div>
+          <textarea class="jm-q-textarea" id="jm-q3-m1" placeholder="Un moment où j'ai créé l'espace entre le déclencheur et ma réaction…"></textarea>
+        </div>
+      </div>
+
+      <!-- Réflexion libre -->
+      <div class="jm-libre">
+        <div class="jm-libre-label">📝 Réflexions libres</div>
+        <textarea class="jm-libre-textarea" id="jm-libre-m1" placeholder="Espace libre — ce que ce module a éveillé, une prise de conscience, une résistance, une question qui reste ouverte…"></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="jm-actions">
+        <button class="jm-save-btn" onclick="saveJournalV3()">💾 Sauvegarder dans mon journal</button>
+      </div>
+      <div class="jm-saved" id="jm-saved-m1">
+        ✓ Entrée sauvegardée — visible dans votre Journal de bord complet
+      </div>
     </div>
 
     <div class="complete-zone">
@@ -1911,16 +2041,74 @@ function restartQuiz(){
   renderQ();
 }
 
+/* ── VALEUR_JOURNAL_V3 ── */
+const JV3='VALEUR_journal_v3';
+function getJournalV3(){try{return JSON.parse(localStorage.getItem(JV3))||[];}catch(e){return[];}}
+function saveJournalV3arr(arr){try{localStorage.setItem(JV3,JSON.stringify(arr));}catch(e){}}
+
+function toggleMemo(id){
+  const el=document.getElementById(id);
+  if(el)el.classList.toggle('open');
+}
+
+function saveJournalV3(){
+  const q1=document.getElementById('jm-q1-m1')?.value.trim()||'';
+  const q2=document.getElementById('jm-q2-m1')?.value.trim()||'';
+  const q3=document.getElementById('jm-q3-m1')?.value.trim()||'';
+  const libre=document.getElementById('jm-libre-m1')?.value.trim()||'';
+  const masque=localStorage.getItem('valeur_dominant_masque')||'';
+  const arr=getJournalV3();
+  const idx=arr.findIndex(e=>e.module===1);
+  const entry={
+    module:1,module_name:'VOIR',
+    date:new Date().toISOString(),
+    masque_dominant:masque,
+    reponses:[
+      {question:'Mon déclencheur principal cette semaine était…',reponse:q1},
+      {question:'Ce que mon masque m\u2019a fait faire automatiquement…',reponse:q2},
+      {question:'Ce que j\u2019ai observé en moi pour la première fois…',reponse:q3}
+    ],
+    reflexion_libre:libre
+  };
+  if(idx>=0)arr[idx]=entry;else arr.push(entry);
+  saveJournalV3arr(arr);
+  /* rétrocompatibilité v2 */
+  try{
+    const v2=JSON.parse(localStorage.getItem('valeur_journal_v2'))||[];
+    v2.unshift({date:entry.date,text:(q1+'\n'+q2+'\n'+q3+'\n'+libre).trim(),module:'Module 1 \u2014 VOIR'});
+    localStorage.setItem('valeur_journal_v2',JSON.stringify(v2.slice(0,30)));
+  }catch(e){}
+  const saved=document.getElementById('jm-saved-m1');
+  if(saved){saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),4000);}
+  showToast('\u270D\uFE0F Journal Module 1 sauvegardé');
+}
+
+function prefillJournalV3(){
+  const arr=getJournalV3();
+  const entry=arr.find(e=>e.module===1);
+  if(!entry)return;
+  const q1=document.getElementById('jm-q1-m1');
+  const q2=document.getElementById('jm-q2-m1');
+  const q3=document.getElementById('jm-q3-m1');
+  const libre=document.getElementById('jm-libre-m1');
+  if(q1&&entry.reponses[0])q1.value=entry.reponses[0].reponse||'';
+  if(q2&&entry.reponses[1])q2.value=entry.reponses[1].reponse||'';
+  if(q3&&entry.reponses[2])q3.value=entry.reponses[2].reponse||'';
+  if(libre)libre.value=entry.reflexion_libre||'';
+}
+
 /* ── COMPLETE ── */
 function completeModule(){
+  /* Auto-save journal avant complétion */
+  saveJournalV3();
   markDone('module1');
   renderProgress();
   document.getElementById('unlock-preview').classList.add('show');
   launchConfetti();
-  showToast('\uD83C\uDF89 Module 1 complété ! ACCUEILLIR 🟠 débloqué !');
+  showToast('\uD83C\uDF89 Module 1 complété\u00a0! ACCUEILLIR \uD83D\uDFE0 débloqué\u00a0!');
   setTimeout(()=>{
-    if(confirm('Excellent ! Passer au Module 2 — ACCUEILLIR maintenant ?')){
-      window.location.href=BASE+'module2.html';
+    if(confirm('Excellent\u00a0! Passer au Module 2 \u2014 ACCUEILLIR maintenant\u00a0?')){
+      window.location.href='module2.html';
     }
   },3500);
 }
@@ -2009,6 +2197,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderProgress();
   renderQ();
   renderQd();
+  prefillJournalV3();
   onScroll();
   setTimeout(onScroll,100);
 });
