@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Module 4 — Explorer · V.A.L.E.U.R©</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="valeur-design-system-v2.css">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -382,9 +383,37 @@ body::selection{background:transparent}
 .hero-subtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,3vw,1.5rem);font-weight:300;font-style:italic;color:var(--gold,#C9A84C);margin-bottom:20px;}
 .hero-meta-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:7px 16px;font-size:.8rem;color:var(--muted);}
 .hero-meta-pill span{font-size:.9rem;}
+
+/* ══ DESIGN SYSTEM v2 — OVERRIDES MODULE4 ══ */
+#progress-bar { display: none !important; }
+#dot-nav { display: none !important; }
+#scroll-line { display: none !important; }
+main, .container { padding-top: 24px !important; }
+#journal-drawer { position:fixed;left:0;right:0;bottom:0;background:var(--navy3,#131F35);border-top:1px solid rgba(46,204,113,.25);border-radius:20px 20px 0 0;padding:20px 24px 32px;z-index:2001;transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-height:80vh;overflow-y:auto; }
+#journal-drawer.open { transform:translateY(0); }
+#journal-overlay { position:fixed;inset:0;z-index:2000;background:rgba(7,13,26,.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s; }
+#journal-overlay.open { opacity:1;pointer-events:all; }
+#journal-fab { position:fixed;bottom:28px;right:24px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--gold,#C9A84C),var(--gold-light,#F0D080));border:none;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(46,204,113,.45);z-index:1800;transition:all .3s;touch-action:none; }
+#journal-fab:hover { transform:scale(1.08) translateY(-2px); }
+#journal-textarea { width:100%;min-height:140px;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:var(--text,#F2EDE6);font-family:'Jost',sans-serif;font-size:1rem;line-height:1.7;resize:vertical;outline:none;transition:border-color .3s; }
+#journal-textarea:focus { border-color:rgba(46,204,113,.4); }
+
+#journal-panel { position:fixed;bottom:88px;right:24px;z-index:1800;width:min(420px,calc(100vw - 32px));background:rgba(13,21,38,.97);backdrop-filter:blur(30px);border:1px solid rgba(46,204,113,.4);border-radius:20px;padding:24px;display:none;flex-direction:column;gap:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);max-height:calc(100vh - 120px);overflow-y:auto; }
+#journal-panel.open { display:flex; }
+#journal-text { width:100%;min-height:120px;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:var(--text,#F2EDE6);font-family:'Jost',sans-serif;font-size:1rem;line-height:1.7;resize:vertical;outline:none;transition:border-color .3s; }
+#journal-text:focus { border-color:rgba(46,204,113,.4); }
+.pb-accordion-item > .pb-accordion-content > .pb-accordion-content-inner > .section,
+.pb-accordion-item > .pb-accordion-content > .pb-accordion-content-inner > .section-inner { opacity:1!important;transform:none!important;transition:none!important;padding:24px 0; }
+.pb-accordion-item > .pb-accordion-content > .pb-accordion-content-inner > section { min-height:auto!important;opacity:1!important;transform:none!important;transition:none!important;padding:16px 0!important; }
+/* Hero section (s0) toujours visible */
+#s0 { opacity:1 !important; transform:none !important; transition:none !important; }
+/* Sections dans l'accordéon toujours visibles (override des animations de défilement) */
+.pb-accordion-content-inner .section,
+.pb-accordion-content-inner .section-inner,
+.pb-accordion-content-inner section { opacity:1 !important; transform:none !important; transition:none !important; }
 </style>
 </head>
-<body>
+<body data-module="module4">
 
 <canvas id="confetti-canvas"></canvas>
 
@@ -1197,6 +1226,111 @@ function lancerConfetti(){
     });
   }catch(e){}
   prefillJournalV3();
+})();
+</script>
+
+<!-- ══ ACCORDION CONVERSION + NOUVEAUX COMPOSANTS ══ -->
+<script>
+(function() {
+  function convertSectionsToAccordion() {
+    /* Escape HTML entities to prevent XSS when inserting title into innerHTML */
+    function escapeHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    var sections = document.querySelectorAll(
+      'section:not(#s0):not([data-s="0"]):not(.bg-aurora):not(.bg-layer)'
+    );
+    if (!sections.length) return;
+
+    var parent = sections[0].parentNode;
+    var accordion = document.createElement('div');
+    accordion.id = 'pb-main-accordion';
+    accordion.className = 'pb-accordion';
+    parent.insertBefore(accordion, sections[0]);
+
+    Array.from(sections).forEach(function(section, index) {
+      var labelEl = section.querySelector('.s-label, h4');
+      var titleEl = section.querySelector('h2, h1');
+      var label = labelEl ? (labelEl.textContent || '').trim() : '';
+      var rawTitle = titleEl ? (titleEl.textContent || titleEl.innerText || '') : '';
+      var title = rawTitle.replace(/\s+/g, ' ').trim().substring(0, 72) || ('Section ' + (index + 1));
+
+      var item = document.createElement('div');
+      item.className = 'pb-accordion-item';
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pb-accordion-btn';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-controls', 'pb-panel-module4-' + index);
+      btn.innerHTML = (label ? '<span class="pb-accordion-label">' + escapeHtml(label) + '</span>' : '') +
+        '<span><strong>' + escapeHtml(title) + '</strong></span>' +
+        '<span class="pb-accordion-chevron">▼</span>';
+
+      var contentDiv = document.createElement('div');
+      contentDiv.className = 'pb-accordion-content';
+      contentDiv.id = 'pb-panel-module4-' + index;
+
+      var inner = document.createElement('div');
+      inner.className = 'pb-accordion-content-inner';
+
+      while (section.firstChild) { inner.appendChild(section.firstChild); }
+
+      contentDiv.appendChild(inner);
+      item.appendChild(btn);
+      item.appendChild(contentDiv);
+      accordion.appendChild(item);
+      if (section.parentNode) section.parentNode.removeChild(section);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', convertSectionsToAccordion);
+  } else {
+    convertSectionsToAccordion();
+  }
+})();
+</script>
+<script src="valeur-config.js"></script>
+<script src="valeur-components.js"></script>
+<script src="valeur-storage.js"></script>
+<script>
+/* Fallback: initialiser l'accordéon inline si valeur-components.js n'est pas chargé */
+(function() {
+  function initFallbackAccordion() {
+    if (typeof pbInitAccordion === 'function') return; /* Already handled by valeur-components.js */
+    /* Max title length for accordion button labels (72 chars ≈ 2 lines at standard width) */
+    var TITLE_MAX_LEN = 72;
+    document.querySelectorAll('.pb-accordion-item .pb-accordion-btn').forEach(function(btn) {
+      if (btn.dataset.fallbackInit) return;
+      btn.dataset.fallbackInit = '1';
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.pb-accordion-item');
+        var content = item.querySelector('.pb-accordion-content');
+        var isOpen = item.classList.contains('open');
+        /* Close all siblings */
+        var siblings = item.parentNode.querySelectorAll('.pb-accordion-item');
+        siblings.forEach(function(s) {
+          s.classList.remove('open');
+          var c = s.querySelector('.pb-accordion-content');
+          var b = s.querySelector('.pb-accordion-btn');
+          if (c) { c.style.maxHeight = '0'; c.style.opacity = '0'; }
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          if (content) {
+            content.style.maxHeight = content.scrollHeight + 5000 + 'px';
+            content.style.opacity = '1';
+          }
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFallbackAccordion);
+  } else {
+    initFallbackAccordion();
+  }
 })();
 </script>
 </body>
