@@ -16,6 +16,11 @@
 
   <!-- Module-specific CSS (optional) -->
   <style>
+    /* Compensation pour la topbar et la barre de cercles en position fixed */
+    .module-container {
+      padding-top: calc(var(--topbar-h, 56px) + var(--progress-h, 64px) + var(--space-lg, 24px));
+    }
+
     /* Override colors pour ce module */
     :root {
       --module-color: #E74C3C;  /* À adapter par module (--c-red, --c-orange, etc.) */
@@ -38,7 +43,7 @@
   </style>
 </head>
 
-<body>
+<body data-module="module1"><!-- À adapter par module : module0, module1, module2, ... -->
   <!-- Background Aurora -->
   <div class="bg-aurora">
     <div class="orb orb1"></div>
@@ -46,6 +51,30 @@
     <div class="orb orb3"></div>
   </div>
   <div class="grid-tex"></div>
+
+  <!-- Topbar -->
+  <nav class="pb-topbar">
+    <a href="index.html" style="color: var(--gold); font-family: var(--ff-serif); font-size: 1.2rem; font-weight: 700; text-decoration: none; letter-spacing: 0.05em;">V.A.L.E.U.R©</a>
+    <span style="color: var(--text-muted); font-size: var(--text-sm);">Module 1 : Voir</span><!-- À adapter par module -->
+    <a href="index.html" class="btn-secondary" style="padding: 8px 16px; font-size: var(--text-sm);">🏠 Accueil</a>
+  </nav>
+
+  <!-- Barre de progression 7 cercles -->
+  <div class="pb-progress-circles">
+    <a href="module0.html" class="pb-circle-step done" title="Module 0 : Introduction">0</a>
+    <div class="pb-circle-connector"></div>
+    <a href="module1.html" class="pb-circle-step active" title="Module 1 : Voir">V</a><!-- À adapter : retirer 'active' des autres -->
+    <div class="pb-circle-connector"></div>
+    <a href="module2.html" class="pb-circle-step" title="Module 2 : Accepter">A</a>
+    <div class="pb-circle-connector"></div>
+    <a href="module3.html" class="pb-circle-step" title="Module 3 : Libérer">L</a>
+    <div class="pb-circle-connector"></div>
+    <a href="module4.html" class="pb-circle-step" title="Module 4 : Écouter">E</a>
+    <div class="pb-circle-connector"></div>
+    <a href="module5.html" class="pb-circle-step" title="Module 5 : Unifier">U</a>
+    <div class="pb-circle-connector"></div>
+    <a href="module6.html" class="pb-circle-step" title="Module 6 : Rayonner">R</a>
+  </div>
 
   <!-- Main Container -->
   <main class="module-container">
@@ -222,11 +251,21 @@
     <!-- === DIVIDER === -->
     <div class="divider" style="margin: var(--space-2xl) 0;"></div>
 
-    <!-- === CTA BUTTONS === -->
-    <div style="display: flex; gap: var(--space-lg); justify-content: center; margin: var(--space-2xl) 0; flex-wrap: wrap;">
-      <button class="btn btn-secondary" onclick="window.history.back();">← Retour</button>
-      <button class="btn btn-primary" onclick="PB_Components.showToast('✓ Module marqué comme complété', 'success'); PB_Components.shootConfetti(); setTimeout(() => window.location.href = './index.html', 1500);">Module Complété ✓</button>
-    </div>
+    <!-- === NAVIGATION MODULES === -->
+    <nav class="pb-module-nav">
+      <div class="pb-nav-prev">
+        <a href="module0.html" class="btn-secondary" style="padding: 12px 24px;">← Module précédent</a><!-- À adapter par module -->
+      </div>
+      <div class="pb-nav-center">
+        <span class="pb-nav-progress-text">Module 1 / 6</span><!-- À adapter par module -->
+        <div class="pb-nav-progress-mini">
+          <div class="pb-nav-progress-mini-fill" style="width: 16.67%;"></div><!-- À adapter : (numéro / 6) * 100 % -->
+        </div>
+      </div>
+      <div class="pb-nav-next">
+        <button class="btn btn-primary" style="padding: 12px 24px;" onclick="PB_Components.showToast('✓ Module marqué comme complété', 'success'); PB_Components.shootConfetti(); setTimeout(() => window.location.href = 'module2.html', 1500);">Module suivant →</button><!-- À adapter par module -->
+      </div>
+    </nav>
 
   </main><!-- Fin .module-container -->
 
@@ -242,7 +281,7 @@
     </div>
     <textarea 
       class="pb-journal-input" 
-      id="journal-textarea"
+      id="pb-journal-input"
       placeholder="Écrivez vos observations, ressentis, découvertes..."
       maxlength="1500"
       spellcheck="true"
@@ -268,42 +307,15 @@
   <!-- Module-specific initialization -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Init accordion
-      PB_Components.initAccordion('#main-accordion');
+      // valeur-components.js auto-initialise l'accordéon et le journal via DOMContentLoaded.
+      // Ce script gère uniquement ce qui est spécifique au module.
 
-      // Init journal drawer
-      var journalDrawer = PB_Components.initJournalDrawer({
-        fabSelector: '#journal-fab',
-        drawerId: 'pb-journal',
-        moduleKey: 'module1',  // À adapter par module
-        maxLength: 1500
-      });
-
-      // Update progress bar
-      var sections = document.querySelectorAll('[data-section]');
-      var totalSections = sections.length;
-      document.getElementById('pb-total-sections').textContent = totalSections;
-
-      // Track section opens
-      var accordion = document.querySelector('.pb-accordion');
-      if (accordion) {
-        accordion.addEventListener('click', function(e) {
-          var btn = e.target.closest('.pb-accordion-btn');
-          if (btn) {
-            var item = btn.closest('.pb-accordion-item');
-            var sectionNum = item.getAttribute('data-section');
-            document.getElementById('pb-current-section').textContent = sectionNum;
-            document.getElementById('pb-progress').value = sectionNum;
-          }
-        });
-      }
-
-      // Mark module as complete on CTA
-      var completeBtn = document.querySelector('.btn-primary');
-      if (completeBtn && completeBtn.textContent.includes('Complété')) {
-        completeBtn.addEventListener('click', function() {
+      // Bouton "Module suivant" → enregistre la complétion via VALEUR_PROGRESS si disponible
+      var nextBtn = document.querySelector('.pb-nav-next .btn');
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
           try {
-            VALEUR_PROGRESS.complete('module1');  // À adapter
+            VALEUR_PROGRESS.complete('module1');  // À adapter par module
           } catch (e) {
             console.log('Module progress tracking not available');
           }
