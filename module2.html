@@ -12,7 +12,7 @@
   --gold:#C9A84C;--gold-light:#F0D080;--gold-glow:rgba(201,168,76,.22);
   --navy:#070D1A;--navy2:#0D1526;--navy3:#131F35;
   --glass:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);
-  --text:#F2EDE6;--muted:#8A9BB5;
+  --text:#F2EDE6;--muted:#8A9BB5;--text2:#C8D6E8;
   --orange:#ED8936;--orange-light:#FBD38D;--orange-glow:rgba(237,137,54,.2);
   --red:#E53E3E;--yellow:#D69E2E;--green:#38A169;--blue:#3182CE;--indigo:#5A67D8;--violet:#805AD5;
 }
@@ -61,7 +61,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .s-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;font-weight:600;}
 .s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;line-height:1.1;color:var(--text);margin-bottom:20px;}
 .s-title em{font-style:italic;color:var(--orange);}
-.s-lead{font-size:1.05rem;line-height:1.8;color:var(--muted);font-weight:300;margin-bottom:24px;}
+.s-lead{font-size:1.05rem;line-height:1.88;color:var(--text2);font-weight:300;margin-bottom:24px;}
 .divider{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent);margin:30px 0;}
 .divider-gold{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:30px 0;}
 
@@ -77,8 +77,8 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .module-hero-badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;padding:8px 18px;border-radius:100px;background:rgba(237,137,54,.08);border:1px solid rgba(237,137,54,.2);}
 .mhb-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange);animation:glow-pulse 2s ease-in-out infinite;}
 @keyframes glow-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
-.mhb-text{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);font-weight:600;}
-.hero-big-letter{font-family:'Cormorant Garamond',serif;font-size:clamp(5rem,18vw,10rem);font-weight:300;color:transparent;background:linear-gradient(135deg,var(--orange) 0%,#FF9A5C 50%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;display:block;margin-bottom:-10px;}
+.mhb-text{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold,#C9A84C);font-weight:600;}
+.hero-big-letter{font-family:'Cormorant Garamond',serif;font-size:clamp(5rem,18vw,10rem);font-weight:300;color:transparent;background:linear-gradient(135deg,#C9A84C 0%,#F0D080 50%,#D4AF37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;display:block;margin-bottom:-10px;}
 .hero-subtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,3vw,1.6rem);font-weight:300;font-style:italic;color:var(--gold);margin-bottom:20px;}
 .hero-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:28px;}
 .hero-meta-pill{display:flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--gb);border-radius:100px;padding:7px 16px;font-size:.8rem;color:var(--muted);}
@@ -112,7 +112,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .pf-detail.show{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 .pfd-title{font-weight:600;font-size:.88rem;color:var(--text);margin-bottom:4px;}
-.pfd-desc{font-size:.83rem;color:var(--muted);line-height:1.65;}
+.pfd-desc{font-size:.83rem;color:var(--text2);line-height:1.65;}
 .pfd-badge{display:inline-block;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;padding:2px 9px;border-radius:100px;font-weight:700;margin-bottom:6px;}
 .timing-bar{margin-top:14px;padding:10px 16px;background:rgba(237,137,54,.06);border:1px solid rgba(237,137,54,.15);border-radius:10px;font-size:.78rem;color:var(--orange);text-align:center;letter-spacing:.5px;}
 
@@ -132,7 +132,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .vf-btn:hover{transform:translateY(-2px);}
 .vf-btn.correct{background:rgba(56,161,105,.15);border-color:rgba(56,161,105,.5);}
 .vf-btn.wrong{background:rgba(229,62,62,.15);border-color:rgba(229,62,62,.4);}
-.vf-reveal{margin-top:14px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);font-size:.87rem;color:var(--muted);line-height:1.65;display:none;}
+.vf-reveal{margin-top:14px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);font-size:.87rem;color:var(--text2);line-height:1.65;display:none;}
 .vf-reveal.show{display:block;animation:fadeIn .4s ease;}
 
 /* ── BALLON SOUS L'EAU ── */
@@ -164,7 +164,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .r-card:hover{border-color:rgba(229,62,62,.25);transform:translateY(-2px);}
 .r-icon{font-size:1.3rem;margin-bottom:8px;}
 .r-name{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:4px;}
-.r-desc{font-size:.78rem;color:var(--muted);line-height:1.55;}
+.r-desc{font-size:.78rem;color:var(--text2);line-height:1.55;}
 .r-masque{font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(229,62,62,.5);margin-top:6px;}
 @media(max-width:500px){.resist-grid{grid-template-columns:1fr;}}
 
@@ -178,7 +178,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .sc-choice:hover{background:rgba(237,137,54,.07);border-color:rgba(237,137,54,.2);color:var(--text);}
 .sc-choice.correct{background:rgba(56,161,105,.1);border-color:rgba(56,161,105,.35);color:#68D391;}
 .sc-choice.wrong{background:rgba(229,62,62,.08);border-color:rgba(229,62,62,.25);color:#FC8181;}
-.sc-reveal{font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);display:none;}
+.sc-reveal{font-size:.82rem;color:var(--text2);line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);display:none;}
 .sc-reveal.show{display:block;animation:fadeIn .4s ease;}
 
 /* ── FENÊTRE DE TOLÉRANCE ── */
@@ -205,7 +205,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .tw-zone-detail{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1);}
 .tw-zone.open .tw-zone-detail{max-height:250px;}
 .tw-zone-body{padding-top:14px;}
-.tw-zone-desc{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:10px;}
+.tw-zone-desc{font-size:.85rem;color:var(--text2);line-height:1.7;margin-bottom:10px;}
 .tw-zone-signs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
 .tw-sign{padding:4px 11px;border-radius:100px;font-size:.73rem;}
 .tw-zone.hyper .tw-sign{background:rgba(229,62,62,.08);border:1px solid rgba(229,62,62,.15);color:rgba(252,129,129,.8);}
@@ -262,7 +262,7 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .eq-opt:hover{background:rgba(237,137,54,.07);border-color:rgba(237,137,54,.2);color:var(--text);}
 .eq-opt.correct{background:rgba(56,161,105,.1);border-color:rgba(56,161,105,.35);color:#68D391;}
 .eq-opt.wrong{background:rgba(229,62,62,.08);border-color:rgba(229,62,62,.25);color:#FC8181;}
-.eq-feedback{margin-top:14px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);font-size:.87rem;color:var(--muted);line-height:1.65;display:none;}
+.eq-feedback{margin-top:14px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);font-size:.87rem;color:var(--text2);line-height:1.65;display:none;}
 .eq-feedback.show{display:block;animation:fadeIn .4s ease;}
 
 /* ── COHÉRENCE CARDIAQUE ── */
@@ -355,7 +355,51 @@ main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:72px 20px
 .btn-complete:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 16px 50px rgba(237,137,54,.6);}
 .complete-sub{margin-top:14px;font-size:.85rem;color:var(--muted);}
 .unlock-preview{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;padding:14px 24px;border-radius:14px;background:rgba(214,158,46,.06);border:1px solid rgba(214,158,46,.18);font-size:.85rem;color:var(--muted);opacity:0;transform:translateY(10px);transition:all .5s .2s ease;}
+
 .unlock-preview.show{opacity:1;transform:none;}
+
+/* ── BTN NEXT ── */
+.btn-next{display:flex;align-items:center;justify-content:center;gap:10px;margin:36px auto 0;width:100%;max-width:420px;background:linear-gradient(135deg,rgba(237,137,54,.12),rgba(237,137,54,.05));border:1px solid rgba(237,137,54,.3);border-radius:14px;padding:16px 28px;font-family:'Jost',sans-serif;font-size:.97rem;font-weight:500;color:var(--orange);cursor:pointer;transition:all .4s cubic-bezier(.34,1.2,.64,1);}
+.btn-next:hover{background:rgba(237,137,54,.18);transform:translateY(-2px) scale(1.02);box-shadow:0 8px 24px rgba(237,137,54,.2);}
+.btn-next .bn-arrow{transition:transform .3s;font-size:1.1rem;}
+.btn-next:hover .bn-arrow{transform:translateX(4px);}
+
+/* ── JOURNAL MODULE ── */
+.journal-module{margin:40px 0 0;border-radius:22px;overflow:hidden;border:1px solid rgba(237,137,54,.2);background:rgba(255,255,255,.02);}
+.jm-header{background:linear-gradient(135deg,rgba(237,137,54,.08),rgba(237,137,54,.03));border-bottom:1px solid rgba(237,137,54,.12);padding:22px 28px;display:flex;align-items:center;gap:14px;}
+.jm-header-icon{font-size:1.5rem;}
+.jm-header-text h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--text);margin-bottom:3px;}
+.jm-header-text p{font-size:.8rem;color:var(--muted);letter-spacing:.5px;}
+.jm-memo{border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-memo-toggle{width:100%;background:none;border:none;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'Jost',sans-serif;font-size:.85rem;font-weight:600;color:var(--text2);letter-spacing:.5px;text-align:left;}
+.jm-memo-toggle span{display:flex;align-items:center;gap:10px;}
+.jm-memo-chevron{font-size:.75rem;color:var(--muted);transition:transform .3s;}
+.jm-memo.open .jm-memo-chevron{transform:rotate(180deg);}
+.jm-memo-body{display:none;padding:0 28px 22px;}
+.jm-memo.open .jm-memo-body{display:block;}
+.jm-memo-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.jm-memo-item:last-child{border-bottom:none;}
+.jm-memo-num{width:26px;height:26px;border-radius:50%;background:rgba(237,137,54,.1);border:1px solid rgba(237,137,54,.2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--orange);flex-shrink:0;}
+.jm-memo-text{font-size:.88rem;color:var(--text2);line-height:1.65;}
+.jm-memo-text strong{color:var(--text);}
+.jm-questions{padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-q-label{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:18px;font-weight:600;}
+.jm-q-item{margin-bottom:18px;}
+.jm-q-item:last-child{margin-bottom:0;}
+.jm-q-text{font-size:.88rem;color:var(--text2);line-height:1.6;margin-bottom:8px;font-style:italic;}
+.jm-q-textarea{width:100%;min-height:72px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;font-family:'Jost',sans-serif;font-size:.88rem;color:var(--text);resize:none;outline:none;transition:border-color .3s;line-height:1.6;}
+.jm-q-textarea:focus{border-color:rgba(237,137,54,.3);}
+.jm-q-textarea::placeholder{color:rgba(255,255,255,.18);}
+.jm-libre{padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-libre-label{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:600;}
+.jm-libre-textarea{width:100%;min-height:100px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;font-family:'Jost',sans-serif;font-size:.88rem;color:var(--text);resize:none;outline:none;transition:border-color .3s;line-height:1.65;}
+.jm-libre-textarea:focus{border-color:rgba(201,168,76,.25);}
+.jm-libre-textarea::placeholder{color:rgba(255,255,255,.15);}
+.jm-actions{padding:20px 28px;display:flex;align-items:center;gap:12px;}
+.jm-save-btn{flex:1;background:linear-gradient(135deg,rgba(237,137,54,.15),rgba(237,137,54,.06));border:1px solid rgba(237,137,54,.3);border-radius:12px;padding:14px 20px;font-family:'Jost',sans-serif;font-size:.9rem;font-weight:600;color:var(--orange);cursor:pointer;transition:all .3s;}
+.jm-save-btn:hover{background:rgba(237,137,54,.22);}
+.jm-saved{display:none;padding:12px 28px 18px;font-size:.85rem;color:#4aab7a;background:rgba(74,171,122,.06);border-top:1px solid rgba(74,171,122,.15);}
+.jm-saved.show{display:flex;align-items:center;gap:8px;}
 .unlock-dot{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--yellow),#F6E05E);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.1rem;color:var(--navy);}
 
 /* ── JOURNAL SECTION ── */
@@ -447,12 +491,12 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
 
 <!-- ══ S0 — ACCROCHE PARADOXALE ══ -->
 <section class="section" data-s="0" id="s0">
-  <div class="module-hero-badge">
-    <div class="mhb-dot"></div>
-    <span class="mhb-text">Module 2 · A comme ACCUEILLIR</span>
+  <div class="module-hero-badge" style="background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.25);">
+    <span class="mhb-dot" style="background:#C9A84C;box-shadow:0 0 8px rgba(201,168,76,.6);"></span>
+    <span class="mhb-text" style="color:#C9A84C;">Module 2 · A comme ACCUEILLIR</span>
   </div>
-  <span class="hero-big-letter">A</span>
-  <div class="hero-subtitle">Recevoir ce qui est là</div>
+  <span class="hero-big-letter">ACCUEILLIR</span>
+  <div class="hero-subtitle">"Je reçois ce qui est là"</div>
   <p class="s-lead">Vous avez appris à voir votre masque s'activer. Maintenant vient l'étape la plus contre-intuitive du parcours — et de loin la plus libératrice.</p>
   <div class="hero-meta">
     <div class="hero-meta-pill"><span>🕐</span> 40–45 min</div>
@@ -478,7 +522,8 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
 
   <div class="insight-banner">
     <p class="ib-question">Et si votre souffrance ne venait pas de l'émotion elle-même —<br>mais de ce que vous <em>faites</em> avec elle ?</p>
-  </div>
+    <button class="btn-next" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})"><span>Comprendre les émotions</span><span class="bn-arrow">→</span></button>
+</div>
 </section>
 
 <!-- ══ S1 — CE QU'EST VRAIMENT UNE ÉMOTION ══ -->
@@ -570,7 +615,8 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
       <button class="vf-btn vf-false" onclick="answerVF(0,'false')">Faux</button>
     </div>
     <div class="vf-reveal" id="vfr0">✓ Faux — et c'est fondamental. L'émotion est d'abord une <strong style="color:var(--orange)">réaction corporelle automatique</strong> (le cœur qui s'emballe, le ventre qui se serre) — la pensée arrive après. C'est pour ça que "contrôler ses émotions par la pensée" ne fonctionne pas : vous essayez d'agir sur l'effet en ignorant la cause.</div>
-  </div>
+    <button class="btn-next" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'})"><span>La résistance &amp; le masque</span><span class="bn-arrow">→</span></button>
+</div>
 </section>
 
 <!-- ══ S2 — LE MASQUE QUI RÉSISTE ══ -->
@@ -788,7 +834,8 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
   <div class="key-insight" style="margin-top:20px;">
     <div class="ki-icon">✦</div>
     <div class="ki-text">L'objectif de la cohérence cardiaque — que vous pratiquerez dans le module suivant — est précisément de <strong>vous ramener dans votre fenêtre optimale</strong> avant d'essayer d'accueillir une émotion difficile. On ne peut pas accueillir depuis la zone rouge ou bleue.</div>
-  </div>
+    <button class="btn-next" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'})"><span>Les 4 messagères</span><span class="bn-arrow">→</span></button>
+</div>
 </section>
 
 <!-- ══ S4 — LES 4 MESSAGÈRES ══ -->
@@ -891,7 +938,8 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
       </div>
       <div class="eq-feedback" id="eqf2"></div>
     </div>
-  </div>
+    <button class="btn-next" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'})"><span>La cohérence cardiaque</span><span class="bn-arrow">→</span></button>
+</div>
 </section>
 
 <!-- ══ S5 — COHÉRENCE CARDIAQUE ══ -->
@@ -931,7 +979,8 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
   <div class="key-insight" style="margin-top:8px;">
     <div class="ki-icon">🎯</div>
     <div class="ki-text">Utilisez cet exercice <strong>avant</strong> d'essayer d'accueillir une émotion difficile. Et aussi dans les moments de forte activation — vous sentez que ça monte, vous faites 2 minutes de 5-5 avant de répondre, avant d'agir.</div>
-  </div>
+    <button class="btn-next" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'})"><span>Le protocole d'accueil</span><span class="bn-arrow">→</span></button>
+</div>
 </section>
 
 <!-- ══ S6 — LES 4 ÉTAPES DE L'ACCUEIL ══ -->
@@ -1006,7 +1055,8 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
       <div class="vc-trigger">Même déclencheur. Même masque Indigo — peur de l'échec.</div>
       <div class="vc-text">Léa remarque la honte. Elle se dit intérieurement : <em>"Il y a de la honte en moi. Je localise — c'est dans la poitrine, serré. Le message : je crois que cette remarque confirme que je suis inadéquate. Le besoin : être reconnue dans mon travail."</em> Elle ne répond pas à l'email. Le soir, elle écrit dans son journal. Elle dort.</div>
     </div>
-  </div>
+    <button class="btn-next" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'})"><span>Quiz final &amp; bilan</span><span class="bn-arrow">→</span></button>
+</div>
 </section>
 
 <!-- ══ S7 — QUIZ FINAL & COMPLÉTION ══ -->
@@ -1054,51 +1104,78 @@ footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.72r
   </div>
 </section>
 
+  <button class="btn-next" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'})"><span>✍️ Mon Journal de bord</span><span class="bn-arrow">→</span></button>
+
 <!-- ══ S8 — JOURNAL ACCUEILLIR ══ -->
 <section class="section" data-s="8" id="s8">
-  <div class="journal-section-header">
-    <div style="font-size:2.6rem;margin-bottom:14px;">✍️</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:300;color:var(--text);margin-bottom:12px;">Mon journal <em style="color:var(--orange)">ACCUEILLIR</em></h2>
-    <p style="font-size:.95rem;color:var(--muted);line-height:1.75;max-width:500px;margin:0 auto;">ACCUEILLIR ne s'apprend pas en lisant. Ça s'apprend en pratiquant — une émotion difficile à la fois. Ce journal est votre espace pour traverser ça par écrit.</p>
-  </div>
+  <p class="s-label">Mon journal de bord</p>
+  <h2 class="s-title">Ancrer<br><em>ce qui compte</em></h2>
 
-  <p style="font-size:.78rem;color:rgba(255,255,255,.22);margin-bottom:20px;font-style:italic;">Pensez à une situation récente où une émotion s'est activée ↓</p>
-
-  <div class="jblock">
-    <div class="jblock-header">
-      <div class="jblock-num">1</div>
-      <div class="jblock-prompt">Quelle émotion s'est levée — et quelle était la situation déclencheuse ?</div>
+  <div class="journal-module" id="jm-module2">
+    <div class="jm-header">
+      <span class="jm-header-icon">📓</span>
+      <div class="jm-header-text">
+        <h3>Mon Journal de bord — ACCUEILLIR</h3>
+        <p>Sauvegardé dans votre parcours complet · Exportable en PDF en fin de parcours</p>
+      </div>
     </div>
-    <div class="jblock-hint">Nommez l'émotion (anxiété, colère, tristesse, honte, autre ?) et décrivez brièvement la situation, sans jugement.</div>
-    <textarea class="jblock-ta" id="jtxt1" placeholder="J'ai ressenti... dans la situation où..."></textarea>
-  </div>
-  <div class="jblock">
-    <div class="jblock-header">
-      <div class="jblock-num">2</div>
-      <div class="jblock-prompt">Quelle stratégie de résistance a voulu s'activer — et avez-vous pu l'observer ?</div>
-    </div>
-    <div class="jblock-hint">Évitement, refoulement, intellectualisation, diversion... ? L'avez-vous vu arriver ou seulement après coup ?</div>
-    <textarea class="jblock-ta" id="jtxt2" placeholder="Mon masque voulait... / J'ai remarqué que je..."></textarea>
-  </div>
-  <div class="jblock">
-    <div class="jblock-header">
-      <div class="jblock-num">3</div>
-      <div class="jblock-prompt">Si vous appliquez le protocole maintenant — quel besoin se cache derrière cette émotion ?</div>
-    </div>
-    <div class="jblock-hint">Même rétrospectivement. Sécurité ? Reconnaissance ? Connexion ? Quel serait l'action juste ?</div>
-    <textarea class="jblock-ta" id="jtxt3" placeholder="Le besoin derrière cette émotion est probablement... L'action juste aurait été..."></textarea>
-  </div>
 
-  <div class="journal-save-bar">
-    <div class="j-char-count" id="j-char-count">0 mots</div>
-    <button class="btn-j-save" id="btn-j-save" onclick="saveJournalSection()">
-      <span>💾</span> Sauvegarder cette entrée
-    </button>
-  </div>
+    <div class="jm-memo" id="jm-memo-m2">
+      <button class="jm-memo-toggle" onclick="toggleMemo('jm-memo-m2')">
+        <span>🗂 Mémo — Les 5 concepts essentiels d’ACCUEILLIR</span>
+        <span class="jm-memo-chevron">▾</span>
+      </button>
+      <div class="jm-memo-body">
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">1</div>
+          <div class="jm-memo-text"><strong>La résistance crée la souffrance</strong> — Ce n’est pas l’émotion qui fait mal, c’est la lutte contre elle. Éviter, refouler, analyser à l’excès maintient la tension. Accueillir la libère.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">2</div>
+          <div class="jm-memo-text"><strong>L’émotion est une messagère</strong> — Chaque émotion porte un message (un besoin) et une information. La colère dit « une limite a été franchie ». La tristesse dit « j’ai perdu quelque chose d’important ». Accueillir, c’est écouter le message.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">3</div>
+          <div class="jm-memo-text"><strong>La fenêtre de tolérance</strong> — Zone optimale entre hyper- et hypo-activation. Depuis cette zone, on peut accueillir. La cohérence cardiaque (5-5) y ramène en moins de 2 minutes.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">4</div>
+          <div class="jm-memo-text"><strong>Le protocole STOP en 4 étapes</strong> — 1️⃣ Stopper → 2️⃣ Nommer l’émotion → 3️⃣ Localiser dans le corps → 4️⃣ Identifier le besoin. Utilisable en temps réel, même en réunion.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">5</div>
+          <div class="jm-memo-text"><strong>La phrase d’accueil</strong> — « Je remarque de la [nom de l’émotion] en moi. Je l’accueille sans la combattre. » Cette formulation crée instantanément un espace entre vous et l’émotion.</div>
+        </div>
+      </div>
+    </div>
 
-  <div class="journal-past" id="journal-past">
-    <div class="jp-header">Mes entrées précédentes</div>
-    <div id="jp-list"><div class="jp-empty">Votre journal est vide. Cette première entrée sera le début d'une cartographie de vos émotions. ✨</div></div>
+    <div class="jm-questions">
+      <div class="jm-q-label">✍️ Mon bilan — Module 2 · ACCUEILLIR</div>
+      <div class="jm-q-item">
+        <div class="jm-q-text">L’émotion que j’évite le plus dans ma vie…</div>
+        <textarea class="jm-q-textarea" id="jm-q1-m2" placeholder="Colère, tristesse, honte, anxiété, peur ? La situation qui la déclenche le plus souvent…"></textarea>
+      </div>
+      <div class="jm-q-item">
+        <div class="jm-q-text">Le besoin caché derrière cette émotion…</div>
+        <textarea class="jm-q-textarea" id="jm-q2-m2" placeholder="Sécurité ? Reconnaissance ? Connexion ? Quel besoin cette émotion essaie-t-elle de signaler ?"></textarea>
+      </div>
+      <div class="jm-q-item">
+        <div class="jm-q-text">Mon protocole STOP — la dernière fois que je l’ai appliqué…</div>
+        <textarea class="jm-q-textarea" id="jm-q3-m2" placeholder="Situation, émotion nommée, sensation localisée, besoin identifié ? Résultat ?"></textarea>
+      </div>
+    </div>
+
+    <div class="jm-libre">
+      <div class="jm-libre-label">📝 Réflexions libres</div>
+      <textarea class="jm-libre-textarea" id="jm-libre-m2" placeholder="Espace libre — ce que ce module a éveillé, une prise de conscience, une résistance, une émotion difficile que vous avez commencé à accueillir…"></textarea>
+    </div>
+
+    <div class="jm-actions">
+      <button class="jm-save-btn" onclick="saveJournalV3()">💾 Sauvegarder dans mon journal</button>
+    </div>
+    <div class="jm-saved" id="jm-saved-m2">
+      ✓ Entrée sauvegardée — visible dans votre Journal de bord complet
+    </div>
   </div>
 </section>
 
@@ -1383,77 +1460,87 @@ function nextQZ(){
 }
 function restartQZ(){qzIdx=0;qzScore=0;qzAnswered=false;document.getElementById('qz-card').style.display='block';document.getElementById('qz-score').classList.remove('show');renderQZ();}
 
+/* ── JOURNAL V3 ── */
+const JV3='VALEUR_journal_v3';
+function getJournalV3(){try{return JSON.parse(localStorage.getItem(JV3))||[];}catch(e){return[];}}
+function saveJournalV3arr(arr){try{localStorage.setItem(JV3,JSON.stringify(arr));}catch(e){}}
+
+function toggleMemo(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+
+function saveJournalV3(){
+  const q1=document.getElementById('jm-q1-m2')?.value.trim()||'';
+  const q2=document.getElementById('jm-q2-m2')?.value.trim()||'';
+  const q3=document.getElementById('jm-q3-m2')?.value.trim()||'';
+  const libre=document.getElementById('jm-libre-m2')?.value.trim()||'';
+  const masque=localStorage.getItem('valeur_dominant_masque')||'';
+  const arr=getJournalV3();
+  const idx=arr.findIndex(e=>e.module===2);
+  const entry={
+    module:2,module_name:'ACCUEILLIR',
+    date:new Date().toISOString(),
+    masque_dominant:masque,
+    reponses:[
+      {question:"L\u2019\u00e9motion que j\u2019\u00e9vite le plus dans ma vie\u2026",reponse:q1},
+      {question:"Le besoin cach\u00e9 derri\u00e8re cette \u00e9motion\u2026",reponse:q2},
+      {question:"Mon protocole STOP \u2014 la derni\u00e8re fois que je l\u2019ai appliqu\u00e9\u2026",reponse:q3}
+    ],
+    reflexion_libre:libre
+  };
+  if(idx>=0)arr[idx]=entry;else arr.push(entry);
+  saveJournalV3arr(arr);
+  try{
+    const v2=JSON.parse(localStorage.getItem('valeur_journal_v2'))||[];
+    v2.unshift({date:entry.date,text:(q1+'\n'+q2+'\n'+q3+'\n'+libre).trim(),module:'Module 2 \u2014 ACCUEILLIR'});
+    localStorage.setItem('valeur_journal_v2',JSON.stringify(v2.slice(0,30)));
+  }catch(e){}
+  const saved=document.getElementById('jm-saved-m2');
+  if(saved){saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),4000);}
+  showToast('\u270D\uFE0F Journal Module 2 sauvegard\u00e9');
+}
+
+function prefillJournalV3(){
+  const arr=getJournalV3();
+  const entry=arr.find(e=>e.module===2);
+  if(!entry)return;
+  const q1=document.getElementById('jm-q1-m2');
+  const q2=document.getElementById('jm-q2-m2');
+  const q3=document.getElementById('jm-q3-m2');
+  const libre=document.getElementById('jm-libre-m2');
+  if(q1&&entry.reponses[0])q1.value=entry.reponses[0].reponse||'';
+  if(q2&&entry.reponses[1])q2.value=entry.reponses[1].reponse||'';
+  if(q3&&entry.reponses[2])q3.value=entry.reponses[2].reponse||'';
+  if(libre)libre.value=entry.reflexion_libre||'';
+}
+
 /* ── COMPLETE ── */
 function completeModule(){
+  saveJournalV3();
   markDone('module2_complete');renderProgress();
   document.getElementById('unlock-preview').classList.add('show');
   launchConfetti();
-  showToast('\ud83c\udf89 Module 2 compl\u00e9t\u00e9 ! LOCALISER \ud83d\udfe1 d\u00e9bloqu\u00e9 !');
+  showToast('\uD83C\uDF89 Module 2 compl\u00e9t\u00e9\u00a0! LOCALISER \uD83D\uDFE1 d\u00e9bloqu\u00e9\u00a0!');
   setTimeout(()=>{
     const s8=document.getElementById('s8');if(s8)s8.scrollIntoView({behavior:'smooth',block:'start'});
   },1200);
   setTimeout(()=>{
-    if(confirm('Excellent\u00b7e ! Passer au Module 3 \u2014 LOCALISER maintenant ?')){window.location.href=BASE+'module3.html';}
+    if(confirm('Excellent\u00b7e\u00a0! Passer au Module 3 \u2014 LOCALISER maintenant\u00a0?')){window.location.href='module3.html';}
   },4000);
 }
 
 /* ── TOAST ── */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
 
-/* ── JOURNAL SECTION ── */
-const JK='valeur_journal_v2';
-function getJEntries(){try{return JSON.parse(localStorage.getItem(JK))||[];}catch(e){return[];}}
-function saveJEntries(a){try{localStorage.setItem(JK,JSON.stringify(a));}catch(e){}}
-
-function saveJournalSection(){
-  const t1=document.getElementById('jtxt1').value.trim();
-  const t2=document.getElementById('jtxt2').value.trim();
-  const t3=document.getElementById('jtxt3').value.trim();
-  if(!t1&&!t2&&!t3){showToast('\u00c9crivez au moins une r\u00e9ponse avant de sauvegarder');return;}
-  const entry={date:new Date().toISOString(),module:'Module 2 \u2014 ACCUEILLIR',q1:t1,q2:t2,q3:t3};
-  const entries=getJEntries();entries.unshift(entry);saveJEntries(entries);
-  const btn=document.getElementById('btn-j-save');
-  btn.classList.add('saved');btn.innerHTML='<span>\u2713</span> Sauvegard\u00e9\u00a0!';
-  setTimeout(()=>{btn.classList.remove('saved');btn.innerHTML='<span>\ud83d\udcbe</span> Sauvegarder cette entr\u00e9e';},2000);
-  showToast('\u270d\ufe0f Entr\u00e9e journal sauvegard\u00e9e');
-  renderJournalPast();
-}
-function renderJournalPast(){
-  const entries=getJEntries();
-  const list=document.getElementById('jp-list');if(!list)return;
-  if(!entries.length){list.innerHTML='<div class="jp-empty">Votre journal est vide. Cette premi\u00e8re entr\u00e9e sera pr\u00e9cieuse \u2728</div>';return;}
-  list.innerHTML=entries.slice(0,5).map(e=>{
-    const d=new Date(e.date);const ds=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-    let c='';
-    if(e.q1)c+='<div style="margin-bottom:7px;"><span style="font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(237,137,54,.4);">\u00c9motion / Situation</span><br>'+e.q1.slice(0,100)+(e.q1.length>100?'\u2026':'')+'</div>';
-    if(e.text)c+='<div>'+e.text.slice(0,160)+(e.text.length>160?'\u2026':'')+'</div>';
-    return '<div class="jp-entry"><div class="jp-entry-meta"><span class="jp-entry-date">'+ds+'</span><span class="jp-entry-module">'+(e.module||'')+'</span></div><div class="jp-entry-text">'+c+'</div></div>';
-  }).join('');
-}
-['jtxt1','jtxt2','jtxt3'].forEach(id=>{
-  const ta=document.getElementById(id);
-  if(ta)ta.addEventListener('input',()=>{
-    const words=[document.getElementById('jtxt1'),document.getElementById('jtxt2'),document.getElementById('jtxt3')].map(t=>t?t.value.trim():'').join(' ').split(/\s+/).filter(w=>w).length;
-    const el=document.getElementById('j-char-count');if(el)el.textContent=words+' mot'+(words>1?'s':'');
-  });
-});
-
 /* ── JOURNAL DRAWER ── */
 function toggleJournal(){
   const o=document.getElementById('journal-overlay'),d=document.getElementById('journal-drawer');
   if(d.classList.contains('open')){closeJournal();}
-  else{o.classList.add('open');d.classList.add('open');document.getElementById('j-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});renderDrawerEntries();document.getElementById('journal-textarea').focus();}
+  else{o.classList.add('open');d.classList.add('open');document.getElementById('j-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});document.getElementById('journal-textarea').focus();}
 }
 function closeJournal(){document.getElementById('journal-overlay').classList.remove('open');document.getElementById('journal-drawer').classList.remove('open');}
-function saveDrawerEntry(){
+function saveEntry(){
   const ta=document.getElementById('journal-textarea');const text=ta.value.trim();if(!text)return;
-  const e=getJEntries();e.unshift({date:new Date().toISOString(),text,module:'Module 2 \u2014 ACCUEILLIR'});saveJEntries(e);ta.value='';
-  renderDrawerEntries();showToast('\u270d\ufe0f Note sauvegard\u00e9e');renderJournalPast();
-}
-function renderDrawerEntries(){
-  const entries=getJEntries();const list=document.getElementById('j-list-drawer');
-  if(!entries.length){list.innerHTML='<p class="j-no-entries">Votre journal est vide. \u2728</p>';return;}
-  list.innerHTML='<p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;">Entr\u00e9es pr\u00e9c\u00e9dentes</p>'+entries.slice(0,5).map(e=>{const d=new Date(e.date);return'<div class="j-entry"><div class="j-entry-date">'+d.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})+'</div><div class="j-entry-text">'+(e.text||e.q1||'').slice(0,140)+((( e.text||e.q1||'').length>140)?'\u2026':'')+'</div></div>';}).join('');
+  try{const v2=JSON.parse(localStorage.getItem('valeur_journal_v2'))||[];v2.unshift({date:new Date().toISOString(),text,module:'Module 2 \u2014 ACCUEILLIR'});localStorage.setItem('valeur_journal_v2',JSON.stringify(v2.slice(0,30)));}catch(e){}
+  ta.value='';showToast('\u270d\ufe0f Note sauvegard\u00e9e');
 }
 
 /* ── CONFETTI ── */
@@ -1461,7 +1548,7 @@ const canvas=document.getElementById('confetti-canvas');const ctx=canvas.getCont
 const COLORS=['#E53E3E','#ED8936','#D69E2E','#38A169','#3182CE','#5A67D8','#805AD5','#C9A84C','#F0D080'];
 function launchConfetti(){
   canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-  particles=Array.from({length:160},()=>({x:Math.random()*canvas.width,y:Math.random()*-canvas.height*.3,vx:(Math.random()-.5)*4,vy:Math.random()*4+2,r:Math.random()*7+3,color:COLORS[Math.floor(Math.random()*COLORS.length)],spin:Math.random()*Math.PI*2,spinV:(Math.random()-.5)*.3,shape:Math.random()>.5?'rect':'circle',opacity:1}));
+  particles=Array.from({length:180},()=>({x:Math.random()*canvas.width,y:Math.random()*-canvas.height*.3,vx:(Math.random()-.5)*4,vy:Math.random()*4+2,r:Math.random()*7+3,color:COLORS[Math.floor(Math.random()*COLORS.length)],spin:Math.random()*Math.PI*2,spinV:(Math.random()-.5)*.3,shape:Math.random()>.5?'rect':'circle',opacity:1}));
   animateConfetti();
 }
 function animateConfetti(){
@@ -1476,14 +1563,13 @@ function animateConfetti(){
 }
 window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
 
-/* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
   renderProgress();
   renderQZ();
   onScroll();
   setTimeout(onScroll,100);
-  renderJournalPast();
   setBalloon('resist');
+  prefillJournalV3();
   // Ouvrir stepper 1 par défaut
   const st=document.querySelector('.st-step');if(st)st.classList.add('active');
 });

@@ -11,7 +11,7 @@
   --yellow:#D69E2E;--yellow-light:#F6E05E;--yellow-glow:rgba(214,158,46,.25);
   --navy:#070D1A;--navy2:#0D1526;--navy3:#131F35;--navy4:#1A2845;
   --glass:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);
-  --text:#F2EDE6;--muted:#8A9BB5;--subtle:rgba(242,237,230,.55);
+  --text:#F2EDE6;--muted:#8A9BB5;--text2:#C8D6E8;--subtle:rgba(242,237,230,.55);
   --red:#E53E3E;--orange:#ED8936;--green:#38A169;
   --blue:#3182CE;--indigo:#5A67D8;--violet:#805AD5;
   --font-display:'Cormorant Garamond',serif;
@@ -21,7 +21,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
+body{font-size:15px;
   background:var(--navy);color:var(--text);
   font-family:var(--font-body);font-weight:300;
   overflow-x:hidden;min-height:100vh;
@@ -35,40 +35,12 @@ img{pointer-events:none;-webkit-user-drag:none}
 .orbe-2{width:500px;height:500px;bottom:-150px;right:-50px;background:radial-gradient(circle,rgba(201,168,76,.1),transparent 70%);animation-delay:-6s}
 .orbe-3{width:400px;height:400px;top:40%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(240,208,128,.06),transparent 70%);animation-delay:-12s}
 @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
-#scroll-line{position:fixed;top:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,var(--yellow),var(--gold-light));z-index:1001;transition:width .1s linear}
-#prog-bar{position:fixed;top:2px;left:0;right:0;height:3px;background:rgba(255,255,255,.04);z-index:1000}
-#prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--yellow),var(--gold-light));transition:width .6s ease;border-radius:0 2px 2px 0}
-.glass-header{
-  position:fixed;top:0;left:0;right:0;z-index:900;
-  padding:12px 24px;background:rgba(7,13,26,.85);backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(214,158,46,.15);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.back-btn{
-  display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.8rem;letter-spacing:.05em;
-  text-decoration:none;transition:var(--transition);padding:6px 12px;
-  border:1px solid rgba(255,255,255,.06);border-radius:8px;
-}
-.back-btn:hover{color:var(--yellow);border-color:rgba(214,158,46,.3)}
-.logo-text{font-family:var(--font-display);font-size:1.1rem;font-weight:600;color:var(--gold);letter-spacing:.12em;text-decoration:none;white-space:nowrap}
-.mod-badge{background:rgba(214,158,46,.12);border:1px solid rgba(214,158,46,.3);color:var(--yellow);font-size:.7rem;letter-spacing:.15em;padding:3px 10px;border-radius:20px;font-weight:500}
-.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.ham span{display:block;width:22px;height:1.5px;background:var(--muted);transition:var(--transition)}
-nav#nav{display:flex;gap:8px;align-items:center}
-nav#nav a{color:var(--muted);font-size:.78rem;text-decoration:none;padding:5px 12px;border-radius:8px;transition:var(--transition);letter-spacing:.04em}
-nav#nav a:hover{color:var(--text);background:var(--glass)}
-@media(max-width:768px){
-  .ham{display:flex}
-  nav#nav{display:none;position:absolute;top:56px;left:0;right:0;background:rgba(7,13,26,.97);backdrop-filter:blur(20px);flex-direction:column;padding:12px;gap:4px;border-bottom:1px solid var(--gb)}
-  nav#nav.open{display:flex}
-  nav#nav a{padding:10px 16px;font-size:.85rem}
-}
 #dot-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:800;display:flex;flex-direction:column;gap:10px}
 .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;transition:var(--transition);border:1px solid transparent}
 .dot.active,.dot:hover{background:var(--yellow);border-color:var(--yellow-light);transform:scale(1.4)}
 @media(max-width:768px){#dot-nav{display:none}}
-.container{max-width:860px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-.section{padding:100px 0 60px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.container{max-width:760px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.section{padding:100px 0 60px;min-height:100vh;display:flex;flex-direction:column}
 .section-inner{padding:80px 0}
 .glass-card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--gb);border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;transition:var(--transition)}
 .glass-card:hover{border-color:rgba(214,158,46,.2);background:rgba(255,255,255,.06)}
@@ -101,7 +73,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 .zone-row{display:grid;grid-template-columns:140px 1fr;gap:1rem;align-items:center;background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:.9rem 1.2rem;transition:var(--transition)}
 .zone-row:hover{border-color:rgba(214,158,46,.25);background:rgba(214,158,46,.04)}
 .zone-lbl{font-weight:500;font-size:.88rem;color:var(--text)}
-.zone-sig{font-size:.82rem;color:var(--muted);line-height:1.5}
+.zone-sig{font-size:.82rem;color:var(--text2);line-height:1.5}
 @media(max-width:500px){.zone-row{grid-template-columns:1fr}.zone-lbl{margin-bottom:.3rem}}
 .thermo-box{background:var(--glass);border:1px solid rgba(214,158,46,.2);border-radius:var(--radius);padding:2rem;margin:1.5rem 0;text-align:center}
 .thermo-ttl{font-family:var(--font-display);font-size:1.3rem;color:var(--yellow);margin-bottom:.4rem}
@@ -124,14 +96,14 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 .mz-detail.open{display:block}
 .mz-pills{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}
 .mz-pill{background:rgba(214,158,46,.1);border:1px solid rgba(214,158,46,.2);border-radius:20px;padding:3px 12px;font-size:.75rem;color:var(--yellow-light)}
-.mz-sens{font-size:.82rem;color:var(--muted);line-height:1.6}
+.mz-sens{font-size:.82rem;color:var(--text2);line-height:1.6}
 .sens-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0}
 @media(max-width:600px){.sens-grid{grid-template-columns:1fr}}
 .sens-card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:1.4rem;text-align:center;transition:var(--transition)}
 .sens-card:hover{border-color:rgba(214,158,46,.3);transform:translateY(-2px)}
 .sens-ico{font-size:2.2rem;display:block;margin-bottom:.8rem}
 .sens-name{font-family:var(--font-display);font-size:1.1rem;color:var(--yellow);display:block;margin-bottom:.5rem}
-.sens-desc{font-size:.82rem;color:var(--muted);line-height:1.5}
+.sens-desc{font-size:.82rem;color:var(--text2);line-height:1.5}
 .sens-tags{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.8rem}
 .sens-tag{background:rgba(214,158,46,.08);border:1px solid rgba(214,158,46,.15);border-radius:20px;padding:2px 8px;font-size:.7rem;color:var(--subtle)}
 .dist-block{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
@@ -148,7 +120,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 .scan-step:hover{border-color:rgba(214,158,46,.25)}
 .ss-num{width:44px;height:44px;border-radius:50%;background:rgba(214,158,46,.12);border:1px solid rgba(214,158,46,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.2rem;color:var(--yellow);font-weight:600;flex-shrink:0}
 .ss-t{font-weight:500;font-size:.92rem;color:var(--text);margin-bottom:.4rem}
-.ss-d{font-size:.83rem;color:var(--muted);line-height:1.6}
+.ss-d{font-size:.83rem;color:var(--text2);line-height:1.6}
 .ss-note{display:inline-block;margin-top:.5rem;padding:.4rem .9rem;background:rgba(214,158,46,.08);border:1px solid rgba(214,158,46,.2);border-radius:8px;font-size:.78rem;color:var(--yellow-light);font-style:italic}
 .scan-interactive{background:rgba(214,158,46,.05);border:1px solid rgba(214,158,46,.25);border-radius:var(--radius);padding:2rem;margin:2rem 0;text-align:center}
 .sz-list{display:flex;flex-direction:column;gap:.6rem;margin:1.5rem 0}
@@ -179,7 +151,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 .rdot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);transition:var(--transition)}
 .rdot.done{background:var(--yellow);border-color:var(--yellow)}
 .rdot.cur{background:rgba(214,158,46,.4);border-color:var(--yellow);transform:scale(1.3)}
-.resp-expl{font-size:.8rem;color:var(--muted);line-height:1.6;background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:1rem;margin-top:1.5rem}
+.resp-expl{font-size:.8rem;color:var(--text2);line-height:1.6;background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:1rem;margin-top:1.5rem}
 .checklist{display:flex;flex-direction:column;gap:.7rem;margin:1.5rem 0}
 .ck-item{display:flex;align-items:center;gap:1rem;padding:.9rem 1.2rem;background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition)}
 .ck-item:hover{border-color:rgba(214,158,46,.2)}
@@ -194,7 +166,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 .fin-card{background:var(--glass);border:1px solid var(--gb);border-radius:var(--radius-sm);padding:1.4rem;text-align:center}
 .fin-ico{font-size:2rem;display:block;margin-bottom:.7rem}
 .fin-lbl{font-family:var(--font-display);font-size:1rem;color:var(--yellow);display:block;margin-bottom:.3rem}
-.fin-v{font-size:.8rem;color:var(--muted);line-height:1.4}
+.fin-v{font-size:.8rem;color:var(--text2);line-height:1.4}
 .btn-complete{display:block;width:100%;max-width:460px;margin:2rem auto 0;background:linear-gradient(135deg,rgba(214,158,46,.25),rgba(201,168,76,.15));border:1.5px solid var(--yellow);color:var(--yellow-light);padding:1.1rem 2rem;border-radius:var(--radius);font-family:var(--font-body);font-size:.92rem;font-weight:500;letter-spacing:.1em;cursor:pointer;transition:var(--transition);text-align:center;text-decoration:none}
 .btn-complete:hover{background:rgba(214,158,46,.3);transform:translateY(-2px);color:#fff}
 .unlock-next{text-align:center;margin-top:1rem;padding:1rem;background:rgba(56,161,105,.06);border:1px solid rgba(56,161,105,.2);border-radius:var(--radius-sm);font-size:.82rem;color:#68d391}
@@ -221,27 +193,80 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
 .tc{text-align:center}
 .copy{text-align:center;padding:.6rem;margin-top:2rem;font-size:.65rem;color:rgba(255,255,255,.2);letter-spacing:.08em}
+
+/* ── BTN NEXT ── */
+.btn-next{display:flex;align-items:center;justify-content:center;gap:10px;margin:36px auto 0;width:100%;max-width:420px;background:linear-gradient(135deg,rgba(214,158,46,.12),rgba(214,158,46,.05));border:1px solid rgba(214,158,46,.3);border-radius:14px;padding:16px 28px;font-family:var(--font-body);font-size:.97rem;font-weight:500;color:var(--yellow);cursor:pointer;transition:all .4s cubic-bezier(.34,1.2,.64,1);}
+.btn-next:hover{background:rgba(214,158,46,.18);transform:translateY(-2px) scale(1.02);box-shadow:0 8px 24px rgba(214,158,46,.2);}
+.btn-next .bn-arrow{transition:transform .3s;font-size:1.1rem;}
+.btn-next:hover .bn-arrow{transform:translateX(4px);}
+/* ── JOURNAL MODULE ── */
+.journal-module{margin:40px 0 0;border-radius:22px;overflow:hidden;border:1px solid rgba(214,158,46,.2);background:rgba(255,255,255,.02);}
+.jm-header{background:linear-gradient(135deg,rgba(214,158,46,.08),rgba(214,158,46,.03));border-bottom:1px solid rgba(214,158,46,.12);padding:22px 28px;display:flex;align-items:center;gap:14px;}
+.jm-header-icon{font-size:1.5rem;}
+.jm-header-text h3{font-family:var(--font-display);font-size:1.25rem;font-weight:400;color:var(--text);margin-bottom:3px;}
+.jm-header-text p{font-size:.8rem;color:var(--muted);letter-spacing:.5px;}
+.jm-memo{border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-memo-toggle{width:100%;background:none;border:none;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:var(--font-body);font-size:.85rem;font-weight:600;color:var(--text2);letter-spacing:.5px;text-align:left;}
+.jm-memo-toggle span{display:flex;align-items:center;gap:10px;}
+.jm-memo-chevron{font-size:.75rem;color:var(--muted);transition:transform .3s;}
+.jm-memo.open .jm-memo-chevron{transform:rotate(180deg);}
+.jm-memo-body{display:none;padding:0 28px 22px;}
+.jm-memo.open .jm-memo-body{display:block;}
+.jm-memo-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.jm-memo-item:last-child{border-bottom:none;}
+.jm-memo-num{width:26px;height:26px;border-radius:50%;background:rgba(214,158,46,.1);border:1px solid rgba(214,158,46,.2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--yellow);flex-shrink:0;}
+.jm-memo-text{font-size:.88rem;color:var(--text2);line-height:1.65;}
+.jm-memo-text strong{color:var(--text);}
+.jm-questions{padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-q-label{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--yellow);margin-bottom:18px;font-weight:600;}
+.jm-q-item{margin-bottom:18px;}
+.jm-q-item:last-child{margin-bottom:0;}
+.jm-q-text{font-size:.88rem;color:var(--text2);line-height:1.6;margin-bottom:8px;font-style:italic;}
+.jm-q-textarea{width:100%;min-height:72px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;font-family:var(--font-body);font-size:.88rem;color:var(--text);resize:none;outline:none;transition:border-color .3s;line-height:1.6;}
+.jm-q-textarea:focus{border-color:rgba(214,158,46,.3);}
+.jm-q-textarea::placeholder{color:rgba(255,255,255,.18);}
+.jm-libre{padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.05);}
+.jm-libre-label{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:600;}
+.jm-libre-textarea{width:100%;min-height:100px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;font-family:var(--font-body);font-size:.88rem;color:var(--text);resize:none;outline:none;transition:border-color .3s;line-height:1.65;}
+.jm-libre-textarea:focus{border-color:rgba(201,168,76,.25);}
+.jm-libre-textarea::placeholder{color:rgba(255,255,255,.15);}
+.jm-actions{padding:20px 28px;display:flex;align-items:center;gap:12px;}
+.jm-save-btn{flex:1;background:linear-gradient(135deg,rgba(214,158,46,.15),rgba(214,158,46,.06));border:1px solid rgba(214,158,46,.3);border-radius:12px;padding:14px 20px;font-family:var(--font-body);font-size:.9rem;font-weight:600;color:var(--yellow);cursor:pointer;transition:all .3s;}
+.jm-save-btn:hover{background:rgba(214,158,46,.22);}
+.jm-saved{display:none;padding:12px 28px 18px;font-size:.85rem;color:#4aab7a;background:rgba(74,171,122,.06);border-top:1px solid rgba(74,171,122,.15);}
+.jm-saved.show{display:flex;align-items:center;gap:8px;}
+
+/* ── HERO UNIFIED ── */
+.module-hero-badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;padding:8px 18px;border-radius:100px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);}
+.mhb-dot{width:8px;height:8px;border-radius:50%;background:var(--gold, #C9A84C);box-shadow:0 0 8px rgba(201,168,76,.6);animation:glow-pulse 2s ease-in-out infinite;}
+@keyframes glow-pulse{0%,100%{opacity:1;box-shadow:0 0 8px rgba(201,168,76,.6);}50%{opacity:.6;box-shadow:0 0 14px rgba(201,168,76,.9);}}
+.mhb-text{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold,#C9A84C);font-weight:600;}
+.hero-big-letter{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,14vw,9rem);font-weight:300;color:transparent;background:linear-gradient(135deg,#C9A84C 0%,#F0D080 50%,#D4AF37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;display:block;margin-bottom:8px;}
+.hero-subtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,3vw,1.5rem);font-weight:300;font-style:italic;color:var(--gold,#C9A84C);margin-bottom:20px;}
+.hero-meta-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:7px 16px;font-size:.8rem;color:var(--muted);}
+.hero-meta-pill span{font-size:.9rem;}
+#progress-bar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(7,13,26,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(214,158,46,.15);padding:10px 20px;display:flex;align-items:center;gap:12px;}
+.pb-back{display:flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--gb);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:12px;letter-spacing:.5px;text-decoration:none;transition:all .3s;white-space:nowrap;flex-shrink:0;}
+.pb-back:hover{border-color:var(--yellow);color:var(--yellow);}
+.pb-steps{display:flex;gap:6px;flex:1;align-items:center;}
+.pb-step{flex:1;height:30px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;transition:all .5s cubic-bezier(.34,1.56,.64,1);}
+.pb-step.done{background:linear-gradient(135deg,var(--gold),var(--gold-light));border-color:var(--gold-light);cursor:pointer;}
+.pb-step.active{background:rgba(214,158,46,.1);border-color:var(--yellow);animation:pb-pulse 2.5s ease-in-out infinite;}
+@keyframes pb-pulse{0%,100%{box-shadow:0 0 0 0 rgba(214,158,46,.3);}50%{box-shadow:0 0 0 4px rgba(214,158,46,0);}}
+.pb-letter{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted);}
+.pb-step.done .pb-letter{color:#070D1A;}
+.pb-step.active .pb-letter{color:var(--yellow);}
+.pb-pct{font-size:13px;font-weight:700;color:var(--gold);min-width:36px;text-align:right;}
+@media(max-width:480px){.pb-letter{font-size:9px;}.pb-step{height:24px;}#progress-bar{padding:8px 12px;gap:8px;}.pb-back span{display:none;}}
 </style>
 </head>
 <body>
 <div class="aurora"><div class="orbe orbe-1"></div><div class="orbe orbe-2"></div><div class="orbe orbe-3"></div></div>
-<div id="scroll-line"></div>
-<div id="prog-bar"><div id="prog-fill"></div></div>
-
-<header class="glass-header">
-  <div style="display:flex;align-items:center;gap:12px">
-    <a href="module2.html" class="back-btn">← Accueillir</a>
-    <a href="index.html" class="logo-text">V.A.L.E.U.R©</a>
-    <span class="mod-badge">LOCALISER · L</span>
-  </div>
-  <div class="ham" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></div>
-  <nav id="nav">
-    <a href="index.html">🏠 Accueil</a>
-    <a href="module1.html">Module 1</a>
-    <a href="module2.html">Module 2</a>
-    <a href="module4.html">Module 4 →</a>
-  </nav>
-</header>
+<div id="progress-bar">
+  <a href="index.html" class="pb-back">← <span>Tableau de bord</span></a>
+  <div class="pb-steps" id="pb-steps"></div>
+  <span class="pb-pct" id="pb-pct">0%</span>
+</div>
 
 <nav id="dot-nav">
   <div class="dot active" onclick="goTo(0)" title="Localiser"></div>
@@ -256,24 +281,20 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 <main>
 
 <!-- S0 HERO -->
-<section class="section" id="s0" data-s="0">
-  <div class="container">
-    <div class="animate-up">
-      <div class="badge" style="color:var(--yellow);border-color:rgba(214,158,46,.3)">Étape 3 · V.A.L.E.U.R©</div>
-      <h1><em>Localiser</em></h1>
-      <p class="lead" style="max-width:540px">Le corps ne ment jamais. Chaque masque laisse une empreinte physique précise — une tension, un nœud, un vide. C'est là que réside la vérité.</p>
-      <div class="hero-cit">
-        "Le traumatisme s'imprime dans notre corps. Tout ce qui ne s'exprime pas s'imprime."
-        <cite>— Méthode V.A.L.E.U.R© · Céline Bourbon, Psychologue</cite>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat"><span class="hs-num">~35</span><div class="hs-lbl">minutes · à votre rythme</div></div>
-        <div class="hero-stat"><span class="hs-num">5</span><div class="hs-lbl">étapes du body scan</div></div>
-        <div class="hero-stat"><span class="hs-num">7</span><div class="hs-lbl">zones corporelles clés</div></div>
-      </div>
-    </div>
-    <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
+<section class="section" data-s="0" id="s0">
+  <div class="module-hero-badge" style="background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.25);">
+    <span class="mhb-dot" style="background:#C9A84C;box-shadow:0 0 8px rgba(201,168,76,.6);"></span>
+    <span class="mhb-text" style="color:#C9A84C;">Module 3 · L comme LOCALISER</span>
   </div>
+  <span class="hero-big-letter">LOCALISER</span>
+  <div class="hero-subtitle">"Je ressens où ça se passe"</div>
+  <p class="s-lead">Votre corps ne ment jamais. Chaque masque laisse une empreinte physique précise — une tension, un nœud, un vide. Localiser, c'est descendre de la tête vers le corps et écouter ce qu'il a à dire.</p>
+  <div class="hero-meta" style="display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 24px;">
+      <div class="hero-meta-pill"><span>⏱</span> ~40 minutes</div>
+      <div class="hero-meta-pill"><span>🫁</span> Respiration 5-5-5</div>
+      <div class="hero-meta-pill"><span>✦</span> Body scan guidé</div>
+  </div>
+  <button class="btn-next" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})"><span>Le langage du corps</span><span class="bn-arrow">→</span></button>
 </section>
 
 <!-- S1 LE CORPS NE MENT JAMAIS -->
@@ -310,6 +331,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
     </div>
     <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
   </div>
+  <button class="btn-next" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'})"><span>Thermographie des émotions</span><span class="bn-arrow">→</span></button>
 </section>
 
 <!-- S2 THERMOGRAPHIE & ZONES PAR MASQUE -->
@@ -373,6 +395,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
     </div>
     <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
   </div>
+  <button class="btn-next" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'})"><span>Les types de sensations</span><span class="bn-arrow">→</span></button>
 </section>
 
 <!-- S3 LES 4 TYPES DE SENSATIONS -->
@@ -404,6 +427,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
     </div>
     <div class="copy">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
   </div>
+  <button class="btn-next" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'})"><span>Body scan interactif</span><span class="bn-arrow">→</span></button>
 </section>
 
 <!-- S4 BODY SCAN -->
@@ -438,6 +462,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
     </div>
     <div class="copy animate-up d3">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
   </div>
+  <button class="btn-next" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'})"><span>Respiration 5-5-5</span><span class="bn-arrow">→</span></button>
 </section>
 
 <!-- S5 RESPIRATION + CHECKLIST -->
@@ -493,6 +518,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
     </div>
     <div class="copy animate-up d5">© Méthode V.A.L.E.U.R© · Céline Bourbon · Tous droits réservés</div>
   </div>
+  <button class="btn-next" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'})"><span>Bilan et complétion</span><span class="bn-arrow">→</span></button>
 </section>
 
 <!-- S6 TERMINER -->
@@ -512,6 +538,77 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
       <p style="color:var(--text);font-style:italic;font-family:var(--font-display);font-size:1.1rem;margin:0">"Vos émotions ne sont pas vos ennemies. Ce sont vos messagères les plus intelligentes. Quand vous les accueillez dans votre corps, elles deviennent votre sagesse."</p>
       <p style="color:var(--muted);font-size:.75rem;margin-top:.8rem;margin-bottom:0">— Méthode V.A.L.E.U.R© · Céline Bourbon</p>
     </div>
+    <button class="btn-next" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'})"><span>✍️ Mon Journal de bord</span><span class="bn-arrow">→</span></button>
+  </div>
+</section>
+
+<section class="section" id="s7" data-s="7">
+  <p class="s-label" style="color:var(--yellow)">Mon journal de bord</p>
+  <h2 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:300;color:var(--text);margin-bottom:20px;">Ancrer<br><em style="color:var(--yellow)">ce qui compte</em></h2>
+
+  <div class="journal-module" id="jm-module3">
+    <div class="jm-header">
+      <span class="jm-header-icon">📓</span>
+      <div class="jm-header-text">
+        <h3>Mon Journal de bord — LOCALISER</h3>
+        <p>Sauvegardé dans votre parcours complet · Exportable en PDF en fin de parcours</p>
+      </div>
+    </div>
+    <div class="jm-memo" id="jm-memo-m3">
+      <button class="jm-memo-toggle" onclick="toggleMemo('jm-memo-m3')">
+        <span>🗂 Mémo — Les 5 concepts essentiels de LOCALISER</span>
+        <span class="jm-memo-chevron">▾</span>
+      </button>
+      <div class="jm-memo-body">
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">1</div>
+          <div class="jm-memo-text"><strong>Le corps ne ment pas</strong> — Quand le mental minimise, le corps enregistre. La tension dans les épaules, le nœud dans le ventre, la gorge serrée : chaque sensation est une information précise sur votre état intérieur.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">2</div>
+          <div class="jm-memo-text"><strong>Chaque masque a sa zone</strong> — Rouge : poitrine/gorge. Orange : ventre. Jaune : tête/mâchoires. Vert : poitrine/sternum. Bleu : dos/épaules. Indigo : ventre/diaphragme. Violet : diffus dans tout le corps.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">3</div>
+          <div class="jm-memo-text"><strong>Nommer la sensation ≠ nommer l’émotion</strong> — « Anxieux » est une émotion. « Une pression serrée dans le sternum » est une sensation. Localiser, c’est décrire la sensation physique, pas l’étiquette.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">4</div>
+          <div class="jm-memo-text"><strong>La respiration 5-5-5</strong> — 5 sec inspire, 5 sec retenir, 5 sec expire. 5 cycles = régulation du système nerveux en moins de 2 minutes. L’outil le plus efficace pour revenir dans sa fenêtre de tolérance.</div>
+        </div>
+        <div class="jm-memo-item">
+          <div class="jm-memo-num">5</div>
+          <div class="jm-memo-text"><strong>Localiser pour libérer</strong> — Une sensation non localisée reste diffuse et envahissante. Une sensation localisée (« c’est à cet endroit précis ») perd de son pouvoir. L’observation non-jugeante désactive le système d’alarme.</div>
+        </div>
+      </div>
+    </div>
+    <div class="jm-questions">
+      <div class="jm-q-label">✍️ Mon bilan — Module 3 · LOCALISER</div>
+      <div class="jm-q-item">
+        <div class="jm-q-text">La zone corporelle où je ressens ma peur principale…</div>
+        <textarea class="jm-q-textarea" id="jm-q1-m3" placeholder="Tête, gorge, poitrine, ventre, dos, jambes ? Décrivez précisément l'endroit..."></textarea>
+      </div>
+      <div class="jm-q-item">
+        <div class="jm-q-text">La sensation physique principale que j’ai localisée…</div>
+        <textarea class="jm-q-textarea" id="jm-q2-m3" placeholder="Pression, chaleur, vide, contraction, picotement, engourdissement... Comment la décrire exactement ?"></textarea>
+      </div>
+      <div class="jm-q-item">
+        <div class="jm-q-text">Ce que mon corps m’a dit que mon mental ne voulait pas voir…</div>
+        <textarea class="jm-q-textarea" id="jm-q3-m3" placeholder="Une prise de conscience venue du corps, une information que vous aviez ignorée..."></textarea>
+      </div>
+    </div>
+    <div class="jm-libre">
+      <div class="jm-libre-label">📓 Réflexions libres</div>
+      <textarea class="jm-libre-textarea" id="jm-libre-m3" placeholder="Espace libre — ce que ce module a éveillé, une sensation que vous avez enfin nommée, une zone que vous découvrez pour la première fois…"></textarea>
+    </div>
+    <div class="jm-actions">
+      <button class="jm-save-btn" onclick="saveJournalV3()">💾 Sauvegarder dans mon journal</button>
+    </div>
+    <div class="jm-saved" id="jm-saved-m3">
+      ✓ Entrée sauvegardée — visible dans votre Journal de bord complet
+    </div>
+  </div>
+
     <div class="animate-up d3">
       <button class="btn-complete" id="btn-fin" onclick="finishModule()">✓ Terminer le Module 3 — Débloquer EXPLORER 🟢</button>
       <div class="unlock-next">Module 4 — <strong>EXPLORER</strong> · Explorer le conflit intérieur profond · débloqué !</div>
@@ -521,7 +618,7 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 </section>
 </main>
 
-<button id="fab" onclick="openJ()" title="Journal">📝</button>
+<button id="fab" onclick="openJ()" title="Journal">📓</button>
 
 <div id="j-modal" class="modal-ov" style="display:none" onclick="closeJbg(event)">
   <div class="modal-sh">
@@ -544,19 +641,39 @@ blockquote{font-family:var(--font-display);font-style:italic;font-size:1.2rem;li
 <canvas id="confetti-canvas"></canvas>
 
 <script>
+const MODULES=[
+  {key:'module1',letter:'V',color:'#E53E3E'},
+  {key:'module2',letter:'A',color:'#ED8936'},
+  {key:'module3',letter:'L',color:'#D69E2E'},
+  {key:'module4',letter:'E',color:'#38A169'},
+  {key:'module5',letter:'U',color:'#3182CE'},
+  {key:'module6',letter:'R',color:'#805AD5'},
+];
+const PK='valeur_progress_v2';
+function getP(){try{return JSON.parse(localStorage.getItem(PK))||{};}catch(e){return{};}}
+function isDone(k){return!!getP()[k];}
+function markDone(k){const p=getP();p[k]=true;try{localStorage.setItem(PK,JSON.stringify(p));}catch(e){}}
+function renderProgress(){
+  const steps=document.getElementById('pb-steps');
+  const pct=document.getElementById('pb-pct');
+  if(!steps)return;
+  const done=MODULES.filter(m=>isDone(m.key)).length;
+  if(pct)pct.textContent=Math.round((done/MODULES.length)*100)+'%';
+  steps.innerHTML=MODULES.map(m=>{
+    const d=isDone(m.key);
+    const active=m.key==='module3';
+    return'<div class="pb-step'+(d?' done':active?' active':'')+'" title="'+m.letter+'"><span class="pb-letter">'+m.letter+'</span></div>';
+  }).join('');
+}
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&'cusp a'.includes(e.key.toLowerCase()))e.preventDefault()});
 document.addEventListener('selectstart',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
 
-function toggleNav(){document.getElementById('nav').classList.toggle('open')}
-
 window.addEventListener('scroll',()=>{
   var st=document.documentElement.scrollTop||document.body.scrollTop;
   var sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
   var p=st/sh;
-  document.getElementById('scroll-line').style.width=(p*100)+'%';
-  document.getElementById('prog-fill').style.width=(p*100)+'%';
   updateDots();runAnims();
 });
 
@@ -568,6 +685,7 @@ function updateDots(){
 function goTo(i){var ss=document.querySelectorAll('[data-s]');if(ss[i])ss[i].scrollIntoView({behavior:'smooth'})}
 function runAnims(){document.querySelectorAll('.animate-up:not(.vis)').forEach(el=>{var r=el.getBoundingClientRect();if(r.top<window.innerHeight-60)el.classList.add('vis')})}
 window.addEventListener('load',runAnims);
+document.addEventListener('DOMContentLoaded',renderProgress);
 
 // MASQUES ZONES
 function togMZ(id){
@@ -654,12 +772,66 @@ function togCk(el,i){
   if(n>=5)s.textContent+=' — \u2713 Vous avez bien localisé !';
 }
 
+/* ── JOURNAL V3 ── */
+const JV3='VALEUR_journal_v3';
+function getJournalV3(){try{return JSON.parse(localStorage.getItem(JV3))||[];}catch(e){return[];}}
+function saveJournalV3arr(arr){try{localStorage.setItem(JV3,JSON.stringify(arr));}catch(e){}}
+function toggleMemo(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+
+function saveJournalV3(){
+  const q1=document.getElementById('jm-q1-m3')?.value.trim()||'';
+  const q2=document.getElementById('jm-q2-m3')?.value.trim()||'';
+  const q3=document.getElementById('jm-q3-m3')?.value.trim()||'';
+  const libre=document.getElementById('jm-libre-m3')?.value.trim()||'';
+  const masque=localStorage.getItem('valeur_dominant_masque')||'';
+  const arr=getJournalV3();
+  const idx=arr.findIndex(e=>e.module===3);
+  const entry={
+    module:3,module_name:'LOCALISER',
+    date:new Date().toISOString(),
+    masque_dominant:masque,
+    reponses:[
+      {question:'La zone corporelle o\u00f9 je ressens ma peur principale\u2026',reponse:q1},
+      {question:'La sensation physique principale que j\u2019ai localis\u00e9e\u2026',reponse:q2},
+      {question:'Ce que mon corps m\u2019a dit que mon mental ne voulait pas voir\u2026',reponse:q3}
+    ],
+    reflexion_libre:libre
+  };
+  if(idx>=0)arr[idx]=entry;else arr.push(entry);
+  saveJournalV3arr(arr);
+  try{
+    const v2=JSON.parse(localStorage.getItem('valeur_journal_v2'))||[];
+    v2.unshift({date:entry.date,text:(q1+'\n'+q2+'\n'+q3+'\n'+libre).trim(),module:'Module 3 — LOCALISER'});
+    localStorage.setItem('valeur_journal_v2',JSON.stringify(v2.slice(0,30)));
+  }catch(e){}
+  const saved=document.getElementById('jm-saved-m3');
+  if(saved){saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),4000);}
+  toast('\u270D\uFE0F Journal Module 3 sauvegard\u00e9');
+}
+
+function prefillJournalV3(){
+  const arr=getJournalV3();
+  const entry=arr.find(e=>e.module===3);
+  if(!entry)return;
+  const q1=document.getElementById('jm-q1-m3');
+  const q2=document.getElementById('jm-q2-m3');
+  const q3=document.getElementById('jm-q3-m3');
+  const libre=document.getElementById('jm-libre-m3');
+  if(q1&&entry.reponses[0])q1.value=entry.reponses[0].reponse||'';
+  if(q2&&entry.reponses[1])q2.value=entry.reponses[1].reponse||'';
+  if(q3&&entry.reponses[2])q3.value=entry.reponses[2].reponse||'';
+  if(libre)libre.value=entry.reflexion_libre||'';
+}
+
 // COMPLÉTION
 function finishModule(){
+  saveJournalV3();
   try{var p=JSON.parse(localStorage.getItem('valeur_progress_v2')||'{}');p.module3=true;p.module3_date=new Date().toISOString();localStorage.setItem('valeur_progress_v2',JSON.stringify(p))}catch(e){}
-  confetti();toast('🟡 Module LOCALISER complété ! EXPLORER se débloque...');
-  var b=document.getElementById('btn-fin');b.textContent='✓ Complété !';b.style.borderColor='#38A169';b.style.color='#68d391';
-  setTimeout(()=>window.location.href='module4.html',3500);
+  confetti();toast('\U0001f7e1 Module LOCALISER compl\u00e9t\u00e9 \u2014 EXPLORER se d\u00e9bloque...');
+  var b=document.getElementById('btn-fin');if(b){b.textContent='\u2713 Compl\u00e9t\u00e9 !';b.style.borderColor='#38A169';b.style.color='#68d391';}
+  document.querySelector('.unlock-next').style.display='block';
+  setTimeout(()=>document.getElementById('s7').scrollIntoView({behavior:'smooth'}),1200);
+  setTimeout(()=>window.location.href='module4.html',4000);
 }
 
 // CONFETTI
@@ -667,7 +839,7 @@ function confetti(){
   var c=document.getElementById('confetti-canvas');var ctx=c.getContext('2d');
   c.width=window.innerWidth;c.height=window.innerHeight;
   var ps=[];var cols=['#D69E2E','#F6E05E','#38A169','#805AD5','#3182CE','#ED8936','#E53E3E'];
-  for(var i=0;i<140;i++)ps.push({x:Math.random()*c.width,y:-10,vx:(Math.random()-.5)*5,vy:Math.random()*4+2,w:Math.random()*10+5,h:Math.random()*6+3,c:cols[~~(Math.random()*cols.length)],a:Math.random()*360,av:(Math.random()-.5)*8});
+  for(var i=0;i<160;i++)ps.push({x:Math.random()*c.width,y:-10,vx:(Math.random()-.5)*5,vy:Math.random()*4+2,w:Math.random()*10+5,h:Math.random()*6+3,c:cols[~~(Math.random()*cols.length)],a:Math.random()*360,av:(Math.random()-.5)*8});
   var f=0;
   function draw(){ctx.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=p.av;p.vy+=.08;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a*Math.PI/180);ctx.fillStyle=p.c;ctx.globalAlpha=Math.max(0,1-f/120);ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()});f++;if(f<150)requestAnimationFrame(draw);else ctx.clearRect(0,0,c.width,c.height)}
   requestAnimationFrame(draw);
@@ -676,13 +848,19 @@ function confetti(){
 // TOAST
 function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('vis');setTimeout(()=>t.classList.remove('vis'),3500)}
 
-// JOURNAL
+// JOURNAL DRAWER (FAB)
 function openJ(){document.getElementById('j-modal').style.display='flex'}
 function closeJ(){document.getElementById('j-modal').style.display='none'}
 function closeJbg(e){if(e.target===document.getElementById('j-modal'))closeJ()}
 function saveJ(){
-  try{var es=JSON.parse(localStorage.getItem('valeur_journal_v2')||'[]');es.push({module:'L',date:new Date().toISOString(),masque:document.getElementById('jm').value,zone:document.getElementById('jz').value,sensation:document.getElementById('js').value,intensite:document.getElementById('ji').value});localStorage.setItem('valeur_journal_v2',JSON.stringify(es));toast('📝 Journal sauvegardé !');closeJ();['jz','js','ji'].forEach(id=>document.getElementById(id).value='')}catch(e){toast('Erreur de sauvegarde')}
+  try{var es=JSON.parse(localStorage.getItem('valeur_journal_v2')||'[]');es.push({module:'L',date:new Date().toISOString(),masque:document.getElementById('jm').value,zone:document.getElementById('jz').value,sensation:document.getElementById('js').value,intensite:document.getElementById('ji').value});localStorage.setItem('valeur_journal_v2',JSON.stringify(es));toast('\U0001f4dd Journal sauvegard\u00e9 !');closeJ();['jz','js','ji'].forEach(id=>{var el=document.getElementById(id);if(el)el.value=''})}catch(e){toast('Erreur de sauvegarde')}
 }
+
+document.addEventListener('DOMContentLoaded',()=>{
+  prefillJournalV3();
+  // unlock-next hidden by default
+  var un=document.querySelector('.unlock-next');if(un)un.style.display='none';
+});
 </script>
 </body>
 </html>
