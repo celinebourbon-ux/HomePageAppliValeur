@@ -2228,6 +2228,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script>
 (function() {
   function convertSectionsToAccordion() {
+    /* Escape HTML entities to prevent XSS when inserting title into innerHTML */
+    function escapeHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     var sections = document.querySelectorAll(
       'section.section[data-s]:not([data-s="0"])'
     );
@@ -2254,8 +2256,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       btn.className = 'pb-accordion-btn';
       btn.setAttribute('aria-expanded', 'false');
       btn.setAttribute('aria-controls', 'pb-panel-m1-' + index);
-      btn.innerHTML = (label ? '<span class="pb-accordion-label">' + label + '</span>' : '') +
-        '<span><strong>' + title + '</strong></span>' +
+      btn.innerHTML = (label ? '<span class="pb-accordion-label">' + escapeHtml(label) + '</span>' : '') +
+        '<span><strong>' + escapeHtml(title) + '</strong></span>' +
         '<span class="pb-accordion-chevron">▼</span>';
 
       var contentDiv = document.createElement('div');
@@ -2285,5 +2287,46 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script src="valeur-config.js"></script>
 <script src="valeur-components.js"></script>
 <script src="valeur-storage.js"></script>
+<script>
+/* Fallback: initialiser l'accordéon inline si valeur-components.js n'est pas chargé */
+(function() {
+  function initFallbackAccordion() {
+    if (typeof pbInitAccordion === 'function') return; /* Already handled by valeur-components.js */
+    /* Max title length for accordion button labels (72 chars ≈ 2 lines at standard width) */
+    var TITLE_MAX_LEN = 72;
+    document.querySelectorAll('.pb-accordion-item .pb-accordion-btn').forEach(function(btn) {
+      if (btn.dataset.fallbackInit) return;
+      btn.dataset.fallbackInit = '1';
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.pb-accordion-item');
+        var content = item.querySelector('.pb-accordion-content');
+        var isOpen = item.classList.contains('open');
+        /* Close all siblings */
+        var siblings = item.parentNode.querySelectorAll('.pb-accordion-item');
+        siblings.forEach(function(s) {
+          s.classList.remove('open');
+          var c = s.querySelector('.pb-accordion-content');
+          var b = s.querySelector('.pb-accordion-btn');
+          if (c) { c.style.maxHeight = '0'; c.style.opacity = '0'; }
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          if (content) {
+            content.style.maxHeight = content.scrollHeight + 5000 + 'px';
+            content.style.opacity = '1';
+          }
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFallbackAccordion);
+  } else {
+    initFallbackAccordion();
+  }
+})();
+</script>
 </body>
 </html>
