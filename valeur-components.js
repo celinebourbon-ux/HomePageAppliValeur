@@ -284,7 +284,20 @@ function pbConfetti(opts = {}) {
 }
 
 /* ══════════════════════════════════════════════════════
-   8. INITIALISATION GLOBALE
+   8. NAMESPACE — Compatibilité avec le template
+══════════════════════════════════════════════════════ */
+// Namespace pour compatibilité avec le template
+window.PB_Components = {
+  initAccordion: pbInitAccordion,
+  initJournalDrawer: pbInitJournal,
+  showToast: pbToast,
+  shootConfetti: pbConfetti,
+  updateProgressCircles: updateProgressCircles,
+  updateIntraProgress: updateIntraProgress
+};
+
+/* ══════════════════════════════════════════════════════
+   9. INITIALISATION GLOBALE
 ══════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function () {
   pbInitAccordion();
